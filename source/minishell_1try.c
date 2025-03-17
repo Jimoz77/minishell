@@ -14,7 +14,6 @@ char *cell_read_line(char **env_path) //! env_path n'est pas correctement initia
 {
     char cwd[BUFSIZ]; //* current working directory
     char *buf;
-    int i = 0;
     pid_t pid;
     int status; //* utilisé dans waitpid
 
@@ -68,13 +67,14 @@ return (0);
 
 
 
-int main (int ac, char **av)
+int main ()
 {
     char *path;
     char **all_paths;
-    path = getenv("PATH"); //* extrait tout les path de la env_var séparé par des ":"
-    char *r1;
 
+
+    path = getenv("PATH"); //* extrait tout les path de la env_var séparé par des ":"
+    
     all_paths = ft_split(path,':'); //* sépare tout les paths
 
     cell_read_line(all_paths);
