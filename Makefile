@@ -1,39 +1,47 @@
-# Fichiers sources
-SRCS	=	./source/ft_split.c ./source/ft_strjoin.c
-MAIN	=	./source/minishell_1try.c
-
-# Répertoire pour les fichiers objets
-OBJ_DIR =	obj
-
-# Fichiers objets
-OBJS	=	$(SRCS:./source/%.c=$(OBJ_DIR)/%.o)
+# Nom de l'exécutable
+NAME = minishell
 
 # Compilateur et options
-CC		=	gcc
-FLAGS	=	-lreadline
-NAME	=	minishell
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = -lreadline
+
+# Dossiers
+SRC_DIR = source
+OBJ_DIR = obj
+INC_DIR = include
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+# Fichiers sources et objets
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+# Options d'inclusion de headers
+INCLUDES = -I$(INC_DIR)
 
 # Règle par défaut
-all:		$(NAME)
+all: $(NAME)
 
-# Règle pour créer l'exécutable
-$(NAME):	$(OBJS)
-			$(CC) $(MAIN) $(OBJS) $(FLAGS) -o $(NAME)
+# Compilation de l'exécutable
+$(NAME): $(OBJS)
+	make -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
-# Règle pour compiler les fichiers sources en fichiers objets dans le répertoire obj
-$(OBJ_DIR)/%.o: ./source/%.c
-			@mkdir -p $(OBJ_DIR)
-			$(CC) -c $< -o $@
+# Compilation des objets
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Règle pour nettoyer les fichiers objets
+# Nettoyage
 clean:
-			rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DIR)
+	make clean -C $(LIBFT_DIR)
 
-# Règle pour nettoyer les fichiers objets et l'exécutable
-fclean:		clean
-			rm -f $(NAME)
+fclean: clean
+	rm -f $(NAME)
+	make fclean -C $(LIBFT_DIR)
 
-# Règle pour recompiler tout
-re:			fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re
+.PHONY: all clean fclean re
