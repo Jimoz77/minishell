@@ -6,7 +6,6 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
 
 	// Charger l'historique depuis un fichier au démarrage (si existe)
 	read_history(".minishell_history");
@@ -24,6 +23,10 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf("Vous avez saisi : %s\n", input);
 		free(input);
 	}
+
+	int i = 0;
+	while (envp[i])
+		printf("%s", envp[i]);
 
 	// Sauvegarder l'historique à la fin de la session
 	write_history(".minishell_history");
