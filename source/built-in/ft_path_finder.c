@@ -6,11 +6,11 @@
 /*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:13:51 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/03/24 16:52:54 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:33:28 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 // PAS SUR DE GARDER
 

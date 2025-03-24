@@ -35,7 +35,8 @@ t_token			*tokenize(char *input);
 void			add_token(t_token **list, char *value, t_token_type type);
 t_token_type	get_operator_type(char *str);
 int				operator_length(char *str);
-void	ft_getcwd(void);
-void	ft_read_line(char **envp);
-char *ft_path_finder(char *cmd);
+void			ft_getcwd(void);
+void			ft_read_line(char **envp);
+char 			*ft_path_finder(char *cmd);
+int				ft_is_builtin(char *cmd, char **envp);
 #endif

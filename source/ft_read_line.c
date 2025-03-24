@@ -6,7 +6,7 @@
 /*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/03/24 16:53:41 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:11:47 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_read_line2(char *input, char **envp)
 	if(pid == 0)
 	{	
 		//! A CHANGER PAR ALGO QUI TEST TOUT LES PATHS //   pour l instant fonctionne uniquement avec les fonction du path: "/bin/"
-		if((ft_is_bultin(cmd[0]) == 0))
+		if((ft_is_builtin(cmd[0],envp) == 0))
 		{
 			execve(ft_path_finder(input) , cmd ,envp);
 			perror("execve");
