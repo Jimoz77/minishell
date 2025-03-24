@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/03/24 16:18:11 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:20:05 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 void	ft_read_line2(char *input, char **envp)
 {
-	int status;
-	pid_t pid;
-	char **cmd;
+	int 	status;
+	pid_t	pid;
+	char	**cmd;
+	t_token	*tokens;
 
+	// Tokenisation de l'entrée utilisateur
+	tokens = tokenize(input);
+	// TODO: remplacer ft_split() par tokenize() dans l'exécution future
+	
 	cmd = ft_split(input, ' ');
 	pid = fork(); //! je suis pas encore sûr
 	if(pid == 0)

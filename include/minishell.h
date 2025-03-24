@@ -30,12 +30,18 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-// Prototypes fonctions pour (tokenize)
+// Prototypes fonctions pour (tokenizer)
 t_token			*tokenize(char *input);
+int				is_space(char c);
 void			add_token(t_token **list, char *value, t_token_type type);
+t_token			*new_token(char *value, t_token_type type);
 t_token_type	get_operator_type(char *str);
 int				operator_length(char *str);
-void	ft_getcwd(void);
-void	ft_read_line(char **envp);
-char *ft_path_finder(char *cmd);
+int				handle_operator(t_token **tokens, char *input);
+int				handle_word(t_token **tokens, char *input);
+int				handle_quotes(t_token **tokens, char *input);
+
+void			ft_getcwd(void);
+void			ft_read_line(char **envp);
+char			*ft_path_finder(char *cmd);
 #endif
