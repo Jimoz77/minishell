@@ -6,13 +6,13 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:21:49 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/24 19:27:36 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:59:15 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Handles operator token (|, >, >>, <, <<) and adds it to the token list
+// Gère les opérateurs (|, <, >, etc.) et ajoute un token correspondant
 int	handle_operator(t_token **tokens, char *input)
 {
 	int				len;
@@ -21,36 +21,36 @@ int	handle_operator(t_token **tokens, char *input)
 
 	len = operator_length(input);
 	op = ft_substr(input, 0, len);
-	type = get_operator_type(input);
+	if (!op)
+		return (0);
+	type = get_operator_type(op);
 	add_token(tokens, op, type);
 	free(op);
 	return (len);
 }
 
-// Handles a plain word and adds it to the token list
-int	handle_word(t_token **tokens, char *input)
+// Gère un mot simple (non cité) et l’ajoute à la liste des tokens
+int handle_word(t_token **tokens, char *input)
 {
 	int		len;
 	char	*word;
 
 	len = 0;
-	while (input[len])
-	{
-		if (input[len] == ' ' || input[len] == '\t')
-			break ;
-		if (input[len] == '|' || input[len] == '<' || input[len] == '>')
-			break ;
-		if (input[len] == '\'' || input[len] == '"')
-			break ;
+	while (input[len] && !is_space(input[len]) &&
+		!is_operator_str(&input[len]) &&
+		input[len] != '"' && input[len] != '\'')
 		len++;
-	}
+	if (len <= 0)
+		return (0);
 	word = ft_substr(input, 0, len);
-	add_token(tokens. word, TOKEN_WORD);
+	if (!word)
+		return (0);
+	add_token(tokens, word, TOKEN_WORD);
 	free(word);
 	return (len);
 }
 
-// Handles a quoted string and adds it to the token list
+// Gère une chaîne entre guillemets et l’ajoute à la liste des tokens
 int	handle_quotes(t_token **tokens, char *input)
 {
 	char	quote;
@@ -64,13 +64,12 @@ int	handle_quotes(t_token **tokens, char *input)
 	if (input[len] == quote)
 	{
 		word = ft_substr(input + 1, 0, len - 1);
+		if (!word)
+			return (-1);
 		add_token(tokens, word, TOKEN_WORD);
 		free(word);
 		return (len + 1);
 	}
-	else
-	{
-		ft_printf("minishell: syntax error: unclosed quote\n");
-		return (-1);
-	}
+	ft_printf("minishell: syntax error: unclosed quote\n");
+	return (-1);
 }
