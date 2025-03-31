@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/03/26 15:32:29 by lsadikaj         ###   ########.fr       */
@@ -19,13 +19,15 @@ int	is_space(char c)
 }
 
 // Découpe la ligne d’entrée en une liste chaînée de tokens
+
 t_token	*tokenize(char *input)
 {
-	t_token			*tokens;
+	t_token			*tokens = NULL;
 	int				i;
-	int				ret;
+	int				len;
+	char			*word;
+	t_token_type	type;
 
-	tokens = NULL;
 	i = 0;
 	while (input[i])
 	{
@@ -35,10 +37,12 @@ t_token	*tokenize(char *input)
 			i += handle_operator(&tokens, &input[i]);
 		else if (input[i] == '"' || input[i] == '\'')
 		{
-			ret = handle_quotes(&tokens, &input[i]);
-			if (ret == -1)
-				return (NULL);
-			i += ret;
+			len = operator_length(&input[i]);
+			word = ft_substr(input, i, len);
+			type = get_operator_type(&input[i]);
+			add_token(&tokens. word, type);
+			free(word);
+			i += len;
 		}
 		else
 		{

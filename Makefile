@@ -19,7 +19,7 @@ CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline
 
 # Dossiers
-SRC_DIR = source
+SRC_DIR = source source/built-in
 OBJ_DIR = obj
 INC_DIR = include
 LIBFT_DIR = libft
