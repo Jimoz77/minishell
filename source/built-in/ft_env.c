@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/25 13:59:25 by jimpa             #+#    #+#             */
-/*   Updated: 2025/03/25 13:59:27 by jimpa            ###   ########.fr       */
+/*   Created: 2025/03/26 17:39:05 by jimpa             #+#    #+#             */
+/*   Updated: 2025/03/28 17:58:11 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-
-int	main(int argc, char **argv, char **envp)
+#include "../../include/minishell.h"
+//pour l'instant print uniquement l'env
+//a voir plus tard si besoin de return l'env
+//la commande env avec un argument print la env_var spécifié ex : env $PATH
+int	ft_env(char **envp)
 {
-	(void)argc;
-	(void)argv;
-	char **my_envp;
+	int	i;
 
-	my_envp =ft_array_dup(envp);
-	ft_read_line(&my_envp);
-
-	return (0);
+	i = 0;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+	return (1);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
+/*   Updated: 2025/03/31 19:58:52 by jimpa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -30,18 +42,22 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-// Prototypes fonctions pour (tokenizer)
+// Prototypes fonctions pour (tokenize)
 t_token			*tokenize(char *input);
-int				is_space(char c);
 void			add_token(t_token **list, char *value, t_token_type type);
-t_token			*new_token(char *value, t_token_type type);
 t_token_type	get_operator_type(char *str);
 int				operator_length(char *str);
-int				handle_operator(t_token **tokens, char *input);
-int				handle_word(t_token **tokens, char *input);
-int				handle_quotes(t_token **tokens, char *input);
-
 void			ft_getcwd(void);
-void			ft_read_line(char **envp);
-char			*ft_path_finder(char *cmd);
+void			ft_read_line(char ***envp);
+char 			*ft_path_finder(char *cmd);
+int				ft_is_builtin(char **cmd, char ***envp);
+int				ft_cd(char **cmd);
+int				ft_pwd(void);
+int				ft_echo(char **cmd);
+int				ft_env(char **envp);
+int				ft_export(char **cmd, char ***envp);
+char			**ft_array_dup(char **array);
+int				is_valid_id(char *str);
+int				ft_unset(char **cmd, char ***envp);
+
 #endif

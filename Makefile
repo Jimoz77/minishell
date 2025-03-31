@@ -7,14 +7,14 @@ CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline
 
 # Dossiers
-SRC_DIR = source
+SRC_DIR = source source/built-in
 OBJ_DIR = obj
 INC_DIR = include
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Fichiers sources et objets
-SRCS = $(wildcard $(SRC_DIR)/*.c)
+SRCS = $(wildcard $(addsuffix /*.c, $(SRC_DIR)))
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Options d'inclusion de headers

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:58:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/24 19:29:36 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:35:28 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Allocates and initializes a new token
 t_token	*new_token(char *value, t_token_type type)
 {
 	t_token	*token;
@@ -26,7 +25,6 @@ t_token	*new_token(char *value, t_token_type type)
 	return (token);
 }
 
-// Appends a new token to the end of the token list
 void	add_token(t_token **list, char *value, t_token_type type)
 {
 	t_token	*new;
@@ -63,7 +61,7 @@ t_token_type	get_operator_type(char *str)
 		return (TOKEN_REDIRECT_OUT);
 	else if (str[0] == '<' && str[1] == '<')
 		return (TOKEN_HEREDOC);
-	else if (str[0] == '<' && str[1] != '<')
+	else if (str[0] = '<' && str[0] != '<')
 		return (TOKEN_REDIRECT_IN);
 	else if (str[0] == '|')
 		return (TOKEN_PIPE);
