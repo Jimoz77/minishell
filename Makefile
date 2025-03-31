@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
+#    Updated: 2025/03/26 15:44:40 by lsadikaj         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # Nom de l'exécutable
 NAME = minishell
 
@@ -13,34 +25,42 @@ INC_DIR = include
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-# Fichiers sources et objets
-SRCS = $(wildcard $(addsuffix /*.c, $(SRC_DIR)))
+# Fichiers source
+SRCS = \
+	$(SRC_DIR)/ft_getcwd.c \
+	$(SRC_DIR)/ft_is_builtin.c \
+	$(SRC_DIR)/ft_path_finder.c \
+	$(SRC_DIR)/ft_read_line.c \
+	$(SRC_DIR)/tokenizer/tokenizer.c \
+	$(SRC_DIR)/tokenizer/tokenizer_utils.c \
+	$(SRC_DIR)/tokenizer/tokenizer_handle.c \
+	$(SRC_DIR)/parser/parser.c \
+	$(SRC_DIR)/parser/parser_utils.c
+
+# Fichiers objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-# Options d'inclusion de headers
-INCLUDES = -I$(INC_DIR)
-
-# Règle par défaut
-all: $(NAME)
+# Compilation des fichiers objets dans les sous-dossiers
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
 # Compilation de l'exécutable
 $(NAME): $(OBJS)
 	make -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
-# Compilation des objets
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# Règle principale
+all: $(NAME)
 
 # Nettoyage
 clean:
 	rm -rf $(OBJ_DIR)
-	make clean -C $(LIBFT_DIR)
+	make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C $(LIBFT_DIR)
+	make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/03/25 14:43:04 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/03/26 15:56:41 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,20 @@
 
 void	ft_read_line2(char *input, char ***envp)
 {
-	int status;
-	pid_t pid;
-	char **cmd;
-	char *path;
+	int 	status;
+	pid_t	pid;
+	char	**cmd;
+  char *path;
 
+/* ==========================================================================
+		TODO : à remplacer plus tard par la construction de l’AST :
+
+			t_token *tokens = tokenize(input);
+			t_node  *ast    = parse_ast(tokens);
+
+		=> Puis on exécutera à partir de l’arbre (et non plus avec ft_split)
+	========================================================================== */
+  
 	cmd = ft_split(input, ' ');
 	pid = fork(); //! je suis pas encore sûr
 	if(pid == 0)
