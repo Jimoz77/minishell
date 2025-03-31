@@ -6,7 +6,7 @@
 #    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/03/26 15:44:40 by lsadikaj         ###   ########.fr        #
+#    Updated: 2025/03/29 15:49:20 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 # Fichiers source
 SRCS = \
+	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/ft_getcwd.c \
 	$(SRC_DIR)/ft_is_builtin.c \
 	$(SRC_DIR)/ft_path_finder.c \
@@ -35,7 +36,12 @@ SRCS = \
 	$(SRC_DIR)/tokenizer/tokenizer_utils.c \
 	$(SRC_DIR)/tokenizer/tokenizer_handle.c \
 	$(SRC_DIR)/parser/parser.c \
-	$(SRC_DIR)/parser/parser_utils.c
+	$(SRC_DIR)/parser/parser_utils.c \
+	$(SRC_DIR)/parser/parser_ops.c \
+	$(SRC_DIR)/parser/parser_parentheses.c \
+	$(SRC_DIR)/parser/parser_syntax.c \
+	$(SRC_DIR)/parser/parser_syntax2.c \
+	$(SRC_DIR)/utils/memory_utils.c 
 
 # Fichiers objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

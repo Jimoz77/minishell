@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:03:50 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/26 15:32:32 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:56:06 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,19 @@ t_token *new_token(char *value, t_token_type type)
 // Ajoute un token à la fin de la liste
 void add_token(t_token **list, char *value, t_token_type type)
 {
+	t_token	*new;
+	t_token	*tmp;
+
 	if (!value || !*value)
 		return ;
-	t_token *new = new_token(value, type);
+	new = new_token(value, type);
 	if (!new)
 		return ;
 	if (!*list)
 		*list = new;
 	else
 	{
-		t_token *tmp = *list;
+		tmp = *list;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
