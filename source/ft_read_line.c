@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
 /*   Updated: 2025/03/29 15:54:51 by lsadikaj         ###   ########.fr       */
@@ -70,7 +70,7 @@ static void	print_ast_simple(t_node *node, int depth)
 	}
 }
 
-void	ft_read_line2(char *input, char **envp)
+void	ft_read_line2(char *input, char ***envp)
 {
 	int		status;
 	pid_t	pid;
@@ -122,6 +122,9 @@ void	ft_read_line2(char *input, char **envp)
 	
 	/* TODO: Remplacer cette partie par l'exécution basée sur l'AST quand 
 	   la partie exécution sera terminée */
+		=> Puis on exécutera à partir de l’arbre (et non plus avec ft_split)
+	========================================================================== */
+  
 	cmd = ft_split(input, ' ');
 	pid = fork();
 	if (pid == 0)
@@ -146,7 +149,7 @@ void	ft_read_line2(char *input, char **envp)
 	free(input);
 }
 
-void	ft_read_line(char **envp)
+void	ft_read_line(char ***envp)
 {
 	char	*input;
 	
@@ -164,10 +167,9 @@ void	ft_read_line(char **envp)
 		if (*input)
 		{
 			add_history(input);
+			ft_read_line2(input, envp);
 		}
-		ft_read_line2(input, envp);
 	}
-
 	// Sauvegarder l'historique à la fin de la session
 	write_history(".minishell_history");
 }

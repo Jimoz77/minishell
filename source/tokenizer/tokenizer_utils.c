@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:03:50 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/03/27 17:56:06 by lsadikaj         ###   ########.fr       */
@@ -86,7 +86,7 @@ t_token_type	get_operator_type(char *str)
 		return (TOKEN_REDIRECT_OUT);
 	else if (str[0] == '<' && str[1] == '<')
 		return (TOKEN_HEREDOC);
-	else if (str[0] == '<' && str[1] != '<')
+	else if (str[0] = '<' && str[0] != '<')
 		return (TOKEN_REDIRECT_IN);
 	else if (str[0] == '|')
 		return (TOKEN_PIPE);

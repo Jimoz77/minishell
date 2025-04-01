@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/03/28 16:44:41 by lsadikaj         ###   ########.fr       */
@@ -62,12 +62,12 @@ static int	handle_token(t_token **tokens, char *input, int *i)
 }
 
 // Découpe la ligne d’entrée en une liste chaînée de tokens
+
 t_token	*tokenize(char *input)
 {
 	t_token	*tokens;
 	int		i;
 
-	tokens = NULL;
 	i = 0;
 	while (input[i])
 	{
