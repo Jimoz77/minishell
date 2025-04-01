@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:21:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/01 14:29:21 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:32:21 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ t_node	*create_cmd_node(t_token *tokens)
 
 	if (!tokens)
 		return (NULL);
-	tmp = tokens;
 	count = count_words(tokens);
 	if (count <= 0)
 		return (NULL);
