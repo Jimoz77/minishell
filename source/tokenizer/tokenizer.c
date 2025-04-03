@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/28 16:44:41 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:09:33 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ t_token	*tokenize(char *input)
 {
 	t_token	*tokens;
 	int		i;
+
+	tokens = NULL;
 
 	i = 0;
 	while (input[i])

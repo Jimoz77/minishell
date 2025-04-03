@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/03/29 15:54:51 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:47:54 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,16 +122,16 @@ void	ft_read_line2(char *input, char ***envp)
 	
 	/* TODO: Remplacer cette partie par l'exécution basée sur l'AST quand 
 	   la partie exécution sera terminée */
-		=> Puis on exécutera à partir de l’arbre (et non plus avec ft_split)
+	/*	=> Puis on exécutera à partir de l’arbre (et non plus avec ft_split)
 	========================================================================== */
   
 	cmd = ft_split(input, ' ');
 	pid = fork();
 	if (pid == 0)
 	{	
-		if ((ft_is_builtin(cmd[0], envp) == 0))
+		if ((ft_is_builtin(cmd, envp) == 0))
 		{
-			execve(ft_path_finder(input), cmd, envp);
+			execve(ft_path_finder(input), cmd, *envp);
 			perror("execve");
 			exit(1);
 		}
