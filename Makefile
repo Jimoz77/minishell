@@ -6,7 +6,7 @@
 #    By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/04/01 19:55:23 by jimpa            ###   ########.fr        #
+#    Updated: 2025/04/17 16:24:34 by jimpa            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS = \
 	$(SRC_DIR)/tokenizer/tokenizer.c \
 	$(SRC_DIR)/tokenizer/tokenizer_utils.c \
 	$(SRC_DIR)/tokenizer/tokenizer_handle.c \
+	$(SRC_DIR)/tokenizer/envar_to_value.c \
 	$(SRC_DIR)/parser/parser.c \
 	$(SRC_DIR)/parser/parser_utils.c \
 	$(SRC_DIR)/parser/parser_ops.c \

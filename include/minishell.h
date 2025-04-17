@@ -6,11 +6,12 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
-/*   Updated: 2025/03/31 19:58:52 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/17 20:10:37 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef MINISHELL_H
+
 # define MINISHELL_H
+# ifdef MINISHELL_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -67,7 +68,7 @@ typedef struct s_node
 
 // Prototypes initialisation
 void			ft_read_line(char ***envp);
-char			*ft_path_finder(char *cmd);
+char			*ft_path_finder(char *cmd, char ***envp);
 
 // Prototypes (tokenizer)
 t_token			*tokenize(char *input);
@@ -80,6 +81,10 @@ int				handle_operator(t_token **tokens, char *input);
 int				handle_word(t_token **tokens, char *input);
 int				handle_quotes(t_token **tokens, char *input);
 int				handle_parenthesis(t_token **tokens, char *input);
+int				scan_envar(t_token *tokens, char ***envp);
+void			envar_to_value(char ***envp, t_token *tokens);
+
+
 
 // Prototypes (parser)
 t_node			*parse_ast(t_token *tokens);
@@ -112,17 +117,20 @@ int				check_parentheses_usage(t_token *tokens);
 // Prototypes de gestion de mémoire (utils)
 void			free_tokens(t_token *tokens);
 void			free_ast(t_node *node);
+char			*ft_strjoin_free(char *s1, const char *s2);
+void			ft_free_split(char **split_array);
 
 // Prototypes (built-in)
 void			ft_getcwd(void);
 int				ft_is_builtin(char **cmd, char ***envp);
-int				ft_cd(char **cmd);
+int				ft_cd(char **cmd, char ***envp);
 int				ft_pwd(void);
 int				ft_echo(char **cmd);
-int				ft_env(char **envp);
+int				ft_env(char ***envp);
 int				ft_export(char **cmd, char ***envp);
 char			**ft_array_dup(char **array);
 int				is_valid_id(char *str);
 int				ft_unset(char **cmd, char ***envp);
+void			execute_builtin(char **cmd, char ***envp);
 
 #endif

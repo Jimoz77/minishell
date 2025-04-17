@@ -6,14 +6,14 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/01 19:47:54 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/17 20:11:25 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // Fonction temporaire pour afficher l'AST à des fins de test
-static void	print_ast_simple(t_node *node, int depth)
+/* static void	print_ast_simple(t_node *node, int depth)
 {
 	int	i;
 	
@@ -68,86 +68,63 @@ static void	print_ast_simple(t_node *node, int depth)
 		ft_printf("Right:\n");
 		print_ast_simple(node->right, depth + 1);
 	}
-}
+} */
 
 void	ft_read_line2(char *input, char ***envp)
 {
 	int		status;
 	pid_t	pid;
-	char	**cmd;
 	t_token	*tokens;
 	t_node	*ast;
 
-	/* ===== DÉBUT DE LA PARTIE TOKENIZER/PARSER ===== */
-	// Tokenization
+	/* ===== PARTIE TOKENIZER/PARSER ===== */
 	tokens = tokenize(input);
 	if (!tokens)
-	{
-		free(input);
-		return ;
-	}
+		return (free(input));
 
-	// Affichage des tokens (pour débogage)
-	ft_printf("\n=== TOKENS ===\n");
-	t_token *tmp = tokens;
-	while (tmp)
-	{
-		printf("Token: type=%d, value='%s'\n", tmp->type, tmp->value);
-		tmp = tmp->next;
-	}
-
-	// Validation syntaxique
 	if (!is_valid_syntax(tokens))
-	{
-		ft_printf("Erreur de syntaxe détectée\n");
-		free_tokens(tokens);
-		free(input);
-		return ;
-	}
+		return (free_tokens(tokens), free(input));
 
-	// Construction de l'AST
+	scan_envar(tokens, envp);
 	ast = parse_ast(tokens);
 	if (!ast)
-	{
-		ft_printf("Erreur lors de la création de l'AST\n");
-		free_tokens(tokens);
-		free(input);
-		return ;
-	}
+		return (free_tokens(tokens), free(input));
 
-	// Affichage de l'AST (pour débogage)
-	ft_printf("\n=== ARBRE SYNTAXIQUE ===\n");
-	print_ast_simple(ast, 0);
-	/* ===== FIN DE LA PARTIE TOKENIZER/PARSER ===== */
-	
-	/* TODO: Remplacer cette partie par l'exécution basée sur l'AST quand 
-	   la partie exécution sera terminée */
-	/*	=> Puis on exécutera à partir de l’arbre (et non plus avec ft_split)
-	========================================================================== */
-  
-	cmd = ft_split(input, ' ');
-	pid = fork();
-	if (pid == 0)
-	{	
-		if ((ft_is_builtin(cmd, envp) == 0))
+	/* ===== PARTIE EXÉCUTION ===== */
+	if (ast->type == NODE_CMD && ast->cmd && ast->cmd[0])
+	{
+		// Gestion des builtins dans le processus parent
+		if (ft_is_builtin(ast->cmd, envp))
 		{
-			execve(ft_path_finder(input), cmd, *envp);
-			perror("execve");
-			exit(1);
+			execute_builtin(ast->cmd, envp);
+		}
+		else
+		{
+			pid = fork();
+			if (pid == 0)
+			{
+				char *path = ft_path_finder(ast->cmd[0], envp);
+				if (path)
+				{
+					execve(path, ast->cmd, *envp);
+					free(path);
+				}
+				perror(ast->cmd[0]);
+				exit(1);
+			}
+			else if (pid > 0)
+				waitpid(pid, &status, 0);
+			else
+				perror("fork");
 		}
 	}
-	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-	}
-	else
-		perror("fork"); 
-	
-	// Libération de la mémoire
+
+	/* ===== NETTOYAGE ===== */
 	free_tokens(tokens);
 	free_ast(ast);
 	free(input);
 }
+
 
 void	ft_read_line(char ***envp)
 {
