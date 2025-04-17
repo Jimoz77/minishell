@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/17 20:11:25 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/17 20:52:41 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_read_line2(char *input, char ***envp)
 
 	if (!is_valid_syntax(tokens))
 		return (free_tokens(tokens), free(input));
-
+	//substitution des variables d'environnement dans les tokens
 	scan_envar(tokens, envp);
 	ast = parse_ast(tokens);
 	if (!ast)
@@ -118,7 +118,6 @@ void	ft_read_line2(char *input, char ***envp)
 				perror("fork");
 		}
 	}
-
 	/* ===== NETTOYAGE ===== */
 	free_tokens(tokens);
 	free_ast(ast);
