@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/03 13:09:33 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/15 17:52:48 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,15 @@ static int	handle_token2(t_token **tokens, char *input, int *i)
 	int	ret;
 
 	if (is_operator_str(&input[*i]))
-		*i += handle_operator(tokens, &input[*i]);
+	{
+		ret = handle_operator(tokens, &input[*i]);
+		if (ret <= 0)
+			return (-1);
+		*i += ret;
+	}
 	else if (input[*i] == '"' || input[*i] == '\'')
 	{
-		ret = handle_quotes(tokens, &input[*i]);
+		ret = handle_complex_word(tokens, &input[*i]);
 		if (ret == -1)
 			return (-1);
 		*i += ret;
@@ -61,20 +66,20 @@ static int	handle_token(t_token **tokens, char *input, int *i)
 	return (0);
 }
 
-// Découpe la ligne d’entrée en une liste chaînée de tokens
-
-t_token	*tokenize(char *input)
+t_token *tokenize(char *input)
 {
-	t_token	*tokens;
-	int		i;
+    t_token	*tokens;
+    int     i;
 
-	tokens = NULL;
-
-	i = 0;
-	while (input[i])
-	{
-		if (handle_token(&tokens, input, &i) == -1)
-			return (NULL);
-	}
-	return (tokens);
+    tokens = NULL;
+    i = 0;
+    while (input[i])
+    {
+        if (handle_token(&tokens, input, &i) == -1)
+        {
+            free_tokens(tokens);
+            return (NULL);
+        }
+    }
+    return (tokens);
 }

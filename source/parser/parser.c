@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/28 13:10:51 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:24:18 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,26 @@ static int	get_priority(t_token_type type)
 	return (100);
 }
 
-// Vérifie si un token est un opérateur de priorité plus basse
-static int	is_lower_priority(t_token *token, int depth, int *lowest)
+// Vérifie si un token opérateur a une priorité plus faible que celle trouvée jusqu’ici
+static int check_token_priority(t_token *token, int depth, int *lowest)
 {
-	int	priority;
+    int priority;
 
-	if (depth == 0)
-	{
-		priority = get_priority(token->type);
-		if (priority < *lowest)
-		{
-			*lowest = priority;
-			return (1);
-		}
-	}
-	return (0);
+    // Ne considérer que les opérateurs
+    if (depth == 0 && is_operator(token->type))
+    {
+        priority = get_priority(token->type);
+        if (priority <= *lowest)
+        {
+            *lowest = priority;
+            return (1);
+        }
+    }
+    return (0);
 }
 
 // Renvoie la position du token ayant la plus faible priorité
-int	find_lowest_priority(t_token *tokens)
+int find_lowest_priority(t_token *tokens)
 {
 	int		pos;
 	int		i;
@@ -64,7 +65,7 @@ int	find_lowest_priority(t_token *tokens)
 			depth++;
 		else if (tmp->type == TOKEN_RPAREN)
 			depth--;
-		else if (is_lower_priority(tmp, depth, &lowest))
+		else if (check_token_priority(tmp, depth, &lowest))
 			pos = i;
 		tmp = tmp->next;
 		i++;
@@ -82,11 +83,14 @@ t_node	*parse_ast(t_token *tokens)
 		return (NULL);
 	if (tokens->type == TOKEN_LPAREN)
 		return (handle_paren_and_op(tokens));
-	if (!tokens->next)
-		return (create_cmd_node(tokens));
 	i = find_lowest_priority(tokens);
-	op = get_token_at(tokens, i);
-	if (!op || i == -1)
+	if (i == -1 || (tokens->next && !tokens->next->next &&
+		tokens->type == TOKEN_WORD&& tokens->next->type == TOKEN_WORD))
+	{
 		return (create_cmd_node(tokens));
+	}  
+	op = get_token_at(tokens, i);
+	if (!op)
+		return (create_cmd_node(tokens));   
 	return (create_op_node(tokens, op));
 }

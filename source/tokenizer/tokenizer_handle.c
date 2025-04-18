@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:21:49 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/28 16:39:53 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:20:42 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,42 +47,22 @@ int	handle_operator(t_token **tokens, char *input)
 	return (len);
 }
 
-// Gère une chaîne entre guillemets et l’ajoute à la liste des tokens
-int	handle_quotes(t_token **tokens, char *input)
-{
-	char	quote;
-	int		len;
-	char	*word;
-
-	quote = input[0];
-	len = 1;
-	while (input[len] && input[len] != quote)
-		len++;
-	if (input[len] == quote)
-	{
-		word = ft_substr(input + 1, 0, len - 1);
-		if (!word)
-			return (-1);
-		add_token(tokens, word, TOKEN_WORD);
-		free(word);
-		return (len + 1);
-	}
-	ft_printf("minishell: syntax error: unclosed quote\n");
-	return (-1);
-}
-
-// Gère un mot simple (non cité) et l’ajoute à la liste des tokens
-int handle_word(t_token **tokens, char *input)
+// Gère un mot et l'ajoute à la liste des tokens
+int	handle_word(t_token **tokens, char *input)
 {
 	int		len;
 	char	*word;
-
+	
+	// Vérifier si le mot contient des guillemets
 	len = 0;
-	while (input[len] && !is_space(input[len]) &&
-		!is_operator_str(&input[len]) &&
-		input[len] != '"' && input[len] != '\'' &&
-		input[len] != '(' && input[len] != ')')
+	while (input[len] && !is_space(input[len]) && !is_operator_str(&input[len])
+		&& input[len] != '(' && input[len] != ')')
+	{
+		if (input[len] == '"' || input[len] == '\'')
+			return (handle_complex_word(tokens, input));
 		len++;
+	}
+	// Si pas de guillemets, utiliser l'ancienne méthode
 	if (len <= 0)
 		return (0);
 	word = ft_substr(input, 0, len);

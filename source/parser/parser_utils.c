@@ -6,13 +6,13 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:21:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/01 14:32:21 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/18 12:57:16 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Traduit un token type en node type pour l’AST
+// Convertit un type de token en type de nœud de l'AST
 t_node_type	token_to_node_type(t_token_type token_type)
 {
 	if (token_type == TOKEN_PIPE)
@@ -32,11 +32,12 @@ t_node_type	token_to_node_type(t_token_type token_type)
 	return (NODE_CMD);
 }
 
-// Compte le nombre de TOKEN_WORD dans la liste
+// Compte le nombre de mots (TOKEN_WORD) consécutifs dans la liste
 int	count_words(t_token *tokens)
 {
-	int	count = 0;
+	int		count;
 
+	count = 0;
 	while (tokens && tokens->type == TOKEN_WORD)
 	{
 		count++;
@@ -45,7 +46,38 @@ int	count_words(t_token *tokens)
 	return (count);
 }
 
-// Alloue et remplit le tableau de cmd[] avec les valeurs des tokens
+// Libère un tableau de chaînes partiellement rempli
+static void	free_cmd_array(char **cmd, int i)
+{
+	while (--i >= 0)
+		free(cmd[i]);
+	free(cmd);
+}
+
+// Remplit une case du tableau de commandes avec un mot
+static int	fill_one_cmd(char **cmd, t_token *token, int i)
+{
+	char	*word;
+
+	if (token->parts)
+	{
+		word = build_unquoted_value(token->parts);
+		if (!word)
+			return (0);
+	}
+	else
+	{
+		if (!token->value)
+			return (0);
+		word = ft_strdup(token->value);
+		if (!word)
+			return (0);
+	}
+	cmd[i] = word;
+	return (1);
+}
+
+// Crée un tableau de chaînes à partir des tokens de type TOKEN_WORD
 char	**fill_cmd_array(t_token *tokens, int count)
 {
 	char	**cmd;
@@ -57,19 +89,9 @@ char	**fill_cmd_array(t_token *tokens, int count)
 	i = 0;
 	while (i < count && tokens && tokens->type == TOKEN_WORD)
 	{
-		if (!tokens->value)
+		if (!fill_one_cmd(cmd, tokens, i))
 		{
-			while (--i >= 0)
-				free(cmd[i]);
-			free(cmd);
-			return (NULL);
-		}
-		cmd[i] = ft_strdup(tokens->value);
-		if (!cmd[i])
-		{
-			while (--i >= 0)
-				free(cmd[i]);
-			free(cmd);
+			free_cmd_array(cmd, i);
 			return (NULL);
 		}
 		tokens = tokens->next;
@@ -77,27 +99,4 @@ char	**fill_cmd_array(t_token *tokens, int count)
 	}
 	cmd[i] = NULL;
 	return (cmd);
-}
-
-// Crée un nœud de type NODE_CMD à partir des tokens
-t_node	*create_cmd_node(t_token *tokens)
-{
-	t_node	*node;
-	int		count;
-
-	if (!tokens)
-		return (NULL);
-	count = count_words(tokens);
-	if (count <= 0)
-		return (NULL);
-	node = ft_calloc(1, sizeof(t_node));
-	if (!node)
-		return (NULL);
-	node->type = NODE_CMD;
-	node->left = NULL;
-	node->right = NULL;
-	node->cmd = fill_cmd_array(tokens, count);
-	if (!node->cmd)
-		return (free(node), NULL);
-	return (node);
 }

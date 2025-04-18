@@ -3,173 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/01 19:47:54 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/15 17:36:43 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// Fonction temporaire pour afficher l'AST à des fins de test
-static void	print_ast_simple(t_node *node, int depth)
+// Traite l'entrée utilisateur : tokenize, parse, exécute puis libère
+static void	process_input(t_shell *shell, char *input)
 {
-	int	i;
-	
-	if (!node)
-		return ;
-	
-	for (i = 0; i < depth; i++)
-		ft_printf("  ");
-	
-	ft_printf("Node type: ");
-	if (node->type == NODE_CMD)
-		ft_printf("CMD");
-	else if (node->type == NODE_PIPE)
-		ft_printf("PIPE");
-	else if (node->type == NODE_REDIRECT_IN)
-		ft_printf("REDIRECT_IN");
-	else if (node->type == NODE_REDIRECT_OUT)
-		ft_printf("REDIRECT_OUT");
-	else if (node->type == NODE_APPEND)
-		ft_printf("APPEND");
-	else if (node->type == NODE_HEREDOC)
-		ft_printf("HEREDOC");
-	else if (node->type == NODE_AND)
-		ft_printf("AND");
-	else if (node->type == NODE_OR)
-		ft_printf("OR");
-	
-	if (node->type == NODE_CMD && node->cmd)
-	{
-		ft_printf(" - Commande: ");
-		i = 0;
-		while (node->cmd[i])
-		{
-			ft_printf("'%s' ", node->cmd[i]);
-			i++;
-		}
-	}
-	ft_printf("\n");
-	
-	if (node->left)
-	{
-		for (i = 0; i < depth; i++)
-			ft_printf("  ");
-		ft_printf("Left:\n");
-		print_ast_simple(node->left, depth + 1);
-	}
-	
-	if (node->right)
-	{
-		for (i = 0; i < depth; i++)
-			ft_printf("  ");
-		ft_printf("Right:\n");
-		print_ast_simple(node->right, depth + 1);
-	}
-}
-
-void	ft_read_line2(char *input, char ***envp)
-{
-	int		status;
-	pid_t	pid;
-	char	**cmd;
-	t_token	*tokens;
-	t_node	*ast;
-
-	/* ===== DÉBUT DE LA PARTIE TOKENIZER/PARSER ===== */
-	// Tokenization
-	tokens = tokenize(input);
-	if (!tokens)
+	shell->tokens = tokenize(input);
+	if (!shell->tokens)
 	{
 		free(input);
 		return ;
 	}
-
-	// Affichage des tokens (pour débogage)
-	ft_printf("\n=== TOKENS ===\n");
-	t_token *tmp = tokens;
-	while (tmp)
+	if (!is_valid_syntax(shell->tokens))
 	{
-		printf("Token: type=%d, value='%s'\n", tmp->type, tmp->value);
-		tmp = tmp->next;
-	}
-
-	// Validation syntaxique
-	if (!is_valid_syntax(tokens))
-	{
-		ft_printf("Erreur de syntaxe détectée\n");
-		free_tokens(tokens);
+		free_tokens(shell->tokens);
 		free(input);
 		return ;
 	}
-
-	// Construction de l'AST
-	ast = parse_ast(tokens);
-	if (!ast)
+	shell->ast = parse_ast(shell->tokens);
+	if (!shell->ast)
 	{
-		ft_printf("Erreur lors de la création de l'AST\n");
-		free_tokens(tokens);
+		free_tokens(shell->tokens);
 		free(input);
 		return ;
 	}
-
-	// Affichage de l'AST (pour débogage)
-	ft_printf("\n=== ARBRE SYNTAXIQUE ===\n");
-	print_ast_simple(ast, 0);
-	/* ===== FIN DE LA PARTIE TOKENIZER/PARSER ===== */
-	
-	/* TODO: Remplacer cette partie par l'exécution basée sur l'AST quand 
-	   la partie exécution sera terminée */
-	/*	=> Puis on exécutera à partir de l’arbre (et non plus avec ft_split)
-	========================================================================== */
-  
-	cmd = ft_split(input, ' ');
-	pid = fork();
-	if (pid == 0)
-	{	
-		if ((ft_is_builtin(cmd, envp) == 0))
-		{
-			execve(ft_path_finder(input), cmd, *envp);
-			perror("execve");
-			exit(1);
-		}
-	}
-	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-	}
-	else
-		perror("fork"); 
-	
-	// Libération de la mémoire
-	free_tokens(tokens);
-	free_ast(ast);
+	shell->exit_status = execute_ast(shell->ast, shell->envp);
+	free_tokens(shell->tokens);
+	free_ast(shell->ast);
 	free(input);
 }
 
-void	ft_read_line(char ***envp)
+// Boucle principale de lecture de ligne
+static void	ft_read_line_loop(t_shell *shell)
 {
 	char	*input;
-	
-	read_history(".minishell_history");
-	
+
 	while (1)
 	{
+		shell->tokens = NULL;
+		shell->ast = NULL;
+		if (g_signal == 130)
+		{
+			g_signal = 0;
+			rl_on_new_line();
+		}
 		ft_getcwd();
 		input = readline("minishell> ");
 		if (!input)
 		{
-			printf("\n");
-			break;
+			ft_printf("\n");
+			break ;
 		}
 		if (*input)
 		{
 			add_history(input);
-			ft_read_line2(input, envp);
+			process_input(shell, input);
 		}
+		else
+			free(input);
 	}
-	// Sauvegarder l'historique à la fin de la session
+}
+
+// Fonction d'initialisation et lancement de la boucle
+void	ft_read_line(char ***envp)
+{
+	t_shell	*shell;
+
+	shell = init_shell(*envp);
+	if (!shell)
+		return ;
+	read_history(".minishell_history");
+	ft_read_line_loop(shell);
 	write_history(".minishell_history");
+	*envp = shell->envp;
+	free_shell(shell);
 }

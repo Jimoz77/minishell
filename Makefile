@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+         #
+#    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/04/01 19:55:23 by jimpa            ###   ########.fr        #
+#    Updated: 2025/04/17 11:40:45 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS = \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/ft_getcwd.c \
 	$(SRC_DIR)/ft_read_line.c \
+	$(SRC_DIR)/signals.c \
 	$(SRC_DIR)/built-in/ft_cd.c \
 	$(SRC_DIR)/built-in/ft_echo.c \
 	$(SRC_DIR)/built-in/ft_env.c \
@@ -40,15 +41,29 @@ SRCS = \
 	$(SRC_DIR)/tokenizer/tokenizer.c \
 	$(SRC_DIR)/tokenizer/tokenizer_utils.c \
 	$(SRC_DIR)/tokenizer/tokenizer_handle.c \
+	$(SRC_DIR)/tokenizer/tokenizer_quotes.c \
+	$(SRC_DIR)/tokenizer/tokenizer_quotes_utils.c \
 	$(SRC_DIR)/parser/parser.c \
 	$(SRC_DIR)/parser/parser_utils.c \
+	$(SRC_DIR)/parser/parser_utils2.c \
 	$(SRC_DIR)/parser/parser_ops.c \
+	$(SRC_DIR)/parser/parser_ops2.c \
 	$(SRC_DIR)/parser/parser_parentheses.c \
 	$(SRC_DIR)/parser/parser_syntax.c \
 	$(SRC_DIR)/parser/parser_syntax2.c \
 	$(SRC_DIR)/utils/memory_utils.c \
 	$(SRC_DIR)/utils/ft_array_dup.c \
 	$(SRC_DIR)/utils/ft_path_finder.c \
+	$(SRC_DIR)/utils/shell_utils.c \
+	$(SRC_DIR)/executor/executor.c \
+	$(SRC_DIR)/executor/executor_cmd.c \
+	$(SRC_DIR)/executor/executor_redirect.c \
+	$(SRC_DIR)/executor/executor_heredoc.c \
+	$(SRC_DIR)/executor/executor_heredoc_utils.c \
+	$(SRC_DIR)/executor/executor_combined.c \
+	$(SRC_DIR)/executor/executor_redir_setup.c \
+	$(SRC_DIR)/executor/executor_redir_utils.c \
+	$(SRC_DIR)/executor/executor_paren.c
 
 # Fichiers objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
