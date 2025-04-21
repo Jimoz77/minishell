@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:12:26 by jimpa             #+#    #+#             */
-/*   Updated: 2025/03/31 19:42:46 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/21 18:19:36 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	is_valid_id(char *str)
 	return (1);
 }
 // lors de l utilisation de "export test" si test a deja une valeur la fonction ne doit pas reinitialiser la valeur de test
-int ft_export(char **cmd, char ***envp)
+int	ft_export(char **cmd, char ***envp)
 {
 	int i;
 	char *egal;

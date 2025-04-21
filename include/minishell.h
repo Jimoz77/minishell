@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/17 20:10:37 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/21 16:35:09 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <fcntl.h>
+
 
 # include "../libft/libft.h"
 # include "../libft/ft_printf/ft_printf.h"
@@ -119,6 +121,8 @@ void			free_tokens(t_token *tokens);
 void			free_ast(t_node *node);
 char			*ft_strjoin_free(char *s1, const char *s2);
 void			ft_free_split(char **split_array);
+void			save_env(char ***env);
+char			**load_env();
 
 // Prototypes (built-in)
 void			ft_getcwd(void);

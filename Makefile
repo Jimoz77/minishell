@@ -6,7 +6,7 @@
 #    By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/04/17 16:24:34 by jimpa            ###   ########.fr        #
+#    Updated: 2025/04/21 15:15:58 by jimpa            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRCS = \
 	$(SRC_DIR)/utils/memory_utils.c \
 	$(SRC_DIR)/utils/ft_array_dup.c \
 	$(SRC_DIR)/utils/ft_path_finder.c \
+	$(SRC_DIR)/utils/save_env.c \
 
 # Fichiers objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

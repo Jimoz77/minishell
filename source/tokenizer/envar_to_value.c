@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/17 19:40:07 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/21 18:19:05 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	ft_strnlen(const char *s, size_t maxlen)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	while (len < maxlen && s[len])
@@ -22,6 +22,7 @@ size_t	ft_strnlen(const char *s, size_t maxlen)
 	return (len);
 }
 // ft_strndup.c
+
 char	*ft_strndup(const char *s, size_t n)
 {
 	char	*new;

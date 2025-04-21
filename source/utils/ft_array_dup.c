@@ -1,20 +1,36 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_array_dup.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/21 15:52:11 by jimpa             #+#    #+#             */
+/*   Updated: 2025/04/21 16:01:33 by jimpa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char **ft_array_dup(char **array)
+#include "../../include/minishell.h"
+
+char	**ft_array_dup(char **array)
 {
-    int count = 0;
-    char **new;
+	int		count;
+	char	**new;
+	int		i;
 
-    while (array && array[count])
-        count++;
-    
-    new = malloc((count + 1) * sizeof(char *));
-    if (!new)
-        return NULL;
+	count = 0;
+	i = 0;
+	while (array && array[count])
+		count++;
+	new = malloc((count + 1) * sizeof(char *));
+	if (!new)
+		return (NULL);
 
-    for (int i = 0; i < count; i++)
-        new[i] = ft_strdup(array[i]);
-    
-    new[count] = NULL;
-    return new;
+	while (i < count)
+	{
+		new[i] = ft_strdup(array[i]);
+		i++;
+	}
+	new[count] = NULL;
+	return (new);
 }

@@ -6,11 +6,11 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:13:51 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/17 20:34:58 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/21 15:49:45 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 char	*ft_path_finder(char *cmd, char ***envp)
 {

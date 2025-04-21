@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:01:37 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/17 20:14:00 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/21 15:44:49 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,22 @@
 //si la commande entré est un built-in alors
 //la fonction retourne 1 et 0 si ca ne l'est pas
 // (manque encore "exit" a coder)
+
+void	clean_exit(char **cmd, char ***envp)
+{
+	if (cmd[1])
+	{
+		save_env(envp);
+		write_history("etc/.minishell_history");
+		exit(ft_atoi(cmd[1]));
+	}
+	else
+	{
+		save_env(envp);
+		write_history("etc/.minishell_history");
+		exit(0);
+	}
+}
 
 void	execute_builtin(char **cmd, char ***envp)
 {
@@ -33,10 +49,7 @@ void	execute_builtin(char **cmd, char ***envp)
 		ft_echo(cmd);
 	else if (ft_strncmp(cmd[0], "exit", 4) == 0)
 	{
-		if (cmd[1])
-			exit(ft_atoi(cmd[1]));
-		else
-			exit(0);
+		clean_exit(cmd, envp);
 	}
 }
 

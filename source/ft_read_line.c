@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/17 20:52:41 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/21 18:20:13 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,9 @@ void	ft_read_line2(char *input, char ***envp)
 void	ft_read_line(char ***envp)
 {
 	char	*input;
-	
+
 	read_history(".minishell_history");
-	
+
 	while (1)
 	{
 		ft_getcwd();
@@ -138,7 +138,7 @@ void	ft_read_line(char ***envp)
 		if (!input)
 		{
 			printf("\n");
-			break;
+			break ;
 		}
 		if (*input)
 		{
@@ -147,5 +147,5 @@ void	ft_read_line(char ***envp)
 		}
 	}
 	// Sauvegarder l'historique à la fin de la session
-	write_history(".minishell_history");
+	write_history("etc/.minishell_history"); // peut etre pas permis ???
 }
