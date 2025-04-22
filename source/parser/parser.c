@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/16 12:24:18 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:27:02 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,33 @@ t_node	*parse_ast(t_token *tokens)
 {
 	t_token	*op;
 	int		i;
+	t_token	*tmp;
 
 	if (!tokens)
 		return (NULL);
+	// Si on commence par une redirection
+	if (is_redirection(tokens->type) && tokens->next && tokens->next->next)
+	{
+		// On cherche la prochaine redirection ou opérateur
+		tmp = tokens->next->next;
+		while (tmp && tmp->type == TOKEN_WORD)
+			tmp = tmp->next;
+		// Si on a trouvé une autre redirection ou un opérateur
+		if (tmp && is_operator(tmp->type))
+		{
+			return (create_op_node(tokens, tokens));
+		}
+	}
 	if (tokens->type == TOKEN_LPAREN)
 		return (handle_paren_and_op(tokens));
 	i = find_lowest_priority(tokens);
 	if (i == -1 || (tokens->next && !tokens->next->next &&
-		tokens->type == TOKEN_WORD&& tokens->next->type == TOKEN_WORD))
+		tokens->type == TOKEN_WORD && tokens->next->type == TOKEN_WORD))
 	{
 		return (create_cmd_node(tokens));
-	}  
+	}
 	op = get_token_at(tokens, i);
 	if (!op)
-		return (create_cmd_node(tokens));   
+		return (create_cmd_node(tokens));
 	return (create_op_node(tokens, op));
 }

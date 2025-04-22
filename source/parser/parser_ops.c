@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 17:03:25 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/16 12:38:17 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:29:14 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,33 @@ t_node	*init_redirect_node(t_token *tokens, t_token *right_part,
 							t_token_type type)
 {
 	t_node	*node;
+	t_token	*cmd_tokens;
 
 	node = malloc(sizeof(t_node));
 	if (!node)
 		return (NULL);
 	node->type = token_to_node_type(type);
 	node->cmd = NULL;
-	node->right = create_redirect_right(right_part);
-	if (!node->right)
+	// Si c'est une redirection au début, on doit attacher la commande correctement
+	if (tokens->type == type)
 	{
-		free(node);
-		return (NULL);
+		// La cible de la redirection est le premier token après
+		node->right = create_redirect_right(tokens->next);
+		// La commande est ce qui suit
+		cmd_tokens = tokens->next->next;
+		if (cmd_tokens)
+			node->left = parse_ast(cmd_tokens);
+		else
+			node->left = NULL;
 	}
-	if (!tokens)
-		node->left = NULL;
 	else
-		node->left = setup_redirect_left(tokens);
+	{
+		node->right = create_redirect_right(right_part);
+		if (!tokens)
+			node->left = NULL;
+		else
+			node->left = setup_redirect_left(tokens);
+	}
 	return (node);
 }
 
