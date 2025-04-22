@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:35:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 16:33:51 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:04:14 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	handle_heredoc_error(int *pipe_fd, char *error_msg)
 }
 
 // Exécute les commandes dans le processus enfant avec l'entrée du heredoc
-static int	exec_in_child(t_node *node, int heredoc_fd, char **envp)
+static int	exec_in_child(t_node *node, int heredoc_fd, char ***envp)
 {
 	signal(SIGINT, SIG_DFL);
 	dup2(heredoc_fd, STDIN_FILENO);
@@ -41,7 +41,7 @@ static int	handle_execution_status(int status)
 }
 
 // Crée un processus enfant pour exécuter avec le heredoc
-static int	fork_executor(t_node *node, int heredoc_fd, char **envp)
+static int	fork_executor(t_node *node, int heredoc_fd, char ***envp)
 {
 	pid_t	pid_executor;
 	int		status;

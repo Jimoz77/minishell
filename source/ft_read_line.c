@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/22 16:22:21 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:58:21 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ void	ft_read_line(char ***envp)
 	read_history(".minishell_history");
 	ft_read_line_loop(shell);
 	write_history("etc/.minishell_history");
-	*envp = shell->envp;
+	envp = shell->envp;
 	free_shell(shell);
 }

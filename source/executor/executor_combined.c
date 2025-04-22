@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 12:28:14 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 16:33:23 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:04:37 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_node	*find_command_node(t_node *node)
 }
 
 // Exécution dans le processus enfant
-static void execute_child(t_node *node, char **envp, t_redirect *red)
+static void execute_child(t_node *node, char ***envp, t_redirect *red)
 {
 	t_node	*cmd_node;
 

@@ -65,8 +65,8 @@ SRCS = \
 	$(SRC_DIR)/executor/executor_combined.c \
 	$(SRC_DIR)/executor/executor_redir_setup.c \
 	$(SRC_DIR)/executor/executor_redir_utils.c \
-	$(SRC_DIR)/executor/executor_paren.c
-	$(SRC_DIR)/utils/save_env.c \
+	$(SRC_DIR)/executor/executor_paren.c \
+	$(SRC_DIR)/utils/save_env.c
 
 # Fichiers objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

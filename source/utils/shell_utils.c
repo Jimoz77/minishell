@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/14 16:13:17 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:44:15 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_shell	*init_shell(char **envp)
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (NULL);
-	shell->envp = ft_array_dup(envp);
+	*shell->envp = ft_array_dup(envp);
 	shell->tokens = NULL;
 	shell->ast = NULL;
 	shell->exit_status = 0;
