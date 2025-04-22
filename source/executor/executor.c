@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:54:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/17 14:54:31 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:33:08 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	execute_node_by_type(t_node *node, char **envp)
 		ft_printf("minishell: type de noeud non supporté\n");
 		return (1);
 	}
-	return(execute[node->type](node, envp));
+	return(execute[node->type](node, &envp));
 }
 
 // Fonction principale d'execution

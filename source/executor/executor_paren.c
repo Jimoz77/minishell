@@ -6,13 +6,13 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:12:07 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/15 16:17:25 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:34:01 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	execute_paren_node(t_node *node, char **envp)
+int	execute_paren_node(t_node *node, char ***envp)
 {
 	pid_t	pid;
 	int		status;

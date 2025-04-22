@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/15 17:36:43 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:22:21 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	process_input(t_shell *shell, char *input)
 		free(input);
 		return ;
 	}
+	scan_envar(shell->tokens, shell->envp);
 	shell->ast = parse_ast(shell->tokens);
 	if (!shell->ast)
 	{

@@ -6,21 +6,21 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/15 17:21:03 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:32:45 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // Execute la commande dans le processus enfant
-static void	exec_child_process(t_node *node, char **envp)
+static void	exec_child_process(t_node *node, char ***envp)
 {
 	char	*path;
 
 	// Restaurer les gestionnaires de signaux par défaut
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	path = ft_path_finder(node->cmd[0]);
+	path = ft_path_finder(node->cmd[0], &envp);
 	if (!path)
 	{
 		ft_printf("minishell: %s: command not found\n", node->cmd[0]);
@@ -43,7 +43,7 @@ static int	handle_child_status(int status)
 }
 
 // Execute une commande simple (sans pipe ni redirection)
-int	execute_cmd_node(t_node *node, char **envp)
+int	execute_cmd_node(t_node *node, char ***envp)
 {
 	int		status;
 	pid_t	pid;
@@ -52,10 +52,13 @@ int	execute_cmd_node(t_node *node, char **envp)
 	if (!node || !node->cmd || !node->cmd[0])
 		return (0);
 	if (ft_is_builtin(node->cmd, &envp))
+	{
+		exexute_builtin(node->cmd, envp);
 		return (0);
+	}
 	pid = fork();
 	if (pid == 0)
-		exec_child_process(node, envp);
+		exec_child_process(node, &envp);
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);

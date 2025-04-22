@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 12:28:14 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/15 15:18:20 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:33:23 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void execute_child(t_node *node, char **envp, t_redirect *red)
 }
 
 // Execute une commande avec toutes ses redirections
-int	execute_combined_node(t_node *node, char **envp)
+int	execute_combined_node(t_node *node, char ***envp)
 {
 	t_redirect	red;
 	int 		status;

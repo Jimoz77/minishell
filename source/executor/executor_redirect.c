@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:56:01 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/18 13:01:35 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:33:38 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	handle_fork_error(int fd)
 }
 
 // Gère les redirections simple < , > , >>
-int	execute_redirect_node(t_node *node, char **envp)
+int	execute_redirect_node(t_node *node, char ***envp)
 {
 	int		status;
 	pid_t	pid;

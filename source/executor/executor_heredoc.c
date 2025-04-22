@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:35:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/16 13:22:11 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:33:51 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	fork_executor(t_node *node, int heredoc_fd, char **envp)
 }
 
 // Gère les here_doc (pour nœud unique)
-int	handle_heredoc(t_node *node, char **envp)
+int	handle_heredoc(t_node *node, char ***envp)
 {
 	int	heredoc_fd;
 
