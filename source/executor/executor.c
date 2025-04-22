@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:54:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 16:33:08 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:56:44 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static int has_multiple_redirects(t_node *node)
 }
 
 // Execute le noeud selon le type
-static int	execute_node_by_type(t_node *node, char **envp)
+static int	execute_node_by_type(t_node *node, char ***envp)
 {
-	static int (*execute[9])(t_node *, char **) = {
+	static int (*execute[9])(t_node *, char ***) = {
 	[NODE_CMD] = execute_cmd_node,
 	[NODE_REDIRECT_IN] = execute_redirect_node,
 	[NODE_REDIRECT_OUT] = execute_redirect_node,
@@ -56,11 +56,11 @@ static int	execute_node_by_type(t_node *node, char **envp)
 		ft_printf("minishell: type de noeud non supporté\n");
 		return (1);
 	}
-	return(execute[node->type](node, &envp));
+	return(execute[node->type](node, envp));
 }
 
 // Fonction principale d'execution
-int execute_ast(t_node *node, char **envp)
+int execute_ast(t_node *node, char ***envp)
 {
     int status;
 	int	multiple;

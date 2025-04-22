@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:56:01 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 16:33:38 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:03:05 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	setup_redirection(t_node *node, int fd)
 }
 
 // Execute la commande avec redirection dans un processus enfant
-static void	exec_with_redirect(t_node *node, char **envp, int fd)
+static void	exec_with_redirect(t_node *node, char ***envp, int fd)
 {
 	// Restaurer les gestionnaires de signaux par défaut
 	signal(SIGINT, SIG_DFL);

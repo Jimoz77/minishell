@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 16:32:45 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:01:43 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static void	exec_child_process(t_node *node, char ***envp)
 	// Restaurer les gestionnaires de signaux par défaut
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	path = ft_path_finder(node->cmd[0], &envp);
+	path = ft_path_finder(node->cmd[0], envp);
 	if (!path)
 	{
 		ft_printf("minishell: %s: command not found\n", node->cmd[0]);
 		exit(127);
 	}
-	execve(path, node->cmd, envp);
+	execve(path, node->cmd, *envp);
 	perror("minishell");
 	free(path);
 	exit(1);
@@ -51,14 +51,14 @@ int	execute_cmd_node(t_node *node, char ***envp)
 	status = 0;
 	if (!node || !node->cmd || !node->cmd[0])
 		return (0);
-	if (ft_is_builtin(node->cmd, &envp))
+	if (ft_is_builtin(node->cmd, envp))
 	{
-		exexute_builtin(node->cmd, envp);
+		execute_builtin(node->cmd, envp);
 		return (0);
 	}
 	pid = fork();
 	if (pid == 0)
-		exec_child_process(node, &envp);
+		exec_child_process(node, envp);
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);

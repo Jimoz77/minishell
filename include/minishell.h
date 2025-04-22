@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/22 14:51:44 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:06:57 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <ctype.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -105,7 +106,7 @@ typedef struct	s_redirect
 // Structure pour l'environnement du shell
 typedef struct s_shell
 {
-	char		**envp;
+	char		***envp;
 	t_token		*tokens;
 	t_node		*ast;
 	int			exit_status;
@@ -201,18 +202,18 @@ int				ft_unset(char **cmd, char ***envp);
 void			execute_builtin(char **cmd, char ***envp);
 
 // Prototype (executor)
-int				execute_ast(t_node *node, char **envp);
+int				execute_ast(t_node *node, char ***envp);
 int				is_redirect_node(t_node_type type);
 int				setup_all_redirects(t_node *node, t_redirect *red);
-int				execute_combined_node(t_node *node, char **envp);
-int				execute_cmd_node(t_node *node, char **envp);
-int				execute_redirect_node(t_node *node, char **envp);
-int				handle_heredoc(t_node *node, char **envp);
+int				execute_combined_node(t_node *node, char ***envp);
+int				execute_cmd_node(t_node *node, char ***envp);
+int				execute_redirect_node(t_node *node, char ***envp);
+int				handle_heredoc(t_node *node, char ***envp);
 int 			process_single_heredoc(t_node *node);
 void			read_heredoc_input(int pipe_fd, char *delimiter);
 int				handle_heredoc_error(int *pipe_fd, char *error_msg);
 int				handle_heredoc_status(int status);
-int				execute_paren_node(t_node *node, char **envp);
+int				execute_paren_node(t_node *node, char ***envp);
 int				collect_redirects(t_node *node, t_node **redirections);
 int				process_heredoc_node(t_node *current, t_redirect *red);
 int				process_redirect_in(t_node *current, t_redirect *red);

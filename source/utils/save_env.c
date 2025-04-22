@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/21 18:18:29 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/22 18:06:27 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**load_env(void)
 	line = strtok(buffer, "\n");
 	while (line)
 	{
-		env[count] = strdup(line);
+		env[count] = ft_strdup(line);
 		env = realloc(env, sizeof(char *) * (++count + 1));
 		line = strtok(NULL, "\n");
 	}
