@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 17:00:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/28 13:11:18 by lsadikaj         ###   ########.fr       */
+/*   Created: 2025/03/28 17:03:25 by lsadikaj          #+#    #+#             */
+/*   Updated: 2025/04/22 13:29:14 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Renvoie le pointeur vers le token à une position donnée
+// Renvoie le token situé à une position donnée dans la liste
 t_token	*get_token_at(t_token *tokens, int pos)
 {
 	int	i;
@@ -28,7 +28,7 @@ t_token	*get_token_at(t_token *tokens, int pos)
 	return (NULL);
 }
 
-// Prépare les parties gauche et droite pour le nœud d'opérateur
+// Coupe la liste de tokens en deux autour du token opérateur
 static void	prepare_op_parts(t_token *tokens, t_token *op,
 							t_token **right_part)
 {
@@ -42,41 +42,63 @@ static void	prepare_op_parts(t_token *tokens, t_token *op,
 		tmp->next = NULL;
 }
 
-// Initialise un nœud avec l'opérateur et commence le parsing récursif
-t_node	*create_op_node(t_token *tokens, t_token *op)
+// Initialise un nœud opérateur avec ses branches gauche et droite
+static t_node	*setup_operator_node(t_node *node, t_token *tokens,
+									t_token *right_part)
 {
-	t_node	*node;
-	t_token	*right_part;
-
-	prepare_op_parts(tokens, op, &right_part);
-	node = malloc(sizeof(t_node));
-	if (!node)
-		return (NULL);
-	node->type = token_to_node_type(op->type);
-	node->cmd = NULL;
 	node->left = parse_ast(tokens);
 	node->right = parse_ast(right_part);
 	return (node);
 }
 
-// Traite les expressions entre parenthèses avec opérateurs
-t_node	*handle_paren_and_op(t_token *tokens)
+// Initialise un nœud de redirection complet
+t_node	*init_redirect_node(t_token *tokens, t_token *right_part,
+							t_token_type type)
 {
-	t_token	*next_op;
-	int		i;
-	t_token	*op;
+	t_node	*node;
+	t_token	*cmd_tokens;
 
-	next_op = tokens;
-	while (next_op && next_op->type != TOKEN_RPAREN)
-		next_op = next_op->next;
-	if (next_op && next_op->next)
+	node = malloc(sizeof(t_node));
+	if (!node)
+		return (NULL);
+	node->type = token_to_node_type(type);
+	node->cmd = NULL;
+	// Si c'est une redirection au début, on doit attacher la commande correctement
+	if (tokens->type == type)
 	{
-		i = find_lowest_priority(tokens);
-		if (i != -1)
-		{
-			op = get_token_at(tokens, i);
-			return (create_op_node(tokens, op));
-		}
+		// La cible de la redirection est le premier token après
+		node->right = create_redirect_right(tokens->next);
+		// La commande est ce qui suit
+		cmd_tokens = tokens->next->next;
+		if (cmd_tokens)
+			node->left = parse_ast(cmd_tokens);
+		else
+			node->left = NULL;
 	}
-	return (parse_parenthesized_expr(tokens));
+	else
+	{
+		node->right = create_redirect_right(right_part);
+		if (!tokens)
+			node->left = NULL;
+		else
+			node->left = setup_redirect_left(tokens);
+	}
+	return (node);
+}
+
+// Crée un nœud opérateur ou redirection à partir d’un token opérateur
+t_node	*create_op_node(t_token *tokens, t_token *op)
+{
+	t_token	*right_part;
+
+	prepare_op_parts(tokens, op, &right_part);
+	if (is_redirection(op->type) && right_part
+		&& right_part->type == TOKEN_WORD)
+		return (init_redirect_node(tokens, right_part, op->type));
+	t_node *node = malloc(sizeof(t_node));
+	if (!node)
+		return (NULL);
+	node->type = token_to_node_type(op->type);
+	node->cmd = NULL;
+	return (setup_operator_node(node, tokens, right_part));
 }

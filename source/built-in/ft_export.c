@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:12:26 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/21 18:19:36 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/03 12:53:10 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int print_sorted_env(char **envp)
 	while (i < totalen)
 	{
 
-		eq = strchr(envp_cpy[i], '=');
+		eq = ft_strchr(envp_cpy[i], '=');
 		if (eq)
 			printf("declare -x %.*s=\"%s\"\n", (int)(eq - envp_cpy[i]), envp_cpy[i], eq + 1); // peut etre modifier présentation suivant la machine
 		else

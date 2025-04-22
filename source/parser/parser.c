@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/28 13:10:51 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:27:02 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,26 @@ static int	get_priority(t_token_type type)
 	return (100);
 }
 
-// Vérifie si un token est un opérateur de priorité plus basse
-static int	is_lower_priority(t_token *token, int depth, int *lowest)
+// Vérifie si un token opérateur a une priorité plus faible que celle trouvée jusqu’ici
+static int check_token_priority(t_token *token, int depth, int *lowest)
 {
-	int	priority;
+    int priority;
 
-	if (depth == 0)
-	{
-		priority = get_priority(token->type);
-		if (priority < *lowest)
-		{
-			*lowest = priority;
-			return (1);
-		}
-	}
-	return (0);
+    // Ne considérer que les opérateurs
+    if (depth == 0 && is_operator(token->type))
+    {
+        priority = get_priority(token->type);
+        if (priority <= *lowest)
+        {
+            *lowest = priority;
+            return (1);
+        }
+    }
+    return (0);
 }
 
 // Renvoie la position du token ayant la plus faible priorité
-int	find_lowest_priority(t_token *tokens)
+int find_lowest_priority(t_token *tokens)
 {
 	int		pos;
 	int		i;
@@ -64,7 +65,7 @@ int	find_lowest_priority(t_token *tokens)
 			depth++;
 		else if (tmp->type == TOKEN_RPAREN)
 			depth--;
-		else if (is_lower_priority(tmp, depth, &lowest))
+		else if (check_token_priority(tmp, depth, &lowest))
 			pos = i;
 		tmp = tmp->next;
 		i++;
@@ -77,16 +78,33 @@ t_node	*parse_ast(t_token *tokens)
 {
 	t_token	*op;
 	int		i;
+	t_token	*tmp;
 
 	if (!tokens)
 		return (NULL);
+	// Si on commence par une redirection
+	if (is_redirection(tokens->type) && tokens->next && tokens->next->next)
+	{
+		// On cherche la prochaine redirection ou opérateur
+		tmp = tokens->next->next;
+		while (tmp && tmp->type == TOKEN_WORD)
+			tmp = tmp->next;
+		// Si on a trouvé une autre redirection ou un opérateur
+		if (tmp && is_operator(tmp->type))
+		{
+			return (create_op_node(tokens, tokens));
+		}
+	}
 	if (tokens->type == TOKEN_LPAREN)
 		return (handle_paren_and_op(tokens));
-	if (!tokens->next)
-		return (create_cmd_node(tokens));
 	i = find_lowest_priority(tokens);
+	if (i == -1 || (tokens->next && !tokens->next->next &&
+		tokens->type == TOKEN_WORD && tokens->next->type == TOKEN_WORD))
+	{
+		return (create_cmd_node(tokens));
+	}
 	op = get_token_at(tokens, i);
-	if (!op || i == -1)
+	if (!op)
 		return (create_cmd_node(tokens));
 	return (create_op_node(tokens, op));
 }

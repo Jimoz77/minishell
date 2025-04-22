@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:00:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/28 15:54:03 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/16 12:19:19 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ int	check_start_operator(t_token *tokens)
 {
 	if (tokens && is_operator(tokens->type))
 	{
-		if (tokens->type != TOKEN_HEREDOC && tokens->type != TOKEN_REDIRECT_IN)
+		if (tokens->type != TOKEN_HEREDOC && 
+			tokens->type != TOKEN_REDIRECT_IN &&
+			tokens->type != TOKEN_REDIRECT_OUT && 
+			tokens->type != TOKEN_APPEND)
 		{
 			ft_printf("minishell: syntax error near unexpected token '%s'\n",
-					tokens->value);
+						tokens->value);
 			return (0);
 		}
 	}

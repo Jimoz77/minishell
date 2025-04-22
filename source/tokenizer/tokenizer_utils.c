@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:03:50 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/03 12:55:54 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/15 18:01:43 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_token *new_token(char *value, t_token_type type)
 	if (!token->value)
 		return (free(token), NULL);
 	token->type = type;
+	token->parts = NULL;
 	token->next = NULL;
 	return (token);
 }
