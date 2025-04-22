@@ -22,6 +22,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <fcntl.h>
+
 
 # include "../libft/libft.h"
 # include "../libft/ft_printf/ft_printf.h"
@@ -118,9 +120,9 @@ void			handle_sigquit(int sig);
 
 // Prototypes initialisation (utils)
 void			ft_read_line(char ***envp);
-char			*ft_path_finder(char *cmd);
 t_shell			*init_shell(char **envp);
 void			free_shell(t_shell *shell);
+char			*ft_path_finder(char *cmd, char ***envp);
 
 // Prototypes (tokenizer)
 t_token			*tokenize(char *input);
@@ -139,6 +141,9 @@ int				handle_complex_word(t_token **tokens, char *input);
 void			free_word_parts(t_word_part *parts);
 char			*build_unquoted_value(t_word_part *parts);
 char			*get_unquoted_filename(t_node *node);
+int				scan_envar(t_token *tokens, char ***envp);
+void			envar_to_value(char ***envp, t_token *tokens);
+
 
 // Prototypes (parser)
 t_node			*parse_ast(t_token *tokens);
@@ -177,18 +182,23 @@ int				check_parentheses_usage(t_token *tokens);
 // Prototypes de gestion de mémoire (utils)
 void			free_tokens(t_token *tokens);
 void			free_ast(t_node *node);
+char			*ft_strjoin_free(char *s1, const char *s2);
+void			ft_free_split(char **split_array);
+void			save_env(char ***env);
+char			**load_env();
 
 // Prototypes (built-in)
 void			ft_getcwd(void);
 int				ft_is_builtin(char **cmd, char ***envp);
-int				ft_cd(char **cmd);
+int				ft_cd(char **cmd, char ***envp);
 int				ft_pwd(void);
 int				ft_echo(char **cmd);
-int				ft_env(char **envp);
+int				ft_env(char ***envp);
 int				ft_export(char **cmd, char ***envp);
 char			**ft_array_dup(char **array);
 int				is_valid_id(char *str);
 int				ft_unset(char **cmd, char ***envp);
+void			execute_builtin(char **cmd, char ***envp);
 
 // Prototype (executor)
 int				execute_ast(t_node *node, char **envp);

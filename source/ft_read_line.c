@@ -36,16 +36,15 @@ static void	process_input(t_shell *shell, char *input)
 		return ;
 	}
 	shell->exit_status = execute_ast(shell->ast, shell->envp);
-	free_tokens(shell->tokens);
-	free_ast(shell->ast);
+	free_shell(shell);
 	free(input);
 }
 
 // Boucle principale de lecture de ligne
 static void	ft_read_line_loop(t_shell *shell)
 {
-	char	*input;
-
+  char *input;
+  
 	while (1)
 	{
 		shell->tokens = NULL;
@@ -82,7 +81,7 @@ void	ft_read_line(char ***envp)
 		return ;
 	read_history(".minishell_history");
 	ft_read_line_loop(shell);
-	write_history(".minishell_history");
+	write_history("etc/.minishell_history");
 	*envp = shell->envp;
 	free_shell(shell);
 }

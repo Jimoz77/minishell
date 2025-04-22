@@ -7,6 +7,7 @@
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
 #    Updated: 2025/04/17 11:40:45 by lsadikaj         ###   ########.fr        #
+
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +44,7 @@ SRCS = \
 	$(SRC_DIR)/tokenizer/tokenizer_handle.c \
 	$(SRC_DIR)/tokenizer/tokenizer_quotes.c \
 	$(SRC_DIR)/tokenizer/tokenizer_quotes_utils.c \
+	$(SRC_DIR)/tokenizer/envar_to_value.c \
 	$(SRC_DIR)/parser/parser.c \
 	$(SRC_DIR)/parser/parser_utils.c \
 	$(SRC_DIR)/parser/parser_utils2.c \
@@ -64,6 +66,7 @@ SRCS = \
 	$(SRC_DIR)/executor/executor_redir_setup.c \
 	$(SRC_DIR)/executor/executor_redir_utils.c \
 	$(SRC_DIR)/executor/executor_paren.c
+	$(SRC_DIR)/utils/save_env.c \
 
 # Fichiers objets
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

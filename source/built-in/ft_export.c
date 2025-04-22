@@ -132,7 +132,7 @@ int	is_valid_id(char *str)
 	return (1);
 }
 // lors de l utilisation de "export test" si test a deja une valeur la fonction ne doit pas reinitialiser la valeur de test
-int ft_export(char **cmd, char ***envp)
+int	ft_export(char **cmd, char ***envp)
 {
 	int i;
 	char *egal;

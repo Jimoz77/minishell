@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:46:40 by jimpa             #+#    #+#             */
-/*   Updated: 2025/03/31 19:44:42 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/17 19:48:19 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_unset(char **cmd, char ***envp)
 
 	exit_status = 0;
 	i = 1;
-	found = 0;
 	while (cmd[i])
 	{
 		if (!is_valid_id(cmd[i]))
@@ -38,6 +37,7 @@ int	ft_unset(char **cmd, char ***envp)
 		else
 		{
 			j = 0;
+			found = 0;
 			len = ft_strlen(cmd[i]);
 			while ((*envp)[j] && !found)
 			{
@@ -45,13 +45,14 @@ int	ft_unset(char **cmd, char ***envp)
 				{
 					free((*envp)[j]);
 					k = j;
-					while ((*envp)[j + 1])
+					while ((*envp)[k + 1] != NULL)
 					{
 						(*envp)[k] = (*envp)[k + 1];
 						k++;
 					}
 					(*envp)[k] = NULL;
 					found = 1;
+					exit_status = 1;
 				}
 				else
 					j++;

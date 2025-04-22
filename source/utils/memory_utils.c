@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/04/14 14:00:32 by lsadikaj         ###   ########.fr       */
@@ -49,4 +49,29 @@ void	free_ast(t_node *node)
 		free(node->cmd);
 	}
 	free(node);
+}
+
+char	*ft_strjoin_free(char *s1, const char *s2)
+{
+	char	*result;
+
+	result = ft_strjoin(s1, s2);
+	free(s1);
+	return (result);
+}
+
+void	ft_free_split(char **split_array)
+{
+	int	i;
+
+	if (!split_array)
+		return ;
+	i = 0;
+	while (split_array[i])
+	{
+		free(split_array[i]);
+		i++;
+	}
+	free(split_array);
+	return ;
 }
