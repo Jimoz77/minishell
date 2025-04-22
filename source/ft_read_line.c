@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/22 17:58:21 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:53:20 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	process_input(t_shell *shell, char *input)
 		return ;
 	}
 	shell->exit_status = execute_ast(shell->ast, shell->envp);
-	free_shell(shell);
+	//free_shell(shell);
 	free(input);
 }
 
@@ -72,16 +72,15 @@ static void	ft_read_line_loop(t_shell *shell)
 }
 
 // Fonction d'initialisation et lancement de la boucle
-void	ft_read_line(char ***envp)
+void	ft_read_line(char **envp)
 {
 	t_shell	*shell;
 
-	shell = init_shell(*envp);
+	shell = init_shell(envp);
 	if (!shell)
 		return ;
 	read_history(".minishell_history");
 	ft_read_line_loop(shell);
 	write_history("etc/.minishell_history");
-	envp = shell->envp;
 	free_shell(shell);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/22 18:06:27 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:19:54 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ char	**load_env(void)
 	char		**env;
 	char		*line;
 
-	fd = open("/home/jimpa/workspace/gitdump/minishell/etc/.mini_env", O_RDONLY); // Même chemin
-	if (fd == -1)
+	fd = open("/home/jimpa/workspace/gitdump/shell_off/etc/.mini_env", O_RDONLY); // Même chemin
+	if (fd == -1){
+		perror("open");
 		return (NULL);
+	}
 	bytes = read(fd, buffer, sizeof(buffer) - 1);
 	close(fd);
 	if (bytes <= 0)

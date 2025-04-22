@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 17:44:15 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:26:18 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,22 @@ t_shell	*init_shell(char **envp)
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (NULL);
-	*shell->envp = ft_array_dup(envp);
+	shell->envp = ft_wrap_array(envp);
+	if (!shell->envp)
+	{
+		free(shell);
+		return (NULL);
+	}
 	shell->tokens = NULL;
 	shell->ast = NULL;
 	shell->exit_status = 0;
 	shell->current_dir = getcwd(NULL, 0);
+	if(!shell->current_dir)
+	{
+		free(shell->envp);
+		free(shell);
+		return (NULL);
+	}
 	return (shell);
 }
 

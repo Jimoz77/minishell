@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/22 18:06:57 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:29:38 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,12 @@ void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 
 // Prototypes initialisation (utils)
-void			ft_read_line(char ***envp);
+void			ft_read_line(char **envp);
 t_shell			*init_shell(char **envp);
 void			free_shell(t_shell *shell);
 char			*ft_path_finder(char *cmd, char ***envp);
+void			free_array(char **array);
+
 
 // Prototypes (tokenizer)
 t_token			*tokenize(char *input);
@@ -197,6 +199,9 @@ int				ft_echo(char **cmd);
 int				ft_env(char ***envp);
 int				ft_export(char **cmd, char ***envp);
 char			**ft_array_dup(char **array);
+char			***ft_array_dup2(char ***array);
+char			***ft_wrap_array(char **array);
+
 int				is_valid_id(char *str);
 int				ft_unset(char **cmd, char ***envp);
 void			execute_builtin(char **cmd, char ***envp);

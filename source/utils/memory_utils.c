@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/14 14:00:32 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:46:49 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,19 @@ void	ft_free_split(char **split_array)
 	}
 	free(split_array);
 	return ;
+}
+
+void	free_array(char **array)
+{
+	int	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }
