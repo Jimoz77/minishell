@@ -3,68 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   save_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/22 20:19:54 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/22 23:20:38 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
-
-void	save_env(char ***env)
+void save_env(char ***env)
 {
-	int		i;
-	int		fd;
-//le path ne fonctionne que sur mon ordi // a voir comment le gerer 
-// peut etre créé directement dans un repetoir de l'ordi avec la fonction open
-	fd = open("/home/jimpa/workspace/gitdump/minishell/etc/.mini_env", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	i = 0;
-	if (fd == -1)
-	{
-		perror("open");
-		return ;
-	}
-	while ((*env)[i])
-	{
-		write(fd, (*env)[i], ft_strlen((*env)[i]));
-		write(fd, "\n", 1);
-		i++;
-	}
-	close(fd);
+    // Fonction vide pour l'instant, pas de sauvegarde
+    (void)env;
 }
 
-char	**load_env(void)
+char **load_env(void)
 {
-	int			fd;
-	ssize_t		bytes;
-	int			count;
-	char		buffer[4096];
-	char		**env;
-	char		*line;
-
-	fd = open("/home/jimpa/workspace/gitdump/shell_off/etc/.mini_env", O_RDONLY); // Même chemin
-	if (fd == -1){
-		perror("open");
-		return (NULL);
-	}
-	bytes = read(fd, buffer, sizeof(buffer) - 1);
-	close(fd);
-	if (bytes <= 0)
-		return (NULL);
-	buffer[bytes] = '\0';
-
-	// Découpage des lignes
-	count = 0;
-	env = malloc(sizeof(char *));
-	line = strtok(buffer, "\n");
-	while (line)
-	{
-		env[count] = ft_strdup(line);
-		env = realloc(env, sizeof(char *) * (++count + 1));
-		line = strtok(NULL, "\n");
-	}
-	env[count] = NULL;
-	return (env);
+    // Retourne NULL pour utiliser l'environnement par défaut
+    return (NULL);
 }
