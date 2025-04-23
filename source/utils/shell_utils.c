@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 21:26:18 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:21:40 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_shell	*init_shell(char **envp)
 	shell->ast = NULL;
 	shell->exit_status = 0;
 	shell->current_dir = getcwd(NULL, 0);
-	if(!shell->current_dir)
+	if (!shell->current_dir)
 	{
 		free(shell->envp);
 		free(shell);

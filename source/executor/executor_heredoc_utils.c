@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:48:36 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/16 13:22:27 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:46:39 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	read_heredoc_input(int pipe_fd, char *delimiter)
 		if (!line)
 		{
 			write(1, "\n", 1);
-			break;
+			break ;
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(pipe_fd, line, ft_strlen(line));
 		write(pipe_fd, "\n", 1);

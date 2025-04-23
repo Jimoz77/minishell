@@ -6,16 +6,16 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:03:50 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/15 18:01:43 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:49:06 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // Crée un nouveau token avec une valeur et un type
-t_token *new_token(char *value, t_token_type type)
+t_token	*new_token(char *value, t_token_type type)
 {
-	t_token *token;
+	t_token	*token;
 
 	if (!value)
 		return (NULL);
@@ -32,7 +32,7 @@ t_token *new_token(char *value, t_token_type type)
 }
 
 // Ajoute un token à la fin de la liste
-void add_token(t_token **list, char *value, t_token_type type)
+void	add_token(t_token **list, char *value, t_token_type type)
 {
 	t_token	*new;
 	t_token	*tmp;
@@ -66,10 +66,10 @@ int	is_operator_str(char *str)
 // Retourne la longueur d'un opérateur (1 ou 2 caractères)
 int	operator_length(char *str)
 {
-	if ((str[0] == '>' && str[1] == '>') ||
-		(str[0] == '<' && str[1] == '<') ||
-		(str[0] == '&' && str[1] == '&') ||
-		(str[0] == '|' && str[1] == '|'))
+	if ((str[0] == '>' && str[1] == '>')
+		|| (str[0] == '<' && str[1] == '<')
+		|| (str[0] == '&' && str[1] == '&')
+		|| (str[0] == '|' && str[1] == '|'))
 		return (2);
 	return (1);
 }

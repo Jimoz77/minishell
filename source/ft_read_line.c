@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/22 21:53:20 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:22:57 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,14 @@ static void	process_input(t_shell *shell, char *input)
 		return ;
 	}
 	shell->exit_status = execute_ast(shell->ast, shell->envp);
-	//free_shell(shell);
 	free(input);
 }
 
 // Boucle principale de lecture de ligne
 static void	ft_read_line_loop(t_shell *shell)
 {
-  char *input;
-  
+	char	*input;
+
 	while (1)
 	{
 		shell->tokens = NULL;

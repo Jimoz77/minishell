@@ -66,7 +66,6 @@ t_node	*parse_parenthesized_expr(t_token *tokens)
 		return (NULL);
 	content = parse_ast(expr_tokens);
 	free_tokens(expr_tokens);
-    // Créer un nœud parenthèse
 	node = malloc(sizeof(t_node));
 	if (!node)
 		return (NULL);

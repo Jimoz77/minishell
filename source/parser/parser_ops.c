@@ -6,27 +6,11 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 17:03:25 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 13:29:14 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:31:41 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-// Renvoie le token situé à une position donnée dans la liste
-t_token	*get_token_at(t_token *tokens, int pos)
-{
-	int	i;
-
-	i = 0;
-	while (tokens)
-	{
-		if (i == pos)
-			return (tokens);
-		tokens = tokens->next;
-		i++;
-	}
-	return (NULL);
-}
 
 // Coupe la liste de tokens en deux autour du token opérateur
 static void	prepare_op_parts(t_token *tokens, t_token *op,
@@ -51,9 +35,7 @@ static t_node	*setup_operator_node(t_node *node, t_token *tokens,
 	return (node);
 }
 
-// Initialise un nœud de redirection complet
-t_node	*init_redirect_node(t_token *tokens, t_token *right_part,
-							t_token_type type)
+static t_node	*create_redirect_left_right(t_token *tokens, t_token_type type)
 {
 	t_node	*node;
 	t_token	*cmd_tokens;
@@ -63,26 +45,33 @@ t_node	*init_redirect_node(t_token *tokens, t_token *right_part,
 		return (NULL);
 	node->type = token_to_node_type(type);
 	node->cmd = NULL;
-	// Si c'est une redirection au début, on doit attacher la commande correctement
-	if (tokens->type == type)
-	{
-		// La cible de la redirection est le premier token après
-		node->right = create_redirect_right(tokens->next);
-		// La commande est ce qui suit
-		cmd_tokens = tokens->next->next;
-		if (cmd_tokens)
-			node->left = parse_ast(cmd_tokens);
-		else
-			node->left = NULL;
-	}
+	node->right = create_redirect_right(tokens->next);
+	cmd_tokens = tokens->next->next;
+	if (cmd_tokens)
+		node->left = parse_ast(cmd_tokens);
 	else
-	{
-		node->right = create_redirect_right(right_part);
-		if (!tokens)
-			node->left = NULL;
-		else
-			node->left = setup_redirect_left(tokens);
-	}
+		node->left = NULL;
+	return (node);
+}
+
+// Initialise un nœud de redirection complet
+t_node	*init_redirect_node(t_token *tokens, t_token *right_part,
+			t_token_type type)
+{
+	t_node	*node;
+
+	if (tokens->type == type)
+		return (create_redirect_left_right(tokens, type));
+	node = malloc(sizeof(t_node));
+	if (!node)
+		return (NULL);
+	node->type = token_to_node_type(type);
+	node->cmd = NULL;
+	node->right = create_redirect_right(right_part);
+	if (!tokens)
+		node->left = NULL;
+	else
+		node->left = setup_redirect_left(tokens);
 	return (node);
 }
 
@@ -90,12 +79,13 @@ t_node	*init_redirect_node(t_token *tokens, t_token *right_part,
 t_node	*create_op_node(t_token *tokens, t_token *op)
 {
 	t_token	*right_part;
+	t_node	*node;
 
 	prepare_op_parts(tokens, op, &right_part);
 	if (is_redirection(op->type) && right_part
 		&& right_part->type == TOKEN_WORD)
 		return (init_redirect_node(tokens, right_part, op->type));
-	t_node *node = malloc(sizeof(t_node));
+	node = malloc(sizeof(t_node));
 	if (!node)
 		return (NULL);
 	node->type = token_to_node_type(op->type);

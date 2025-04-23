@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/15 17:52:48 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:44:57 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,20 @@ static int	handle_token(t_token **tokens, char *input, int *i)
 	return (0);
 }
 
-t_token *tokenize(char *input)
+t_token	*tokenize(char *input)
 {
-    t_token	*tokens;
-    int     i;
+	t_token	*tokens;
+	int		i;
 
-    tokens = NULL;
-    i = 0;
-    while (input[i])
-    {
-        if (handle_token(&tokens, input, &i) == -1)
-        {
-            free_tokens(tokens);
-            return (NULL);
-        }
-    }
-    return (tokens);
+	tokens = NULL;
+	i = 0;
+	while (input[i])
+	{
+		if (handle_token(&tokens, input, &i) == -1)
+		{
+			free_tokens(tokens);
+			return (NULL);
+		}
+	}
+	return (tokens);
 }

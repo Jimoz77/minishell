@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 12:28:14 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 18:04:37 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:45:29 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,30 @@ static t_node	*find_command_node(t_node *node)
 }
 
 // Exécution dans le processus enfant
-static void execute_child(t_node *node, char ***envp, t_redirect *red)
+static void	execute_child(t_node *node, char ***envp, t_redirect *red)
 {
 	t_node	*cmd_node;
 
-	// Configurer toutes les redirections
 	if (!setup_all_redirects(node, red))
 		exit(1);
-	// Trouver le nœud de commande (le dernier nœud à gauche)
 	cmd_node = find_command_node(node);
-
-	// Exécuter la commande si elle existe
 	if (cmd_node && cmd_node->type == NODE_CMD)
 		exit(execute_cmd_node(cmd_node, envp));
 	else
-		exit(1); // Erreur: pas de commande trouvée
+		exit(1);
 }
 
 // Execute une commande avec toutes ses redirections
 int	execute_combined_node(t_node *node, char ***envp)
 {
 	t_redirect	red;
-	int 		status;
+	int			status;
 	pid_t		pid;
 
 	init_redirects(&red);
 	pid = fork();
 	if (pid == 0)
 	{
-		// Restaurer les gestionnaires de signaux par défaut dans le processus fils
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		execute_child(node, envp, &red);

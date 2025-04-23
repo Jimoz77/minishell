@@ -6,13 +6,13 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:35:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/16 12:39:02 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:30:53 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Crée un nœud de type NODE_CMD contenant la commande à droite d'une redirection
+// Crée un nœud de type CMD contenant la commande à droite d'une redirection
 t_node	*create_redirect_right(t_token *right_part)
 {
 	t_node	*right;
@@ -65,4 +65,20 @@ t_node	*setup_redirect_left(t_token *tokens)
 		return (create_cmd_node(tokens));
 	else
 		return (parse_ast(tokens));
+}
+
+// Renvoie le token situé à une position donnée dans la liste
+t_token	*get_token_at(t_token *tokens, int pos)
+{
+	int	i;
+
+	i = 0;
+	while (tokens)
+	{
+		if (i == pos)
+			return (tokens);
+		tokens = tokens->next;
+		i++;
+	}
+	return (NULL);
 }

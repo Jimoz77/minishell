@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:21:49 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/16 12:20:42 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:46:57 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ int	handle_word(t_token **tokens, char *input)
 {
 	int		len;
 	char	*word;
-	
-	// Vérifier si le mot contient des guillemets
+
 	len = 0;
 	while (input[len] && !is_space(input[len]) && !is_operator_str(&input[len])
 		&& input[len] != '(' && input[len] != ')')
@@ -62,7 +61,6 @@ int	handle_word(t_token **tokens, char *input)
 			return (handle_complex_word(tokens, input));
 		len++;
 	}
-	// Si pas de guillemets, utiliser l'ancienne méthode
 	if (len <= 0)
 		return (0);
 	word = ft_substr(input, 0, len);

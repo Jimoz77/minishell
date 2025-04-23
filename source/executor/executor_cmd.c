@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 18:01:43 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:42:32 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	exec_child_process(t_node *node, char ***envp)
 {
 	char	*path;
 
-	// Restaurer les gestionnaires de signaux par défaut
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	path = ft_path_finder(node->cmd[0], envp);

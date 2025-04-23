@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/22 21:29:38 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:35:15 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <fcntl.h>
-
 
 # include "../libft/libft.h"
 # include "../libft/ft_printf/ft_printf.h"
@@ -62,7 +61,7 @@ typedef enum e_token_type
 }	t_token_type;
 
 // Structure pour les tokens
-typedef struct	s_token
+typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
@@ -70,9 +69,8 @@ typedef struct	s_token
 	struct s_token	*next;
 }	t_token;
 
-
 // Enum pour les types de noeud
-typedef enum	e_node_type
+typedef enum e_node_type
 {
 	NODE_CMD,
 	NODE_PIPE,
@@ -86,7 +84,7 @@ typedef enum	e_node_type
 }	t_node_type;
 
 // Structure pour l'AST
-typedef struct	s_node
+typedef struct s_node
 {
 	t_node_type		type;
 	char			**cmd;
@@ -95,7 +93,7 @@ typedef struct	s_node
 }	t_node;
 
 // Structure pour stocker les redirections
-typedef struct	s_redirect
+typedef struct s_redirect
 {
 	int	stdin_fd;
 	int	stdout_fd;
@@ -126,7 +124,6 @@ void			free_shell(t_shell *shell);
 char			*ft_path_finder(char *cmd, char ***envp);
 void			free_array(char **array);
 
-
 // Prototypes (tokenizer)
 t_token			*tokenize(char *input);
 int				is_space(char c);
@@ -139,7 +136,7 @@ int				handle_word(t_token **tokens, char *input);
 int				handle_quotes(t_token **tokens, char *input);
 int				handle_parenthesis(t_token **tokens, char *input);
 int				parse_quoted_part(char *input, int *i, t_word_part **parts,
-									t_quote_type type);
+					t_quote_type type);
 int				handle_complex_word(t_token **tokens, char *input);
 void			free_word_parts(t_word_part *parts);
 char			*build_unquoted_value(t_word_part *parts);
@@ -147,10 +144,9 @@ char			*get_unquoted_filename(t_node *node);
 int				scan_envar(t_token *tokens, char ***envp);
 void			envar_to_value(char ***envp, t_token *tokens);
 
-
 // Prototypes (parser)
 t_node			*parse_ast(t_token *tokens);
-int    			find_lowest_priority(t_token *tokens);
+int				find_lowest_priority(t_token *tokens);
 t_node			*create_cmd_node(t_token *tokens);
 char			**fill_cmd_array(t_token *tokens, int count);
 int				count_words(t_token *tokens);
@@ -159,11 +155,11 @@ t_node			*setup_redirect_left(t_token *tokens);
 t_node			*create_redirect_right(t_token *right_part);
 t_node			*create_op_node(t_token *tokens, t_token *op);
 t_node			*handle_paren_and_op(t_token *tokens);
-t_token         *get_token_at(t_token *tokens, int pos);
+t_token			*get_token_at(t_token *tokens, int pos);
 void			add_word_part(t_word_part **parts, char *content,
-								 t_quote_type type);
+					t_quote_type type);
 t_node			*setup_redirect_node(t_node *node, t_token *tokens,
-										t_token *right_part);
+					t_token *right_part);
 
 // Prototypes (parser parenthèses)
 t_token			*find_matching_paren(t_token *start);
@@ -188,7 +184,7 @@ void			free_ast(t_node *node);
 char			*ft_strjoin_free(char *s1, const char *s2);
 void			ft_free_split(char **split_array);
 void			save_env(char ***env);
-char			**load_env();
+char			**load_env(void);
 
 // Prototypes (built-in)
 void			ft_getcwd(void);
@@ -201,7 +197,6 @@ int				ft_export(char **cmd, char ***envp);
 char			**ft_array_dup(char **array);
 char			***ft_array_dup2(char ***array);
 char			***ft_wrap_array(char **array);
-
 int				is_valid_id(char *str);
 int				ft_unset(char **cmd, char ***envp);
 void			execute_builtin(char **cmd, char ***envp);
@@ -214,7 +209,7 @@ int				execute_combined_node(t_node *node, char ***envp);
 int				execute_cmd_node(t_node *node, char ***envp);
 int				execute_redirect_node(t_node *node, char ***envp);
 int				handle_heredoc(t_node *node, char ***envp);
-int 			process_single_heredoc(t_node *node);
+int				process_single_heredoc(t_node *node);
 void			read_heredoc_input(int pipe_fd, char *delimiter);
 int				handle_heredoc_error(int *pipe_fd, char *error_msg);
 int				handle_heredoc_status(int status);
@@ -223,6 +218,7 @@ int				collect_redirects(t_node *node, t_node **redirections);
 int				process_heredoc_node(t_node *current, t_redirect *red);
 int				process_redirect_in(t_node *current, t_redirect *red);
 int				process_redirect_out(t_node *current, t_redirect *red);
-int				process_redirect_node(t_node *node, t_redirect *red, int *in, int *out);
+int				process_redirect_node(t_node *node, t_redirect *red,
+					int *in, int *out);
 
 #endif
