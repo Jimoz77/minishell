@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 18:01:43 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/28 17:44:56 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	exec_child_process(t_node *node, char ***envp)
 	path = ft_path_finder(node->cmd[0], envp);
 	if (!path)
 	{
-		ft_printf("minishell: %s: command not found\n", node->cmd[0]);
+		//ft_printf("minishell: %s: command not found\n", node->cmd[0]);
 		exit(127);
 	}
 	execve(path, node->cmd, *envp);

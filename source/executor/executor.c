@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:54:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 17:56:44 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:47:55 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int has_multiple_redirects(t_node *node)
 }
 
 // Execute le noeud selon le type
-static int	execute_node_by_type(t_node *node, char ***envp)
+int	execute_node_by_type(t_node *node, char ***envp)
 {
 	static int (*execute[9])(t_node *, char ***) = {
 	[NODE_CMD] = execute_cmd_node,
@@ -49,8 +49,9 @@ static int	execute_node_by_type(t_node *node, char ***envp)
 	[NODE_APPEND] = execute_redirect_node,
 	[NODE_HEREDOC] = handle_heredoc,
 	[NODE_PAREN] = execute_paren_node,
+	[NODE_PIPE] = execute_pipe_node,
 	};
-	if (node->type == NODE_PIPE || node->type == NODE_AND
+	if (node->type == NODE_AND
 		|| node->type == NODE_OR)
 	{
 		ft_printf("minishell: type de noeud non supporté\n");
@@ -73,4 +74,5 @@ int execute_ast(t_node *node, char ***envp)
         return (execute_combined_node(node, envp));
     status = execute_node_by_type(node, envp);
     return (status);
+	
 }

@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/21 18:19:05 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/25 16:14:04 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,19 @@ int	scan_envar(t_token *tokens, char ***envp)
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$')
+		if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$' && tmp->value[1] == '?')
+		{
+			free(tmp->value);
+			tmp->value = ft_itoa(((t_shell *)envp)->exit_status);
+			found = 1;
+		}
+		else if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$' && tmp->value[1] == '$')
+		{
+			free(tmp->value);
+			tmp->value = ft_itoa(getpid());
+			found = 1;
+		}
+		else if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$')
 		{
 			envar_to_value(envp, tmp);
 			found = 1;
@@ -131,4 +143,5 @@ int	scan_envar(t_token *tokens, char ***envp)
 	}
 	return (found);
 }
+
 

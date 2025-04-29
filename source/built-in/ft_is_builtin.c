@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:01:37 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/21 15:44:49 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/24 19:32:46 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@ void	clean_exit(char **cmd, char ***envp)
 	if (cmd[1])
 	{
 		save_env(envp);
-		write_history("etc/.minishell_history");
 		exit(ft_atoi(cmd[1]));
 	}
 	else
 	{
 		save_env(envp);
-		write_history("etc/.minishell_history");
 		exit(0);
 	}
 }

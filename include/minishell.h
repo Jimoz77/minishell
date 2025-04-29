@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/22 21:29:38 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/28 16:48:30 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,13 @@ t_shell			*init_shell(char **envp);
 void			free_shell(t_shell *shell);
 char			*ft_path_finder(char *cmd, char ***envp);
 void			free_array(char **array);
+void			save_history(char *env);
+void			load_history(void);
 
+
+// Dans minishell.h
+const char *redirect_type_str(t_node_type type);
+void debug_node(t_node *node, int depth);
 
 // Prototypes (tokenizer)
 t_token			*tokenize(char *input);
@@ -213,6 +219,9 @@ int				setup_all_redirects(t_node *node, t_redirect *red);
 int				execute_combined_node(t_node *node, char ***envp);
 int				execute_cmd_node(t_node *node, char ***envp);
 int				execute_redirect_node(t_node *node, char ***envp);
+int				execute_pipe_node(t_node *node, char ***envp);
+int				execute_node_by_type(t_node *node, char ***envp);
+
 int				handle_heredoc(t_node *node, char ***envp);
 int 			process_single_heredoc(t_node *node);
 void			read_heredoc_input(int pipe_fd, char *delimiter);

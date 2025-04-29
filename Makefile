@@ -66,6 +66,7 @@ SRCS = \
 	$(SRC_DIR)/executor/executor_redir_setup.c \
 	$(SRC_DIR)/executor/executor_redir_utils.c \
 	$(SRC_DIR)/executor/executor_paren.c \
+	$(SRC_DIR)/executor/executor_pipe.c \
 	$(SRC_DIR)/utils/save_env.c
 
 # Fichiers objets
