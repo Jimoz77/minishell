@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/23 18:35:15 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:56:11 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <errno.h>
 
 # include "../libft/libft.h"
 # include "../libft/ft_printf/ft_printf.h"
@@ -88,6 +89,7 @@ typedef struct s_node
 {
 	t_node_type		type;
 	char			**cmd;
+	int				heredoc_index;
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;
@@ -109,6 +111,7 @@ typedef struct s_shell
 	t_node		*ast;
 	int			exit_status;
 	char		*current_dir;
+	char		**heredocs;
 }	t_shell;
 
 // Signaux 
@@ -165,6 +168,8 @@ t_node			*setup_redirect_node(t_node *node, t_token *tokens,
 t_token			*find_matching_paren(t_token *start);
 t_token			*clone_tokens(t_token *start, t_token *end);
 t_node			*parse_parenthesized_expr(t_token *tokens);
+t_node			*check_paren_operators(t_node *node, t_token *closing);
+int				handle_arithmetic_expr(t_token *tokens);
 
 // Prototypes de validation de syntaxe
 int				is_operator(t_token_type type);
@@ -202,23 +207,36 @@ int				ft_unset(char **cmd, char ***envp);
 void			execute_builtin(char **cmd, char ***envp);
 
 // Prototype (executor)
-int				execute_ast(t_node *node, char ***envp);
+int				execute_ast(t_node *node, char ***envp, t_shell *shell);
 int				is_redirect_node(t_node_type type);
-int				setup_all_redirects(t_node *node, t_redirect *red);
-int				execute_combined_node(t_node *node, char ***envp);
+t_node			*find_command_node(t_node *node);
+int				collect_redirects(t_node *node, t_node **redirections);
+int				setup_all_redirects(t_node *node, t_redirect *red,
+					t_shell *shell);
+int				apply_redirections(int in_redir, int out_redir,
+					t_redirect *red);
+int 			execute_combined_node(t_node *node, char **envp,
+					t_shell *shell);
 int				execute_cmd_node(t_node *node, char ***envp);
 int				execute_redirect_node(t_node *node, char ***envp);
 int				handle_heredoc(t_node *node, char ***envp);
-int				process_single_heredoc(t_node *node);
-void			read_heredoc_input(int pipe_fd, char *delimiter);
-int				handle_heredoc_error(int *pipe_fd, char *error_msg);
+void			collect_all_heredocs(t_node *node, t_node **heredocs,
+					int *count);
+int				process_single_heredoc(t_node *node, int index,
+					t_shell *shell);
+int				check_heredoc_node(t_node *node);
+int				string_to_fd(const char *content);
+int				handle_heredoc_error_index(const char *errmsg);
+int				handle_parent_process(int *pipe_fd, pid_t pid);
+int 			handle_heredoc_error(int pipe_fd[2], const char *errmsg);
 int				handle_heredoc_status(int status);
-int				execute_paren_node(t_node *node, char ***envp);
-int				collect_redirects(t_node *node, t_node **redirections);
-int				process_heredoc_node(t_node *current, t_redirect *red);
+int				execute_paren_node(t_node *node, char ***envp, t_shell *shell);
+void			init_redirects(t_redirect *red);
+void			restore_redirects(t_redirect *red);
+void			exec_child_process(t_node *node, char ***envp);
+int				process_heredoc_node(t_node *current, t_redirect *red,
+					t_shell *shell);
 int				process_redirect_in(t_node *current, t_redirect *red);
 int				process_redirect_out(t_node *current, t_redirect *red);
-int				process_redirect_node(t_node *node, t_redirect *red,
-					int *in, int *out);
 
 #endif

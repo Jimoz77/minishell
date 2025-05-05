@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/04/23 18:22:57 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:53:12 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	process_input(t_shell *shell, char *input)
 		free(input);
 		return ;
 	}
-	shell->exit_status = execute_ast(shell->ast, shell->envp);
+	shell->exit_status = execute_ast(shell->ast, shell->envp, shell);
 	free(input);
 }
 

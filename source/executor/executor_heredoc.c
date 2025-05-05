@@ -6,67 +6,90 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:35:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 18:04:14 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:03:39 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Gère les erreurs de fork et ferme les fd
-int	handle_heredoc_error(int *pipe_fd, char *error_msg)
+/* Lit l'entrée jusqu'au délimiteur et renvoie le contenu */
+static char	*read_heredoc_input(const char *delimiter)
 {
-	perror(error_msg);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	return (1);
-}
+	char	*line;
+	char	*content;
+	char	*tmp;
 
-// Exécute les commandes dans le processus enfant avec l'entrée du heredoc
-static int	exec_in_child(t_node *node, int heredoc_fd, char ***envp)
-{
-	signal(SIGINT, SIG_DFL);
-	dup2(heredoc_fd, STDIN_FILENO);
-	close(heredoc_fd);
-	exit(execute_ast(node->left, envp));
-}
-
-// Gère le résultat du waitpid pour le processus d'exécution
-static int	handle_execution_status(int status)
-{
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (1);
-}
-
-// Crée un processus enfant pour exécuter avec le heredoc
-static int	fork_executor(t_node *node, int heredoc_fd, char ***envp)
-{
-	pid_t	pid_executor;
-	int		status;
-
-	pid_executor = fork();
-	if (pid_executor == 0)
-		exec_in_child(node, heredoc_fd, envp);
-	else if (pid_executor < 0)
+	content = ft_strdup("");
+	if (!content)
+		return (NULL);
+	while (1)
 	{
-		perror("minishell: fork");
-		close(heredoc_fd);
-		return (1);
+		line = readline("> ");
+		if (!line || !*line)
+		{
+			free(line);
+			break ;
+		}
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
+		{
+			free(line);
+			break ;
+		}
+		tmp = ft_strjoin(content, line);
+		free(content);
+		free(line);
+		content = ft_strjoin(tmp, "\n");
+		free(tmp);
+		if (!content)
+			return (NULL);
 	}
-	close(heredoc_fd);
-	waitpid(pid_executor, &status, 0);
-	return (handle_execution_status(status));
+	return (content);
 }
 
-// Gère les here_doc (pour nœud unique)
-int	handle_heredoc(t_node *node, char ***envp)
+/* Traite un heredoc et stocke son contenu */
+int	process_single_heredoc(t_node *node, int index, t_shell *shell)
 {
-	int	heredoc_fd;
+	char	*delimiter;
+	char	*content;
+	char	*tmp;
 
-	heredoc_fd = process_single_heredoc(node);
-	if (heredoc_fd == -1)
-		return (1);
-	return (fork_executor(node, heredoc_fd, envp));
+	delimiter = get_unquoted_filename(node);
+	if (!delimiter)
+		return (-1);
+	content = read_heredoc_input(delimiter);
+	free(delimiter);
+	if (!content)
+		return (-1);
+	if (content[0] != '\0' && content[ft_strlen(content) - 1] != '\n')
+	{
+		tmp = ft_strjoin(content, "\n");
+		free(content);
+		content = tmp;
+		if (!content)
+			return (-1);
+	}
+	shell->heredocs[index] = content;
+	return (0);
+}
+
+/* Collecte les heredocs dans l'ordre de la commande originale */
+void	collect_all_heredocs(t_node *node, t_node **heredocs, int *count)
+{
+	t_node	*stack[100];
+	int		top;
+	int		i;
+
+	top = 0;
+	while (node && is_redirect_node(node->type))
+	{
+		if (node->type == NODE_HEREDOC)
+			stack[top++] = node;
+		node = node->left;
+	}
+	i = top - 1;
+	while (i >= 0)
+	{
+		heredocs[(*count)++] = stack[i];
+		i--;
+	}
 }

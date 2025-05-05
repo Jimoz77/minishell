@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:21:49 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/23 15:46:57 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:49:57 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,16 @@ int	handle_operator(t_token **tokens, char *input)
 }
 
 // Gère un mot et l'ajoute à la liste des tokens
-int	handle_word(t_token **tokens, char *input)
+int handle_word(t_token **tokens, char *input)
 {
 	int		len;
-	char	*word;
+    char	*word;
 
+	if (!input || !*input)
+		return (0);
 	len = 0;
 	while (input[len] && !is_space(input[len]) && !is_operator_str(&input[len])
-		&& input[len] != '(' && input[len] != ')')
+			&& input[len] != '(' && input[len] != ')')
 	{
 		if (input[len] == '"' || input[len] == '\'')
 			return (handle_complex_word(tokens, input));

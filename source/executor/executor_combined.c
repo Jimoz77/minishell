@@ -6,14 +6,14 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 12:28:14 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/23 16:45:29 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:48:30 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Sauvegarde les descripteurs standard et initialise la structure
-static void	init_redirects(t_redirect *red)
+/* Initialise la structure de redirection avec des valeurs par défaut */
+static void	init_redirect(t_redirect *red)
 {
 	red->stdin_fd = -1;
 	red->stdout_fd = -1;
@@ -21,8 +21,8 @@ static void	init_redirects(t_redirect *red)
 	red->saved_stdout = dup(STDOUT_FILENO);
 }
 
-// Restaure les descripteurs standard et ferme les descripteurs ouverts
-static void	restore_redirects(t_redirect *red)
+/* Ferme les descripteurs ouverts dans les redirections */
+static void	close_redirect_fds(t_redirect *red)
 {
 	if (red->stdin_fd != -1)
 	{
@@ -34,67 +34,60 @@ static void	restore_redirects(t_redirect *red)
 		close(red->stdout_fd);
 		red->stdout_fd = -1;
 	}
-	dup2(red->saved_stdin, STDIN_FILENO);
-	dup2(red->saved_stdout, STDOUT_FILENO);
-	close(red->saved_stdin);
-	close(red->saved_stdout);
 }
 
-// Trouve la commande (feuille de l'arbre)
-static t_node	*find_command_node(t_node *node)
+/* Restaure les descripteurs standard à leurs valeurs originales */
+static void	restore_std_fds(t_redirect *red)
 {
-	while (node && node->type != NODE_CMD)
+	if (red->saved_stdin != -1)
 	{
-		if (is_redirect_node(node->type))
-			node = node->left;
-		else
-			break ;
+		dup2(red->saved_stdin, STDIN_FILENO);
+		close(red->saved_stdin);
+		red->saved_stdin = -1;
 	}
-	return (node);
+	if (red->saved_stdout != -1)
+	{
+		dup2(red->saved_stdout, STDOUT_FILENO);
+		close(red->saved_stdout);
+		red->saved_stdout = -1;
+	}
 }
 
-// Exécution dans le processus enfant
-static void	execute_child(t_node *node, char ***envp, t_redirect *red)
+/* Execute un nœud combiné (commande avec redirections) */
+int	execute_combined_node(t_node *node, char **envp, t_shell *shell)
 {
-	t_node	*cmd_node;
-
-	if (!setup_all_redirects(node, red))
-		exit(1);
-	cmd_node = find_command_node(node);
-	if (cmd_node && cmd_node->type == NODE_CMD)
-		exit(execute_cmd_node(cmd_node, envp));
-	else
-		exit(1);
-}
-
-// Execute une commande avec toutes ses redirections
-int	execute_combined_node(t_node *node, char ***envp)
-{
+	t_node		*cmd_node;
 	t_redirect	red;
-	int			status;
 	pid_t		pid;
+	int			status;
 
-	init_redirects(&red);
+	cmd_node = find_command_node(node);
+	if (!cmd_node)
+		return (1);
+	init_redirect(&red);
+	if (!setup_all_redirects(node, &red, shell))
+	{
+		close_redirect_fds(&red);
+		restore_std_fds(&red);
+		return (1);
+	}
 	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		execute_child(node, envp, &red);
-	}
-	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		restore_redirects(&red);
-		if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
-		else if (WIFSIGNALED(status))
-			return (128 + WTERMSIG(status));
-	}
-	else
+	if (pid == -1)
 	{
 		perror("minishell: fork");
-		restore_redirects(&red);
+		close_redirect_fds(&red);
+		restore_std_fds(&red);
+		return (1);
 	}
+	if (pid == 0)
+	{
+		// Dans le fils, les redirections sont déjà appliquées
+		exit(execute_cmd_node(cmd_node, &envp));
+	}
+	waitpid(pid, &status, 0);
+	close_redirect_fds(&red);
+	restore_std_fds(&red);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
 	return (1);
 }

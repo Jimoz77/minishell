@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 17:03:25 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/23 16:31:41 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:20:57 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ static void	prepare_op_parts(t_token *tokens, t_token *op,
 {
 	t_token	*tmp;
 
+	if (!op || !right_part)
+	{
+		if (right_part)
+			*right_part = NULL;
+		return ;
+	}
 	*right_part = op->next;
 	tmp = tokens;
 	while (tmp && tmp->next != op)
@@ -45,6 +51,7 @@ static t_node	*create_redirect_left_right(t_token *tokens, t_token_type type)
 		return (NULL);
 	node->type = token_to_node_type(type);
 	node->cmd = NULL;
+	node->heredoc_index = -1;
 	node->right = create_redirect_right(tokens->next);
 	cmd_tokens = tokens->next->next;
 	if (cmd_tokens)
@@ -67,6 +74,7 @@ t_node	*init_redirect_node(t_token *tokens, t_token *right_part,
 		return (NULL);
 	node->type = token_to_node_type(type);
 	node->cmd = NULL;
+	node->heredoc_index = -1;
 	node->right = create_redirect_right(right_part);
 	if (!tokens)
 		node->left = NULL;
@@ -90,5 +98,6 @@ t_node	*create_op_node(t_token *tokens, t_token *op)
 		return (NULL);
 	node->type = token_to_node_type(op->type);
 	node->cmd = NULL;
+	node->heredoc_index = -1;
 	return (setup_operator_node(node, tokens, right_part));
 }

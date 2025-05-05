@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/23 18:29:24 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:01:52 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,13 @@ int	find_lowest_priority(t_token *tokens)
 	return (pos);
 }
 
+// Vérifie et traite une redirection suivie d'un mot
 static t_node	*handle_redir_and_word(t_token *tokens)
 {
 	t_token	*tmp;
 
+	if (!tokens || !tokens->next || !tokens->next->next)
+		return (NULL);
 	tmp = tokens->next->next;
 	while (tmp && tmp->type == TOKEN_WORD)
 		tmp = tmp->next;

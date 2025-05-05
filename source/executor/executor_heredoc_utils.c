@@ -6,112 +6,58 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:48:36 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/23 16:46:39 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:48:25 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Gestionnaire pour SIGINT pendant les heredocs
-void	handle_heredoc_sigint(int sig)
+// Initialise le tableau heredocs de t_shell
+int	init_heredocs(t_shell *shell, int count)
 {
-	(void)sig;
-	g_signal = 130;
-	write(1, "\n", 1);
-	close(STDIN_FILENO);
-	exit(130);
-}
-
-// Lit l'entrée jusqu'au delimiter et l'écrit dans le pipe
-void	read_heredoc_input(int pipe_fd, char *delimiter)
-{
-	char				*line;
-	struct sigaction	sa_int;
-
-	sa_int.sa_handler = handle_heredoc_sigint;
-	sa_int.sa_flags = 0;
-	sigemptyset(&sa_int.sa_mask);
-	sigaction(SIGINT, &sa_int, NULL);
-	while (1)
+	shell->heredocs = ft_calloc(count + 1, sizeof(char *));
+	if (!shell->heredocs)
 	{
-		line = readline("> ");
-		if (!line)
-		{
-			write(1, "\n", 1);
-			break ;
-		}
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(pipe_fd, line, ft_strlen(line));
-		write(pipe_fd, "\n", 1);
-		free(line);
-	}
-}
-
-// Vérifie la structure du noeud pour heredoc
-int	check_heredoc_node(t_node *node)
-{
-	if (!node || !node->right || !node->right->cmd || !node->right->cmd[0])
-	{
-		ft_printf("minishell: heredoc: invalid node structure\n");
+		perror("minishell: heredoc alloc");
 		return (0);
 	}
 	return (1);
 }
 
-// Gère le processus parent après le fork pour heredoc
-int	handle_parent_process(int *pipe_fd, pid_t pid)
+// Libère le contenu du tableau heredocs de t_shell
+void	free_heredocs(t_shell *shell)
 {
-	int	status;
-	int	fd_out;
+	int	i;
 
-	close(pipe_fd[1]);
-	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
+	if (!shell->heredocs)
+		return ;
+	i = 0;
+	while (shell->heredocs[i])
 	{
-		g_signal = 130;
-		close(pipe_fd[0]);
-		setup_signals();
-		return (-1);
+		free(shell->heredocs[i]);
+		i++;
 	}
-	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-	{
-		close(pipe_fd[0]);
-		setup_signals();
-		return (-1);
-	}
-	fd_out = pipe_fd[0];
-	setup_signals();
-	return (fd_out);
+	free(shell->heredocs);
+	shell->heredocs = NULL;
 }
 
-// Gère un seul heredoc et retourne un fd pour lire son contenu
-int	process_single_heredoc(t_node *node)
+// Convertit une chaîne en pipe pour injection dans stdin
+int	string_to_fd(const char *content)
 {
-	int		pipe_fd[2];
-	pid_t	pid;
+	int	pipe_fd[2];
 
-	if (!check_heredoc_node(node))
-		return (-1);
 	if (pipe(pipe_fd) == -1)
 	{
 		perror("minishell: pipe");
 		return (-1);
 	}
-	signal(SIGINT, SIG_IGN);
-	pid = fork();
-	if (pid == 0)
+	if (write(pipe_fd[1], content, ft_strlen(content)) == -1)
 	{
-		signal(SIGINT, SIG_DFL);
+		perror("minishell: write to pipe");
 		close(pipe_fd[0]);
-		read_heredoc_input(pipe_fd[1], node->right->cmd[0]);
 		close(pipe_fd[1]);
-		exit(0);
+		return (-1);
 	}
-	else if (pid < 0)
-		return (handle_heredoc_error(pipe_fd, "minishell: fork"));
-	return (handle_parent_process(pipe_fd, pid));
+	close(pipe_fd[1]);
+	return (pipe_fd[0]);
 }

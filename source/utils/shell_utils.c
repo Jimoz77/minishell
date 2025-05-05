@@ -6,12 +6,14 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/23 18:21:40 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:47:22 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+
+// Initialise la structure principale du shell
 t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
@@ -29,6 +31,7 @@ t_shell	*init_shell(char **envp)
 	shell->ast = NULL;
 	shell->exit_status = 0;
 	shell->current_dir = getcwd(NULL, 0);
+	shell->heredocs = NULL;
 	if (!shell->current_dir)
 	{
 		free(shell->envp);
@@ -38,6 +41,7 @@ t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
+// Libère proprement la structure principale du shell
 void	free_shell(t_shell *shell)
 {
 	int	i;
@@ -57,5 +61,12 @@ void	free_shell(t_shell *shell)
 		free_ast(shell->ast);
 	if (shell->current_dir)
 		free(shell->current_dir);
+	if (shell->heredocs)
+	{
+		i = 0;
+		while (shell->heredocs[i])
+			free(shell->heredocs[i++]);
+		free(shell->heredocs);
+	}
 	free(shell);
 }

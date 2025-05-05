@@ -1,0 +1,80 @@
+/**********
+
+
+cat < file_test.txt << end << fin > nouveau > nouveau1 > nouveau2 
+
+
+lis file_test.txt , execute le heredoc jusqua end, puis un autre heredoc jusqua fin, puis crée nouveau en mode ecriture trunc,
+crée bien le fichier novueau1 en écriture trunc, crée le fichier nouveau2 en écriture trunc, et effectue donc le cat du dernier
+redirect_in qui est le heredoc jusqua fin et prend le dernier redirect_out qui est nouveau2 donc y met le contenu du heredoc...
+
+
+/**********
+
+
+minishell> > nouveau < file_test.txt <<end > nouveau1 ca""t > nouveau2 <<fin
+> test end
+> end
+> test fin
+> fin
+> test inconnu
+> fin
+> end
+
+
+deja le heredoc ?? puis ca cat file_test.txt dans nouveau... et crée les autres fichiers vides...
+
+
+/**********
+
+minishell> <<end > nouveau c''at << fin > nouveau1 >> nouveau2
+> test end
+> end
+> test fin
+> fin
+> end
+
+cette commande attends 2 fois end pour le here doc... ca crée bien les fichiers mais tous sont vide
+tandis que la prochaine commande, juste en deplacant le cat, a bien executé les heredoc et a bien écrit dans nouveau2 : 
+
+minishell> ca""t << end > nouveau <<fin > nouveau1 >> nouveau2
+> test end
+> end
+> test fin
+> fin
+
+
+/**********
+
+minishell> << end ca''t << fin > nouveau > nouveau2
+> test end
+> end
+> test fin
+> fin
+> fin
+
+la il a écrit : "fin" dans le fichier nouveau2 
+
+
+/**********
+
+
+minishell> < file_test.txt ca''t << fin > nouveau > nouveau2
+> test fin
+> fin
+
+la ca cat le fichier file_test.txt dans nouveau2
+
+
+/*********
+
+
+minishell> mkdir new_dir
+[~/Users/leotrimsadikaj/Documents/Ecole42/Cursus42/minishell]
+minishell> cd new_dir 
+PWD=/Users/leotrimsadikaj/Documents/Ecole42/Cursus42/minishell/new_dir
+
+pk le pwd s affiche ?? 
+
+
+/*********

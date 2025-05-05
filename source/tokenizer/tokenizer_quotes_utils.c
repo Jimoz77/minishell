@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:40:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/14 16:35:23 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:45:25 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,29 @@ int	parse_quoted_part(char *input, int *i, t_word_part **parts,
 	free(content);
 	(*i)++;
 	return (0);
+}
+
+// Construit une valeur sans guillemets à partir d'une liste de parties
+char	*build_unquoted_value(t_word_part *parts)
+{
+	char		*result;
+	t_word_part	*current;
+	char		*temp;
+
+	if (!parts)
+		return (ft_strdup(""));
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	current = parts;
+	while (current)
+	{
+		temp = result;
+		result = ft_strjoin(result, current->content);
+		free(temp);
+		if (!result)
+			return (NULL);
+		current = current->next;
+	}
+	return (result);
 }

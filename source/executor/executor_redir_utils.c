@@ -6,58 +6,32 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:10:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/18 13:02:03 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:58:23 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Collecte tous les nœuds de redirection dans un tableau
-int	collect_redirects(t_node *node, t_node **redirections)
+/* Applique un heredoc en écrasant red->stdin_fd si valide */
+int	process_heredoc_node(t_node *current, t_redirect *red, t_shell *shell)
 {
-	t_node	*current;
-	int		count;
-
-	current = node;
-	count = 0;
-	while (current && is_redirect_node(current->type))
-	{
-		redirections[count++] = current;
-		if (current->left && is_redirect_node(current->left->type))
-			current = current->left;
-		else
-			break ;
-	}
-	return (count);
-}
-
-// Traite un nœud heredoc et stocke son fd dans la structure redirect
-int	process_heredoc_node(t_node *current, t_redirect *red)
-{
-	int	heredoc_fd;
-
 	if (red->stdin_fd != -1)
-	{
 		close(red->stdin_fd);
-		red->stdin_fd = -1;
-	}
-	heredoc_fd = process_single_heredoc(current);
-	if (heredoc_fd == -1)
+	if (!shell->heredocs || current->heredoc_index < 0)
 		return (0);
-	red->stdin_fd = heredoc_fd;
+	red->stdin_fd = string_to_fd(shell->heredocs[current->heredoc_index]);
+	if (red->stdin_fd == -1)
+		return (0);
 	return (1);
 }
 
-// Traite une redirection d'entrée (<) et ouvre le fichier
+// Ouvre un fichier en lecture pour une redirection "<"
 int	process_redirect_in(t_node *current, t_redirect *red)
 {
 	char	*filename;
 
 	if (red->stdin_fd != -1)
-	{
 		close(red->stdin_fd);
-		red->stdin_fd = -1;
-	}
 	filename = get_unquoted_filename(current);
 	if (!filename)
 		return (0);
@@ -71,17 +45,14 @@ int	process_redirect_in(t_node *current, t_redirect *red)
 	return (1);
 }
 
-// Traite une redirection de sortie (> ou >>) et ouvre le fichier
+// Ouvre un fichier en écriture pour ">" ou ">>"
 int	process_redirect_out(t_node *current, t_redirect *red)
 {
 	int		flags;
 	char	*filename;
 
 	if (red->stdout_fd != -1)
-	{
 		close(red->stdout_fd);
-		red->stdout_fd = -1;
-	}
 	flags = O_WRONLY | O_CREAT;
 	if (current->type == NODE_REDIRECT_OUT)
 		flags |= O_TRUNC;
@@ -95,26 +66,26 @@ int	process_redirect_out(t_node *current, t_redirect *red)
 	if (red->stdout_fd == -1)
 	{
 		perror("minishell");
-		if (red->stdin_fd != -1)
-			close(red->stdin_fd);
 		return (0);
 	}
 	return (1);
 }
 
-// Traite un nœud de redirection selon son type et met à jour les flags
-int	process_redirect_node(t_node *node, t_redirect *red, int *in, int *out)
+// Recherche récursivement la commande dans tout l'arbre
+t_node	*find_command_node(t_node *node)
 {
-	if (node->type == NODE_HEREDOC && !process_heredoc_node(node, red))
-		return (0);
-	if (node->type == NODE_REDIRECT_IN && !process_redirect_in(node, red))
-		return (0);
-	if ((node->type == NODE_REDIRECT_OUT || node->type == NODE_APPEND)
-		&& !process_redirect_out(node, red))
-		return (0);
-	if (node->type == NODE_HEREDOC || node->type == NODE_REDIRECT_IN)
-		*in = 1;
-	if (node->type == NODE_REDIRECT_OUT || node->type == NODE_APPEND)
-		*out = 1;
-	return (1);
+	t_node	*left;
+	t_node	*right;
+
+	if (!node)
+		return (NULL);
+	if (node->type == NODE_CMD)
+		return (node);
+	left = find_command_node(node->left);
+	if (left)
+		return (left);
+	right = find_command_node(node->right);
+	if (right)
+		return (right);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/23 15:44:57 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:41:58 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	handle_token2(t_token **tokens, char *input, int *i)
 	else if (input[*i] == '"' || input[*i] == '\'')
 	{
 		ret = handle_complex_word(tokens, &input[*i]);
-		if (ret == -1)
+		if (ret <= 0)
 			return (-1);
 		*i += ret;
 	}
