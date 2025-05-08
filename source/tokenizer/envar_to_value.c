@@ -6,11 +6,27 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/25 16:14:04 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/08 20:36:01 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+char	*clean_double_slashes(char *path)
+{
+    char	*cleaned = ft_strdup(path);
+    char	*dest = cleaned;
+    char	*src = cleaned;
+ 
+    while (*src)
+    {
+ 	   *dest = *src++;
+ 	   if (*dest == '/' && *(src) == '/')
+ 		   continue; // Saute les '/' en double
+ 	   dest++;
+    }
+    *dest = '\0';
+    return (cleaned);
+}
 
 size_t	ft_strnlen(const char *s, size_t maxlen)
 {
@@ -49,6 +65,8 @@ static char	*get_env_value(const char *var_name, char ***envp)
 
 	if (!envp || !*envp)
 		return (NULL);
+	if(var_name[0] == '~')
+		var_name = "HOME";
 	name_len = ft_strlen(var_name);
 	i = 0;
 	while ((*envp)[i])
@@ -70,7 +88,7 @@ static int	is_valid_var_start(int c)
 {
 	return ((c >= 'a' && c <= 'z')
 		|| (c >= 'A' && c <= 'Z')
-		|| c == '_');
+		|| c == '_' || c == '~');
 }
 
 static int	is_valid_var_char(int c)
@@ -79,53 +97,140 @@ static int	is_valid_var_char(int c)
 		|| (c >= '0' && c <= '9'));
 }
 
+static void process_parts(char ***envp, t_token *token)
+{
+    t_word_part *current_part;
+    char *start;
+    char *end;
+    char *var_name;
+    char *var_value;
+    char *prefix;
+    char *new_val;
+    int i;
+
+    current_part = token->parts;
+    while (current_part != NULL)
+    {
+        if (current_part->type != QUOTE_SINGLE)
+        {
+            i = 0;
+            while (current_part->content[i] != '\0' && current_part->content[i] != '$')
+                i++;
+            if (current_part->content[i] == '$')
+            {
+                prefix = ft_strndup(current_part->content, i);
+                start = current_part->content + i + 1;
+                if (!*start || !is_valid_var_start(*start))
+                {
+                    free(current_part->content);
+                    current_part->content = ft_strdup("");
+                    free(prefix);
+                }
+                else
+                {
+                    end = start;
+                    while (*end && is_valid_var_char(*end))
+                        end++;
+                    var_name = ft_strndup(start, end - start);
+                    var_value = get_env_value(var_name, envp);
+                    new_val = ft_strjoin(prefix, var_value ? var_value : "");
+                    char *temp = new_val;
+                    new_val = ft_strjoin(temp, end);
+                    free(temp);
+                    free(current_part->content);
+                    current_part->content = new_val;
+                    free(var_name);
+                }
+                free(prefix);
+            }
+        }
+        current_part = current_part->next;
+    }
+}
+
 static void	process_variable(char ***envp, t_token *token)
 {
-	char	*start;
-	char	*end;
+	char	*current;
+	char	*var_start;
+	char	*var_end;
 	char	*var_name;
 	char	*var_value;
 	char	*new_val;
 
-	start = token->value + 1;
-	if (!*start || !is_valid_var_start(*start))
+	current = token->value;
+	new_val = ft_strdup(""); // Initialiser avec une chaîne vide
+
+	while (*current)
 	{
-		free(token->value);
-		token->value = ft_strdup("");
-		return ;
+		if (*current == '$' || *current == '~')
+		{
+			// Ajouter la partie avant $ ou ~
+			char *prefix = ft_strndup(new_val, current - token->value);
+			char *temp = ft_strjoin(new_val, prefix);
+			free(new_val);
+			free(prefix);
+			new_val = temp;
+
+			// Gérer la variable
+			var_start = current + (*current == '$' ? 1 : 0);
+			var_end = var_start;
+			while (*var_end && (is_valid_var_char(*var_end) && *var_end != '/'))
+				var_end++;
+			var_name = ft_strndup(var_start, var_end - var_start);
+			var_value = get_env_value(var_name, envp);
+
+			// Concaténer la valeur de la variable
+			temp = ft_strjoin(new_val, var_value ? var_value : "");
+			free(new_val);
+			new_val = temp;
+
+			current = var_end;
+			free(var_name);
+		}
+		else
+		{
+			// Ajouter les caractères normaux
+			char str[2] = { *current, '\0' };
+			char *temp = ft_strjoin(new_val, str);
+			free(new_val);
+			new_val = temp;
+			current++;
+		}
 	}
-	end = start;
-	while (*end && is_valid_var_char(*end))
-		end++;
-	var_name = ft_strndup(start, end - start);
-	var_value = get_env_value(var_name, envp);
-	new_val = ft_strjoin(var_value ? var_value : "", end);
+
+	// Nettoyage des '/' en double (optionnel)
+	char *cleaned = clean_double_slashes(new_val);
+	free(new_val);
+	new_val = cleaned;
+
+	// Mettre à jour le token
 	free(token->value);
-	free(var_name);
 	token->value = new_val;
+	process_parts(envp,token);
 }
 
 void	envar_to_value(char ***envp, t_token *token)
 {
 	if (!token || token->type != TOKEN_WORD)
 		return ;
-	if (token->value && token->value[0] == '$')
+	if (token->value)
 		process_variable(envp, token);
 }
 
-int	scan_envar(t_token *tokens, char ***envp)
+int	scan_envar(t_shell *shell)
 {
 	int		found;
+	int 	i;
 	t_token	*tmp;
 
 	found = 0;
-	tmp = tokens;
+	tmp = shell->tokens;
 	while (tmp)
 	{
 		if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$' && tmp->value[1] == '?')
 		{
 			free(tmp->value);
-			tmp->value = ft_itoa(((t_shell *)envp)->exit_status);
+			tmp->value = ft_itoa(shell->exit_status); // exit_status pas toujours a jour il me semble
 			found = 1;
 		}
 		else if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$' && tmp->value[1] == '$')
@@ -134,10 +239,18 @@ int	scan_envar(t_token *tokens, char ***envp)
 			tmp->value = ft_itoa(getpid());
 			found = 1;
 		}
-		else if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$')
+		else if (tmp->type == TOKEN_WORD && tmp->value)
 		{
-			envar_to_value(envp, tmp);
-			found = 1;
+			i = 0;
+			while(tmp->value[i])
+			{
+				if(tmp->value[i] == '$' || ((tmp->value[i] == '~' && !tmp->value[i - 1]) && (tmp->value[i + 1] == '/' || !tmp->value[i + 1])))
+				{
+					envar_to_value(shell->envp, tmp);
+					found = 1;
+				}
+				i++;
+			}
 		}
 		tmp = tmp->next;
 	}

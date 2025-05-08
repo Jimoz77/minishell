@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:35:18 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/28 17:10:04 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/08 20:52:52 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	execute_pipe_node(t_node *node, char ***envp)
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO); // Redirige stdout vers le pipe
 		close(pipefd[1]);
-		execute_node_by_type(node->left, envp); // Exécute le nœud gauche
-		exit(127); // Si exec échoue
+		return (execute_node_by_type(node->left, envp)); // Exécute le nœud gauche
 	}
 	// Processus droit (lecture)
 	pid_right = fork();
@@ -38,8 +37,7 @@ int	execute_pipe_node(t_node *node, char ***envp)
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO); // Redirige stdin vers le pipe
 		close(pipefd[0]);
-		execute_node_by_type(node->right, envp); // Exécute le nœud droit
-		exit(127); // Si exec échoue
+		return (execute_node_by_type(node->right, envp)); // Exécute le nœud droit
 	}
 	// Nettoyage parent
 	close(pipefd[0]);

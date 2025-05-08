@@ -45,7 +45,7 @@ void	save_env(char ***env)
 	int		fd;
 //le path ne fonctionne que sur mon ordi // a voir comment le gerer 
 // peut etre créé directement dans un repetoir de l'ordi avec la fonction open
-	fd = open("/home/jimpa/workspace/gitdump/minishell/etc/.mini_env", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open("/home/jimpa/work/new_mini/etc/.mini_env", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	i = 0;
 	if (fd == -1)
 	{
@@ -70,7 +70,7 @@ char	**load_env(void)
 	char		**env;
 	char		*line;
 
-	fd = open("/home/jimpa/workspace/gitdump/shell_off/etc/.mini_env", O_RDONLY); // Même chemin
+	fd = open("/home/jimpa/work/new_mini/etc/.mini_env", O_RDONLY); // Même chemin
 	if (fd == -1){
 		perror("open");
 		return (NULL);
@@ -103,7 +103,7 @@ void	save_history(char *cmd)
 		return ;
 //le path ne fonctionne que sur mon ordi // a voir comment le gerer 
 // peut etre créé directement dans un repetoir de l'ordi avec la fonction open
-	fd = open("/home/jimpa/workspace/gitdump/shell_off/etc/.minishell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open("/home/jimpa/work/new_mini/etc/.minishell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 	{
 		perror("open");
@@ -122,7 +122,7 @@ void    load_history(void)
     int     fd;
     char    *line = NULL;
 
-	fd = open("/home/jimpa/workspace/gitdump/shell_off/etc/.minishell_history", O_RDONLY);
+	fd = open("/home/jimpa/work/new_mini/etc/.minishell_history", O_RDONLY);
     if (fd == -1)
 		return;
 	 while ((line = get_next_line(fd)) != NULL)

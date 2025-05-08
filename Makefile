@@ -16,7 +16,7 @@ NAME = minishell
 
 # Compilateur et options
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 LDFLAGS = -lreadline
 
 # Dossiers

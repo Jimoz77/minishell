@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/28 16:48:30 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/08 15:00:04 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int				handle_complex_word(t_token **tokens, char *input);
 void			free_word_parts(t_word_part *parts);
 char			*build_unquoted_value(t_word_part *parts);
 char			*get_unquoted_filename(t_node *node);
-int				scan_envar(t_token *tokens, char ***envp);
+int				scan_envar(t_shell *shell);
 void			envar_to_value(char ***envp, t_token *tokens);
 
 
@@ -210,7 +210,7 @@ char			***ft_wrap_array(char **array);
 
 int				is_valid_id(char *str);
 int				ft_unset(char **cmd, char ***envp);
-void			execute_builtin(char **cmd, char ***envp);
+int				execute_builtin(char **cmd, char ***envp);
 
 // Prototype (executor)
 int				execute_ast(t_node *node, char ***envp);

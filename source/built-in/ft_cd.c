@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:08:22 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/10 16:34:13 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/08 20:43:25 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_setenv(char ***envp, char *var, char *new_val)
 		{
 			free((*envp)[i]);
 			(*envp)[i] = new_entry;
-			printf("%s\n", (*envp)[i]);
+			//printf("%s\n", (*envp)[i]);
 			return ;
 		}
 		i++;
@@ -50,9 +50,10 @@ void	ft_setenv(char ***envp, char *var, char *new_val)
 int	ft_cd(char **cmd, char ***envp)
 {
 	char		cwd[BUFSIZ];
-	char		*new_dir;
+	//char		*new_dir;
 	static char	*old_pwd;
 	char		*tmp_pwd;
+	int			result;
 
 	if (!old_pwd)
 	{
@@ -63,6 +64,7 @@ int	ft_cd(char **cmd, char ***envp)
 		getcwd(cwd, sizeof(cwd));
 		old_pwd = ft_strdup(cwd);
 		chdir(getenv("HOME"));
+		result = 0;
 	}
 	else if(cmd[1][0] == '-' && cmd[1][1] == '\0')
 	{
@@ -70,20 +72,20 @@ int	ft_cd(char **cmd, char ***envp)
 		tmp_pwd = ft_strdup(cwd);
 		chdir(old_pwd);
 		old_pwd = tmp_pwd;
+		result = 0; 
 	}
 	else
 	{
 		getcwd(cwd, sizeof(cwd));
 		old_pwd = ft_strdup(cwd);
-		new_dir = ft_strjoin(cwd, "/");
-		new_dir = ft_strjoin(new_dir, cmd[1]);
-		if ((chdir(new_dir)) != 0)
+		if ((chdir(cmd[1])) == -1)
 		{
-			printf("bash: cd: %s: Aucun fichier ou dossier de ce nom\n", cmd[1]);
+			//printf("bash: cd: %s: Aucun fichier ou dossier de ce nom\n", cmd[1]);
 			old_pwd = NULL;
+			result = 1;
 		}
 	}
 	ft_setenv(envp, "OLDPWD", old_pwd);
 	ft_setenv(envp, "PWD", getcwd(cwd, sizeof(cwd)));
-	return (1);
+	return (result);
 }

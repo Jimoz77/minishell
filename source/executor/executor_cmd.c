@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/28 17:44:56 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/08 14:45:00 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ int	execute_cmd_node(t_node *node, char ***envp)
 		return (0);
 	if (ft_is_builtin(node->cmd, envp))
 	{
-		execute_builtin(node->cmd, envp);
-		return (0);
+		return (execute_builtin(node->cmd, envp));
 	}
 	pid = fork();
 	if (pid == 0)
