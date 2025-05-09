@@ -6,12 +6,13 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/08 18:35:09 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:10:19 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+// Exécute une commande externe en cherchant son chemin dans $PATH
 static int	exec_external(char **cmd, char **envp)
 {
 	char	*path;
@@ -32,6 +33,7 @@ static int	exec_external(char **cmd, char **envp)
 	return (126);
 }
 
+// Forke et exécute une commande dans un processus enfant
 static int	exec_forked(t_node *node, char **envp)
 {
 	pid_t	pid;
@@ -51,6 +53,7 @@ static int	exec_forked(t_node *node, char **envp)
 	return (1);
 }
 
+// Exécute un nœud de type commande (builtin ou externe)
 int	execute_cmd_node(t_node *node, char ***envp)
 {
 	if (!node || !node->cmd || !node->cmd[0])
