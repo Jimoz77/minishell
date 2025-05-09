@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:35:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/05 14:21:33 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:01:18 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_node	*create_redirect_right(t_token *right_part)
 	right->type = NODE_CMD;
 	right->left = NULL;
 	right->right = NULL;
-	right->heredoc_index = -1;
 	cmd = prepare_redirect_cmd(right_part);
 	if (!cmd)
 	{

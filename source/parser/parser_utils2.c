@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:30:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/05 14:19:04 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:00:45 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ t_node	*create_cmd_node(t_token *tokens)
 	if (!node)
 		return (NULL);
 	node->type = NODE_CMD;
-	node->heredoc_index = -1;
 	node->left = NULL;
 	node->right = NULL;
 	node->cmd = fill_cmd_array(tokens, count);

@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/01 15:01:52 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:02:25 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,23 @@ static t_node	*handle_redir_and_word(t_token *tokens)
 	return (NULL);
 }
 
+// Fonction de débogage pour afficher l'AST - version simplifiée
+static void debug_print_ast(t_node *node, int depth) {
+    int i;
+    
+    if (!node) {
+        ft_printf("Node is NULL\n");
+        return;
+    }
+    
+    // Indentation
+    for (i = 0; i < depth; i++)
+        ft_printf("  ");
+    
+    // Type de nœud
+    ft_printf("Node type: %d\n", node->type);
+}
+
 // Construit l'arbre de syntaxe (AST) à partir des tokens
 t_node	*parse_ast(t_token *tokens)
 {
@@ -96,20 +113,48 @@ t_node	*parse_ast(t_token *tokens)
 
 	if (!tokens)
 		return (NULL);
+	
 	if (is_redirection(tokens->type) && tokens->next && tokens->next->next)
 	{
 		node = handle_redir_and_word(tokens);
 		if (node)
+		{
+			ft_printf("\n--- DEBUG AST ---\n");
+			debug_print_ast(node, 0);
+			ft_printf("----------------\n\n");
 			return (node);
+		}
 	}
 	if (tokens->type == TOKEN_LPAREN)
-		return (handle_paren_and_op(tokens));
+	{
+		node = handle_paren_and_op(tokens);
+		ft_printf("\n--- DEBUG AST ---\n");
+		debug_print_ast(node, 0);
+		ft_printf("----------------\n\n");
+		return (node);
+	}
 	i = find_lowest_priority(tokens);
 	if (i == -1 || (tokens->next && !tokens->next->next
 			&& tokens->type == TOKEN_WORD && tokens->next->type == TOKEN_WORD))
-		return (create_cmd_node(tokens));
+	{
+		node = create_cmd_node(tokens);
+		ft_printf("\n--- DEBUG AST ---\n");
+		debug_print_ast(node, 0);
+		ft_printf("----------------\n\n");
+		return (node);
+	}
 	op = get_token_at(tokens, i);
 	if (!op)
-		return (create_cmd_node(tokens));
-	return (create_op_node(tokens, op));
+	{
+		node = create_cmd_node(tokens);
+		ft_printf("\n--- DEBUG AST ---\n");
+		debug_print_ast(node, 0);
+		ft_printf("----------------\n\n");
+		return (node);
+	}
+	node = create_op_node(tokens, op);
+	ft_printf("\n--- DEBUG AST ---\n");
+	debug_print_ast(node, 0);
+	ft_printf("----------------\n\n");
+	return (node);
 }

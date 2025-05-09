@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 15:04:20 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/05 20:33:08 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:00:59 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_node	*parse_parenthesized_expr(t_token *tokens)
 		return (NULL);
 	node->type = NODE_PAREN;
 	node->cmd = NULL;
-	node->heredoc_index = -1;
 	node->left = content;
 	node->right = NULL;
 	return (check_paren_operators(node, closing));

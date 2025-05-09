@@ -55,16 +55,17 @@ SRCS = \
 	$(SRC_DIR)/parser/parser_syntax.c \
 	$(SRC_DIR)/parser/parser_syntax2.c \
 	$(SRC_DIR)/utils/memory_utils.c \
+	$(SRC_DIR)/utils/memory_utils2.c \
 	$(SRC_DIR)/utils/ft_array_dup.c \
 	$(SRC_DIR)/utils/ft_path_finder.c \
 	$(SRC_DIR)/utils/shell_utils.c \
 	$(SRC_DIR)/executor/executor.c \
 	$(SRC_DIR)/executor/executor_cmd.c \
 	$(SRC_DIR)/executor/executor_heredoc.c \
-	$(SRC_DIR)/executor/executor_heredoc_utils.c \
 	$(SRC_DIR)/executor/executor_combined.c \
-	$(SRC_DIR)/executor/executor_redir_setup.c \
 	$(SRC_DIR)/executor/executor_redir_utils.c \
+	$(SRC_DIR)/executor/executor_redir_apply.c \
+	$(SRC_DIR)/executor/executor_redir_collect.c \
 	$(SRC_DIR)/executor/executor_paren.c \
 	$(SRC_DIR)/utils/save_env.c
 

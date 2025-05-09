@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:40:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/01 14:58:40 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:26:23 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,30 +107,44 @@ int	handle_arithmetic_expr(t_token *tokens)
 }
 
 // Vérifie et traite les opérateurs après une parenthèse fermante
-t_node	*check_paren_operators(t_node *node, t_token *closing)
+t_node *check_paren_operators(t_node *node, t_token *closing)
 {
-	t_token	*next_token;
-	t_node	*op_node;
+    t_token *next_token;
+    t_node *op_node;
 
-	next_token = closing->next;
-	if (!next_token)
-		return (node);
-	if (is_redirection(next_token->type) && next_token->next 
-		&& next_token->next->type == TOKEN_WORD)
-	{
-		op_node = malloc(sizeof(t_node));
-		if (!op_node)
-			return (node);
-		op_node->type = token_to_node_type(next_token->type);
-		op_node->cmd = NULL;
-		op_node->left = node;
-		op_node->right = create_redirect_right(next_token->next);
-		if (!op_node->right)
-		{
-			free(op_node);
-			return (node);
-		}
-		return (op_node);
-	}
-	return (node);
+    if (!closing || !closing->next)
+        return (node);
+    
+    next_token = closing->next;
+    
+    // Gérer les redirections après les parenthèses
+    if (is_redirection(next_token->type) && next_token->next 
+        && next_token->next->type == TOKEN_WORD)
+    {
+        op_node = malloc(sizeof(t_node));
+        if (!op_node)
+            return (node);
+        
+        op_node->type = token_to_node_type(next_token->type);
+        op_node->cmd = NULL;
+        op_node->left = node;
+        op_node->right = create_redirect_right(next_token->next);
+        
+        if (!op_node->right)
+        {
+            free(op_node);
+            return (node);
+        }
+        
+        // Vérifier s'il y a d'autres redirections après celle-ci
+        if (next_token->next && next_token->next->next && 
+            is_redirection(next_token->next->next->type))
+        {
+            return check_paren_operators(op_node, next_token->next);
+        }
+        
+        return (op_node);
+    }
+    
+    return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/01 14:41:58 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:02:07 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,31 @@ static int	handle_token(t_token **tokens, char *input, int *i)
 	return (0);
 }
 
+// Fonction de débogage pour afficher les tokens - version simplifiée
+static void debug_print_tokens(t_token *tokens) {
+    t_token *tmp = tokens;
+    int i = 0;
+    
+    ft_printf("\n--- DEBUG TOKENS SIMPLE ---\n");
+    if (!tokens) {
+        ft_printf("Tokens list is empty\n");
+        return;
+    }
+    
+    while (tmp) {
+        ft_printf("Token %d: type=%d, value=", i, tmp->type);
+        if (tmp->value)
+            ft_printf("'%s'", tmp->value);
+        else
+            ft_printf("NULL");
+        ft_printf("\n");
+        
+        tmp = tmp->next;
+        i++;
+    }
+    ft_printf("-------------------\n\n");
+}
+
 t_token	*tokenize(char *input)
 {
 	t_token	*tokens;
@@ -81,5 +106,6 @@ t_token	*tokenize(char *input)
 			return (NULL);
 		}
 	}
+	debug_print_tokens(tokens);
 	return (tokens);
 }
