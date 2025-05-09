@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/09 14:43:32 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:14:35 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	handle_token_syntax(t_shell *shell, char *input)
 		return (0);
 	}
 	scan_envar(shell->tokens, shell->envp);
+	expand_wildcards(shell->tokens);
 	return (1);
 }
 

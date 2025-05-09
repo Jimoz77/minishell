@@ -12,6 +12,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <errno.h>
+# include <dirent.h>
 
 # include "../libft/libft.h"
 # include "../libft/ft_printf/ft_printf.h"
@@ -80,7 +81,7 @@ typedef struct s_node
 	struct s_node	*right;
 }	t_node;
 
-// Structure pour un heredoc (chaîné)
+// Structure pour un heredoc
 typedef struct s_heredoc
 {
 	char				*delimiter;
@@ -244,9 +245,24 @@ char			***ft_array_dup2(char ***array);
 char			***ft_wrap_array(char **array);
 
 
-// debug
-
-void	debug_redirections(t_shell *shell);
-void	debug_heredocs(t_shell *shell);
+// wildcards/
+void    expand_wildcards(t_token *tokens);
+int     contains_wildcard(const char *str);
+int     match_pattern(const char *pattern, const char *string);
+int     count_matching_files(const char *pattern);
+char    **get_matching_files(const char *pattern, int count);
+void    sort_strings(char **strings, int count);
+t_token *replace_with_matches(t_token *token, char **matches, int count);
+void    process_wildcard_matches(t_token *current, t_token *prev, 
+                                char ***matches_ptr, int count);
+void    update_tokens_list(t_token **tokens, t_token *prev, t_token *new_token);
+int     is_hidden_file(const char *filename, const char *pattern);
+int     should_skip_file(const char *filename, const char *pattern);
+char    *join_path(const char *dir, const char *file);
+int     is_file_match(const char *filename, const char *pattern);
+void    free_matches(char **matches, int count);
+void    free_token_content(t_token *token);
+t_token *create_match_token(char *value);
+void    add_token_to_list(t_token **first, t_token *new);
 
 #endif
