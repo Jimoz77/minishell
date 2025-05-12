@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 17:17:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/09 17:59:21 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:49:08 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,15 @@ int	contains_wildcard(const char *str)
 	return (0);
 }
 
-// Remplace un token contenant un wildcard par plusieurs tokens représentant
-// les fichiers correspondants. Retourne le premier token de la nouvelle liste.
-t_token	*replace_with_matches(t_token *token, char **matches, int count)
+// Fonction auxiliaire qui crée les tokens correspondants aux fichiers trouvés
+static t_token	*create_match_tokens(char **matches, int count)
 {
 	t_token	*first;
 	t_token	*current;
-	t_token	*next;
 	int		i;
 
-	if (count == 0)
-		return (token);
 	first = NULL;
 	current = NULL;
-	next = token->next;
 	i = 0;
 	while (i < count)
 	{
@@ -70,11 +65,33 @@ t_token	*replace_with_matches(t_token *token, char **matches, int count)
 			add_token_to_list(&first, current);
 		i++;
 	}
-	if (current)
+	return (first);
+}
+
+// Remplace un token contenant un wildcard par plusieurs tokens représentant
+// les fichiers correspondants. Retourne le premier token de la nouvelle liste.
+t_token	*replace_with_matches(t_token *token, char **matches, int count)
+{
+	t_token	*first;
+	t_token	*current;
+	t_token	*next;
+
+	if (count == 0)
+		return (token);
+	next = token->next;
+	first = create_match_tokens(matches, count);
+	if (first)
+	{
+		current = first;
+		while (current->next)
+			current = current->next;
 		current->next = next;
+	}
 	free_token_content(token);
 	free(token);
-	return (first ? first : next);
+	if (first)
+		return (first);
+	return (next);
 }
 
 // Parcourt tous les tokens et remplace ceux contenant des wildcards par
