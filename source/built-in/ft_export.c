@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:12:26 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/03 12:53:10 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:09:39 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,11 @@ int	is_valid_id(char *str)
 	int	i;
 
 	i = 1;
-	if (!str || !*str || (!isalpha(*str) && *str != '_'))
+	if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
 		return (0);
 	while (str[i])
 	{
-		if (!isalnum(str[i]) && str[i] != '_')
+		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;
 	}
@@ -152,7 +152,7 @@ int	ft_export(char **cmd, char ***envp)
 	{
 		ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
 		free(var_name);
-		return (0);
+		return (1);
 	}
 	i = 0;
 	while((*envp)[i])
@@ -164,12 +164,12 @@ int	ft_export(char **cmd, char ***envp)
 				free((*envp)[i]);
 				(*envp)[i] = ft_strdup(cmd[1]);
 				free(var_name);
-				return (1);
+				return (0);
 			}
 			else // Si la variable existe déjà et pas de '=' : ne rien faire
 			{
 				free(var_name);
-				return (1);
+				return (0);
 			}
 		}
 		i++;
@@ -181,5 +181,5 @@ int	ft_export(char **cmd, char ***envp)
 	*envp = ft_array_add(*envp, new_entry);
 	free(new_entry);
 	free(var_name);
-	return (1);
+	return (0);
 }

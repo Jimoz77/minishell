@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:08:22 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/08 20:43:25 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/14 20:09:36 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ int	ft_cd(char **cmd, char ***envp)
 	int			result;
 
 	if (!old_pwd)
-	{
 		old_pwd = getenv("OLDPWD");
-	}
 	if (cmd[1] == NULL || (cmd[1][0] == '-' && cmd[1][1] == '-'))
 	{
 		getcwd(cwd, sizeof(cwd));

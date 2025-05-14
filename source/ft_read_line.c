@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/08 19:53:44 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/09 15:20:43 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ static void	process_input(t_shell *shell, char *input)
 		free(input);
 		return ;
 	}
-	shell->exit_status = execute_ast(shell->ast , shell->envp);
+	shell->exit_status = execute_ast(shell->ast, shell->envp);
 	//free_shell(shell);
 	free(input);
 }

@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/08 14:45:00 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/13 16:39:41 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,34 @@ static int	handle_child_status(int status)
 	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	return (1);
+}
+
+int execute_and_node(t_node *node, char ***envp)
+{
+	int left_status;
+
+	left_status = execute_node_by_type(node->left, envp);
+	if(left_status == 0)
+	{
+		if(node->right)
+			return (execute_node_by_type(node->right, envp));
+	}
+	return (left_status);
+	
+}
+
+int execute_or_node(t_node *node, char ***envp)
+{
+	int left_status;
+
+	left_status = execute_node_by_type(node->left, envp);
+	if(left_status != 0)
+	{
+		if(node->right)
+			return (execute_node_by_type(node->right, envp));
+	}
+	return (left_status);
+	
 }
 
 // Execute une commande simple (sans pipe ni redirection)

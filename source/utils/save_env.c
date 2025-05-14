@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/28 17:13:02 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/14 20:09:33 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ char	**load_env(void)
 	// Découpage des lignes
 	count = 0;
 	env = malloc(sizeof(char *));
-	line = strtok(buffer, "\n");
+	line = ft_strtok(buffer, "\n");
 	while (line)
 	{
 		env[count] = ft_strdup(line);
-		env = realloc(env, sizeof(char *) * (++count + 1));
-		line = strtok(NULL, "\n");
+		env = realloc(env, sizeof(char *) * (++count + 1));  // a implementer
+		line = ft_strtok(NULL, "\n");
 	}
 	env[count] = NULL;
 	return (update_pid(env));

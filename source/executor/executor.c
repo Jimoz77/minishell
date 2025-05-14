@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:54:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/28 16:47:55 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/13 15:31:45 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,10 @@ int	execute_node_by_type(t_node *node, char ***envp)
 	[NODE_HEREDOC] = handle_heredoc,
 	[NODE_PAREN] = execute_paren_node,
 	[NODE_PIPE] = execute_pipe_node,
+	[NODE_AND] = execute_and_node,
+	[NODE_OR] = execute_or_node,
 	};
-	if (node->type == NODE_AND
-		|| node->type == NODE_OR)
-	{
-		ft_printf("minishell: type de noeud non supporté\n");
-		return (1);
-	}
+	
 	return(execute[node->type](node, envp));
 }
 

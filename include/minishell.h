@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 19:55:59 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/08 15:00:04 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/13 15:30:59 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,8 @@ int				execute_combined_node(t_node *node, char ***envp);
 int				execute_cmd_node(t_node *node, char ***envp);
 int				execute_redirect_node(t_node *node, char ***envp);
 int				execute_pipe_node(t_node *node, char ***envp);
+int				execute_and_node(t_node *node, char ***envp);
+int 			execute_or_node(t_node *node, char ***envp);
 int				execute_node_by_type(t_node *node, char ***envp);
 
 int				handle_heredoc(t_node *node, char ***envp);

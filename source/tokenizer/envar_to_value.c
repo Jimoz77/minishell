@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/08 20:36:01 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/12 19:14:44 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,29 +158,22 @@ static void	process_variable(char ***envp, t_token *token)
 	char	*new_val;
 
 	current = token->value;
-	new_val = ft_strdup(""); // Initialiser avec une chaîne vide
+	new_val = ft_strdup("");
 
 	while (*current)
 	{
 		if (*current == '$' || *current == '~')
 		{
-			// Ajouter la partie avant $ ou ~
-			char *prefix = ft_strndup(new_val, current - token->value);
-			char *temp = ft_strjoin(new_val, prefix);
-			free(new_val);
-			free(prefix);
-			new_val = temp;
-
-			// Gérer la variable
 			var_start = current + (*current == '$' ? 1 : 0);
 			var_end = var_start;
-			while (*var_end && (is_valid_var_char(*var_end) && *var_end != '/'))
+			// Corriger la condition pour ignorer la vérification de '/'
+			while (*var_end && is_valid_var_char(*var_end))
 				var_end++;
 			var_name = ft_strndup(var_start, var_end - var_start);
 			var_value = get_env_value(var_name, envp);
 
 			// Concaténer la valeur de la variable
-			temp = ft_strjoin(new_val, var_value ? var_value : "");
+			char *temp = ft_strjoin(new_val, var_value ? var_value : "");
 			free(new_val);
 			new_val = temp;
 
@@ -189,7 +182,6 @@ static void	process_variable(char ***envp, t_token *token)
 		}
 		else
 		{
-			// Ajouter les caractères normaux
 			char str[2] = { *current, '\0' };
 			char *temp = ft_strjoin(new_val, str);
 			free(new_val);
@@ -198,15 +190,13 @@ static void	process_variable(char ***envp, t_token *token)
 		}
 	}
 
-	// Nettoyage des '/' en double (optionnel)
 	char *cleaned = clean_double_slashes(new_val);
 	free(new_val);
 	new_val = cleaned;
 
-	// Mettre à jour le token
 	free(token->value);
 	token->value = new_val;
-	process_parts(envp,token);
+	process_parts(envp, token);
 }
 
 void	envar_to_value(char ***envp, t_token *token)

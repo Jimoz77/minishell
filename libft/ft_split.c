@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 09:32:25 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/18 18:04:35 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:03:00 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,44 @@ char	**ft_split(char const *s, char c)
 	if (!split)
 		return (NULL);
 	return (init_split(split, (char *)s, c));
+}
+
+char    *ft_strtok(char *str, char c)
+{
+    static char *save = NULL;
+    char        *token_start;
+
+    // Réinitialisation ou continuation de la chaîne
+    if (str != NULL)
+        save = str;
+    else if (save == NULL)
+        return (NULL);
+
+    // Ignorer les délimiteurs au début
+    while (*save == c)
+        save++;
+
+    // Fin de la chaîne -> retourner NULL
+    if (*save == '\0')
+    {
+        save = NULL;
+        return (NULL);
+    }
+
+    token_start = save;
+
+    // Trouver la fin du token
+    while (*save != '\0' && *save != c)
+        save++;
+
+    // Remplacer le délimiteur par '\0' et avancer
+    if (*save != '\0')
+    {
+        *save = '\0';
+        save++;
+    }
+    else
+        save = NULL;
+
+    return (token_start);
 }
