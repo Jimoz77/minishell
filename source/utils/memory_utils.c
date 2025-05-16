@@ -90,8 +90,66 @@ void	free_heredocs(t_heredoc *heredocs)
 char	*ft_strjoin_free(char *s1, const char *s2)
 {
 	char	*result;
+  
+	if (!array)
+		return ;
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
 
-	result = ft_strjoin(s1, s2);
-	free(s1);
-	return (result);
+void	free_token(t_token *token)
+{
+	t_word_part	*parts;
+	t_word_part	*tmp;
+
+	if (!token)
+		return ;
+	// Libération de la liste parts
+	parts = token->parts;
+	while (parts)
+	{
+		tmp = parts->next;
+		free(parts->content);
+		free(parts);
+		parts = tmp;
+	}
+	// Libération du reste
+	free(token->value);
+	free(token);
+}
+
+t_token	*delete_token(t_token *head, t_token *target)
+{
+	t_token	*current;
+	t_token	*prev;
+
+	if (!head || !target)
+		return (head);
+	// Cas spécial : suppression de la tête
+	if (head == target)
+	{
+		current = head->next;
+		free_token(head);
+		return (current);
+	}
+	// Parcours de la liste
+	prev = head;
+	current = head->next;
+	while (current)
+	{
+		if (current == target)
+		{
+			prev->next = current->next;
+			free_token(current);
+			break ;
+		}
+		prev = current;
+		current = current->next;
+	}
+	return (head);
 }

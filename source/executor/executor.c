@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:54:19 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/05/09 15:00:09 by lsadikaj         ###   ########.fr       */
@@ -33,6 +33,31 @@ static int	exec_with_redirection(t_node *node, char ***envp, t_shell *shell)
 	return (status);
 }
 
+int	execute_and_node(t_node *node, char ***envp)
+{
+	int	left_status;
+
+	left_status = execute_node_by_type(node->left, envp);
+	if (left_status == 0)
+	{
+		if (node->right)
+			return (execute_node_by_type(node->right, envp));
+	}
+	return (left_status);
+}
+
+int	execute_or_node(t_node *node, char ***envp)
+{
+	int	left_status;
+
+	left_status = execute_node_by_type(node->left, envp);
+	if (left_status != 0)
+	{
+		if (node->right)
+			return (execute_node_by_type(node->right, envp));
+	}
+	return (left_status);
+}
 // Exécute un nœud selon son type (commande, redirection, etc.)
 static int	execute_node_by_type(t_node *node, char ***envp, t_shell *shell)
 {
@@ -41,20 +66,11 @@ static int	execute_node_by_type(t_node *node, char ***envp, t_shell *shell)
 	else if (node->type == NODE_PAREN)
 		return (execute_paren_node(node, envp, shell));
 	else if (node->type == NODE_PIPE)
-	{
-		ft_printf("minishell: opérateur pipe '|' non pris en charge\n");
-		return (1);
-	}
+		return (execute_pipe_node);
 	else if (node->type == NODE_AND)
-	{
-		ft_printf("minishell: opérateur logique '&&' non pris en charge\n");
-		return (1);
-	}
+		return (execute_and_node);
 	else if (node->type == NODE_OR)
-	{
-		ft_printf("minishell: opérateur logique '||' non pris en charge\n");
-		return (1);
-	}
+		return (execute_or_node);
 	else if (is_redirect_node(node->type))
 		return (exec_with_redirection(node, envp, shell));
 	return (1);

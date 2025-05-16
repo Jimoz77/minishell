@@ -218,6 +218,9 @@ void	close_redirect_fds(t_redirect *red);
 void	restore_std_fds(t_redirect *red);
 t_node	*find_command_node(t_node *node);
 int		is_redirect_node(t_node_type type);
+int		execute_pipe_node(t_node *node, char ***envp);
+int		execute_and_node(t_node *node, char ***envp);
+int		execute_or_node(t_node *node, char ***envp);
 
 
 // executor/redir

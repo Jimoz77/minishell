@@ -29,7 +29,6 @@ static int	is_valid_id(char *str)
 	return (1);
 }
 
-
 // pas encore fonctionnel
 int	ft_unset(char **cmd, char ***envp)
 {
@@ -69,7 +68,6 @@ int	ft_unset(char **cmd, char ***envp)
 					}
 					(*envp)[k] = NULL;
 					found = 1;
-					exit_status = 1;
 				}
 				else
 					j++;

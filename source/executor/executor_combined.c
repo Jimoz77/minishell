@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   executor_combined.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 12:28:14 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/05/09 15:09:23 by lsadikaj         ###   ########.fr       */

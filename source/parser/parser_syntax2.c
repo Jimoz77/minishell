@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parser_syntax2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:00:00 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/04/23 16:15:47 by lsadikaj         ###   ########.fr       */

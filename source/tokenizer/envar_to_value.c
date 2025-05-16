@@ -6,11 +6,54 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/21 18:19:05 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/15 22:35:24 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+char *clean_dspace(char *str)
+{
+	int i;
+	int j;
+	char tmp[BUFSIZ];
+	char *result;
+
+	i = 0;
+	j = 0;
+
+	while (str[i])
+	{
+		while (str[i] == ' ' && str[i + 1] == ' ')
+			i++;
+		tmp[j] = str[i];
+		i++;
+		j++;
+	}
+	tmp[j] = '\0';
+	result = ft_strdup(tmp);
+	return (result);
+}
+
+char	*clean_double_slashes(char *path)
+{
+	char	*cleaned;
+	char	*dest;
+	char	*src;
+
+	cleaned = ft_strdup(path);
+	dest = cleaned;
+	src = cleaned;
+	while (*src)
+	{
+		*dest = *src++;
+		if (*dest == '/' && *(src) == '/')
+			continue; // Saute les '/' en double
+		dest++;
+	}
+	*dest = '\0';
+	return (cleaned);
+}
 
 size_t	ft_strnlen(const char *s, size_t maxlen)
 {
@@ -46,9 +89,11 @@ static char	*get_env_value(const char *var_name, char ***envp)
 	size_t	name_len;
 	size_t	env_len;
 	char	*eq_pos;
-
+	
 	if (!envp || !*envp)
-		return (NULL);
+	return (NULL);
+	if (var_name[0] == '~')
+	var_name = "HOME";
 	name_len = ft_strlen(var_name);
 	i = 0;
 	while ((*envp)[i])
@@ -60,17 +105,36 @@ static char	*get_env_value(const char *var_name, char ***envp)
 			if (env_len == name_len
 				&& !ft_strncmp((*envp)[i], var_name, name_len))
 				return (eq_pos + 1);
-		}
+			}
 		i++;
 	}
 	return (NULL);
+}
+static void append_char(char **str, char c)
+{
+	char    buf[2] = {c, '\0'};
+	char    *temp;
+
+	temp = ft_strjoin(*str, buf);
+	free(*str);
+	*str = temp;
+}
+
+static void finalize_content(t_word_part *part, char *new_content)
+{
+	char *cleaned;
+
+	cleaned = clean_double_slashes(new_content);
+	free(part->content);
+	part->content = cleaned;
+	free(new_content);
 }
 
 static int	is_valid_var_start(int c)
 {
 	return ((c >= 'a' && c <= 'z')
 		|| (c >= 'A' && c <= 'Z')
-		|| c == '_');
+		|| c == '_' || c == '~');
 }
 
 static int	is_valid_var_char(int c)
@@ -79,56 +143,179 @@ static int	is_valid_var_char(int c)
 		|| (c >= '0' && c <= '9'));
 }
 
+static void process_dollar(char **current, char **new_content, char ***envp)
+{
+    char    *var_start;
+    char    *var_end;
+    char    *var_name;
+    char    *var_value;
+    char    *temp;
+
+    (*current)++; // Passer le '$'
+    var_start = *current;
+	if(current[0][0] >= '0' && current[0][0] <= '9')
+	{
+		(*current)++;
+		return ;
+	}
+    
+    if (!*var_start || !is_valid_var_start(*var_start))
+    {
+        append_char(new_content, '$');
+        return;
+    }
+    
+    var_end = var_start;
+    while (*var_end && is_valid_var_char(*var_end))
+        var_end++;
+    
+    var_name = ft_strndup(var_start, var_end - var_start);
+    var_value = get_env_value(var_name, envp);
+    
+    temp = ft_strjoin(*new_content, var_value ? var_value : "");
+    free(*new_content);
+    *new_content = temp;
+    
+    *current = var_end;
+    free(var_name);
+}
+
+
+static void process_parts(char ***envp, t_token *token)
+{
+    t_word_part *current_part;
+    char        *current;
+    char        *new_content;
+    //char        *temp;
+
+    current_part = token->parts;
+    while (current_part)
+    {
+        if (current_part->type != QUOTE_SINGLE)
+        {
+            current = current_part->content;
+            new_content = ft_strdup("");
+            while (*current)
+            {
+                if (*current == '$')
+                {
+                    process_dollar(&current, &new_content, envp);
+                }
+                else
+                {
+                    append_char(&new_content, *current);
+                    current++;
+                }
+            }
+            finalize_content(current_part, new_content);
+        }
+        current_part = current_part->next;
+    }
+}
+
 static void	process_variable(char ***envp, t_token *token)
 {
-	char	*start;
-	char	*end;
+	char	*current;
+	char	*var_start;
+	char	*var_end;
 	char	*var_name;
 	char	*var_value;
 	char	*new_val;
 
-	start = token->value + 1;
-	if (!*start || !is_valid_var_start(*start))
+	current = token->value;
+	new_val = ft_strdup("");
+	while (*current)
 	{
-		free(token->value);
-		token->value = ft_strdup("");
-		return ;
+		if (*current == '$' || *current == '~')
+		{
+			var_start = current + (*current == '$' ? 1 : 0);
+			if(current[1] >= '0' && current[1] <= '9')
+			{
+				new_val = current + 2;
+				break;
+			}
+			var_end = var_start;
+			// Corriger la condition pour ignorer la vérification de '/'
+			while (*var_end && is_valid_var_char(*var_end))
+				var_end++;
+			var_name = ft_strndup(var_start, var_end - var_start);
+			var_value = get_env_value(var_name, envp);
+			// Concaténer la valeur de la variable
+			char *temp = ft_strjoin(new_val, var_value ? var_value : "");
+			free(new_val);
+			new_val = temp;
+			current = var_end;
+			free(var_name);
+		}
+		else
+		{
+			char str[2] = { *current, '\0' };
+			char *temp = ft_strjoin(new_val, str);
+			free(new_val);
+			new_val = temp;
+			current++;
+		}
 	}
-	end = start;
-	while (*end && is_valid_var_char(*end))
-		end++;
-	var_name = ft_strndup(start, end - start);
-	var_value = get_env_value(var_name, envp);
-	new_val = ft_strjoin(var_value ? var_value : "", end);
-	free(token->value);
-	free(var_name);
+	char *cleaned = clean_double_slashes(new_val);
+	//free(new_val);
+	new_val = cleaned;
+	//free(token->value);
+
 	token->value = new_val;
+	if(token->parts)
+		process_parts(envp, token);
 }
 
 void	envar_to_value(char ***envp, t_token *token)
 {
 	if (!token || token->type != TOKEN_WORD)
 		return ;
-	if (token->value && token->value[0] == '$')
+	if (token->value)
 		process_variable(envp, token);
 }
 
-int	scan_envar(t_token *tokens, char ***envp)
+int	scan_envar(t_shell *shell)
 {
 	int		found;
+	int		i;
 	t_token	*tmp;
 
 	found = 0;
-	tmp = tokens;
+	tmp = shell->tokens;
 	while (tmp)
 	{
-		if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$')
+		if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$' && tmp->value[1] == '?')
 		{
-			envar_to_value(envp, tmp);
+			free(tmp->value);
+			tmp->value = ft_itoa(shell->exit_status);
 			found = 1;
+		}
+		else if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$' && tmp->value[1] == '$')
+		{
+			free(tmp->value);
+			tmp->value = ft_itoa(getpid());
+			found = 1;
+		}
+		else if (tmp->type == TOKEN_WORD && tmp->value)
+		{
+			i = 0;
+			while (tmp->value[i])
+			{
+				if (tmp->value[i] == '$' || ((tmp->value[i] == '~' && !tmp->value[i - 1]) && (tmp->value[i + 1] == '/' || !tmp->value[i + 1])))
+				{
+					envar_to_value(shell->envp, tmp);
+					if (tmp->value[i] == '\0')
+					{
+						delete_token(shell->tokens, tmp);
+						tmp = shell->tokens;
+					}
+					found = 1;
+				}
+				i++;
+			}
+			tmp->value = clean_dspace(tmp->value);
 		}
 		tmp = tmp->next;
 	}
 	return (found);
 }
-

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_handle.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:21:49 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/05/01 14:49:57 by lsadikaj         ###   ########.fr       */

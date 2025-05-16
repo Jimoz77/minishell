@@ -105,8 +105,7 @@ void	ft_read_line(char **envp)
 	shell = init_shell(envp);
 	if (!shell)
 		return ;
-	read_history(".minishell_history");
+	load_history();
 	ft_read_line_loop(shell);
-	write_history("etc/.minishell_history");
 	free_shell(shell);
 }

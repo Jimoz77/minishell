@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:12:26 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/03 12:53:10 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:47:57 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int print_sorted_env(char **envp)
 	i = 0;
 	while (i < totalen)
 	{
-
 		eq = ft_strchr(envp_cpy[i], '=');
 		if (eq)
 			printf("declare -x %.*s=\"%s\"\n", (int)(eq - envp_cpy[i]), envp_cpy[i], eq + 1); // peut etre modifier présentation suivant la machine
@@ -90,7 +89,7 @@ int print_sorted_env(char **envp)
 	return (1);
 }
 
-char **ft_array_add(char **array, const char *str)
+char	**ft_array_add(char **array, const char *str)
 {
 	int		count;
 	char	**new;
@@ -100,19 +99,17 @@ char **ft_array_add(char **array, const char *str)
 	i = 0;
 	while (array[count])
 		count++;
-
 	new = malloc((count + 2) * sizeof(char *));
 	if (!new)
 		return (NULL);
-
 	while (i < count)
 	{
-		new[i] = array[i];  // Recopier les anciennes valeurs
+		new[i] = array[i];
 		i++;
 	}
-	new[count] = ft_strdup(str);  // Ajouter la nouvelle
-	new[count + 1] = NULL;  // Terminer le tableau
-	free(array);  // Libérer l'ancien tableau
+	new[count] = ft_strdup(str);
+	new[count + 1] = NULL;
+	free(array);
 	return (new);
 }
 
@@ -121,26 +118,27 @@ int	is_valid_id(char *str)
 	int	i;
 
 	i = 1;
-	if (!str || !*str || (!isalpha(*str) && *str != '_'))
+	if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
 		return (0);
 	while (str[i])
 	{
-		if (!isalnum(str[i]) && str[i] != '_')
+		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;
 	}
 	return (1);
 }
+
 // lors de l utilisation de "export test" si test a deja une valeur la fonction ne doit pas reinitialiser la valeur de test
 int	ft_export(char **cmd, char ***envp)
 {
-	int i;
-	char *egal;
-	int var_len;
-	char *var_name;
-	char *new_entry;
+	int		i;
+	char	*egal;
+	int		var_len;
+	char	*var_name;
+	char	*new_entry;
 
-	if(!cmd[1]) // export sans argument 
+	if (!cmd[1])
 		return (print_sorted_env(*envp));
 	egal = ft_strchr(cmd[1], '=');
 	if (egal != NULL)
@@ -148,28 +146,28 @@ int	ft_export(char **cmd, char ***envp)
 	else
 		var_len = ft_strlen(cmd[1]);
 	var_name = ft_substr(cmd[1], 0, var_len);
-	if(!is_valid_id(var_name))
+	if (!is_valid_id(var_name))
 	{
 		ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
 		free(var_name);
-		return (0);
+		return (1);
 	}
 	i = 0;
-	while((*envp)[i])
+	while ((*envp)[i])
 	{
-		if(ft_strncmp((*envp)[i], var_name, var_len) == 0 && ft_strlen((*envp)[i]) > (size_t)var_len && (*envp)[i][var_len] == '=')
+		if (ft_strncmp((*envp)[i], var_name, var_len) == 0 && ft_strlen((*envp)[i]) > (size_t)var_len && (*envp)[i][var_len] == '=')
 		{
-			if (egal) // Seulement si on a un '=' dans la commande
+			if (egal)
 			{
 				free((*envp)[i]);
 				(*envp)[i] = ft_strdup(cmd[1]);
 				free(var_name);
-				return (1);
+				return (0);
 			}
-			else // Si la variable existe déjà et pas de '=' : ne rien faire
+			else
 			{
 				free(var_name);
-				return (1);
+				return (0);
 			}
 		}
 		i++;
@@ -181,5 +179,5 @@ int	ft_export(char **cmd, char ***envp)
 	*envp = ft_array_add(*envp, new_entry);
 	free(new_entry);
 	free(var_name);
-	return (1);
+	return (0);
 }

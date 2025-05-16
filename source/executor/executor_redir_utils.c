@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   executor_redir_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:10:42 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/05/09 15:02:36 by lsadikaj         ###   ########.fr       */
