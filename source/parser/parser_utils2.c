@@ -6,36 +6,11 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:30:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/18 12:56:42 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:00:45 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-// Construit une valeur sans quotes à partir des parties d'un mot
-char	*build_unquoted_value(t_word_part *parts)
-{
-	t_word_part	*part;
-	char		*result;
-	char		*tmp;
-
-	if (!parts)
-		return (ft_strdup(""));
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
-	part = parts;
-	while (part)
-	{
-		tmp = result;
-		result = ft_strjoin(result, part->content);
-		free(tmp);
-		if (!result)
-			return (NULL);
-		part = part->next;
-	}
-	return (result);
-}
 
 // Fonction pour obtenir un nom de fichier sans quotes pour les redirections
 char	*get_unquoted_filename(t_node *node)

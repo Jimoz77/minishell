@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   save_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/15 15:47:29 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/22 23:20:38 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
 // Fonction pour mettre à jour le PID dans l'environnement (peut-etre pas nécessaire)
 // fonction qui leak surement
@@ -61,7 +61,7 @@ void	save_env(char ***env)
 	close(fd);
 }
 
-char	**load_env(void)
+char **load_env(void)
 {
 	int			fd;
 	ssize_t		bytes;

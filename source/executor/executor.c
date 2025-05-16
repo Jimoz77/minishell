@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:54:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/16 17:30:44 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/09 15:00:09 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	exec_with_redirection(t_node *node, char ***envp, t_shell *shell)
 	restore_std_fds(&red);
 	return (status);
 }
+
 int	execute_and_node(t_node *node, char ***envp)
 {
 	int	left_status;

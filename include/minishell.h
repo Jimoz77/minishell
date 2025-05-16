@@ -223,7 +223,6 @@ int		execute_and_node(t_node *node, char ***envp);
 int		execute_or_node(t_node *node, char ***envp);
 
 
-
 // executor/redir
 
 void	add_redirection(t_redir **list, t_token_type type, char *filename);

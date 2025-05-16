@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/14 21:16:26 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/12 11:50:14 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	handle_token2(t_token **tokens, char *input, int *i)
 	else if (input[*i] == '"' || input[*i] == '\'')
 	{
 		ret = handle_complex_word(tokens, &input[*i]);
-		if (ret == -1)
+		if (ret <= 0)
 			return (-1);
 		*i += ret;
 	}
@@ -66,6 +66,7 @@ static int	handle_token(t_token **tokens, char *input, int *i)
 	return (0);
 }
 
+// Parcourt l'entrée caractère par caractère et transforme la chaîne en une liste
 t_token	*tokenize(char *input)
 {
 	t_token	*tokens;

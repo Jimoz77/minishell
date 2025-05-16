@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:21:49 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/14 21:15:19 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/01 14:49:57 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,21 @@ int	handle_operator(t_token **tokens, char *input)
 }
 
 // Gère un mot et l'ajoute à la liste des tokens
-int	handle_word(t_token **tokens, char *input)
+int handle_word(t_token **tokens, char *input)
 {
 	int		len;
-	char	*word;
+    char	*word;
 
-	// Vérifier si le mot contient des guillemets
+	if (!input || !*input)
+		return (0);
 	len = 0;
 	while (input[len] && !is_space(input[len]) && !is_operator_str(&input[len])
-		&& input[len] != '(' && input[len] != ')')
+			&& input[len] != '(' && input[len] != ')')
 	{
 		if (input[len] == '"' || input[len] == '\'')
 			return (handle_complex_word(tokens, input));
 		len++;
 	}
-	// Si pas de guillemets, utiliser l'ancienne méthode
 	if (len <= 0)
 		return (0);
 	word = ft_substr(input, 0, len);

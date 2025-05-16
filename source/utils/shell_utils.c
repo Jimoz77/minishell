@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/15 15:50:52 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/08 10:59:49 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+// Initialise la structure principale du shell
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;
@@ -60,6 +61,8 @@ t_shell	*init_shell(char **envp)
 	shell->ast = NULL;
 	shell->exit_status = 0;
 	shell->current_dir = getcwd(NULL, 0);
+	shell->heredocs = NULL;
+	shell->redirections = NULL;
 	if (!shell->current_dir)
 	{
 		free(shell->envp);
@@ -69,6 +72,7 @@ t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
+// Libère proprement la structure principale du shell
 void	free_shell(t_shell *shell)
 {
 	int	i;
@@ -88,5 +92,9 @@ void	free_shell(t_shell *shell)
 		free_ast(shell->ast);
 	if (shell->current_dir)
 		free(shell->current_dir);
+	if (shell->heredocs)
+		free_heredocs(shell->heredocs);
+	if (shell->redirections)
+		free_redirections(shell->redirections);
 	free(shell);
 }

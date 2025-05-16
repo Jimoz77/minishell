@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/14 21:03:50 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/09 14:52:29 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ static int	get_priority(t_token_type type)
 	return (100);
 }
 
-// Vérifie si un token opérateur a une priorité plus faible que celle trouvée jusqu’ici
+// Vérifie si un token opérateur a une priorité plus faible
 static int	check_token_priority(t_token *token, int depth, int *lowest)
 {
-	int priority;
+	int	priority;
 
-	// Ne considérer que les opérateurs
 	if (depth == 0 && is_operator(token->type))
 	{
 		priority = get_priority(token->type);
@@ -73,36 +72,42 @@ int	find_lowest_priority(t_token *tokens)
 	return (pos);
 }
 
+// Vérifie et traite une redirection suivie d'un mot
+static t_node	*handle_redir_and_word(t_token *tokens)
+{
+	t_token	*tmp;
+
+	if (!tokens || !tokens->next || !tokens->next->next)
+		return (NULL);
+	tmp = tokens->next->next;
+	while (tmp && tmp->type == TOKEN_WORD)
+		tmp = tmp->next;
+	if (tmp && is_operator(tmp->type))
+		return (create_op_node(tokens, tokens));
+	return (NULL);
+}
+
 // Construit l'arbre de syntaxe (AST) à partir des tokens
 t_node	*parse_ast(t_token *tokens)
 {
 	t_token	*op;
 	int		i;
-	t_token	*tmp;
+	t_node	*node;
 
 	if (!tokens)
 		return (NULL);
-	// Si on commence par une redirection
 	if (is_redirection(tokens->type) && tokens->next && tokens->next->next)
 	{
-		// On cherche la prochaine redirection ou opérateur
-		tmp = tokens->next->next;
-		while (tmp && tmp->type == TOKEN_WORD)
-			tmp = tmp->next;
-		// Si on a trouvé une autre redirection ou un opérateur
-		if (tmp && is_operator(tmp->type))
-		{
-			return (create_op_node(tokens, tokens));
-		}
+		node = handle_redir_and_word(tokens);
+		if (node)
+			return (node);
 	}
 	if (tokens->type == TOKEN_LPAREN)
 		return (handle_paren_and_op(tokens));
 	i = find_lowest_priority(tokens);
-	if (i == -1 || (tokens->next && !tokens->next->next &&
-		tokens->type == TOKEN_WORD && tokens->next->type == TOKEN_WORD))
-	{
+	if (i == -1 || (tokens->next && !tokens->next->next
+			&& tokens->type == TOKEN_WORD && tokens->next->type == TOKEN_WORD))
 		return (create_cmd_node(tokens));
-	}
 	op = get_token_at(tokens, i);
 	if (!op)
 		return (create_cmd_node(tokens));

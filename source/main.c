@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:59:25 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/08 15:01:04 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:21:55 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 /* int	main(int argc, char **argv, char **envp)
 {
+	char	**my_envp;
+
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	char **my_envp;
-
 	my_envp = load_env();
+	if (!my_envp)
+		my_envp = ft_array_dup(envp);
 	setup_signals();
 	ft_read_line(my_envp);
-
 	return (0);
 } */
 
-
-#include "minishell.h"
-
 static int	execute_command_line(t_shell *shell, char *command)
 {
+  int exit_status:
+  
 	shell->tokens = tokenize(command);
 	if (!is_valid_syntax(shell->tokens))
 	{
@@ -44,7 +44,7 @@ static int	execute_command_line(t_shell *shell, char *command)
 		free_tokens(shell->tokens);
 		return (1);
 	}
-	int exit_status = execute_ast(shell->ast, shell->envp);
+	exit_status = execute_ast(shell->ast, shell->envp);
 	
 	// Nettoyage
 	free_tokens(shell->tokens);
@@ -54,8 +54,8 @@ static int	execute_command_line(t_shell *shell, char *command)
 
 int	ft_launch_minishell(char *command, char **envp)
 {
-	t_shell	*shell;
-	int		exit_status;
+	t_shell   *shell;
+	int       exit_status;
 
 	shell = init_shell(envp);
 	if (!shell)
@@ -75,7 +75,6 @@ int	main(int argc, char **argv)
 		int	exit_status = ft_launch_minishell(argv[2], my_envp);
 		exit(exit_status);
 	}
-
 	// Mode interactif normal
 	char	**my_envp = load_env();
 	setup_signals();

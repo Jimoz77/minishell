@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:46:40 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/14 20:49:08 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/08 15:51:10 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+// Vérifie si une chaîne est un identifiant valide pour une variable d’environnement
+static int	is_valid_id(char *str)
+{
+	int	i;
+
+	if (!str || !ft_isalpha(str[0]))
+		return (0);
+	i = 1;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 // pas encore fonctionnel
 int	ft_unset(char **cmd, char ***envp)

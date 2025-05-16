@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/15 22:17:57 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/08 09:21:08 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,35 +51,46 @@ void	free_ast(t_node *node)
 	free(node);
 }
 
+// Libère la mémoire des redirections
+void	free_redirections(t_redir *redirections)
+{
+	t_redir	*current;
+	t_redir	*next;
+
+	current = redirections;
+	while (current)
+	{
+		next = current->next;
+		if (current->filename)
+			free(current->filename);
+		free(current);
+		current = next;
+	}
+}
+
+// Libère la mémoire des heredocs
+void	free_heredocs(t_heredoc *heredocs)
+{
+	t_heredoc	*current;
+	t_heredoc	*next;
+
+	current = heredocs;
+	while (current)
+	{
+		next = current->next;
+		if (current->delimiter)
+			free(current->delimiter);
+		if (current->content)
+			free(current->content);
+		free(current);
+		current = next;
+	}
+}
+
 char	*ft_strjoin_free(char *s1, const char *s2)
 {
 	char	*result;
-
-	result = ft_strjoin(s1, s2);
-	free(s1);
-	return (result);
-}
-
-void	ft_free_split(char **split_array)
-{
-	int	i;
-
-	if (!split_array)
-		return ;
-	i = 0;
-	while (split_array[i])
-	{
-		free(split_array[i]);
-		i++;
-	}
-	free(split_array);
-	return ;
-}
-
-void	free_array(char **array)
-{
-	int	i;
-
+  
 	if (!array)
 		return ;
 	i = 0;

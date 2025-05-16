@@ -6,16 +6,16 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:03:50 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/14 21:15:36 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/13 22:50:53 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // Crée un nouveau token avec une valeur et un type
-t_token *new_token(char *value, t_token_type type)
+t_token	*new_token(char *value, t_token_type type)
 {
-	t_token *token;
+	t_token	*token;
 
 	if (!value)
 		return (NULL);
@@ -66,10 +66,10 @@ int	is_operator_str(char *str)
 // Retourne la longueur d'un opérateur (1 ou 2 caractères)
 int	operator_length(char *str)
 {
-	if ((str[0] == '>' && str[1] == '>') ||
-		(str[0] == '<' && str[1] == '<') ||
-		(str[0] == '&' && str[1] == '&') ||
-		(str[0] == '|' && str[1] == '|'))
+	if ((str[0] == '>' && str[1] == '>')
+		|| (str[0] == '<' && str[1] == '<')
+		|| (str[0] == '&' && str[1] == '&')
+		|| (str[0] == '|' && str[1] == '|'))
 		return (2);
 	return (1);
 }
