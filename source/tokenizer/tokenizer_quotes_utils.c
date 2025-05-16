@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:40:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/01 14:45:25 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:39:44 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	parse_quoted_part(char *input, int *i, t_word_part **parts,
 	char	*content;
 
 	start = *i;
+	content = NULL;
 	if (type == QUOTE_SINGLE)
 		quote = '\'';
 	else if (type == QUOTE_DOUBLE)
@@ -78,7 +79,8 @@ int	parse_quoted_part(char *input, int *i, t_word_part **parts,
 		ft_printf("minishell: syntax error: unclosed quote\n");
 		return (-1);
 	}
-	content = ft_substr(input, start + 1, *i - start - 1);
+	if (start + 2 == *i - start - 1)
+		content = ft_substr(input, start + 1, *i - start - 1);
 	if (!content)
 		return (-1);
 	add_word_part(parts, content, type);
