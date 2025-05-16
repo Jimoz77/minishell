@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:59:25 by jimpa             #+#    #+#             */
-/*   Updated: 2025/04/23 18:21:55 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:15:50 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 static int	execute_command_line(t_shell *shell, char *command)
 {
-  int exit_status:
+  int exit_status;
   
 	shell->tokens = tokenize(command);
 	if (!is_valid_syntax(shell->tokens))
@@ -44,7 +44,7 @@ static int	execute_command_line(t_shell *shell, char *command)
 		free_tokens(shell->tokens);
 		return (1);
 	}
-	exit_status = execute_ast(shell->ast, shell->envp);
+	exit_status = execute_ast(shell->ast, shell->envp, shell);
 	
 	// Nettoyage
 	free_tokens(shell->tokens);

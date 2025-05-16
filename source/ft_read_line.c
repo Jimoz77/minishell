@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/16 16:30:53 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:15:29 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	handle_token_syntax(t_shell *shell, char *input)
 		free(input);
 		return (0);
 	}
-	scan_envar(shell->tokens, shell->envp);
+	scan_envar(shell);
 	expand_wildcards(shell->tokens);
 	return (1);
 }

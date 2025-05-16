@@ -67,6 +67,7 @@ SRCS = \
 	$(SRC_DIR)/executor/executor_redir_apply.c \
 	$(SRC_DIR)/executor/executor_redir_collect.c \
 	$(SRC_DIR)/executor/executor_paren.c \
+	$(SRC_DIR)/executor/executor_pipe.c \
 	$(SRC_DIR)/utils/save_env.c \
 	$(SRC_DIR)/wildcards/wildcards.c \
 	$(SRC_DIR)/wildcards/wildcards_utils.c \

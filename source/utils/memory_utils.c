@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/08 09:21:08 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:21:49 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,11 @@ void	free_heredocs(t_heredoc *heredocs)
 
 char	*ft_strjoin_free(char *s1, const char *s2)
 {
-	char	*result;
-  
-	if (!array)
-		return ;
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
+	char *result;
+
+	result = ft_strjoin(s1, s2);
+	free(s1);
+	return (result);
 }
 
 void	free_token(t_token *token)

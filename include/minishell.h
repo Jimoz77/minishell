@@ -145,6 +145,11 @@ void 	save_env(char ***env);
 void	ft_free_split(char **split_array);
 char	*ft_strjoin_free(char *s1, const char *s2);
 void	free_ast(t_node *node);
+void	load_history(void);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+
+
+
 
 
 // tokenizer/
@@ -164,7 +169,9 @@ int				parse_quoted_part(char *input, int *i, t_word_part **parts, t_quote_type 
 void			add_word_part(t_word_part **parts, char *content, t_quote_type type);
 void			free_word_parts(t_word_part *parts);
 char			*build_unquoted_value(t_word_part *parts);
-int				scan_envar(t_token *tokens, char ***envp);
+int				scan_envar(t_shell *shell);
+t_token			*delete_token(t_token *head, t_token *target);
+
 
 
 // parser/
@@ -207,6 +214,7 @@ int		check_parentheses_usage(t_token *tokens);
 
 // executor/
 
+int		execute_node_by_type(t_node *node, char ***envp, t_shell *shell);
 int		execute_ast(t_node *node, char ***envp, t_shell *shell);
 int		execute_combined_node(t_node *node, char **envp, t_shell *shell);
 int		execute_cmd_node(t_node *node, char ***envp);
@@ -218,9 +226,9 @@ void	close_redirect_fds(t_redirect *red);
 void	restore_std_fds(t_redirect *red);
 t_node	*find_command_node(t_node *node);
 int		is_redirect_node(t_node_type type);
-int		execute_pipe_node(t_node *node, char ***envp);
-int		execute_and_node(t_node *node, char ***envp);
-int		execute_or_node(t_node *node, char ***envp);
+int		execute_pipe_node(t_node *node, char ***envp, t_shell *shell);
+int		execute_and_node(t_node *node, char ***envp, t_shell *shell);
+int		execute_or_node(t_node *node, char ***envp, t_shell *shell);
 
 
 // executor/redir
@@ -235,7 +243,7 @@ void	process_heredocs(t_shell *shell);
 // BUILTINS
 
 int				ft_is_builtin(char **cmd, char ***envp);
-void			execute_builtin(char **cmd, char ***envp);
+int			execute_builtin(char **cmd, char ***envp);
 int				ft_cd(char **cmd, char ***envp);
 int				ft_pwd(void);
 int				ft_echo(char **cmd);
