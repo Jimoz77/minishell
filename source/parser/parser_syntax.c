@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_syntax.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:51:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/03/28 15:49:16 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:02:21 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_redirection(t_token_type type)
 int	check_paren_balance(t_token *tokens)
 {
 	int	depth;
-	
+
 	depth = 0;
 	while (tokens)
 	{

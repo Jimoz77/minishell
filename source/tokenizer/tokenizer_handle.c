@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_handle.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:21:49 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/16 12:20:42 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:15:19 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	handle_word(t_token **tokens, char *input)
 {
 	int		len;
 	char	*word;
-	
+
 	// Vérifier si le mot contient des guillemets
 	len = 0;
 	while (input[len] && !is_space(input[len]) && !is_operator_str(&input[len])

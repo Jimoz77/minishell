@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_heredoc_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:48:36 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/16 13:22:27 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:50:27 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	read_heredoc_input(int pipe_fd, char *delimiter)
 		if (!line)
 		{
 			write(1, "\n", 1);
-			break;
+			break ;
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(pipe_fd, line, ft_strlen(line));
 		write(pipe_fd, "\n", 1);

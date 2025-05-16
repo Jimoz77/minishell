@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/09 15:20:43 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/14 21:24:24 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //***********************************************************************/
 // Ajoutez cette fonction dans ft_read_line.c
-const char *redirect_type_str(t_node_type type)
+/* const char *redirect_type_str(t_node_type type)
 {
     const char *names[] = {
         [NODE_REDIRECT_IN] = "REDIR_IN",
@@ -135,7 +135,7 @@ void print_tokens(t_shell *shell) {
         current = current->left;
     }
     ft_printf("\n");
-}
+} */
 
 //***************************************************************** */
 
@@ -150,15 +150,15 @@ static void	process_input(t_shell *shell, char *input)
 	}
 	if (!is_valid_syntax(shell->tokens))
 	{
-        free_tokens(shell->tokens);
+		free_tokens(shell->tokens);
 		free(input);
 		return ;
 	}
-    scan_envar(shell);
+	scan_envar(shell);
 	shell->ast = parse_ast(shell->tokens);
 	if (!shell->ast)
 	{
-        free_tokens(shell->tokens);
+		free_tokens(shell->tokens);
 		free(input);
 		return ;
 	}

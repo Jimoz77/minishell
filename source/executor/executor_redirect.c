@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_redirect.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:56:01 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 18:03:05 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:58:00 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static void	exec_with_redirect(t_node *node, char ***envp, int fd)
 	// Restaurer les gestionnaires de signaux par défaut
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	
 	setup_redirection(node, fd);
 	exit(execute_ast(node->left, envp));
 }

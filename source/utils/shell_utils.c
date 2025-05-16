@@ -6,11 +6,42 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 21:26:18 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/15 15:50:52 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
+{
+	void	*new_ptr;
+	size_t	copy_size;
+	size_t	i;
+
+	if (new_size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	new_ptr = malloc(new_size);
+	if (!new_ptr)
+		return (NULL);
+	if (ptr)
+	{
+		if (old_size < new_size)
+			copy_size = old_size;
+		else
+			copy_size = new_size;
+		i = 0;
+		while (i < copy_size)
+		{
+			((char *)new_ptr)[i] = ((char *)ptr)[i];
+			i++;
+		}
+		free(ptr);
+	}
+	return (new_ptr);
+}
 
 t_shell	*init_shell(char **envp)
 {
@@ -29,7 +60,7 @@ t_shell	*init_shell(char **envp)
 	shell->ast = NULL;
 	shell->exit_status = 0;
 	shell->current_dir = getcwd(NULL, 0);
-	if(!shell->current_dir)
+	if (!shell->current_dir)
 	{
 		free(shell->envp);
 		free(shell);

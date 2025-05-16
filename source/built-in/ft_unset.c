@@ -6,12 +6,11 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:46:40 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/09 15:14:34 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/14 20:49:08 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 // pas encore fonctionnel
 int	ft_unset(char **cmd, char ***envp)
@@ -52,7 +51,6 @@ int	ft_unset(char **cmd, char ***envp)
 					}
 					(*envp)[k] = NULL;
 					found = 1;
-					//exit_status = 1;
 				}
 				else
 					j++;

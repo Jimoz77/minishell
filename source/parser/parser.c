@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 13:27:02 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:03:50 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,25 @@ static int	get_priority(t_token_type type)
 }
 
 // Vérifie si un token opérateur a une priorité plus faible que celle trouvée jusqu’ici
-static int check_token_priority(t_token *token, int depth, int *lowest)
+static int	check_token_priority(t_token *token, int depth, int *lowest)
 {
-    int priority;
+	int priority;
 
-    // Ne considérer que les opérateurs
-    if (depth == 0 && is_operator(token->type))
-    {
-        priority = get_priority(token->type);
-        if (priority <= *lowest)
-        {
-            *lowest = priority;
-            return (1);
-        }
-    }
-    return (0);
+	// Ne considérer que les opérateurs
+	if (depth == 0 && is_operator(token->type))
+	{
+		priority = get_priority(token->type);
+		if (priority <= *lowest)
+		{
+			*lowest = priority;
+			return (1);
+		}
+	}
+	return (0);
 }
 
 // Renvoie la position du token ayant la plus faible priorité
-int find_lowest_priority(t_token *tokens)
+int	find_lowest_priority(t_token *tokens)
 {
 	int		pos;
 	int		i;

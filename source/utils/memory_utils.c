@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/22 18:46:49 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/15 22:17:57 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,56 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
+}
+
+void	free_token(t_token *token)
+{
+	t_word_part	*parts;
+	t_word_part	*tmp;
+
+	if (!token)
+		return ;
+	// Libération de la liste parts
+	parts = token->parts;
+	while (parts)
+	{
+		tmp = parts->next;
+		free(parts->content);
+		free(parts);
+		parts = tmp;
+	}
+	// Libération du reste
+	free(token->value);
+	free(token);
+}
+
+t_token	*delete_token(t_token *head, t_token *target)
+{
+	t_token	*current;
+	t_token	*prev;
+
+	if (!head || !target)
+		return (head);
+	// Cas spécial : suppression de la tête
+	if (head == target)
+	{
+		current = head->next;
+		free_token(head);
+		return (current);
+	}
+	// Parcours de la liste
+	prev = head;
+	current = head->next;
+	while (current)
+	{
+		if (current == target)
+		{
+			prev->next = current->next;
+			free_token(current);
+			break ;
+		}
+		prev = current;
+		current = current->next;
+	}
+	return (head);
 }

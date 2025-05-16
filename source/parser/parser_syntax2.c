@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_syntax2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:00:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/16 12:19:19 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:02:32 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	check_end_operator(t_token *tokens)
 {
 	while (tokens && tokens->next)
 		tokens = tokens->next;
-	
 	if (tokens && is_operator(tokens->type))
 	{
 		ft_printf("minishell: syntax error: unexpected end of file\n");

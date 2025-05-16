@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/14 20:09:33 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/15 15:47:29 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Fonction pour mettre à jour le PID dans l'environnement (peut-etre pas nécessaire)
 // fonction qui leak surement
-char **update_pid(char **env)
+char	**update_pid(char **env)
 {
 	int		i;
 	char	*pid_str;
@@ -69,9 +69,12 @@ char	**load_env(void)
 	char		buffer[4096];
 	char		**env;
 	char		*line;
+	char		**new_env;
+	size_t		current_size; // Nouvelle variable pour tracker la taille
 
-	fd = open("/home/jimpa/work/new_mini/etc/.mini_env", O_RDONLY); // Même chemin
-	if (fd == -1){
+	fd = open("/home/jimpa/work/new_mini/etc/.mini_env", O_RDONLY);
+	if (fd == -1)
+	{
 		perror("open");
 		return (NULL);
 	}
@@ -82,14 +85,27 @@ char	**load_env(void)
 	buffer[bytes] = '\0';
 
 	// Découpage des lignes
+
 	count = 0;
-	env = malloc(sizeof(char *));
-	line = ft_strtok(buffer, "\n");
+	current_size = 1; // Taille initiale du tableau
+	env = malloc(sizeof(char *) * current_size);
+	line = ft_strtok(buffer, '\n');
 	while (line)
 	{
+		if ((size_t)count + 1 >= current_size) // +1 pour le NULL final
+		{
+			current_size *= 2; // Double la capacité à chaque redimensionnement
+			new_env = ft_realloc(env, (count + 1) * sizeof(char *), current_size * sizeof(char *)); // Nouvelle taille
+			if (!new_env)
+			{
+				free(env);
+				return (NULL);
+			}
+			env = new_env;
+		}
 		env[count] = ft_strdup(line);
-		env = realloc(env, sizeof(char *) * (++count + 1));  // a implementer
-		line = ft_strtok(NULL, "\n");
+		count++;
+		line = ft_strtok(NULL, '\n');
 	}
 	env[count] = NULL;
 	return (update_pid(env));
@@ -97,8 +113,9 @@ char	**load_env(void)
 
 void	save_history(char *cmd)
 {
-	int		fd;
-	static char *old_cmd = {NULL};
+	int			fd;
+	static char	*old_cmd = {NULL};
+
 	if (old_cmd && ft_strncmp(old_cmd, cmd, ft_strlen(cmd)) == 0 && ft_strncmp(old_cmd, cmd, ft_strlen(old_cmd)) == 0)
 		return ;
 //le path ne fonctionne que sur mon ordi // a voir comment le gerer 
@@ -109,7 +126,6 @@ void	save_history(char *cmd)
 		perror("open");
 		return ;
 	}
-
 	write(fd, cmd, ft_strlen(cmd));
 	write(fd, "\n", 1);
 	close(fd);
@@ -117,21 +133,20 @@ void	save_history(char *cmd)
 	old_cmd = ft_strdup(cmd);
 }
 
-void    load_history(void)
+void	load_history(void)
 {
-    int     fd;
-    char    *line = NULL;
+	int		fd;
+	char	*line = NULL;
 
 	fd = open("/home/jimpa/work/new_mini/etc/.minishell_history", O_RDONLY);
-    if (fd == -1)
-		return;
-	 while ((line = get_next_line(fd)) != NULL)
-    {
-        if (*line)
-            add_history(line);
-        free(line);
-        line = NULL;
-    }
-    
-    close(fd);
+	if (fd == -1)
+		return ;
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		if (*line)
+			add_history(line);
+		free(line);
+		line = NULL;
+	}
+	close(fd);
 }

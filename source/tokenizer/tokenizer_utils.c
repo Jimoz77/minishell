@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:03:50 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/15 18:01:43 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:15:36 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token *new_token(char *value, t_token_type type)
 }
 
 // Ajoute un token à la fin de la liste
-void add_token(t_token **list, char *value, t_token_type type)
+void	add_token(t_token **list, char *value, t_token_type type)
 {
 	t_token	*new;
 	t_token	*tmp;

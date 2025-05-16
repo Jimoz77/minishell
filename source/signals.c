@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:09:09 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/15 16:54:02 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:24:46 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	handle_sigquit(int sig)
 static void	setup_sigint(void)
 {
 	struct sigaction	sa_int;
-	
+
 	sa_int.sa_handler = handle_sigint;
 	sa_int.sa_flags = 0;
 	sigemptyset(&sa_int.sa_mask);
