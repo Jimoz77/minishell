@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/16 18:40:27 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:21:48 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	save_env(char ***env)
 	int		fd;
 //le path ne fonctionne que sur mon ordi // a voir comment le gerer 
 // peut etre créé directement dans un repetoir de l'ordi avec la fonction open
-	fd = open("/home/jiparcer/cursus42/new-mini/etc/.mini_env", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open("/home/jimpa/work/new_mini/etc/.mini_env", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	i = 0;
 	if (fd == -1)
 	{
@@ -72,7 +72,7 @@ char **load_env(void)
 	char		**new_env;
 	size_t		current_size; // Nouvelle variable pour tracker la taille
 
-	fd = open("/home/jiparcer/cursus42/new-mini/etc/.mini_env", O_RDONLY);
+	fd = open("/home/jimpa/work/new_mini/etc/.mini_env", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("open");
@@ -120,7 +120,7 @@ void	save_history(char *cmd)
 		return ;
 //le path ne fonctionne que sur mon ordi // a voir comment le gerer 
 // peut etre créé directement dans un repetoir de l'ordi avec la fonction open
-	fd = open("/home/jiparcer/cursus42/new-mini/etc/.minishell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open("/home/jimpa/work/new_mini/etc/.minishell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 	{
 		perror("open");
@@ -138,7 +138,7 @@ void	load_history(void)
 	int		fd;
 	char	*line = NULL;
 
-	fd = open("/home/jiparcer/cursus42/new-mini/etc/.minishell_history", O_RDONLY);
+	fd = open("/home/jimpa/work/new_mini/etc/.minishell_history", O_RDONLY);
 	if (fd == -1)
 		return ;
 	while ((line = get_next_line(fd)) != NULL)
