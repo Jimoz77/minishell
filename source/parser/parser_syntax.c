@@ -59,7 +59,8 @@ int	is_valid_syntax(t_token *tokens)
 		ft_printf("minishell: syntax error: unbalanced parentheses\n");
 		return (0);
 	}
-	if (!check_start_operator(tokens) || !check_redirections(tokens)
+	if (!check_start_operator(tokens) 
+		|| !check_redirections(tokens)
 		|| !check_end_operator(tokens) || !check_consecutive_operators(tokens)
 		|| !check_parentheses_usage(tokens))
 		return (0);

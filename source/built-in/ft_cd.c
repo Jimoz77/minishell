@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:08:22 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/19 18:33:26 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/20 16:12:58 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	ft_cd(char **cmd, char ***envp)
 	static char	*old_pwd;
 	int			result;
 
+	result = 0;
 	if (!old_pwd)
 		old_pwd = getenv("OLDPWD");
 	if (cmd[1] == NULL || (cmd[1][0] == '-' && cmd[1][1] == '-'))
