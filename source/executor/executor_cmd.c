@@ -12,7 +12,8 @@
 
 #include "../../include/minishell.h"
 
-// Exécute une commande externe
+// Exécute une commande externe en cherchant son chemin dans $PATH
+// rajouter controle / gestion de commande sous forme de path expl : "/bin/ls"
 static int	exec_external(char **cmd, char **envp)
 {
 	char	*path;
