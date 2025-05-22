@@ -31,6 +31,7 @@ SRCS = \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/ft_getcwd.c \
 	$(SRC_DIR)/ft_read_line.c \
+	$(SRC_DIR)/ft_read_line_utils.c \
 	$(SRC_DIR)/signals.c \
 	$(SRC_DIR)/built-in/ft_cd.c \
 	$(SRC_DIR)/built-in/ft_echo.c \
@@ -59,8 +60,10 @@ SRCS = \
 	$(SRC_DIR)/utils/ft_array_dup.c \
 	$(SRC_DIR)/utils/ft_path_finder.c \
 	$(SRC_DIR)/utils/shell_utils.c \
+	$(SRC_DIR)/utils/handle_unclosed_quotes.c \
 	$(SRC_DIR)/executor/executor.c \
 	$(SRC_DIR)/executor/executor_cmd.c \
+	$(SRC_DIR)/executor/executor_cmd_utils.c \
 	$(SRC_DIR)/executor/executor_heredoc.c \
 	$(SRC_DIR)/executor/executor_combined.c \
 	$(SRC_DIR)/executor/executor_redir_utils.c \

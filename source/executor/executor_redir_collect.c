@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:05:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/09 15:03:58 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:51:37 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,26 @@ void	add_redirection(t_redir **list, t_token_type type, char *filename)
 	}
 }
 
-// Collecte les redirections à partir des tokens
+// Compte le niveau de parenthèses ouvertes
+static int	count_paren_level(t_token *tokens, t_token *target)
+{
+	t_token	*current;
+	int		level;
+
+	current = tokens;
+	level = 0;
+	while (current && current != target)
+	{
+		if (current->type == TOKEN_LPAREN)
+			level++;
+		else if (current->type == TOKEN_RPAREN)
+			level--;
+		current = current->next;
+	}
+	return (level);
+}
+
+// Collecte les redirections seulement si elles sont en dehors des parenthèses
 void	collect_redirections(t_token *tokens, t_shell *shell)
 {
 	t_token	*current;
@@ -92,6 +111,36 @@ void	collect_redirections(t_token *tokens, t_shell *shell)
 
 	shell->redirections = NULL;
 	shell->heredocs = NULL;
+	current = tokens;
+	while (current)
+	{
+		if (is_redirection(current->type) && current->next
+			&& current->next->type == TOKEN_WORD)
+		{
+			// Vérifier si la redirection est en dehors des parenthèses
+			if (count_paren_level(tokens, current) == 0)
+			{
+				next = current->next;
+				if (current->type == TOKEN_HEREDOC)
+					add_heredoc(&shell->heredocs, next->value, NULL);
+				add_redirection(&shell->redirections, current->type, next->value);
+			}
+		}
+		current = current->next;
+	}
+}
+
+// Nouvelle fonction pour collecter les redirections à l'intérieur des parenthèses
+void	collect_redirections_in_parens(t_token *tokens, t_shell *shell)
+{
+	t_token	*current;
+	t_token	*next;
+
+	if (!shell->redirections)
+		shell->redirections = NULL;
+	if (!shell->heredocs)
+		shell->heredocs = NULL;
+	
 	current = tokens;
 	while (current)
 	{

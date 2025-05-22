@@ -11,6 +11,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <errno.h>
 # include <dirent.h>
 
@@ -147,8 +148,9 @@ char	*ft_strjoin_free(char *s1, const char *s2);
 void	free_ast(t_node *node);
 void	load_history(void);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
-
-
+char	*handle_unclosed_quotes(char *input);
+void	init_loop_vars(t_shell *shell);
+void	handle_ast_execution(t_shell *shell, char *input);
 
 
 
@@ -171,6 +173,7 @@ void			free_word_parts(t_word_part *parts);
 char			*build_unquoted_value(t_word_part *parts);
 int				scan_envar(t_shell *shell);
 t_token			*delete_token(t_token *head, t_token *target);
+void			envar_to_value(char ***envp, t_token *token);
 
 
 
@@ -217,7 +220,7 @@ int		check_parentheses_usage(t_token *tokens);
 int		execute_node_by_type(t_node *node, char ***envp, t_shell *shell);
 int		execute_ast(t_node *node, char ***envp, t_shell *shell);
 int		execute_combined_node(t_node *node, char **envp, t_shell *shell);
-int		execute_cmd_node(t_node *node, char ***envp);
+int		execute_cmd_node(t_node *node, char ***envp, t_shell *shell);
 int		execute_paren_node(t_node *node, char ***envp, t_shell *shell);
 int		string_to_fd(const char *content);
 
@@ -229,6 +232,11 @@ int		is_redirect_node(t_node_type type);
 int		execute_pipe_node(t_node *node, char ***envp, t_shell *shell);
 int		execute_and_node(t_node *node, char ***envp, t_shell *shell);
 int		execute_or_node(t_node *node, char ***envp, t_shell *shell);
+int		is_directory(char *path);
+char	*handle_direct_path(char *cmd);
+int		handle_special_commands(char **cmd);
+int		execute_with_path(char *path, char **cmd, char **envp);
+
 
 
 // executor/redir
@@ -236,6 +244,7 @@ int		execute_or_node(t_node *node, char ***envp, t_shell *shell);
 void	add_redirection(t_redir **list, t_token_type type, char *filename);
 void	add_heredoc(t_heredoc **list, char *delimiter, char *content);
 void	collect_redirections(t_token *tokens, t_shell *shell);
+void	collect_redirections_in_parens(t_token *tokens, t_shell *shell);
 int		apply_all_redirections(t_shell *shell, t_redirect *red);
 void	process_heredocs(t_shell *shell);
 

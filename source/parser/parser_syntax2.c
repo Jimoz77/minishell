@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_syntax2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:00:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/23 16:15:47 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:03:12 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,23 @@ int	check_start_operator(t_token *tokens)
 // Vérifie les redirections sans cible
 int	check_redirections(t_token *tokens)
 {
-	while (tokens && tokens->next)
+	while (tokens)
 	{
-		if (is_redirection(tokens->type)
-			&& (is_operator(tokens->next->type)
-				|| tokens->next->type == TOKEN_RPAREN))
+		if (is_redirection(tokens->type))
 		{
-			ft_printf("minishell: syntax error near unexpected token '%s'\n",
-				tokens->next->value);
-			return (0);
+			// Vérifier si c'est le dernier token (rien après la redirection)
+			if (!tokens->next)
+			{
+				ft_printf("minishell: syntax error near unexpected token `newline'\n");
+				return (0);
+			}
+			// Vérifier si le token suivant est un opérateur ou une parenthèse fermante
+			else if (is_operator(tokens->next->type) || tokens->next->type == TOKEN_RPAREN)
+			{
+				ft_printf("minishell: syntax error near unexpected token '%s'\n",
+					tokens->next->value);
+				return (0);
+			}
 		}
 		tokens = tokens->next;
 	}
@@ -51,11 +59,34 @@ int	check_redirections(t_token *tokens)
 // Vérifie que la commande ne se termine pas par un opérateur
 int	check_end_operator(t_token *tokens)
 {
-	while (tokens && tokens->next)
-		tokens = tokens->next;
-	if (tokens && is_operator(tokens->type))
+	t_token	*last;
+
+	// Trouver le dernier token
+	last = tokens;
+	while (last && last->next)
+		last = last->next;
+	
+	// Vérifier si le dernier token est un opérateur
+	if (last && is_operator(last->type))
 	{
-		ft_printf("minishell: syntax error: unexpected end of file\n");
+		// Si c'est un pipe, utiliser un message similaire à bash
+		if (last->type == TOKEN_PIPE)
+			ft_printf("minishell: syntax error near unexpected token '|'\n");
+		// De même pour les autres opérateurs
+		else if (last->type == TOKEN_REDIRECT_IN)
+			ft_printf("minishell: syntax error near unexpected token '<'\n");
+		else if (last->type == TOKEN_REDIRECT_OUT)
+			ft_printf("minishell: syntax error near unexpected token '>'\n");
+		else if (last->type == TOKEN_APPEND)
+			ft_printf("minishell: syntax error near unexpected token '>>'\n");
+		else if (last->type == TOKEN_HEREDOC)
+			ft_printf("minishell: syntax error near unexpected token '<<'\n");
+		else if (last->type == TOKEN_AND)
+			ft_printf("minishell: syntax error near unexpected token '&&'\n");
+		else if (last->type == TOKEN_OR)
+			ft_printf("minishell: syntax error near unexpected token '||'\n");
+		else
+			ft_printf("minishell: syntax error: unexpected end of file\n");
 		return (0);
 	}
 	return (1);
@@ -81,21 +112,39 @@ int	check_consecutive_operators(t_token *tokens)
 	return (1);
 }
 
-// Vérifie l'utilisation des parenthèses
+// Vérifie l'utilisation des parenthèses - VERSION CORRIGÉE
 int	check_parentheses_usage(t_token *tokens)
 {
-	while (tokens && tokens->next)
+	while (tokens)
 	{
-		if (tokens->type == TOKEN_RPAREN && tokens->next->type == TOKEN_LPAREN)
+		// Vérifier les doubles parenthèses ouvrantes consécutives
+		if (tokens->type == TOKEN_LPAREN && tokens->next && tokens->next->type == TOKEN_LPAREN)
 		{
-			ft_printf("minishell: syntax error near unexpected token '('\n");
+			ft_printf("minishell: syntax error near unexpected token `('\n");
 			return (0);
 		}
-		if (tokens->type == TOKEN_LPAREN && tokens->next->type == TOKEN_RPAREN)
+		
+		// Vérifier les parenthèses vides
+		if (tokens->type == TOKEN_LPAREN && tokens->next && tokens->next->type == TOKEN_RPAREN)
 		{
 			ft_printf("minishell: syntax error: empty parentheses\n");
 			return (0);
 		}
+		
+		// Vérifier les doubles parenthèses fermantes consécutives
+		if (tokens->type == TOKEN_RPAREN && tokens->next && tokens->next->type == TOKEN_RPAREN)
+		{
+			ft_printf("minishell: syntax error near unexpected token `)'\n");
+			return (0);
+		}
+		
+		// Vérifier les parenthèses adjacentes sans opérateur
+		if (tokens->type == TOKEN_RPAREN && tokens->next && tokens->next->type == TOKEN_LPAREN)
+		{
+			ft_printf("minishell: syntax error near unexpected token `('\n");
+			return (0);
+		}
+		
 		tokens = tokens->next;
 	}
 	return (1);

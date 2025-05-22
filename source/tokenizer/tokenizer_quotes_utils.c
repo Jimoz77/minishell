@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_quotes_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:40:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/19 18:20:18 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/21 13:52:28 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,7 @@ int	parse_quoted_part(char *input, int *i, t_word_part **parts,
 	while (input[*i] && input[*i] != quote)
 		(*i)++;
 	if (!input[*i])
-	{
-		ft_printf("minishell: syntax error: unclosed quote\n");
 		return (-1);
-	}
-	//if (start + 2 != *i - start - 1)
 	content = ft_substr(input, start + 1, *i - start - 1);
 	if (!content)
 		return (-1);
