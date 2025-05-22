@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:01:37 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/14 20:48:45 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/22 15:06:34 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,30 @@
 
 void	clean_exit(char **cmd, char ***envp)
 {
+	int j;
+	int i;
+
+	j = 0;
+	i = 0;
 	if (cmd[1])
 	{
+		while(cmd[j])
+		{
+			i = 0;
+			while (cmd[j][i])
+			{
+				if(cmd[j][i] == '+' || cmd[j][i] == '-' || (cmd[j][i] >= 'a' && cmd[j][i] <= 'z') || (cmd[j][i] >= 'A' && cmd[j][i] >= 'Z'))
+					exit (0);
+				if(cmd[j][i] == ' ')
+					i++;
+				if(cmd[j][i] < 0 && cmd[j][i] > 9 && cmd[j][i] != '"')
+					exit (2);
+				i++;
+			}
+			j++;
+		}
+		if(cmd[1] && cmd[2])
+			exit (1);
 		save_env(envp);
 		exit(ft_atoi(cmd[1]));
 	}
