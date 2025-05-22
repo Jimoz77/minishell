@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:35:18 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/16 18:37:22 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:35:10 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	execute_pipe_node_right(t_node *node,\
 	int		status;
 	pid_t	pid_right;
 
-	// Processus droit (lecture)
 	pid_right = fork();
 	if (pid_right == 0)
 	{
@@ -26,17 +25,20 @@ int	execute_pipe_node_right(t_node *node,\
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		{
 			perror("minishell: dup2");
-			exit(EXIT_FAILURE);
+			exit(1);
 		}
 		close(pipefd[0]);
 		exit(execute_node_by_type(node->right, envp, shell));
 	}
-	// Nettoyage parent
 	close(pipefd[0]);
 	close(pipefd[1]);
-	waitpid(pid_left, &status, 0);
-	waitpid(pid_right, &status, 0);
-	return (WEXITSTATUS(status));
+	waitpid(pid_left, NULL, 0);  // Ignorer le statut du process gauche
+	waitpid(pid_right, &status, 0);  // Utiliser le statut du dernier process
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
 }
 
 int	execute_pipe_node(t_node *node, char ***envp, t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:41:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/20 14:40:15 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/21 14:20:09 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ static t_token	*create_complex_token(char *input, int len, t_word_part *parts)
 int	handle_complex_word(t_token **tokens, char *input)
 {
 	t_token		*new_token;
-    t_token		*tmp;
-    t_word_part	*parts;
-    int			i;
-    int			len;
+	t_token		*tmp;
+	t_word_part	*parts;
+	int			i;
+	int			len;
 
 	parts = NULL;
 	i = 0;

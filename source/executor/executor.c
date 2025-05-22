@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:54:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/16 18:37:03 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:18:27 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,12 @@ static int	exec_with_redirection(t_node *node, char ***envp, t_shell *shell)
 	{
 		close_redirect_fds(&red);
 		restore_std_fds(&red);
-		return (1);
+		if (errno == ENOENT)
+			return (127);
+		else if (errno == EACCES)
+			return (126);
+		else
+			return (1);
 	}
 	status = 0;
 	if (node->left)
@@ -36,7 +41,7 @@ static int	exec_with_redirection(t_node *node, char ***envp, t_shell *shell)
 int	execute_node_by_type(t_node *node, char ***envp, t_shell *shell)
 {
 	if (node->type == NODE_CMD)
-		return (execute_cmd_node(node, envp));
+		return (execute_cmd_node(node, envp, shell));
 	else if (node->type == NODE_PAREN)
 		return (execute_paren_node(node, envp, shell));
 	else if (node->type == NODE_PIPE)

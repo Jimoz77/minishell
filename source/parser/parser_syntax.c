@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_syntax.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:51:30 by lsadikaj          #+#    #+#             */
-
-/*   Updated: 2025/04/23 16:13:15 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:21:52 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +58,8 @@ int	is_valid_syntax(t_token *tokens)
 		ft_printf("minishell: syntax error: unbalanced parentheses\n");
 		return (0);
 	}
-	if (!check_start_operator(tokens) || !check_redirections(tokens)
+	if (!check_start_operator(tokens)
+		|| !check_redirections(tokens)
 		|| !check_end_operator(tokens) || !check_consecutive_operators(tokens)
 		|| !check_parentheses_usage(tokens))
 		return (0);

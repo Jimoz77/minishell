@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/21 18:22:36 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/22 13:15:55 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static int	handle_token_syntax(t_shell *shell, char *input)
 	shell->tokens = tokenize(input);
 	if (!shell->tokens)
 	{
-		free(input);
+		shell->exit_status = 2;
 		return (0);
 	}
 	if (!is_valid_syntax(shell->tokens))
 	{
 		free_tokens(shell->tokens);
-		free(input);
+		shell->exit_status = 2;
 		return (0);
 	}
-	scan_envar(shell);
+	//scan_envar(shell);
 	expand_wildcards(shell->tokens);
 	return (1);
 }
@@ -39,27 +39,27 @@ static void	handle_redirections(t_shell *shell)
 	process_heredocs(shell);
 }
 
-// Gère l'AST et l'exécution de la commande
-static void	handle_ast_execution(t_shell *shell, char *input)
+// Traite l'entrée dans la boucle principale
+static void	process_input(t_shell *shell, char *input)
 {
-	shell->ast = parse_ast(shell->tokens);
-	if (!shell->ast)
+	if (!*input)
 	{
-		free_tokens(shell->tokens);
-		free_redirections(shell->redirections);
-		free_heredocs(shell->heredocs);
-		shell->redirections = NULL;
-		shell->heredocs = NULL;
 		free(input);
 		return ;
 	}
-	shell->exit_status = execute_ast(shell->ast, shell->envp, shell);
-	free_tokens(shell->tokens);
-	free_redirections(shell->redirections);
-	free_heredocs(shell->heredocs);
-	shell->redirections = NULL;
-	shell->heredocs = NULL;
-	free(input);
+	add_history(input);
+	input = handle_unclosed_quotes(input);
+	if (!input)
+		return ;
+	if (ft_strchr(input, '\n'))
+		add_history(input);
+	if (handle_token_syntax(shell, input))
+	{
+		handle_redirections(shell);
+		handle_ast_execution(shell, input);
+	}
+	else
+		free(input);
 }
 
 // Lit et traite les entrées utilisateur dans une boucle
@@ -69,30 +69,11 @@ static void	ft_read_line_loop(t_shell *shell)
 
 	while (1)
 	{
-		shell->tokens = NULL;
-		shell->ast = NULL;
-		shell->redirections = NULL;
-		shell->heredocs = NULL;
-		if (g_signal == 130)
-		{
-			g_signal = 0;
-			rl_on_new_line();
-		}
-		ft_getcwd();
+		init_loop_vars(shell);
 		input = readline("minishell> ");
 		if (!input)
 			break ;
-		if (*input)
-		{
-			add_history(input);
-			if (handle_token_syntax(shell, input))
-			{
-				handle_redirections(shell);
-				handle_ast_execution(shell, input);
-			}
-		}
-		else
-			free(input);
+		process_input(shell, input);
 	}
 	ft_printf("\n");
 }

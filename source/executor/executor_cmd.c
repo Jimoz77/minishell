@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/21 18:30:01 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/22 13:20:54 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,16 @@
 static int	exec_external(char **cmd, char **envp)
 {
 	char	*path;
+	int		special;
 
 	if (!cmd || !cmd[0])
 		return (1);
-	path = ft_path_finder(cmd[0], &envp);
+	special = handle_special_commands(cmd);
+	if (special)
+		return (special);
+	path = handle_direct_path(cmd[0]);
+	if (!path)
+		path = ft_path_finder(cmd[0], &envp);
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -28,10 +34,7 @@ static int	exec_external(char **cmd, char **envp)
 		ft_putendl_fd(": command not found", 2);
 		return (127);
 	}
-	execve(path, cmd, envp);
-	perror("minishell");
-	free(path);
-	return (126);
+	return (execute_with_path(path, cmd, envp));
 }
 
 // Forke et exécute une commande dans un processus enfant
@@ -50,17 +53,97 @@ static int	exec_forked(t_node *node, char **envp)
 		exit(exec_external(node->cmd, envp));
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		return (127);	
-	//return (WEXITSTATUS(status));
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
 	return (1);
 }
 
-// Exécute un nœud de type commande (builtin ou externe)
-int	execute_cmd_node(t_node *node, char ***envp)
+// Crée des tokens temporaires à partir des arguments de la commande
+static t_token	*create_tokens_from_cmd(char **cmd)
 {
+	t_token	*tokens;
+	t_token	*current;
+	int		i;
+
+	tokens = NULL;
+	i = 0;
+	while (cmd[i])
+	{
+		if (tokens == NULL)
+		{
+			tokens = malloc(sizeof(t_token));
+			current = tokens;
+		}
+		else
+		{
+			current->next = malloc(sizeof(t_token));
+			current = current->next;
+		}
+		if (!current)
+			return (free_tokens(tokens), NULL);
+		current->value = ft_strdup(cmd[i]);
+		current->type = TOKEN_WORD;
+		current->parts = NULL;
+		current->next = NULL;
+		i++;
+	}
+	return (tokens);
+}
+
+// Met à jour les arguments de la commande avec les valeurs expansées
+static void	update_cmd_from_tokens(char **cmd, t_token *tokens)
+{
+	t_token	*current;
+	int		i;
+
+	current = tokens;
+	i = 0;
+	while (current && cmd[i])
+	{
+		free(cmd[i]);
+		cmd[i] = ft_strdup(current->value);
+		current = current->next;
+		i++;
+	}
+}
+
+// Exécute un nœud de type commande (builtin ou externe)
+int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
+{
+	t_token	*original_tokens;
+	t_token	*temp_tokens;
+	int		result;
+
 	if (!node || !node->cmd || !node->cmd[0])
 		return (0);
+	
+	// Sauvegarder les tokens originaux du shell
+	original_tokens = shell->tokens;
+	
+	// Créer des tokens temporaires à partir des arguments
+	temp_tokens = create_tokens_from_cmd(node->cmd);
+	if (!temp_tokens)
+		return (1);
+	
+	// Assigner les tokens temporaires au shell
+	shell->tokens = temp_tokens;
+	
+	// Effectuer l'expansion des variables
+	scan_envar(shell);
+	
+	// Mettre à jour les arguments de la commande
+	update_cmd_from_tokens(node->cmd, shell->tokens);
+	
+	// Restaurer les tokens originaux et nettoyer
+	free_tokens(shell->tokens);
+	shell->tokens = original_tokens;
+	
+	// Exécuter la commande
 	if (ft_is_builtin(node->cmd, envp))
-		return (execute_builtin(node->cmd, envp));
-	return (exec_forked(node, *envp));
+		result = execute_builtin(node->cmd, envp);
+	else
+		result = exec_forked(node, *envp);
+	
+	return (result);
 }

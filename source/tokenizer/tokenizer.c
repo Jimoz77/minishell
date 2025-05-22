@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/12 11:50:14 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:18:49 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	handle_token(t_token **tokens, char *input, int *i)
 	return (0);
 }
 
-// Parcourt l'entrée caractère par caractère et transforme la chaîne en une liste
+// Parcours l'input et la transforme en liste de token
 t_token	*tokenize(char *input)
 {
 	t_token	*tokens;
