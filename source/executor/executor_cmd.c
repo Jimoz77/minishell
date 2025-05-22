@@ -6,13 +6,14 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/19 18:31:43 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/21 18:30:01 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // Exécute une commande externe en cherchant son chemin dans $PATH
+// rajouter controle / gestion de commande sous forme de path expl : "/bin/ls"
 static int	exec_external(char **cmd, char **envp)
 {
 	char	*path;
@@ -49,7 +50,8 @@ static int	exec_forked(t_node *node, char **envp)
 		exit(exec_external(node->cmd, envp));
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
+		return (127);	
+	//return (WEXITSTATUS(status));
 	return (1);
 }
 
