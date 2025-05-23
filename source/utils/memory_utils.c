@@ -21,9 +21,12 @@ void	free_tokens(t_token *tokens)
 	current = tokens;
 	while (current)
 	{
+		printf("FREE");
 		next = current->next;
 		if (current->value)
 			free(current->value);
+		/* if (current->parts)
+			free_t_word_part(tokens); */
 		free(current);
 		current = next;
 	}

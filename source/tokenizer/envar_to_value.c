@@ -234,44 +234,52 @@ static void	process_variable(t_shell *shell, t_token *token)
 	char	*var_value;
 	char	*new_val;
 	char	*temp;
+	t_token	*tmp;
+
 	current = token->value;
-	new_val = ft_strdup("");
-	while (*current)
+	tmp = token;
+	if (tmp->parts && tmp->parts->type == QUOTE_SINGLE)
+		return ;
+	else
 	{
-		if (*current == '$' || *current == '~')
+		new_val = ft_strdup("");
+		while (*current)
 		{
-			var_start = current + (*current == '$' ? 1 : 0);
-			if (current[0] == '$' && (current[1] >= '0' && current[1] <= '9'))
+			if (*current == '$' || *current == '~')
 			{
-				current += 2;
-				continue;
+				var_start = current + (*current == '$' ? 1 : 0);
+				if (current[0] == '$' && (current[1] >= '0' && current[1] <= '9'))
+				{
+					current += 2;
+					continue;
+				}
+				var_end = var_start;
+				// Corriger la condition pour ignorer la vérification de '/'
+				while (*var_end && is_valid_var_char(*var_end))
+					var_end++;
+				var_name = ft_strndup(var_start, var_end - var_start);
+				var_value = get_env_value(var_name, shell->envp);
+				// Concaténer la valeur de la variable
+				temp = ft_strjoin(new_val, var_value ? var_value : "");
+				free(new_val);
+				new_val = temp;
+				current = var_end;
+				free(var_name);
 			}
-			var_end = var_start;
-			// Corriger la condition pour ignorer la vérification de '/'
-			while (*var_end && is_valid_var_char(*var_end))
-				var_end++;
-			var_name = ft_strndup(var_start, var_end - var_start);
-			var_value = get_env_value(var_name, shell->envp);
-			// Concaténer la valeur de la variable
-			temp = ft_strjoin(new_val, var_value ? var_value : "");
-			free(new_val);
-			new_val = temp;
-			current = var_end;
-			free(var_name);
+			else
+			{
+				char str[2] = { *current, '\0' };
+				char *temp = ft_strjoin(new_val, str);
+				free(new_val);
+				new_val = temp;
+				current++;
+			}
 		}
-		else
-		{
-			char str[2] = { *current, '\0' };
-			char *temp = ft_strjoin(new_val, str);
-			free(new_val);
-			new_val = temp;
-			current++;
-		}
+		char *cleaned = clean_double_slashes(new_val);
+		new_val = cleaned;
+		token->value = new_val;
+		process_parts(shell, token);
 	}
-	char *cleaned = clean_double_slashes(new_val);
-	new_val = cleaned;
-	token->value = new_val;
-	process_parts(shell, token);
 }
 
 void	envar_to_value(t_shell *shell, t_token *token)

@@ -173,7 +173,7 @@ void			free_word_parts(t_word_part *parts);
 char			*build_unquoted_value(t_word_part *parts);
 int				scan_envar(t_shell *shell);
 t_token			*delete_token(t_token *head, t_token *target);
-void			envar_to_value(char ***envp, t_token *token);
+void			envar_to_value(t_shell *shell, t_token *token);
 
 
 

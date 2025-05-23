@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:09:09 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/23 18:18:03 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:06:55 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@ void	handle_sigint(int sig)
 {
 	g_signal = sig;
 	write(1, "\n", 1);
+	rl_replace_line("", 0);
 	rl_on_new_line();
-	write(1, "minishell> ", 11);
+	rl_redisplay();
 }
 
 // Gestionnaire pour SIGQUIT (CTRL+\), ne fais rien en mode interactif
-void	handle_sigquit(int sig)
-{
-	g_signal = sig;
-}
 
 // Configure le gestionnaire pour SIGINT
 static void	setup_sigint(void)
@@ -45,7 +42,7 @@ static void	setup_sigquit(void)
 {
 	struct sigaction	sa_quit;
 
-	sa_quit.sa_handler = handle_sigquit;
+	sa_quit.sa_handler = SIG_IGN;
 	sa_quit.sa_flags = 0;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);

@@ -61,7 +61,7 @@ int	ft_launch_minishell(char *command, char **envp)
 	if (!shell)
 		return (127);
 	exit_status = execute_command_line(shell, command);
-	//free_shell(shell); // Décommenté
+	free_shell(shell); // Décommenté
 	return (exit_status);
 }
 
@@ -76,8 +76,8 @@ int	main(int argc, char **argv)
 		exit(exit_status);
 	}
 	// Mode interactif normal
-	char	**my_envp = load_env();
 	setup_signals();
+	char	**my_envp = load_env();
 	ft_read_line(my_envp);
 	return (0);
 }

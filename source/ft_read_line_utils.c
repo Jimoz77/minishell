@@ -19,7 +19,7 @@ void	init_loop_vars(t_shell *shell)
 	shell->ast = NULL;
 	shell->redirections = NULL;
 	shell->heredocs = NULL;
-	if (g_signal == 130)
+	if (g_signal == SIGINT)
 	{
 		g_signal = 0;
 		rl_on_new_line();

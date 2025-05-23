@@ -27,7 +27,7 @@ static int	handle_token_syntax(t_shell *shell, char *input)
 		shell->exit_status = 2;
 		return (0);
 	}
-	//scan_envar(shell);
+	scan_envar(shell);
 	expand_wildcards(shell->tokens);
 	return (1);
 }
@@ -88,5 +88,5 @@ void	ft_read_line(char **envp)
 		return ;
 	load_history();
 	ft_read_line_loop(shell);
-	free_shell(shell);
+	//free_shell(shell);
 }
