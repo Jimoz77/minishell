@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/22 13:20:54 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:56:23 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,33 +117,25 @@ int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
 
 	if (!node || !node->cmd || !node->cmd[0])
 		return (0);
-	
 	// Sauvegarder les tokens originaux du shell
 	original_tokens = shell->tokens;
-	
 	// Créer des tokens temporaires à partir des arguments
 	temp_tokens = create_tokens_from_cmd(node->cmd);
 	if (!temp_tokens)
 		return (1);
-	
 	// Assigner les tokens temporaires au shell
 	shell->tokens = temp_tokens;
-	
-	// Effectuer l'expansion des variables
-	scan_envar(shell);
-	
 	// Mettre à jour les arguments de la commande
 	update_cmd_from_tokens(node->cmd, shell->tokens);
-	
 	// Restaurer les tokens originaux et nettoyer
 	free_tokens(shell->tokens);
 	shell->tokens = original_tokens;
-	
+	// Effectuer l'expansion des variables (Je l'ai deplacé et ça pose peut-etre probleme)
+	scan_envar(shell);
 	// Exécuter la commande
 	if (ft_is_builtin(node->cmd, envp))
 		result = execute_builtin(node->cmd, envp);
 	else
 		result = exec_forked(node, *envp);
-	
 	return (result);
 }

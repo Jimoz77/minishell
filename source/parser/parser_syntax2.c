@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_syntax2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:00:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/22 13:03:12 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:04:24 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	check_redirections(t_token *tokens)
 				return (0);
 			}
 			// Vérifier si le token suivant est un opérateur ou une parenthèse fermante
-			else if (is_operator(tokens->next->type) || tokens->next->type == TOKEN_RPAREN)
+			else if (is_operator(tokens->next->type) \
+|| tokens->next->type == TOKEN_RPAREN)
 			{
 				ft_printf("minishell: syntax error near unexpected token '%s'\n",
 					tokens->next->value);

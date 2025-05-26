@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_redir_collect.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:05:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/22 12:51:37 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:03:35 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ void	collect_redirections(t_token *tokens, t_shell *shell)
 				next = current->next;
 				if (current->type == TOKEN_HEREDOC)
 					add_heredoc(&shell->heredocs, next->value, NULL);
-				add_redirection(&shell->redirections, current->type, next->value);
+				add_redirection\
+(&shell->redirections, current->type, next->value);
 			}
 		}
 		current = current->next;
@@ -140,7 +141,6 @@ void	collect_redirections_in_parens(t_token *tokens, t_shell *shell)
 		shell->redirections = NULL;
 	if (!shell->heredocs)
 		shell->heredocs = NULL;
-	
 	current = tokens;
 	while (current)
 	{

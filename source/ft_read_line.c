@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/22 13:15:55 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:32:36 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,15 @@ static void	process_input(t_shell *shell, char *input)
 		return ;
 	}
 	add_history(input);
+	save_history(input);
 	input = handle_unclosed_quotes(input);
 	if (!input)
 		return ;
 	if (ft_strchr(input, '\n'))
+	{
 		add_history(input);
+		save_history(input);
+	}
 	if (handle_token_syntax(shell, input))
 	{
 		handle_redirections(shell);

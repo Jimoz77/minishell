@@ -147,6 +147,7 @@ void	ft_free_split(char **split_array);
 char	*ft_strjoin_free(char *s1, const char *s2);
 void	free_ast(t_node *node);
 void	load_history(void);
+void	save_history(char *cmd);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char	*handle_unclosed_quotes(char *input);
 void	init_loop_vars(t_shell *shell);
