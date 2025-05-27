@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:40:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/21 13:52:28 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:55:28 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,17 @@ void	add_word_part(t_word_part **parts, char *content, t_quote_type type)
 // Libère les ressources d'une liste de parties de mots
 void	free_word_parts(t_word_part *parts)
 {
-	t_word_part	*tmp;
+	t_word_part	*current;
+	t_word_part	*next;
 
-	while (parts)
+	current = parts;
+	while (current)
 	{
-		tmp = parts;
-		parts = parts->next;
-		if (tmp->content)
-			free(tmp->content);
-		free(tmp);
+		next = current->next;
+		if (current->content)
+			free(current->content);
+		free(current);
+		current = next;
 	}
 }
 
