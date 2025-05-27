@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/08 10:59:49 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:55:34 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	free_shell(t_shell *shell)
 	{
 		i = 0;
 		while (shell->envp[i])
-			free(shell->envp[i++]);
+			free_array(shell->envp[i++]);
 		free(shell->envp);
 	}
 	if (shell->tokens)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_array_dup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:52:11 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/14 21:19:38 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/27 18:52:26 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ char	***ft_wrap_array(char **array)
 	if (!new)
 		return (NULL);
 
-	new[0] = array;
+	new[0] = ft_array_dup(array);
 	new[1] = NULL;
-
 	return (new);
 }

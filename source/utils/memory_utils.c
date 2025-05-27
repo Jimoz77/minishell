@@ -3,16 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/23 13:22:48 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/27 19:24:09 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+void	free_t_word_parts(t_token *token)
+{
+	t_word_part *head;
+	t_word_part *current;
+
+	current = token->parts;
+	while (current->next)
+	{
+		head = current->next;
+		if (current->content)
+			free(current->content);
+		current->next = NULL;
+		free(current);
+		current = head;
+	}
+	
+}
+
 // Libère la mémoire de la liste chaînée de tokens
+
 void	free_tokens(t_token *tokens)
 {
 	t_token	*current;
@@ -24,8 +43,8 @@ void	free_tokens(t_token *tokens)
 		next = current->next;
 		if (current->value)
 			free(current->value);
-		/* if (current->parts)
-			free_t_word_part(tokens); */
+		if (current->parts)
+			free_t_word_part(tokens);
 		free(current);
 		current = next;
 	}
