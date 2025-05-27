@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parser_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 17:03:25 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/05/27 14:30:23 by lsadikaj         ###   ########.fr       */

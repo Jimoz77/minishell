@@ -251,7 +251,7 @@ static void	process_variable(t_shell *shell, t_token *token)
 
 	current = token->value;
 	tmp = token;
-	if (tmp->parts && tmp->parts->type == QUOTE_SINGLE)
+	if ((tmp->parts && tmp->parts->type == QUOTE_SINGLE) || (tmp->parts && tmp->parts->type == '\0'))
 		return ;
 	old_val = token->value;
 	new_val = ft_strdup("");

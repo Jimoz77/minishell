@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:01:37 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/22 15:56:16 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:54:17 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,29 @@
 //la fonction retourne 1 et 0 si ca ne l'est pas
 // (manque encore "exit" a coder)
 
+void ce(t_shell *shell, int nb)
+{
+	save_env(shell->envp);
+	free_shell(shell);
+	exit(nb);
+}
+
 void	clean_exit(char **cmd, char ***envp)
 {
 	int j;
 	int i;
 
-	j = 0;
+	j = 1;
 	i = 0;
-	if (cmd[0])
+
+	if (!cmd[1])
+	{
+		save_env(envp);
+		exit(0);
+	}
+	else if ((cmd[1] && !cmd[2]) && (cmd[1][0] == '+' || cmd[1][0] == '-') && cmd[1][1] == '0')
+		exit (0);
+	else if (cmd[1] && !cmd[2])
 	{
 		while(cmd[j])
 		{
@@ -33,24 +48,20 @@ void	clean_exit(char **cmd, char ***envp)
 			{
 				if(cmd[j][i] == ' ')
 				i++;
-				if(cmd[j][i] == '+' || cmd[j][i] == '-' )
-				exit (0);
-				if(cmd[j][i] < 0 && cmd[j][i] > 9 && cmd[j][i] != '"')
-				exit (2);
+				if(cmd[j][i] == '+' || cmd[j][i] == '-' || ft_isalpha(cmd[j][i]))
+					exit (2);
 				i++;
 			}
 			j++;
 		}
 		save_env(envp);
 		exit(ft_atoi(cmd[1]));
-		if(cmd[1] && cmd[2])
-			exit (1);
 	}
-	else
+	else if (cmd[1] && cmd[2])
 	{
-		//segfault
-		save_env(envp);
-		exit(0);
+		if(ft_isalpha(cmd[1][0]))
+			exit (2);
+		exit (1);
 	}
 }
 

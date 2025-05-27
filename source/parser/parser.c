@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/09 14:52:29 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:41:07 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	get_priority(t_token_type type)
 	if (type == TOKEN_OR)
 		return (1);
 	if (type == TOKEN_AND)
-		return (2);
+		return (1);
 	if (type == TOKEN_PIPE)
 		return (3);
 	if (type == TOKEN_REDIRECT_OUT || type == TOKEN_REDIRECT_IN
@@ -28,21 +28,12 @@ static int	get_priority(t_token_type type)
 }
 
 // Vérifie si un token opérateur a une priorité plus faible
-static int	check_token_priority(t_token *token, int depth, int *lowest)
+/* static int	check_token_priority(t_token *token, int depth, int *lowest)
 {
 	int	priority;
 
-	if (depth == 0 && is_operator(token->type))
-	{
-		priority = get_priority(token->type);
-		if (priority <= *lowest)
-		{
-			*lowest = priority;
-			return (1);
-		}
-	}
 	return (0);
-}
+} */
 
 // Renvoie la position du token ayant la plus faible priorité
 int	find_lowest_priority(t_token *tokens)
@@ -53,6 +44,7 @@ int	find_lowest_priority(t_token *tokens)
 	t_token	*tmp;
 	int		depth;
 
+	
 	pos = -1;
 	i = 0;
 	lowest = 100;
@@ -61,11 +53,18 @@ int	find_lowest_priority(t_token *tokens)
 	while (tmp)
 	{
 		if (tmp->type == TOKEN_LPAREN)
-			depth++;
+		depth++;
 		else if (tmp->type == TOKEN_RPAREN)
-			depth--;
-		else if (check_token_priority(tmp, depth, &lowest))
-			pos = i;
+		depth--;
+		if (depth == 0 && is_operator(tmp->type))
+		{
+			int priority = get_priority(tmp->type);
+			if (priority < lowest || (priority == lowest && priority == 1))
+			{
+				lowest = priority;
+				pos = i;
+			}
+		}
 		tmp = tmp->next;
 		i++;
 	}

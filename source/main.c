@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:59:25 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/16 18:15:50 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:58:36 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_launch_minishell(char *command, char **envp)
 	if (!shell)
 		return (127);
 	exit_status = execute_command_line(shell, command);
-	free_shell(shell); // Décommenté
+	//free_shell(shell); // Décommenté
 	return (exit_status);
 }
 

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
 /*   Updated: 2025/05/27 13:17:45 by lsadikaj         ###   ########.fr       */
@@ -57,6 +57,7 @@ static void	process_input(t_shell *shell, char *input)
 		return ;
 	if (ft_strchr(input_copy, '\n'))
 		add_history(input_copy);
+  //gerer l'history
 	if (handle_token_syntax(shell, input_copy))
 	{
 		handle_redirections(shell);

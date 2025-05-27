@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:46:40 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/08 15:51:10 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:08:49 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,12 @@ static int	is_valid_id(char *str)
 // pas encore fonctionnel
 int	ft_unset(char **cmd, char ***envp)
 {
-	int	exit_status;
 	int	i;
 	int	j;
 	int	k;
 	int	len;
 	int	found;
 
-	exit_status = 0;
 	i = 1;
 	while (cmd[i])
 	{
@@ -48,7 +46,6 @@ int	ft_unset(char **cmd, char ***envp)
 			write(STDERR_FILENO, "unset: '", 8);
 			write(STDERR_FILENO, cmd[i], ft_strlen(cmd[i]));
 			write(STDERR_FILENO, "': not a valid indentifier\n", 25);
-			exit_status = 1;
 		}
 		else
 		{
@@ -75,5 +72,5 @@ int	ft_unset(char **cmd, char ***envp)
 		}
 		i++;
 	}
-	return (exit_status);
+	return (0);
 }

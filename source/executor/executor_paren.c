@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   executor_paren.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:12:07 by lsadikaj          #+#    #+#             */
 /*   Updated: 2025/05/26 18:43:29 by lsadikaj         ###   ########.fr       */
@@ -28,7 +28,6 @@ static void	child_paren_exec(t_node *node, char ***envp, t_shell *shell)
 		free_heredocs(shell->heredocs);
 		exit(1);
 	}
-	
 	// Exécuter le contenu des parenthèses dans le processus enfant
 	// Les changements d'environnement (export) seront limités à ce sous-shell
 	status = execute_ast(node->left, envp, shell);
@@ -45,17 +44,14 @@ int	execute_paren_node(t_node *node, char ***envp, t_shell *shell)
 
 	if (!node || !node->left)
 		return (1);
-	
 	child_pid = fork();
 	if (child_pid == -1)
 	{
 		perror("minishell: fork");
 		return (1);
 	}
-	
 	if (child_pid == 0)
 		child_paren_exec(node, envp, shell);
-	
 	waitpid(child_pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));

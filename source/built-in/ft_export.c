@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:12:26 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/14 20:47:57 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/27 14:05:15 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,11 @@ int	ft_export(char **cmd, char ***envp)
 	if (!is_valid_id(var_name))
 	{
 		ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
+		i = 1;
+		if (var_name[0] == '-')
+			i = 2;
 		free(var_name);
-		return (1);
+		return (i);
 	}
 	i = 0;
 	while ((*envp)[i])

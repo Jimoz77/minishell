@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:35:18 by jimpa             #+#    #+#             */
 /*   Updated: 2025/05/27 12:42:28 by lsadikaj         ###   ########.fr       */
@@ -22,7 +22,8 @@ static t_redir	*filter_input_redirections(t_redir *all_redirections)
 	current = all_redirections;
 	while (current)
 	{
-		if (current->type == TOKEN_REDIRECT_IN || current->type == TOKEN_HEREDOC)
+		if (current->type == TOKEN_REDIRECT_IN\
+		|| current->type == TOKEN_HEREDOC)
 			add_redirection(&filtered, current->type, current->filename);
 		current = current->next;
 	}
@@ -39,7 +40,8 @@ static t_redir	*filter_output_redirections(t_redir *all_redirections)
 	current = all_redirections;
 	while (current)
 	{
-		if (current->type == TOKEN_REDIRECT_OUT || current->type == TOKEN_APPEND)
+		if (current->type == TOKEN_REDIRECT_OUT\
+|| current->type == TOKEN_APPEND)
 			add_redirection(&filtered, current->type, current->filename);
 		current = current->next;
 	}
@@ -60,9 +62,9 @@ int	execute_pipe_node_right(t_node *node,\
 	{
 		// Filtrer les redirections pour ne garder que les sorties
 		original_redirections = shell->redirections;
-		filtered_redirections = filter_output_redirections(original_redirections);
+		filtered_redirections = filter_output_redirections\
+(original_redirections);
 		shell->redirections = filtered_redirections;
-		
 		close(pipefd[1]);
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		{
@@ -115,9 +117,9 @@ int	execute_pipe_node(t_node *node, char ***envp, t_shell *shell)
 	if (pid_left == 0)
 	{
 		// Filtrer les redirections pour ne garder que les entrées
-		filtered_redirections = filter_input_redirections(original_redirections);
+		filtered_redirections = filter_input_redirections\
+(original_redirections);
 		shell->redirections = filtered_redirections;
-		
 		close(pipefd[0]);
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 		{
@@ -132,7 +134,6 @@ int	execute_pipe_node(t_node *node, char ***envp, t_shell *shell)
 		free_heredocs(shell->heredocs);
 		exit(status);
 	}
-	
 	// Restaurer les redirections originales pour le processus parent
 	shell->redirections = original_redirections;
 	status = execute_pipe_node_right(node, envp, pipefd, pid_left, shell);
