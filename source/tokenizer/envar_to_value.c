@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/21 21:58:16 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/27 14:29:59 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ static void	process_variable(t_shell *shell, t_token *token)
 
 	current = token->value;
 	tmp = token;
-	if (tmp->parts && tmp->parts->type == QUOTE_SINGLE)
+	if ((tmp->parts && tmp->parts->type == QUOTE_SINGLE) || (tmp->parts && tmp->parts->type == '\0'))
 		return ;
 	else
 	{

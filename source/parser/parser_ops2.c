@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_ops2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:35:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/08 11:01:18 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:51:45 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,13 @@ t_node	*setup_redirect_left(t_token *tokens)
 // Renvoie le token situé à une position donnée dans la liste
 t_token	*get_token_at(t_token *tokens, int pos)
 {
-	int	i;
+	t_token	*tmp = tokens;
+	int		i = 0;
 
-	i = 0;
-	while (tokens)
+	while (tmp && i < pos)
 	{
-		if (i == pos)
-			return (tokens);
-		tokens = tokens->next;
+		tmp = tmp->next;
 		i++;
 	}
-	return (NULL);
+	return (tmp);
 }

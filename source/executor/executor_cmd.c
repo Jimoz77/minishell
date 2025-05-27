@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/24 17:56:23 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/27 14:38:19 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	exec_forked(t_node *node, char **envp)
 }
 
 // Crée des tokens temporaires à partir des arguments de la commande
-static t_token	*create_tokens_from_cmd(char **cmd)
+static t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 {
 	t_token	*tokens;
 	t_token	*current;
@@ -85,6 +85,7 @@ static t_token	*create_tokens_from_cmd(char **cmd)
 		current->value = ft_strdup(cmd[i]);
 		current->type = TOKEN_WORD;
 		current->parts = NULL;
+		if(shell->tokens->parts && shell->tokens->parts->type == QUOTE_SINGLE)
 		current->next = NULL;
 		i++;
 	}
@@ -120,18 +121,18 @@ int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
 	// Sauvegarder les tokens originaux du shell
 	original_tokens = shell->tokens;
 	// Créer des tokens temporaires à partir des arguments
-	temp_tokens = create_tokens_from_cmd(node->cmd);
+	temp_tokens = create_tokens_from_cmd(node->cmd, shell);
 	if (!temp_tokens)
 		return (1);
 	// Assigner les tokens temporaires au shell
 	shell->tokens = temp_tokens;
+	scan_envar(shell);
 	// Mettre à jour les arguments de la commande
 	update_cmd_from_tokens(node->cmd, shell->tokens);
 	// Restaurer les tokens originaux et nettoyer
 	free_tokens(shell->tokens);
 	shell->tokens = original_tokens;
 	// Effectuer l'expansion des variables (Je l'ai deplacé et ça pose peut-etre probleme)
-	scan_envar(shell);
 	// Exécuter la commande
 	if (ft_is_builtin(node->cmd, envp))
 		result = execute_builtin(node->cmd, envp);

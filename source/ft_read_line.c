@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/24 17:32:36 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/26 20:46:42 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	handle_token_syntax(t_shell *shell, char *input)
 		shell->exit_status = 2;
 		return (0);
 	}
-	scan_envar(shell);
+	//scan_envar(shell);
 	expand_wildcards(shell->tokens);
 	return (1);
 }
