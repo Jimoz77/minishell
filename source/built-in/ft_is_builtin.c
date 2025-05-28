@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:01:37 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/24 17:54:17 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/28 16:17:47 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void ce(t_shell *shell, int nb)
 	free_shell(shell);
 	exit(nb);
 }
-
+// implementer ce pour free a chaque fois
 void	clean_exit(char **cmd, char ***envp)
 {
 	int j;
@@ -67,19 +67,19 @@ void	clean_exit(char **cmd, char ***envp)
 
 int	execute_builtin(char **cmd, char ***envp)
 {
-	if (ft_strncmp(cmd[0], "export", 6) == 0)
+	if (ft_strcmp(cmd[0], "export") == 0)
 		return (ft_export(cmd, envp));
-	else if (ft_strncmp(cmd[0], "unset", 5) == 0)
+	else if (ft_strcmp(cmd[0], "unset") == 0)
 		return (ft_unset(cmd, envp));
-	else if (ft_strncmp(cmd[0], "env", 3) == 0)
+	else if (ft_strcmp(cmd[0], "env") == 0)
 		return (ft_env(envp));
-	else if (ft_strncmp(cmd[0], "cd", 2) == 0)
+	else if (ft_strcmp(cmd[0], "cd") == 0)
 		return (ft_cd(cmd, envp));
-	else if (ft_strncmp(cmd[0], "pwd", 3) == 0)
+	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		return (ft_pwd());
-	else if (ft_strncmp(cmd[0], "echo", 4) == 0)
+	else if (ft_strcmp(cmd[0], "echo") == 0)
 		return (ft_echo(cmd));
-	else if (ft_strncmp(cmd[0], "exit", 4) == 0)
+	else if (ft_strcmp(cmd[0], "exit") == 0)
 	{
 		clean_exit(cmd, envp);
 	}

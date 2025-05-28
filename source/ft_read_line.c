@@ -6,7 +6,7 @@
 /*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/27 18:52:43 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:20:23 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	handle_token_syntax(t_shell *shell, char *input)
 		shell->exit_status = 2;
 		return (0);
 	}
-	//scan_envar(shell);
+	scan_envar_parsing_phase(shell);
 	expand_wildcards(shell->tokens);
 	return (1);
 }
@@ -52,11 +52,6 @@ static void	process_input(t_shell *shell, char *input)
 	input = handle_unclosed_quotes(input);
 	if (!input)
 		return ;
-	if (ft_strchr(input, '\n'))
-	{
-		add_history(input);
-		save_history(input);
-	}
 	if (handle_token_syntax(shell, input))
 	{
 		handle_redirections(shell);

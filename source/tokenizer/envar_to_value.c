@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar_to_value.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/27 14:29:59 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/28 17:41:12 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ static void	process_variable(t_shell *shell, t_token *token)
 
 	current = token->value;
 	tmp = token;
-	if ((tmp->parts && tmp->parts->type == QUOTE_SINGLE) || (tmp->parts && tmp->parts->type == '\0'))
+	if ((tmp->parts && tmp->parts->type == QUOTE_SINGLE))
 		return ;
 	else
 	{
@@ -290,7 +290,7 @@ void	envar_to_value(t_shell *shell, t_token *token)
 		process_variable(shell, token);
 }
 
-int	scan_envar(t_shell *shell)
+/* int	scan_envar(t_shell *shell)
 {
 	int		found;
 	int		i;
@@ -298,7 +298,7 @@ int	scan_envar(t_shell *shell)
 
 	found = 0;
 	tmp = shell->tokens;
-	while (tmp)
+	while (tmp->next)
 	{
 		if (tmp->type == TOKEN_WORD && tmp->value && tmp->value[0] == '$' && tmp->value[1] == '?')
 		{
@@ -334,4 +334,62 @@ int	scan_envar(t_shell *shell)
 		tmp = tmp->next;
 	}
 	return (found);
+}
+ */
+
+
+ int    scan_envar_parsing_phase(t_shell *shell)
+{
+    int        found;
+    t_token    *tmp;
+
+    found = 0;
+    tmp = shell->tokens;
+
+    while (tmp)
+    {
+        if (tmp->type == TOKEN_WORD && tmp->value)
+        {
+            // Expander seulement $$ au parsing
+            if (tmp->value[0] == '$' && tmp->value[1] == '$')
+            {
+                free(tmp->value);
+                tmp->value = ft_itoa(getpid());
+                found = 1;
+            }
+            // Pour $?, on garde le token tel quel pour l'instant
+            // Pour les autres variables, on garde aussi tel quel
+        }
+        tmp = tmp->next;
+    }
+    return (found);
+}
+
+// Fonction d'expansion complète à l'exécution
+int    scan_envar_execution_phase(t_shell *shell, t_token *tokens)
+{
+    int        found;
+    t_token    *tmp;
+
+    found = 0;
+    tmp = tokens;
+
+        if (tmp->type == TOKEN_WORD && tmp->value)
+        {
+            // Maintenant on peut expander $? avec la bonne valeur
+            if (tmp->value[0] == '$' && tmp->value[1] == '?')
+            {
+                free(tmp->value);
+                tmp->value = ft_itoa(shell->exit_status);
+                found = 1;
+            }
+            // Et on expande aussi toutes les autres variables d'environnement
+            else
+            {
+                envar_to_value(shell, tmp);
+                if (tmp->value)
+                    tmp->value = clean_dspace(tmp->value);
+            }
+        }
+    return (found);
 }

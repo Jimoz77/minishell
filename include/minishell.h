@@ -175,6 +175,9 @@ char			*build_unquoted_value(t_word_part *parts);
 int				scan_envar(t_shell *shell);
 t_token			*delete_token(t_token *head, t_token *target);
 void			envar_to_value(t_shell *shell, t_token *token);
+int				scan_envar_parsing_phase(t_shell *shell);
+int				scan_envar_execution_phase(t_shell *shell, t_token *tokens);
+
 
 
 

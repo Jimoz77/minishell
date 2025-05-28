@@ -6,7 +6,7 @@
 /*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/27 19:24:09 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:17:47 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_tokens(t_token *tokens)
 		if (current->value)
 			free(current->value);
 		if (current->parts)
-			free_t_word_part(tokens);
+			free_t_word_parts(tokens);
 		free(current);
 		current = next;
 	}

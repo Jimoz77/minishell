@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/27 14:38:19 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/28 18:13:10 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ static t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 		current->type = TOKEN_WORD;
 		current->parts = NULL;
 		if(shell->tokens->parts && shell->tokens->parts->type == QUOTE_SINGLE)
+		{
+			current->parts = malloc(sizeof(t_word_part));
+			current->parts->type = QUOTE_SINGLE;
+		}
 		current->next = NULL;
 		i++;
 	}
@@ -126,7 +130,12 @@ int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
 		return (1);
 	// Assigner les tokens temporaires au shell
 	shell->tokens = temp_tokens;
-	scan_envar(shell);
+	while(temp_tokens)
+	{
+		if (!temp_tokens->parts || (temp_tokens->parts && temp_tokens->parts->type != QUOTE_SINGLE))
+			scan_envar_execution_phase(shell, temp_tokens);
+		temp_tokens = temp_tokens->next;
+	}
 	// Mettre à jour les arguments de la commande
 	update_cmd_from_tokens(node->cmd, shell->tokens);
 	// Restaurer les tokens originaux et nettoyer

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:59:25 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/24 16:58:36 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/28 15:07:41 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	execute_command_line(t_shell *shell, char *command)
 		free_tokens(shell->tokens);
 		return (1);
 	}
-	scan_envar(shell); // Expansion des variables
+	//scan_envar(shell); // Expansion des variables
 	shell->ast = parse_ast(shell->tokens);
 	if (!shell->ast) // Gestion d'erreur du parsing AST
 	{
