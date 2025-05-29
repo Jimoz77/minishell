@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/26 20:41:07 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/29 17:19:42 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	find_lowest_priority(t_token *tokens)
 	int		lowest;
 	t_token	*tmp;
 	int		depth;
+	int		priority;
 
 	
 	pos = -1;
@@ -58,7 +59,7 @@ int	find_lowest_priority(t_token *tokens)
 		depth--;
 		if (depth == 0 && is_operator(tmp->type))
 		{
-			int priority = get_priority(tmp->type);
+			priority = get_priority(tmp->type);
 			if (priority < lowest || (priority == lowest && priority == 1))
 			{
 				lowest = priority;

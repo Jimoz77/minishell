@@ -203,7 +203,6 @@ t_token	*find_matching_paren(t_token *start);
 t_token	*clone_tokens(t_token *start, t_token *end);
 t_node	*parse_parenthesized_expr(t_token *tokens);
 t_node	*check_paren_operators(t_node *node, t_token *closing);
-int		handle_arithmetic_expr(t_token *tokens);
 
 
 // parser/syntax

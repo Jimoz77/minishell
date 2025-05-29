@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:40:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/09 14:54:10 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:23:18 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,21 @@ t_token	*find_matching_paren(t_token *start)
 
 	if (!start || start->type != TOKEN_LPAREN)
 		return (NULL);
-	depth = 1;
-	current = start->next;
-	while (current && depth > 0)
+	depth = 0;
+	current = start;
+	while (current)
 	{
 		if (current->type == TOKEN_LPAREN)
 			depth++;
 		else if (current->type == TOKEN_RPAREN)
+		{
 			depth--;
-		if (depth > 0)
-			current = current->next;
+			if (depth == 0)
+				return (current);
+		}
+		current = current->next;
 	}
-	return (current);
+	return (NULL);
 }
 
 // Crée un nouveau token copié depuis un original
@@ -92,18 +95,6 @@ t_token	*clone_tokens(t_token *start, t_token *end)
 		current = current->next;
 	}
 	return (result);
-}
-
-// Vérifie les doubles parenthèses et gère les cas spéciaux
-int	handle_arithmetic_expr(t_token *tokens)
-{
-	if (tokens && tokens->type == TOKEN_LPAREN
-		&& tokens->next && tokens->next->type == TOKEN_LPAREN)
-	{
-		ft_printf("minishell: syntax error near unexpected token `('\n");
-		return (1);
-	}
-	return (0);
 }
 
 // Vérifie et traite les opérateurs après une parenthèse fermante

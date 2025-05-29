@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:51:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/21 14:21:52 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:46:35 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,30 @@ int	is_redirection(t_token_type type)
 // Vérifie l'équilibre des parenthèses
 int	check_paren_balance(t_token *tokens)
 {
-	int	depth;
+	int		depth;
+	t_token	*current;
 
 	depth = 0;
-	while (tokens)
+	current = tokens;
+	while (current)
 	{
-		if (tokens->type == TOKEN_LPAREN)
+		if (current->type == TOKEN_LPAREN)
 			depth++;
-		else if (tokens->type == TOKEN_RPAREN)
+		else if (current->type == TOKEN_RPAREN)
 		{
 			depth--;
 			if (depth < 0)
+			{
+				ft_printf("minishell: syntax error: unexpected token ')'\n");
 				return (0);
+			}
 		}
-		tokens = tokens->next;
+		current = current->next;
+	}
+	if (depth > 0)
+	{
+		ft_printf("minishell: syntax error: expected ')'\n");
+		return (0);
 	}
 	return (depth == 0);
 }
