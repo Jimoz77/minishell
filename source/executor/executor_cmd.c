@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/28 18:13:10 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:38:13 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,12 @@ static t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 {
 	t_token	*tokens;
 	t_token	*current;
+	t_token *temp;
 	int		i;
 
 	tokens = NULL;
 	i = 0;
+	temp = shell->tokens;
 	while (cmd[i])
 	{
 		if (tokens == NULL)
@@ -85,11 +87,12 @@ static t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 		current->value = ft_strdup(cmd[i]);
 		current->type = TOKEN_WORD;
 		current->parts = NULL;
-		if(shell->tokens->parts && shell->tokens->parts->type == QUOTE_SINGLE)
+		if(temp->parts && temp->parts->type == QUOTE_SINGLE)
 		{
 			current->parts = malloc(sizeof(t_word_part));
 			current->parts->type = QUOTE_SINGLE;
 		}
+		temp = temp->next;
 		current->next = NULL;
 		i++;
 	}
@@ -116,14 +119,14 @@ static void	update_cmd_from_tokens(char **cmd, t_token *tokens)
 // Exécute un nœud de type commande (builtin ou externe)
 int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
 {
-	t_token	*original_tokens;
+	//t_token	*original_tokens;
 	t_token	*temp_tokens;
 	int		result;
 
 	if (!node || !node->cmd || !node->cmd[0])
 		return (0);
 	// Sauvegarder les tokens originaux du shell
-	original_tokens = shell->tokens;
+	//original_tokens = shell->tokens;
 	// Créer des tokens temporaires à partir des arguments
 	temp_tokens = create_tokens_from_cmd(node->cmd, shell);
 	if (!temp_tokens)
@@ -139,9 +142,8 @@ int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
 	// Mettre à jour les arguments de la commande
 	update_cmd_from_tokens(node->cmd, shell->tokens);
 	// Restaurer les tokens originaux et nettoyer
-	free_tokens(shell->tokens);
-	shell->tokens = original_tokens;
-	// Effectuer l'expansion des variables (Je l'ai deplacé et ça pose peut-etre probleme)
+	//free_tokens(shell->tokens);
+	//shell->tokens = original_tokens;
 	// Exécuter la commande
 	if (ft_is_builtin(node->cmd, envp))
 		result = execute_builtin(node->cmd, envp);
