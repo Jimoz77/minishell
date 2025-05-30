@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_parentheses.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:40:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/09 14:54:10 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:47:30 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

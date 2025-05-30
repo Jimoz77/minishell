@@ -24,7 +24,8 @@ typedef enum s_quote_type
 {
 	QUOTE_NONE,
 	QUOTE_SINGLE,
-	QUOTE_DOUBLE	
+	QUOTE_DOUBLE,
+	QUOTE_SPACE	
 }	t_quote_type;
 
 // Structure représentant une partie de mot avec quote
@@ -47,7 +48,8 @@ typedef enum e_token_type
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_LPAREN,
-	TOKEN_RPAREN
+	TOKEN_RPAREN,
+	TOKEN_SPACE
 }	t_token_type;
 
 // Structure représentant un token

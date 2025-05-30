@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_ops2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:35:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/26 18:51:45 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/30 17:18:45 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	**prepare_redirect_cmd(t_token *right_part)
 	char	*value;
 
 	if (right_part->parts)
-		value = build_unquoted_value(right_part->parts);
+		value = build_unquoted_value(right_part);
 	else
 		value = ft_strdup(right_part->value);
 	if (!value)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:21:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/18 12:57:16 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/05/30 14:49:41 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	count_words(t_token *tokens)
 	int		count;
 
 	count = 0;
-	while (tokens && tokens->type == TOKEN_WORD)
+	while (tokens && (tokens->type == TOKEN_WORD || tokens->type == TOKEN_SPACE))
 	{
 		count++;
 		tokens = tokens->next;
@@ -87,7 +87,7 @@ char	**fill_cmd_array(t_token *tokens, int count)
 	if (!cmd)
 		return (NULL);
 	i = 0;
-	while (i < count && tokens && tokens->type == TOKEN_WORD)
+	while (i < count && tokens && (tokens->type == TOKEN_WORD || tokens->type == TOKEN_SPACE))
 	{
 		if (!fill_one_cmd(cmd, tokens, i))
 		{

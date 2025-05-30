@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:59:25 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/30 12:39:58 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/30 13:36:22 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,8 @@ int	ft_launch_minishell(char *command, char **envp)
 	return (exit_status);
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv)
 {
-	(void) env;
 	// Mode non-interactif avec -c
 	if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
 	{

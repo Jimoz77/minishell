@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_quotes_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:40:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/23 16:00:43 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/05/30 17:58:20 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,26 @@ void	add_word_part(t_word_part **parts, char *content, t_quote_type type)
 	t_word_part	*new_part;
 	t_word_part	*tmp;
 
-	if (!content || !*content)
+	if (!content)
 		return ;
+	
 	new_part = malloc(sizeof(t_word_part));
 	if (!new_part)
 		return ;
-	new_part->content = ft_strdup(content);
+	if(!*content)
+	{
+		new_part->content = ft_strdup(" ");
+		//new_part->type = QUOTE_SPACE;
+	}
+	else
+		new_part->content = ft_strdup(content);
 	if (!new_part->content)
 	{
 		free(new_part);
 		return ;
 	}
-	new_part->type = type;
+	if(!new_part->type)
+		new_part->type = type;
 	new_part->next = NULL;
 	if (!*parts)
 		*parts = new_part;
@@ -88,15 +96,14 @@ int	parse_quoted_part(char *input, int *i, t_word_part **parts,
 // Construit une valeur sans guillemets à partir d'une liste de parties
 char	*build_unquoted_value(t_word_part *parts)
 {
-	char		*result;
+	static char		*result = {0};
 	t_word_part	*current;
 	char		*temp;
 
 	if (!parts)
 		return (ft_strdup(""));
-	result = ft_strdup("");
-	if (!result)
-		return (NULL);
+	/* if (!result)
+		return (NULL); */
 	current = parts;
 	while (current)
 	{
