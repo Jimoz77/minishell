@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:41:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/30 17:53:10 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:03:17 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ static t_token	*create_complex_token(char *input, int len, t_word_part *parts)
 	}
 	new_token->value = value;
 	new_token->type = TOKEN_WORD;
-	/* if(parts->type == QUOTE_SPACE)
-		new_token->type = TOKEN_SPACE; */
 	new_token->parts = parts;
 	new_token->next = NULL;
 	return (new_token);
@@ -108,9 +106,11 @@ int	handle_complex_word(t_token **tokens, char *input)
 	parts = NULL;
 	i = 0;
 	len = parse_complex_word(input, &i, &parts);
-	if (len <= 0 || len == 2)
-		return (clean_complex_word(parts, NULL, len));
+	if (len <= 0)
+	return (clean_complex_word(parts, NULL, len));
 	new_token = create_complex_token(input, len, parts);
+	if( len == 2)
+		new_token = create_complex_token("",len,parts);
 	if (!new_token)
 		return (-1);
 	if (!*tokens)
