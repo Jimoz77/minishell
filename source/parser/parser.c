@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/29 17:19:42 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:29:11 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 // Renvoie la priorité d'un type de token (plus petit = plus prioritaire)
 static int	get_priority(t_token_type type)
 {
-	if (type == TOKEN_OR)
-		return (1);
-	if (type == TOKEN_AND)
+	if (type == TOKEN_OR || type == TOKEN_AND)
 		return (1);
 	if (type == TOKEN_PIPE)
-		return (3);
-	if (type == TOKEN_REDIRECT_OUT || type == TOKEN_REDIRECT_IN
-		|| type == TOKEN_APPEND || type == TOKEN_HEREDOC)
-		return (4);
+		return (2);
 	return (100);
 }
 
-// Vérifie si un token opérateur a une priorité plus faible
-/* static int	check_token_priority(t_token *token, int depth, int *lowest)
+static int	update_lowest_priority(t_token *tmp, int i, int *pos)
 {
 	int	priority;
 
-	return (0);
-} */
+	priority = get_priority(tmp->type);
+	if (priority < 100 || (priority == 100 && priority == 1))
+	{
+		*pos = i;
+		return (priority);
+	}
+	return (100);
+}
 
 // Renvoie la position du token ayant la plus faible priorité
 int	find_lowest_priority(t_token *tokens)
@@ -43,7 +43,6 @@ int	find_lowest_priority(t_token *tokens)
 	int		lowest;
 	t_token	*tmp;
 	int		depth;
-	int		priority;
 
 	
 	pos = -1;
@@ -57,34 +56,12 @@ int	find_lowest_priority(t_token *tokens)
 		depth++;
 		else if (tmp->type == TOKEN_RPAREN)
 		depth--;
-		if (depth == 0 && is_operator(tmp->type))
-		{
-			priority = get_priority(tmp->type);
-			if (priority < lowest || (priority == lowest && priority == 1))
-			{
-				lowest = priority;
-				pos = i;
-			}
-		}
+		if (depth == 0 && is_operator(tmp->type) && !is_redirection(tmp->type))
+			lowest = update_lowest_priority(tmp, i, &pos);
 		tmp = tmp->next;
 		i++;
 	}
 	return (pos);
-}
-
-// Vérifie et traite une redirection suivie d'un mot
-static t_node	*handle_redir_and_word(t_token *tokens)
-{
-	t_token	*tmp;
-
-	if (!tokens || !tokens->next || !tokens->next->next)
-		return (NULL);
-	tmp = tokens->next->next;
-	while (tmp && tmp->type == TOKEN_WORD)
-		tmp = tmp->next;
-	if (tmp && is_operator(tmp->type))
-		return (create_op_node(tokens, tokens));
-	return (NULL);
 }
 
 // Construit l'arbre de syntaxe (AST) à partir des tokens
@@ -96,20 +73,13 @@ t_node	*parse_ast(t_token *tokens)
 
 	if (!tokens)
 		return (NULL);
-	if (is_redirection(tokens->type) && tokens->next && tokens->next->next)
-	{
-		node = handle_redir_and_word(tokens);
-		if (node)
-			return (node);
-	}
 	if (tokens->type == TOKEN_LPAREN)
 		return (handle_paren_and_op(tokens));
 	i = find_lowest_priority(tokens);
-	if (i == -1 || (tokens->next && !tokens->next->next
-			&& tokens->type == TOKEN_WORD && tokens->next->type == TOKEN_WORD))
-		return (create_cmd_node(tokens));
+	if (i == -1)
+		return (parse_command_with_redirections(&tokens));
 	op = get_token_at(tokens, i);
 	if (!op)
-		return (create_cmd_node(tokens));
+		return (parse_command_with_redirections(&tokens));
 	return (create_op_node(tokens, op));
 }

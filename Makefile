@@ -6,8 +6,7 @@
 #    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/04/17 11:40:45 by lsadikaj         ###   ########.fr        #
-
+#    Updated: 2025/06/02 23:21:32 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,10 +48,9 @@ SRCS = \
 	$(SRC_DIR)/parser/parser.c \
 	$(SRC_DIR)/parser/parser_utils.c \
 	$(SRC_DIR)/parser/parser_utils2.c \
+	$(SRC_DIR)/parser/parser_utils3.c \
 	$(SRC_DIR)/parser/parser_ops.c \
 	$(SRC_DIR)/parser/parser_ops2.c \
-	$(SRC_DIR)/parser/parser_parentheses.c \
-	$(SRC_DIR)/parser/parser_parentheses_utils.c \
 	$(SRC_DIR)/parser/parser_syntax.c \
 	$(SRC_DIR)/parser/parser_syntax2.c \
 	$(SRC_DIR)/utils/memory_utils.c \
@@ -64,11 +62,10 @@ SRCS = \
 	$(SRC_DIR)/executor/executor.c \
 	$(SRC_DIR)/executor/executor_cmd.c \
 	$(SRC_DIR)/executor/executor_cmd_utils.c \
+	$(SRC_DIR)/executor/executor_cmd_utils2.c \
 	$(SRC_DIR)/executor/executor_heredoc.c \
-	$(SRC_DIR)/executor/executor_combined.c \
-	$(SRC_DIR)/executor/executor_redir_utils.c \
-	$(SRC_DIR)/executor/executor_redir_apply.c \
-	$(SRC_DIR)/executor/executor_redir_collect.c \
+	$(SRC_DIR)/executor/executor_redir.c \
+	$(SRC_DIR)/executor/executor_redir2.c \
 	$(SRC_DIR)/executor/executor_paren.c \
 	$(SRC_DIR)/executor/executor_pipe.c \
 	$(SRC_DIR)/utils/save_env.c \

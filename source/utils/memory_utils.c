@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/28 16:17:47 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:07:55 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ void	free_ast(t_node *node)
 		}
 		free(node->cmd);
 	}
+	if (node->redirections)
+		free_redirections(node->redirections);
+	if (node->heredocs)
+		free_heredocs(node->heredocs);
 	free(node);
 }
 

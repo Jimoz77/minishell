@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:21:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/04/18 12:57:16 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:36:35 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,6 @@ t_node_type	token_to_node_type(t_token_type token_type)
 		return (NODE_AND);
 	else if (token_type == TOKEN_OR)
 		return (NODE_OR);
-	else if (token_type == TOKEN_REDIRECT_OUT)
-		return (NODE_REDIRECT_OUT);
-	else if (token_type == TOKEN_REDIRECT_IN)
-		return (NODE_REDIRECT_IN);
-	else if (token_type == TOKEN_APPEND)
-		return (NODE_APPEND);
-	else if (token_type == TOKEN_HEREDOC)
-		return (NODE_HEREDOC);
 	return (NODE_CMD);
 }
 
@@ -38,9 +30,19 @@ int	count_words(t_token *tokens)
 	int		count;
 
 	count = 0;
-	while (tokens && tokens->type == TOKEN_WORD)
+	while (tokens)
 	{
-		count++;
+		if (tokens->type == TOKEN_WORD)
+			count++;
+		else if (is_redirection(tokens->type))
+		{
+			tokens = tokens->next;
+			if (tokens)
+				tokens = tokens->next;
+			continue ;
+		}
+		else
+			break ;
 		tokens = tokens->next;
 	}
 	return (count);
@@ -87,15 +89,21 @@ char	**fill_cmd_array(t_token *tokens, int count)
 	if (!cmd)
 		return (NULL);
 	i = 0;
-	while (i < count && tokens && tokens->type == TOKEN_WORD)
+	while (i < count && tokens)
 	{
-		if (!fill_one_cmd(cmd, tokens, i))
+		if (tokens->type == TOKEN_WORD)
 		{
-			free_cmd_array(cmd, i);
-			return (NULL);
+			if (!fill_one_cmd(cmd, tokens, i))
+			{
+				free_cmd_array(cmd, i);
+				return (NULL);
+			}
+			i++;
 		}
-		tokens = tokens->next;
-		i++;
+		else if (is_redirection(tokens->type) && (tokens = tokens->next))
+			tokens = tokens->next;
+		else
+			tokens = tokens->next;
 	}
 	cmd[i] = NULL;
 	return (cmd);

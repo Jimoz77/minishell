@@ -59,7 +59,7 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-// Enum pour les types de nœuds dans l’AST
+// Enum pour les types de nœuds dans l'AST
 typedef enum e_node_type
 {
 	NODE_CMD,
@@ -73,11 +73,17 @@ typedef enum e_node_type
 	NODE_PAREN,
 }	t_node_type;
 
-// Structure d’un nœud dans l’AST
+// Forward declarations
+typedef struct s_heredoc	t_heredoc;
+typedef struct s_redir		t_redir;
+
+// Structure d'un nœud dans l'AST
 typedef struct s_node
 {
 	t_node_type		type;
 	char			**cmd;
+	t_heredoc		*heredocs;
+	t_redir			*redirections;
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;
@@ -117,21 +123,15 @@ typedef struct s_shell
 	t_node		*ast;
 	int			exit_status;
 	char		*current_dir;
-	t_heredoc	*heredocs;
-	t_redir		*redirections;
 }	t_shell;
 
-
 // signals/
-
 extern int	g_signal;
 void	setup_signals(void);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 
-
 // shell_utils.c
-
 t_shell	*init_shell(char **envp);
 void	free_shell(t_shell *shell);
 void	ft_read_line(char **envp);
@@ -153,10 +153,7 @@ char	*handle_unclosed_quotes(char *input);
 void	init_loop_vars(t_shell *shell);
 void	handle_ast_execution(t_shell *shell, char *input);
 
-
-
 // tokenizer/
-
 t_token			*tokenize(char *input);
 void			add_token(t_token **list, char *value, t_token_type type);
 int				is_space(char c);
@@ -178,35 +175,25 @@ void			envar_to_value(t_shell *shell, t_token *token);
 int				scan_envar_parsing_phase(t_shell *shell);
 int				scan_envar_execution_phase(t_shell *shell, t_token *tokens);
 
-
-
-
 // parser/
-
-t_node	*parse_ast(t_token *tokens);
-int		find_lowest_priority(t_token *tokens);
-t_node	*create_cmd_node(t_token *tokens);
-char	**fill_cmd_array(t_token *tokens, int count);
-int		count_words(t_token *tokens);
-t_node	*setup_redirect_node(t_node *node, t_token *tokens, t_token *right);
-t_node	*create_redirect_right(t_token *right_part);
-t_node	*create_op_node(t_token *tokens, t_token *op);
-t_node	*handle_paren_and_op(t_token *tokens);
-t_node	*setup_redirect_left(t_token *tokens);
-t_token	*get_token_at(t_token *tokens, int pos);
+t_node		*parse_ast(t_token *tokens);
+int			find_lowest_priority(t_token *tokens);
+t_node		*create_cmd_node(t_token *tokens);
+char		**fill_cmd_array(t_token *tokens, int count);
+int			count_words(t_token *tokens);
+t_node		*create_op_node(t_token *tokens, t_token *op);
+t_node		*handle_paren_and_op(t_token *tokens);
+t_token		*get_token_at(t_token *tokens, int pos);
 t_node_type	token_to_node_type(t_token_type token_type);
-
-
-// parser/parentheses
-
-t_token	*find_matching_paren(t_token *start);
-t_token	*clone_tokens(t_token *start, t_token *end);
-t_node	*parse_parenthesized_expr(t_token *tokens);
-t_node	*check_paren_operators(t_node *node, t_token *closing);
-
+t_node		*parse_command_with_redirections(t_token **tokens);
+t_token		*skip_parentheses_block(t_token *start);
+int			is_inside_parentheses(t_token *tokens, t_token *target);
+t_node		*extract_redirections(t_token **tokens, t_node *cmd_node);
+void		add_redirection_to_node(t_node *node, t_token_type type, char *filename);
+void		add_heredoc_to_node(t_node *node, char *delimiter);
+t_token		*find_matching_paren(t_token *start);
 
 // parser/syntax
-
 int		is_operator(t_token_type type);
 int		is_redirection(t_token_type type);
 int		is_valid_syntax(t_token *tokens);
@@ -217,16 +204,12 @@ int		check_end_operator(t_token *tokens);
 int		check_consecutive_operators(t_token *tokens);
 int		check_parentheses_usage(t_token *tokens);
 
-
 // executor/
-
 int		execute_node_by_type(t_node *node, char ***envp, t_shell *shell);
 int		execute_ast(t_node *node, char ***envp, t_shell *shell);
-int		execute_combined_node(t_node *node, char **envp, t_shell *shell);
 int		execute_cmd_node(t_node *node, char ***envp, t_shell *shell);
 int		execute_paren_node(t_node *node, char ***envp, t_shell *shell);
 int		string_to_fd(const char *content);
-
 void	init_redirect(t_redirect *red);
 void	close_redirect_fds(t_redirect *red);
 void	restore_std_fds(t_redirect *red);
@@ -240,33 +223,32 @@ char	*handle_direct_path(char *cmd);
 int		handle_special_commands(char **cmd);
 int		execute_with_path(char *path, char **cmd, char **envp);
 
-
-
 // executor/redir
-
 void	add_redirection(t_redir **list, t_token_type type, char *filename);
 void	add_heredoc(t_heredoc **list, char *delimiter, char *content);
-void	collect_redirections(t_token *tokens, t_shell *shell);
-void	collect_redirections_in_parens(t_token *tokens, t_shell *shell);
-int		apply_all_redirections(t_shell *shell, t_redirect *red);
-void	process_heredocs(t_shell *shell);
+int		apply_node_redirections(t_node *node, t_redirect *red);
+void	process_all_heredocs(t_node *node);
+int		apply_heredoc_redir(t_node *node, char *delimiter, t_redirect *red);
 
+// executor/cmd_utils2
+t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell);
+void	init_token_from_cmd(t_token *token, char *cmd_arg, t_shell *shell);
+void	update_cmd_from_tokens(char **cmd, t_token *tokens);
+void	process_token_expansion(t_shell *shell, t_token *temp_tokens);
 
 // BUILTINS
-
-int				ft_is_builtin(char **cmd, char ***envp);
-int			execute_builtin(char **cmd, char ***envp);
-int				ft_cd(char **cmd, char ***envp);
-int				ft_pwd(void);
-int				ft_echo(char **cmd);
-int				ft_env(char ***envp);
-int				ft_export(char **cmd, char ***envp);
-int				ft_unset(char **cmd, char ***envp);
-void			ft_getcwd(void);
-char			**ft_array_dup(char **array);
-char			***ft_array_dup2(char ***array);
-char			***ft_wrap_array(char **array);
-
+int		ft_is_builtin(char **cmd, char ***envp);
+int		execute_builtin(char **cmd, char ***envp);
+int		ft_cd(char **cmd, char ***envp);
+int		ft_pwd(void);
+int		ft_echo(char **cmd);
+int		ft_env(char ***envp);
+int		ft_export(char **cmd, char ***envp);
+int		ft_unset(char **cmd, char ***envp);
+void	ft_getcwd(void);
+char	**ft_array_dup(char **array);
+char	***ft_array_dup2(char ***array);
+char	***ft_wrap_array(char **array);
 
 // wildcards/
 void    expand_wildcards(t_token *tokens);
