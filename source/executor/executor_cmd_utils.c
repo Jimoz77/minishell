@@ -6,13 +6,12 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:25:33 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/21 15:29:41 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/02 23:16:34 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Vérifie si le chemin est un répertoire
 int	is_directory(char *path)
 {
 	struct stat	st;
@@ -22,7 +21,6 @@ int	is_directory(char *path)
 	return (0);
 }
 
-// Gère les chemins absolus ou relatifs
 char	*handle_direct_path(char *cmd)
 {
 	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
@@ -30,7 +28,6 @@ char	*handle_direct_path(char *cmd)
 	return (NULL);
 }
 
-// Gère les cas spéciaux comme "." et ".."
 int	handle_special_commands(char **cmd)
 {
 	if (ft_strcmp(cmd[0], ".") == 0)
@@ -47,7 +44,6 @@ int	handle_special_commands(char **cmd)
 	return (0);
 }
 
-// Vérifie les permissions et exécute la commande
 int	execute_with_path(char *path, char **cmd, char **envp)
 {
 	if (is_directory(path))

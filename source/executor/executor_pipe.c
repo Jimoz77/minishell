@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:35:18 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/03 19:28:35 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/02 23:11:43 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,3 +96,4 @@ int	execute_pipe_node(t_node *node, char ***envp, t_shell *shell)
 		return (1);
 	return (wait_for_pipes(pid_left, pid_right));
 }
+

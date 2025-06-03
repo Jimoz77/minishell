@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/28 15:20:23 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:13:26 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ static int	handle_token_syntax(t_shell *shell, char *input)
 	return (1);
 }
 
-// Prépare les redirections et traite les heredocs
-static void	handle_redirections(t_shell *shell)
-{
-	collect_redirections(shell->tokens, shell);
-	process_heredocs(shell);
-}
-
 // Traite l'entrée dans la boucle principale
 static void	process_input(t_shell *shell, char *input)
 {
@@ -53,10 +46,7 @@ static void	process_input(t_shell *shell, char *input)
 	if (!input)
 		return ;
 	if (handle_token_syntax(shell, input))
-	{
-		handle_redirections(shell);
 		handle_ast_execution(shell, input);
-	}
 	else
 		free(input);
 }

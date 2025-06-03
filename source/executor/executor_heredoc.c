@@ -3,16 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   executor_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:40:45 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/09 15:08:44 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:04:01 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Convertit une chaîne en descripteur de fichier via un pipe
+static char	*read_heredoc_input(const char *delimiter)
+{
+	char	*line;
+	char	*content;
+	char	*new_content;
+	size_t	delim_len;
+
+	content = ft_strdup("");
+	if (!content)
+		return (NULL);
+	delim_len = ft_strlen(delimiter);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break ;
+		if (ft_strlen(line) == delim_len && 
+			ft_strncmp(line, delimiter, delim_len) == 0)
+		{
+			free(line);
+			break ;
+		}
+		new_content = ft_strjoin(content, line);
+		free(content);
+		free(line);
+		content = ft_strjoin(new_content, "\n");
+		free(new_content);
+		if (!content)
+			return (NULL);
+	}
+	return (content);
+}
+
+static void	process_node_heredocs(t_node *node)
+{
+	t_heredoc	*heredoc;
+
+	if (!node || !node->heredocs)
+		return ;
+	heredoc = node->heredocs;
+	while (heredoc)
+	{
+		if (!heredoc->processed && heredoc->delimiter)
+		{
+			heredoc->content = read_heredoc_input(heredoc->delimiter);
+			if (heredoc->content)
+			{
+				heredoc->pipe_fd = string_to_fd(heredoc->content);
+				if (heredoc->pipe_fd == -1)
+				{
+					free(heredoc->content);
+					heredoc->content = NULL;
+				}
+			}
+			heredoc->processed = 1;
+		}
+		heredoc = heredoc->next;
+	}
+}
+
+void	process_all_heredocs(t_node *node)
+{
+	if (!node)
+		return ;
+	// Parcourir tout l'AST et traiter tous les heredocs
+	process_node_heredocs(node);
+	process_all_heredocs(node->left);
+	process_all_heredocs(node->right);
+}
+
 int	string_to_fd(const char *content)
 {
 	int	pipe_fd[2];
@@ -35,59 +104,28 @@ int	string_to_fd(const char *content)
 	return (pipe_fd[0]);
 }
 
-// Lit l'entrée jusqu'au délimiteur et renvoie le contenu
-static char	*read_heredoc_input(const char *delimiter)
+int	apply_heredoc_redir(t_node *node, char *delimiter, t_redirect *red)
 {
-	char	*line;
-	char	*content;
-	char	*new_content;
+	t_heredoc	*heredoc;
 
-	content = ft_strdup("");
-	if (!content)
-		return (NULL);
-	while (1)
+	if (red->stdin_fd != -1)
 	{
-		line = readline("> ");
-		if (!line || ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
-		{
-			if (line)
-				free(line);
-			break ;
-		}
-		new_content = ft_strjoin(content, line);
-		free(content);
-		free(line);
-		content = ft_strjoin(new_content, "\n");
-		free(new_content);
-		if (!content)
-			return (NULL);
+		close(red->stdin_fd);
+		red->stdin_fd = -1;
 	}
-	return (content);
-}
-
-// Traite tous les heredocs dans l'ordre
-void	process_heredocs(t_shell *shell)
-{
-	t_heredoc	*current;
-
-	current = shell->heredocs;
-	while (current)
+	heredoc = node->heredocs;
+	while (heredoc)
 	{
-		if (!current->processed && current->delimiter)
+		if (heredoc->delimiter && 
+			ft_strncmp(heredoc->delimiter, delimiter, 
+				ft_strlen(delimiter) + 1) == 0 && 
+			heredoc->processed && heredoc->pipe_fd != -1)
 		{
-			current->content = read_heredoc_input(current->delimiter);
-			if (current->content)
-			{
-				current->pipe_fd = string_to_fd(current->content);
-				if (current->pipe_fd == -1)
-				{
-					perror("minishell: heredoc pipe");
-					free(current->content);
-					current->content = NULL;
-				}
-			}
-			current->processed = 1;
+			red->stdin_fd = heredoc->pipe_fd;
+			return (1);
 		}
-		current = current->next;
+		heredoc = heredoc->next;
 	}
+	ft_putstr_fd("minishell: warning: heredoc missing\n", 2);
+	return (0);
 }
