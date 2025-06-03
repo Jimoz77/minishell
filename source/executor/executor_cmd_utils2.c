@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 23:17:02 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/02 23:17:31 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/03 20:11:00 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 {
 	t_token	*tokens;
 	t_token	*current;
+	t_token *temp;
 	int		i;
 
 	tokens = NULL;
 	i = 0;
+	temp = shell->tokens;
 	while (cmd[i])
 	{
 		if (tokens == NULL)
@@ -34,7 +36,16 @@ t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 		}
 		if (!current)
 			return (free_tokens(tokens), NULL);
-		init_token_from_cmd(current, cmd[i], shell);
+		current->value = ft_strdup(cmd[i]);
+		current->type = TOKEN_WORD;
+		current->parts = NULL;
+		if(temp->parts && temp->parts->type == QUOTE_SINGLE)
+		{
+			current->parts = malloc(sizeof(t_word_part));
+			current->parts->type = QUOTE_SINGLE;
+		}
+		temp = temp->next;
+		current->next = NULL;
 		i++;
 	}
 	return (tokens);

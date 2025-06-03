@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/02 14:07:55 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/03 20:15:40 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_t_word_parts(t_token *token)
 	t_word_part *current;
 
 	current = token->parts;
-	while (current->next)
+	while (current)
 	{
 		head = current->next;
 		if (current->content)
@@ -27,7 +27,6 @@ void	free_t_word_parts(t_token *token)
 		free(current);
 		current = head;
 	}
-	
 }
 
 // Libère la mémoire de la liste chaînée de tokens

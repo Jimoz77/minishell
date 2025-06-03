@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/03 01:57:09 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/03 20:33:29 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,8 @@ static void	process_variable(t_shell *shell, t_token *token)
 		new_val = ft_strdup("");
 		while (*current)
 		{
-			if (*current == '$' || *current == '~')
+			//ne pas expendre "~"
+			if (*current == '$' || (*current == '~' && !tmp->parts))
 			{
 				var_start = current + (*current == '$' ? 1 : 0);
 				if (current[0] == '$' && (current[1] >= '0' && current[1] <= '9'))
