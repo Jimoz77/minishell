@@ -188,10 +188,8 @@ t_node_type	token_to_node_type(t_token_type token_type);
 t_node		*parse_command_with_redirections(t_token **tokens);
 t_token		*skip_parentheses_block(t_token *start);
 int			is_inside_parentheses(t_token *tokens, t_token *target);
-t_node		*extract_redirections(t_token **tokens, t_node *cmd_node);
-void		add_redirection_to_node(t_node *node, t_token_type type, char *filename);
-void		add_heredoc_to_node(t_node *node, char *delimiter);
-t_token		*find_matching_paren(t_token *start);
+t_token		*find_token_before(t_token *start, t_token *target);
+t_node		*handle_op_after_paren(t_node *inner_node, t_token *op_token);
 
 // parser/syntax
 int		is_operator(t_token_type type);
@@ -224,8 +222,8 @@ int		handle_special_commands(char **cmd);
 int		execute_with_path(char *path, char **cmd, char **envp);
 
 // executor/redir
-void	add_redirection(t_redir **list, t_token_type type, char *filename);
-void	add_heredoc(t_heredoc **list, char *delimiter, char *content);
+void	add_redirection(t_node *node, t_token_type type, char *filename);
+void	add_heredoc(t_node *node, char *delimiter);
 int		apply_node_redirections(t_node *node, t_redirect *red);
 void	process_all_heredocs(t_node *node);
 int		apply_heredoc_redir(t_node *node, char *delimiter, t_redirect *red);

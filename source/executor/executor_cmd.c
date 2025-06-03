@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/02 23:11:22 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:57:12 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ static void	apply_node_redirections_forked(t_node *node, t_redirect *red)
 	}
 }
 
-static int	exec_cmd_with_redirections(t_node *node, char **envp,
-	t_shell *shell)
+static int	exec_cmd_with_redirections(t_node *node, char **envp)
 {
 	t_redirect	red;
 	pid_t		pid;
@@ -95,8 +94,29 @@ static int	exec_cmd_with_redirections(t_node *node, char **envp,
 	return (1);
 }
 
+static int	exec_builtin_with_redirections(t_node *node, char ***envp)
+{
+	t_redirect	red;
+	int			result;
+
+	if (!node->redirections)
+		return (execute_builtin(node->cmd, envp));
+	
+	init_redirect(&red);
+	if (!apply_node_redirections(node, &red))
+	{
+		close_redirect_fds(&red);
+		restore_std_fds(&red);
+		return (1);
+	}
+	result = execute_builtin(node->cmd, envp);
+	close_redirect_fds(&red);
+	restore_std_fds(&red);
+	return (result);
+}
+
 // Reste du fichier avec la logique d'expansion inchangée
-int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
+int	execute_cmd_node(t_node *node, char ***envp,t_shell *shell)
 {
 	t_token	*original_tokens;
 	t_token	*temp_tokens;
@@ -120,8 +140,8 @@ int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
 	free_tokens(shell->tokens);
 	shell->tokens = original_tokens;
 	if (ft_is_builtin(node->cmd, envp))
-		result = execute_builtin(node->cmd, envp);
+		result = exec_builtin_with_redirections(node, envp);
 	else
-		result = exec_cmd_with_redirections(node, *envp, shell);
+		result = exec_cmd_with_redirections(node, *envp);
 	return (result);
 }

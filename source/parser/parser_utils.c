@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:21:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/02 16:36:35 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:39:16 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,9 @@ int	count_words(t_token *tokens)
 	int		count;
 
 	count = 0;
-	while (tokens)
+	while (tokens && tokens->type == TOKEN_WORD)
 	{
-		if (tokens->type == TOKEN_WORD)
-			count++;
-		else if (is_redirection(tokens->type))
-		{
-			tokens = tokens->next;
-			if (tokens)
-				tokens = tokens->next;
-			continue ;
-		}
-		else
-			break ;
+		count++;
 		tokens = tokens->next;
 	}
 	return (count);
@@ -100,10 +90,7 @@ char	**fill_cmd_array(t_token *tokens, int count)
 			}
 			i++;
 		}
-		else if (is_redirection(tokens->type) && (tokens = tokens->next))
-			tokens = tokens->next;
-		else
-			tokens = tokens->next;
+		tokens = tokens->next;
 	}
 	cmd[i] = NULL;
 	return (cmd);

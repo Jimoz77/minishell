@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:40:45 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/02 23:14:41 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:04:01 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,21 @@ static char	*read_heredoc_input(const char *delimiter)
 	char	*line;
 	char	*content;
 	char	*new_content;
+	size_t	delim_len;
 
 	content = ft_strdup("");
 	if (!content)
 		return (NULL);
+	delim_len = ft_strlen(delimiter);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
+		if (!line)
+			break ;
+		if (ft_strlen(line) == delim_len && 
+			ft_strncmp(line, delimiter, delim_len) == 0)
 		{
-			if (line)
-				free(line);
+			free(line);
 			break ;
 		}
 		new_content = ft_strjoin(content, line);
@@ -112,16 +116,12 @@ int	apply_heredoc_redir(t_node *node, char *delimiter, t_redirect *red)
 	heredoc = node->heredocs;
 	while (heredoc)
 	{
-		if (heredoc->delimiter && ft_strncmp(heredoc->delimiter, delimiter,
-			ft_strlen(delimiter) + 1) == 0 && heredoc->processed 
-			&& heredoc->pipe_fd != -1)
+		if (heredoc->delimiter && 
+			ft_strncmp(heredoc->delimiter, delimiter, 
+				ft_strlen(delimiter) + 1) == 0 && 
+			heredoc->processed && heredoc->pipe_fd != -1)
 		{
-			red->stdin_fd = dup(heredoc->pipe_fd);
-			if (red->stdin_fd == -1)
-			{
-				perror("minishell: dup");
-				return (0);
-			}
+			red->stdin_fd = heredoc->pipe_fd;
 			return (1);
 		}
 		heredoc = heredoc->next;

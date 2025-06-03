@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/02 16:29:11 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:55:29 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,6 @@ static int	get_priority(t_token_type type)
 	return (100);
 }
 
-static int	update_lowest_priority(t_token *tmp, int i, int *pos)
-{
-	int	priority;
-
-	priority = get_priority(tmp->type);
-	if (priority < 100 || (priority == 100 && priority == 1))
-	{
-		*pos = i;
-		return (priority);
-	}
-	return (100);
-}
-
-// Renvoie la position du token ayant la plus faible priorité
 int	find_lowest_priority(t_token *tokens)
 {
 	int		pos;
@@ -43,8 +29,8 @@ int	find_lowest_priority(t_token *tokens)
 	int		lowest;
 	t_token	*tmp;
 	int		depth;
+	int		priority;
 
-	
 	pos = -1;
 	i = 0;
 	lowest = 100;
@@ -53,11 +39,18 @@ int	find_lowest_priority(t_token *tokens)
 	while (tmp)
 	{
 		if (tmp->type == TOKEN_LPAREN)
-		depth++;
+			depth++;
 		else if (tmp->type == TOKEN_RPAREN)
-		depth--;
+			depth--;
 		if (depth == 0 && is_operator(tmp->type) && !is_redirection(tmp->type))
-			lowest = update_lowest_priority(tmp, i, &pos);
+		{
+			priority = get_priority(tmp->type);
+			if (priority < lowest)
+			{
+				lowest = priority;
+				pos = i;
+			}
+		}
 		tmp = tmp->next;
 		i++;
 	}
@@ -70,6 +63,7 @@ t_node	*parse_ast(t_token *tokens)
 	t_token	*op;
 	int		i;
 	t_node	*node;
+	t_token	*tokens_copy;
 
 	if (!tokens)
 		return (NULL);
@@ -77,9 +71,21 @@ t_node	*parse_ast(t_token *tokens)
 		return (handle_paren_and_op(tokens));
 	i = find_lowest_priority(tokens);
 	if (i == -1)
-		return (parse_command_with_redirections(&tokens));
+	{
+		// Faire une copie de la liste pour parse_command_with_redirections
+		tokens_copy = tokens;
+		node = parse_command_with_redirections(&tokens_copy);
+		if (node)
+			return (node);
+	}
 	op = get_token_at(tokens, i);
 	if (!op)
-		return (parse_command_with_redirections(&tokens));
+	{
+		// Faire une copie de la liste pour parse_command_with_redirections
+		tokens_copy = tokens;
+		node = parse_command_with_redirections(&tokens_copy);
+		if (node)
+			return (node);
+	}
 	return (create_op_node(tokens, op));
 }
