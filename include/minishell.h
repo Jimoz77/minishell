@@ -25,7 +25,6 @@ typedef enum s_quote_type
 	QUOTE_NONE,
 	QUOTE_SINGLE,
 	QUOTE_DOUBLE,
-	QUOTE_SPACE	
 }	t_quote_type;
 
 // Structure représentant une partie de mot avec quote
