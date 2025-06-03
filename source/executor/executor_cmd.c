@@ -6,14 +6,12 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/29 15:38:13 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/03 19:27:56 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Exécute une commande externe en cherchant son chemin dans $PATH
-// rajouter controle / gestion de commande sous forme de path expl : "/bin/ls"
 static int	exec_external(char **cmd, char **envp)
 {
 	char	*path;
@@ -37,7 +35,6 @@ static int	exec_external(char **cmd, char **envp)
 	return (execute_with_path(path, cmd, envp));
 }
 
-// Forke et exécute une commande dans un processus enfant
 static int	exec_forked(t_node *node, char **envp)
 {
 	pid_t	pid;
@@ -59,95 +56,92 @@ static int	exec_forked(t_node *node, char **envp)
 	return (1);
 }
 
-// Crée des tokens temporaires à partir des arguments de la commande
-static t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
+static void	apply_node_redirections_forked(t_node *node, t_redirect *red)
 {
-	t_token	*tokens;
-	t_token	*current;
-	t_token *temp;
-	int		i;
-
-	tokens = NULL;
-	i = 0;
-	temp = shell->tokens;
-	while (cmd[i])
+	if (node->redirections && !apply_node_redirections(node, red))
 	{
-		if (tokens == NULL)
-		{
-			tokens = malloc(sizeof(t_token));
-			current = tokens;
-		}
-		else
-		{
-			current->next = malloc(sizeof(t_token));
-			current = current->next;
-		}
-		if (!current)
-			return (free_tokens(tokens), NULL);
-		current->value = ft_strdup(cmd[i]);
-		current->type = TOKEN_WORD;
-		current->parts = NULL;
-		if(temp->parts && temp->parts->type == QUOTE_SINGLE)
-		{
-			current->parts = malloc(sizeof(t_word_part));
-			current->parts->type = QUOTE_SINGLE;
-		}
-		temp = temp->next;
-		current->next = NULL;
-		i++;
-	}
-	return (tokens);
-}
-
-// Met à jour les arguments de la commande avec les valeurs expansées
-static void	update_cmd_from_tokens(char **cmd, t_token *tokens)
-{
-	t_token	*current;
-	int		i;
-
-	current = tokens;
-	i = 0;
-	while (current && cmd[i])
-	{
-		free(cmd[i]);
-		cmd[i] = ft_strdup(current->value);
-		current = current->next;
-		i++;
+		close_redirect_fds(red);
+		restore_std_fds(red);
+		exit(1);
 	}
 }
 
-// Exécute un nœud de type commande (builtin ou externe)
-int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
+static int	exec_cmd_with_redirections(t_node *node, char **envp)
 {
-	//t_token	*original_tokens;
+	t_redirect	red;
+	pid_t		pid;
+	int			status;
+
+	if (!node->redirections)
+		return (exec_forked(node, envp));
+	init_redirect(&red);
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("minishell: fork");
+		return (1);
+	}
+	else if (pid == 0)
+	{
+		apply_node_redirections_forked(node, &red);
+		exit(exec_external(node->cmd, envp));
+	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
+}
+
+static int	exec_builtin_with_redirections(t_node *node, char ***envp)
+{
+	t_redirect	red;
+	int			result;
+
+	if (!node->redirections)
+		return (execute_builtin(node->cmd, envp));
+	
+	init_redirect(&red);
+	if (!apply_node_redirections(node, &red))
+	{
+		close_redirect_fds(&red);
+		restore_std_fds(&red);
+		return (1);
+	}
+	result = execute_builtin(node->cmd, envp);
+	close_redirect_fds(&red);
+	restore_std_fds(&red);
+	return (result);
+}
+
+// Reste du fichier avec la logique d'expansion inchangée
+int	execute_cmd_node(t_node *node, char ***envp,t_shell *shell)
+{
+	t_token	*original_tokens;
 	t_token	*temp_tokens;
 	int		result;
 
 	if (!node || !node->cmd || !node->cmd[0])
 		return (0);
-	// Sauvegarder les tokens originaux du shell
-	//original_tokens = shell->tokens;
-	// Créer des tokens temporaires à partir des arguments
+	original_tokens = shell->tokens;
 	temp_tokens = create_tokens_from_cmd(node->cmd, shell);
 	if (!temp_tokens)
 		return (1);
-	// Assigner les tokens temporaires au shell
 	shell->tokens = temp_tokens;
 	while(temp_tokens)
 	{
-		if (!temp_tokens->parts || (temp_tokens->parts && temp_tokens->parts->type != QUOTE_SINGLE))
+		if (!temp_tokens->parts || (temp_tokens->parts 
+			&& temp_tokens->parts->type != QUOTE_SINGLE))
 			scan_envar_execution_phase(shell, temp_tokens);
 		temp_tokens = temp_tokens->next;
 	}
-	// Mettre à jour les arguments de la commande
 	update_cmd_from_tokens(node->cmd, shell->tokens);
-	// Restaurer les tokens originaux et nettoyer
-	//free_tokens(shell->tokens);
-	//shell->tokens = original_tokens;
-	// Exécuter la commande
+	free_tokens(shell->tokens);
+	shell->tokens = original_tokens;
 	if (ft_is_builtin(node->cmd, envp))
-		result = execute_builtin(node->cmd, envp);
+		result = exec_builtin_with_redirections(node, envp);
 	else
-		result = exec_forked(node, *envp);
+		result = exec_cmd_with_redirections(node, *envp);
 	return (result);
 }
