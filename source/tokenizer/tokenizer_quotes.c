@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:41:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/21 14:20:09 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/01 15:03:17 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,11 @@ int	handle_complex_word(t_token **tokens, char *input)
 	parts = NULL;
 	i = 0;
 	len = parse_complex_word(input, &i, &parts);
-	if (len <= 0 || len == 2)
-		return (clean_complex_word(parts, NULL, len));
+	if (len <= 0)
+	return (clean_complex_word(parts, NULL, len));
 	new_token = create_complex_token(input, len, parts);
+	if( len == 2)
+		new_token = create_complex_token("",len,parts);
 	if (!new_token)
 		return (-1);
 	if (!*tokens)

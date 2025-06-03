@@ -96,3 +96,4 @@ int	execute_pipe_node(t_node *node, char ***envp, t_shell *shell)
 		return (1);
 	return (wait_for_pipes(pid_left, pid_right));
 }
+

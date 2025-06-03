@@ -21,9 +21,10 @@ char	**update_pid(char **env)
 	char	*new_env;
 
 	i = 0;
+	//eviter l'utilisation de getenv si aucun env n'est donné
 	pid_str = getenv("SYSTEMD_EXEC_PID");
 	if (!pid_str)
-		return (NULL);
+		return (env);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "SYSTEMD_EXEC_PID", 15) == 0)
