@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:35:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/01 15:04:26 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/03 19:34:57 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,62 @@
 static char	**prepare_redirect_cmd(t_token *right_part)
 {
 	char	**cmd;
-	char	*value;
+	char	*value;/* ************************************************************************** */
+	/*                                                                            */
+	/*                                                        :::      ::::::::   */
+	/*   parser_ops2.c                                      :+:      :+:    :+:   */
+	/*                                                    +:+ +:+         +:+     */
+	/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+	/*                                                +#+#+#+#+#+   +#+           */
+	/*   Created: 2025/05/29 17:45:00 by lsadikaj          #+#    #+#             */
+	/*   Updated: 2025/06/03 14:39:11 by lsadikaj         ###   ########.fr       */
+	/*                                                                            */
+	/* ************************************************************************** */
+	
+	#include "../../include/minishell.h"
+	
+	t_token	*find_token_before(t_token *start, t_token *target)
+	{
+		t_token	*current;
+		t_token	*prev;
+	
+		if (!start || !target || start == target)
+			return (NULL);
+		current = start;
+		prev = NULL;
+		while (current && current != target)
+		{
+			prev = current;
+			current = current->next;
+		}
+		return (prev);
+	}
+	
+	t_node	*handle_op_after_paren(t_node *inner_node, t_token *op_token)
+	{
+		t_node	*op_node;
+	
+		if (!inner_node || !op_token)
+			return (inner_node);
+		op_node = ft_calloc(1, sizeof(t_node));
+		if (!op_node)
+		{
+			free_ast(inner_node);
+			return (NULL);
+		}
+		op_node->type = token_to_node_type(op_token->type);
+		op_node->left = inner_node;
+		if (op_token->next)
+			op_node->right = parse_ast(op_token->next);
+		else
+			op_node->right = NULL;
+		if (!op_node->right && op_node->type != NODE_CMD)
+		{
+			free_ast(op_node);
+			return (NULL);
+		}
+		return (op_node);
+	}
 
 	if (right_part->parts)
 		value = build_unquoted_value(right_part->parts);

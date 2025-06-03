@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:21:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/30 14:49:41 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:36:05 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,6 @@ t_node_type	token_to_node_type(t_token_type token_type)
 		return (NODE_AND);
 	else if (token_type == TOKEN_OR)
 		return (NODE_OR);
-	else if (token_type == TOKEN_REDIRECT_OUT)
-		return (NODE_REDIRECT_OUT);
-	else if (token_type == TOKEN_REDIRECT_IN)
-		return (NODE_REDIRECT_IN);
-	else if (token_type == TOKEN_APPEND)
-		return (NODE_APPEND);
-	else if (token_type == TOKEN_HEREDOC)
-		return (NODE_HEREDOC);
 	return (NODE_CMD);
 }
 
@@ -38,7 +30,7 @@ int	count_words(t_token *tokens)
 	int		count;
 
 	count = 0;
-	while (tokens && (tokens->type == TOKEN_WORD || tokens->type == TOKEN_SPACE))
+	while (tokens && tokens->type == TOKEN_WORD)
 	{
 		count++;
 		tokens = tokens->next;
@@ -87,15 +79,18 @@ char	**fill_cmd_array(t_token *tokens, int count)
 	if (!cmd)
 		return (NULL);
 	i = 0;
-	while (i < count && tokens && (tokens->type == TOKEN_WORD || tokens->type == TOKEN_SPACE))
+	while (i < count && tokens)
 	{
-		if (!fill_one_cmd(cmd, tokens, i))
+		if (tokens->type == TOKEN_WORD)
 		{
-			free_cmd_array(cmd, i);
-			return (NULL);
+			if (!fill_one_cmd(cmd, tokens, i))
+			{
+				free_cmd_array(cmd, i);
+				return (NULL);
+			}
+			i++;
 		}
 		tokens = tokens->next;
-		i++;
 	}
 	cmd[i] = NULL;
 	return (cmd);

@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/29 15:39:53 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/03 19:36:45 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_t_word_parts(t_token *token)
 	t_word_part *current;
 
 	current = token->parts;
-	while (current && current->next)
+	while (current->next)
 	{
 		head = current->next;
 		if (current->content)
@@ -27,6 +27,7 @@ void	free_t_word_parts(t_token *token)
 		free(current);
 		current = head;
 	}
+	
 }
 
 // Libère la mémoire de la liste chaînée de tokens
@@ -68,6 +69,10 @@ void	free_ast(t_node *node)
 		}
 		free(node->cmd);
 	}
+	if (node->redirections)
+		free_redirections(node->redirections);
+	if (node->heredocs)
+		free_heredocs(node->heredocs);
 	free(node);
 }
 
