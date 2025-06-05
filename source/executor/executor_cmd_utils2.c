@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 23:17:02 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/03 20:11:00 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/05 17:14:46 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 {
 	t_token	*tokens;
 	t_token	*current;
-	t_token *temp;
 	int		i;
 
 	tokens = NULL;
 	i = 0;
-	temp = shell->tokens;
 	while (cmd[i])
 	{
 		if (tokens == NULL)
@@ -36,15 +34,35 @@ t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 		}
 		if (!current)
 			return (free_tokens(tokens), NULL);
+		
 		current->value = ft_strdup(cmd[i]);
 		current->type = TOKEN_WORD;
 		current->parts = NULL;
-		if(temp->parts && temp->parts->type == QUOTE_SINGLE)
+		
+		// Ne pas accéder à shell->tokens si NULL
+		if (shell && shell->tokens)
 		{
-			current->parts = malloc(sizeof(t_word_part));
-			current->parts->type = QUOTE_SINGLE;
+			t_token *temp = shell->tokens;
+			int j = 0;
+			// Trouver le token correspondant à cmd[i]
+			while (temp && j < i)
+			{
+				temp = temp->next;
+				j++;
+			}
+			// Si on a trouvé le token et qu'il a des parts avec QUOTE_SINGLE
+			if (temp && temp->parts && temp->parts->type == QUOTE_SINGLE)
+			{
+				current->parts = malloc(sizeof(t_word_part));
+				if (current->parts)
+				{
+					current->parts->type = QUOTE_SINGLE;
+					current->parts->content = NULL;
+					current->parts->next = NULL;
+				}
+			}
 		}
-		temp = temp->next;
+		
 		current->next = NULL;
 		i++;
 	}
