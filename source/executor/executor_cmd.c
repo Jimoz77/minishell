@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/03 17:57:12 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:13:21 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,38 +32,11 @@ static int	exec_external(char **cmd, char **envp)
 		ft_putendl_fd(": command not found", 2);
 		return (127);
 	}
-	return (execute_with_path(path, cmd, envp));
-}
-
-static int	exec_forked(t_node *node, char **envp)
-{
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("minishell: fork");
-		return (1);
-	}
-	else if (pid == 0)
-		exit(exec_external(node->cmd, envp));
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (1);
-}
-
-static void	apply_node_redirections_forked(t_node *node, t_redirect *red)
-{
-	if (node->redirections && !apply_node_redirections(node, red))
-	{
-		close_redirect_fds(red);
-		restore_std_fds(red);
-		exit(1);
-	}
+	// Exécuter directement avec execve (on suppose qu'on est déjà dans un fork)
+	execve(path, cmd, envp);
+	perror("minishell: execve");
+	free(path);
+	return (126);
 }
 
 static int	exec_cmd_with_redirections(t_node *node, char **envp)
@@ -72,9 +45,7 @@ static int	exec_cmd_with_redirections(t_node *node, char **envp)
 	pid_t		pid;
 	int			status;
 
-	if (!node->redirections)
-		return (exec_forked(node, envp));
-	init_redirect(&red);
+	// TOUJOURS fork pour les commandes externes
 	pid = fork();
 	if (pid == -1)
 	{
@@ -83,9 +54,19 @@ static int	exec_cmd_with_redirections(t_node *node, char **envp)
 	}
 	else if (pid == 0)
 	{
-		apply_node_redirections_forked(node, &red);
+		// Processus enfant : appliquer les redirections si nécessaire
+		init_redirect(&red);
+		if (node->redirections && !apply_node_redirections(node, &red))
+		{
+			close_redirect_fds(&red);
+			restore_std_fds(&red);
+			exit(1);
+		}
+		// Exécuter la commande
 		exit(exec_external(node->cmd, envp));
 	}
+	
+	// Processus parent : attendre l'enfant
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
@@ -115,8 +96,7 @@ static int	exec_builtin_with_redirections(t_node *node, char ***envp)
 	return (result);
 }
 
-// Reste du fichier avec la logique d'expansion inchangée
-int	execute_cmd_node(t_node *node, char ***envp,t_shell *shell)
+int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
 {
 	t_token	*original_tokens;
 	t_token	*temp_tokens;
@@ -124,24 +104,43 @@ int	execute_cmd_node(t_node *node, char ***envp,t_shell *shell)
 
 	if (!node || !node->cmd || !node->cmd[0])
 		return (0);
+	
+	// Sauvegarder les tokens originaux
 	original_tokens = shell->tokens;
+	
+	// Créer des tokens temporaires pour l'expansion
 	temp_tokens = create_tokens_from_cmd(node->cmd, shell);
 	if (!temp_tokens)
 		return (1);
-	shell->tokens = temp_tokens;
-	while(temp_tokens)
+	
+	// Expansion des variables sur les tokens temporaires
+	t_token *current = temp_tokens;
+	while (current)
 	{
-		if (!temp_tokens->parts || (temp_tokens->parts 
-			&& temp_tokens->parts->type != QUOTE_SINGLE))
-			scan_envar_execution_phase(shell, temp_tokens);
-		temp_tokens = temp_tokens->next;
+		if (!current->parts || (current->parts 
+			&& current->parts->type != QUOTE_SINGLE))
+		{
+			// Utiliser les tokens temporaires pour l'expansion
+			shell->tokens = temp_tokens;
+			scan_envar_execution_phase(shell, current);
+		}
+		current = current->next;
 	}
-	update_cmd_from_tokens(node->cmd, shell->tokens);
-	free_tokens(shell->tokens);
+	
+	// Restaurer immédiatement les tokens originaux
 	shell->tokens = original_tokens;
+	
+	// Mettre à jour la commande avec les valeurs expandées
+	update_cmd_from_tokens(node->cmd, temp_tokens);
+	
+	// Libérer SEULEMENT les tokens temporaires
+	free_tokens(temp_tokens);
+	
+	// Exécuter la commande
 	if (ft_is_builtin(node->cmd, envp))
 		result = exec_builtin_with_redirections(node, envp);
 	else
 		result = exec_cmd_with_redirections(node, *envp);
+	
 	return (result);
 }
