@@ -3,16 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:30:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/03 17:49:46 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:37:46 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // Fonction pour obtenir un nom de fichier sans quotes pour les redirections
+
+t_token *find_command_token(t_token *tokens)
+{
+	if(!tokens)
+		return(NULL);
+	
+	while(tokens)
+	{
+		if(is_redirection(tokens->type))
+		{
+			tokens = tokens->next->next;
+		}
+		if(tokens->type == TOKEN_WORD)
+			return (tokens);
+	}
+	return (NULL);
+}
+
 char	*get_unquoted_filename(t_token *tokens)
 {
 	char	*filename;
@@ -31,11 +49,12 @@ t_node	*create_cmd_node(t_token *tokens)
 {
 	t_node	*node;
 	int		count;
+	t_token	*temp;
 
 	if (!tokens)
 		return (NULL);
 	count = count_words(tokens);
-	if (count <= 0)
+	if (count <= 0 && tokens->type == TOKEN_WORD)
 		return (NULL);
 	node = ft_calloc(1, sizeof(t_node));
 	if (!node)
@@ -45,12 +64,9 @@ t_node	*create_cmd_node(t_token *tokens)
 	node->right = NULL;
 	node->heredocs = NULL;
 	node->redirections = NULL;
-	node->cmd = fill_cmd_array(tokens, count);
-	if (!node->cmd)
-	{
-		free(node);
-		return (NULL);
-	}
+	temp = find_command_token(tokens);
+	node->cmd = fill_cmd_array(temp, count);
+	
 	return (node);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar_to_value.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/03 20:33:29 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/06 16:27:41 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,16 +351,22 @@ void	envar_to_value(t_shell *shell, t_token *token)
     {
         if (tmp->type == TOKEN_WORD && tmp->value)
         {
+			
+			if (tmp->value[0] == '$' && tmp->value[1] == '$')
+			{
+				free(tmp->value);
+				tmp->value = ft_itoa(getpid());
+				found = 1;
+			}
             // Expander seulement $$ au parsing
-            if (tmp->value[0] == '$' && tmp->value[1] == '$')
-            {
-                free(tmp->value);
-                tmp->value = ft_itoa(getpid());
-                found = 1;
-            }
             // Pour $?, on garde le token tel quel pour l'instant
             // Pour les autres variables, on garde aussi tel quel
         }
+		else if (is_redirection(tmp->type) && tmp->next && tmp->next->type == TOKEN_WORD)
+		{
+			envar_to_value(shell, tmp->next);
+			found = 1;
+		}
         tmp = tmp->next;
     }
     return (found);

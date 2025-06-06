@@ -191,6 +191,7 @@ t_token		*skip_parentheses_block(t_token *start);
 int			is_inside_parentheses(t_token *tokens, t_token *target);
 t_token		*find_token_before(t_token *start, t_token *target);
 t_node		*handle_op_after_paren(t_node *inner_node, t_token *op_token);
+t_token		*find_command_token(t_token *tokens);
 
 // parser/syntax
 int		is_operator(t_token_type type);

@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/05 17:13:21 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/06 17:36:13 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int execute_redir_only(t_node *node)
+{
+	t_redirect red;
+
+	if(!node || !node->redirections)
+		return (0);
+	init_redirect(&red);
+	process_all_heredocs(node);
+	if(!apply_node_redirections(node, &red))
+	{
+		close_redirect_fds(&red);
+		restore_std_fds(&red);
+		return (1);
+	}
+	close_redirect_fds(&red);
+	restore_std_fds(&red);
+	return (0);
+}
 
 static int	exec_external(char **cmd, char **envp)
 {
@@ -102,16 +121,20 @@ int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
 	t_token	*temp_tokens;
 	int		result;
 
-	if (!node || !node->cmd || !node->cmd[0])
+	if (!node)
 		return (0);
 	
+	if((!node->cmd || !node->cmd[0]) && node->redirections)
+		return (execute_redir_only(node));
+	if((!node->cmd || !node->cmd[0]))
+		return (0);
 	// Sauvegarder les tokens originaux
 	original_tokens = shell->tokens;
 	
 	// Créer des tokens temporaires pour l'expansion
 	temp_tokens = create_tokens_from_cmd(node->cmd, shell);
-	if (!temp_tokens)
-		return (1);
+	/* if (!temp_tokens)
+		return (1); */
 	
 	// Expansion des variables sur les tokens temporaires
 	t_token *current = temp_tokens;
