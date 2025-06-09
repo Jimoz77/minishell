@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 23:17:02 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/05 17:14:46 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:38:43 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 			return (free_tokens(tokens), NULL);
 		
 		current->value = ft_strdup(cmd[i]);
+		if(!current->value)
+		{
+			free_tokens(shell->tokens);
+			return (NULL);
+		}
 		current->type = TOKEN_WORD;
 		current->parts = NULL;
 		

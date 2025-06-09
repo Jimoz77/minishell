@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:15:23 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/06 17:44:05 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:59:30 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	handle_ast_execution(t_shell *shell, char *input)
 		return ;
 	}
 	shell->exit_status = execute_ast(shell->ast, shell->envp, shell);
-	//free_tokens(shell->tokens);
+	free_tokens(shell->tokens);
 	free_ast(shell->ast);
 	free(input);
 }

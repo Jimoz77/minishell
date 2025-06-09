@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/06 20:13:42 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:04:14 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	save_env(char ***env)
 	int		fd;
 //le path ne fonctionne que sur mon ordi // a voir comment le gerer 
 // peut etre créé directement dans un repetoir de l'ordi avec la fonction open
-	fd = open("/home/jiparcer/cursus42/minishell/etc/.mini_env", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open("/home/jimpa/work/minishell/etc/.mini_env", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	i = 0;
 	if (fd == -1)
 	{
@@ -73,7 +73,7 @@ char **load_env(void)
 	char		**new_env;
 	size_t		current_size; // Nouvelle variable pour tracker la taille
 
-	fd = open("/home/jiparcer/cursus42/minishell/etc/.mini_env", O_RDONLY);
+	fd = open("/home/jimpa/work/minishell/etc/.mini_env", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("open");
@@ -98,13 +98,27 @@ char **load_env(void)
 			current_size *= 2; // Double la capacité à chaque redimensionnement
 			new_env = ft_realloc(env, (count + 1) * sizeof(char *), current_size * sizeof(char *)); // Nouvelle taille
 			if (!new_env)
-			{
-				free(env);
-				return (NULL);
-			}
+            {
+                // Libérer proprement en cas d'échec
+                while (count > 0)
+                {
+                    free(env[--count]);
+                }
+                free(env);
+                return (NULL);
+            }
 			env = new_env;
 		}
 		env[count] = ft_strdup(line);
+		if (!env[count])  // Vérifier l'allocation de ft_strdup
+        {
+            while (count > 0)
+            {
+                free(env[--count]);
+            }
+            free(env);
+            return (NULL);
+        }
 		count++;
 		line = ft_strtok(NULL, '\n');
 	}
@@ -121,7 +135,7 @@ void	save_history(char *cmd)
 		return ;
 //le path ne fonctionne que sur mon ordi // a voir comment le gerer 
 // peut etre créé directement dans un repetoir de l'ordi avec la fonction open
-	fd = open("/home/jiparcer/cursus42/minishell/etc/.minishell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open("/home/jimpa/work/minishell/etc/.minishell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 	{
 		perror("open");
@@ -139,7 +153,7 @@ void	load_history(void)
 	int		fd;
 	char	*line = NULL;
 
-	fd = open("/home/jiparcer/cursus42/minishell/etc/.minishell_history", O_RDONLY);
+	fd = open("/home/jimpa/work/minishell/etc/.minishell_history", O_RDONLY);
 	if (fd == -1)
 		return ;
 	while ((line = get_next_line(fd)) != NULL)

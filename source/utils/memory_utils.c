@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/03 20:15:40 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/09 17:43:49 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	free_t_word_parts(t_token *token)
 {
 	t_word_part *head;
 	t_word_part *current;
+
+	if (!token || !token->parts)  // Ajouter une vérification
+	return;
 
 	current = token->parts;
 	while (current)
@@ -43,7 +46,7 @@ void	free_tokens(t_token *tokens)
 		if (current->value)
 			free(current->value);
 		if (current->parts)
-			free_t_word_parts(tokens);
+			free_t_word_parts(current);
 		free(current);
 		current = next;
 	}
@@ -52,22 +55,13 @@ void	free_tokens(t_token *tokens)
 // Libère la mémoire de l'arbre (AST) de façon récursive
 void	free_ast(t_node *node)
 {
-	int	i;
 
 	if (!node)
 		return ;
 	free_ast(node->left);
 	free_ast(node->right);
 	if (node->cmd)
-	{
-		i = 0;
-		while (node->cmd[i])
-		{
-			free(node->cmd[i]);
-			i++;
-		}
-		free(node->cmd);
-	}
+		free_array(node->cmd);
 	if (node->redirections)
 		free_redirections(node->redirections);
 	if (node->heredocs)

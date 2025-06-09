@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar_to_value.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/06 16:27:41 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:58:00 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,8 +277,11 @@ static void	process_variable(t_shell *shell, t_token *token)
 			}
 		}
 		char *cleaned = clean_double_slashes(new_val);
+		free(new_val);
 		new_val = cleaned;
+		//free(cleaned);
 		token->value = new_val;
+		//free(new_val);
 		process_parts(shell, token);
 	}
 }
@@ -394,8 +397,8 @@ int    scan_envar_execution_phase(t_shell *shell, t_token *tokens)
             else
             {
                 envar_to_value(shell, tmp);
-                if (tmp->value)
-                    tmp->value = clean_dspace(tmp->value);
+                /* if (tmp->value)
+                    tmp->value = clean_dspace(tmp->value); */
             }
         }
     return (found);

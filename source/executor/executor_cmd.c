@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/06 17:36:13 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:37:15 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int execute_redir_only(t_node *node)
+int execute_redir_only(t_node *node, char ***envp, t_shell *shell) // modif !!!!!!!!!!!!!!!!!!!
 {
 	t_redirect red;
+	(void) envp;
+	(void) shell;
 
+	init_redirect(&red);
 	if(!node || !node->redirections)
 		return (0);
-	init_redirect(&red);
 	process_all_heredocs(node);
 	if(!apply_node_redirections(node, &red))
 	{
@@ -26,8 +28,17 @@ int execute_redir_only(t_node *node)
 		restore_std_fds(&red);
 		return (1);
 	}
+	if(node->left)
+		node->left->redirections = node->redirections;
+	if(node->right)
+		node->right->redirections = node->redirections;
 	close_redirect_fds(&red);
 	restore_std_fds(&red);
+	if(node->left && (node->left->type == NODE_AND || node->left->type == NODE_OR))
+		execute_ast(node->left, envp, shell);
+	/*if(node->right) */
+
+	//return (execute_node_by_type(node, envp, shell));
 	return (0);
 }
 
@@ -115,55 +126,66 @@ static int	exec_builtin_with_redirections(t_node *node, char ***envp)
 	return (result);
 }
 
-int	execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
+int execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
 {
-	t_token	*original_tokens;
-	t_token	*temp_tokens;
-	int		result;
-
-	if (!node)
-		return (0);
-	
-	if((!node->cmd || !node->cmd[0]) && node->redirections)
-		return (execute_redir_only(node));
-	if((!node->cmd || !node->cmd[0]))
-		return (0);
-	// Sauvegarder les tokens originaux
-	original_tokens = shell->tokens;
-	
-	// Créer des tokens temporaires pour l'expansion
-	temp_tokens = create_tokens_from_cmd(node->cmd, shell);
-	/* if (!temp_tokens)
-		return (1); */
-	
-	// Expansion des variables sur les tokens temporaires
-	t_token *current = temp_tokens;
-	while (current)
-	{
-		if (!current->parts || (current->parts 
-			&& current->parts->type != QUOTE_SINGLE))
-		{
-			// Utiliser les tokens temporaires pour l'expansion
-			shell->tokens = temp_tokens;
-			scan_envar_execution_phase(shell, current);
-		}
-		current = current->next;
-	}
-	
-	// Restaurer immédiatement les tokens originaux
-	shell->tokens = original_tokens;
-	
-	// Mettre à jour la commande avec les valeurs expandées
-	update_cmd_from_tokens(node->cmd, temp_tokens);
-	
-	// Libérer SEULEMENT les tokens temporaires
-	free_tokens(temp_tokens);
-	
-	// Exécuter la commande
-	if (ft_is_builtin(node->cmd, envp))
-		result = exec_builtin_with_redirections(node, envp);
-	else
-		result = exec_cmd_with_redirections(node, *envp);
-	
-	return (result);
+    t_token *original_tokens;
+    t_token *temp_tokens;
+    int result;
+    
+    if (!node)
+        return (0);
+        
+    // Gestion des redirections seules
+    if ((!node->cmd || !node->cmd[0]) && node->redirections)
+        return (execute_redir_only(node, envp, shell));
+        
+    if (!node->cmd || !node->cmd[0])
+        return (0);
+    
+    // Sauvegarder les tokens originaux
+    original_tokens = shell->tokens;
+    
+    // Créer des tokens temporaires pour l'expansion
+    temp_tokens = create_tokens_from_cmd(node->cmd, shell);
+    if (!temp_tokens)
+    {
+        // En cas d'erreur de création des tokens, exécuter quand même
+        // la commande sans expansion
+        shell->tokens = original_tokens;
+        if (ft_is_builtin(node->cmd, envp))
+            return (exec_builtin_with_redirections(node, envp));
+        else
+            return (exec_cmd_with_redirections(node, *envp));
+    }
+    
+    // Expansion des variables sur les tokens temporaires
+    t_token *current = temp_tokens;
+    while (current)
+    {
+        if (!current->parts || (current->parts
+            && current->parts->type != QUOTE_SINGLE))
+        {
+            // Utiliser les tokens temporaires pour l'expansion
+            shell->tokens = temp_tokens;
+            scan_envar_execution_phase(shell, current);
+        }
+        current = current->next;
+    }
+    
+    // Restaurer immédiatement les tokens originaux
+    shell->tokens = original_tokens;
+    
+    // Mettre à jour la commande avec les valeurs expandées
+    update_cmd_from_tokens(node->cmd, temp_tokens);
+    
+    // Libérer les tokens temporaires
+    free_tokens(temp_tokens);
+    
+    // Exécuter la commande
+    if (ft_is_builtin(node->cmd, envp))
+        result = exec_builtin_with_redirections(node, envp);
+    else
+        result = exec_cmd_with_redirections(node, *envp);
+    
+    return (result);
 }

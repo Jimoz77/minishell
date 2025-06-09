@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/06/02 14:13:26 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:53:15 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,12 @@ static void	ft_read_line_loop(t_shell *shell)
 {
 	char	*input;
 
+	input = NULL;
 	while (1)
 	{
 		init_loop_vars(shell);
+		/* if(input)
+			free(input); */
 		input = readline("minishell> ");
 		if (!input)
 			break ;
@@ -78,4 +81,6 @@ void	ft_read_line(char **envp)
 	load_history();
 	ft_read_line_loop(shell);
 	free_shell(shell);
+	if(envp)
+		free_array(envp);
 }

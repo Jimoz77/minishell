@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_ops.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:45:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/06 17:42:36 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/08 13:42:22 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static t_token	*find_matching_paren(t_token *start)
 	return (NULL);
 }
 
-t_node	*handle_paren_and_op(t_token *tokens)
+t_node	*handle_paren_and_op(t_token *tokens) // surement util !!!!!!!!!!!!
 {
 	t_token	*end_paren;
 	t_token	*inner_start;
@@ -115,6 +115,6 @@ t_node	*handle_paren_and_op(t_token *tokens)
 	if (!inner_node)
 		return (NULL);
 	if (end_paren->next && is_operator(end_paren->next->type))
-		return (handle_op_after_paren(inner_node, end_paren->next));
+		return (handle_op_after_paren(inner_node, inner_start, end_paren->next));
 	return (inner_node);
 }

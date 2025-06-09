@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:30:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/06 19:37:46 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:36:23 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,6 @@ static t_node	*extract_redirections(t_token **tokens, t_node *cmd_node)
 				prev->next = current->next->next;
 			else
 				*tokens = current->next->next;
-			free(current->value);
-			free(current->next->value);
-			free(current->next);
-			free(current);
 			current = (prev) ? prev->next : *tokens;
 		}
 		else
