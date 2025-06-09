@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar_to_value.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/09 15:58:00 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/09 20:14:39 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,7 @@ static void	process_variable(t_shell *shell, t_token *token)
 		char *cleaned = clean_double_slashes(new_val);
 		free(new_val);
 		new_val = cleaned;
-		//free(cleaned);
+		free(token->value);
 		token->value = new_val;
 		//free(new_val);
 		process_parts(shell, token);

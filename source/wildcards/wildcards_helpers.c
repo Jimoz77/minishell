@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_helpers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:20:53 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/09 18:00:05 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:56:15 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
