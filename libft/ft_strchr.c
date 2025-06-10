@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:03:29 by lsadikaj          #+#    #+#             */
-/*   Updated: 2024/10/10 14:59:58 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:59:44 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,36 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	return (NULL);
 }
+
+char	*ft_strtok(char *str, char c)
+{
+	static char	*save = NULL;
+	char		*token_start;
+
+	if (str != NULL)
+		save = str;
+	else if (save == NULL)
+		return (NULL);
+	while (*save == c)
+		save++;
+	if (*save == '\0')
+	{
+		save = NULL;
+		return (NULL);
+	}
+	token_start = save;
+	while (*save != '\0' && *save != c)
+		save++;
+	if (*save != '\0')
+	{
+		*save = '\0';
+		save++;
+	}
+	else
+		save = NULL;
+	return (token_start);
+}
+
 /*
 int main(void)
 {

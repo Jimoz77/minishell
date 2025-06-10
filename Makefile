@@ -6,7 +6,7 @@
 #    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/06/02 23:21:32 by lsadikaj         ###   ########.fr        #
+#    Updated: 2025/06/10 17:43:59 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,15 +43,21 @@ SRCS = \
 	$(SRC_DIR)/tokenizer/tokenizer_utils.c \
 	$(SRC_DIR)/tokenizer/tokenizer_handle.c \
 	$(SRC_DIR)/tokenizer/tokenizer_quotes.c \
+	$(SRC_DIR)/tokenizer/tokenizer_quotes_helper.c \
 	$(SRC_DIR)/tokenizer/tokenizer_quotes_utils.c \
 	$(SRC_DIR)/tokenizer/envar_to_value.c \
 	$(SRC_DIR)/parser/parser.c \
 	$(SRC_DIR)/parser/parser_utils.c \
 	$(SRC_DIR)/parser/parser_utils2.c \
+	$(SRC_DIR)/parser/parser_utils2_helper.c \
 	$(SRC_DIR)/parser/parser_utils3.c \
 	$(SRC_DIR)/parser/parser_ops.c \
+	$(SRC_DIR)/parser/parser_ops_helper1.c \
+	$(SRC_DIR)/parser/parser_ops_helper2.c \
+	$(SRC_DIR)/parser/parser_ops_helper3.c \
 	$(SRC_DIR)/parser/parser_ops2.c \
 	$(SRC_DIR)/parser/parser_syntax.c \
+	$(SRC_DIR)/parser/parser_syntax_separate.c \
 	$(SRC_DIR)/parser/parser_syntax2.c \
 	$(SRC_DIR)/utils/memory_utils.c \
 	$(SRC_DIR)/utils/memory_utils2.c \
@@ -63,14 +69,18 @@ SRCS = \
 	$(SRC_DIR)/executor/executor_cmd.c \
 	$(SRC_DIR)/executor/executor_cmd_utils.c \
 	$(SRC_DIR)/executor/executor_cmd_utils2.c \
+	$(SRC_DIR)/executor/executor_cmd_utils3.c \
 	$(SRC_DIR)/executor/executor_heredoc.c \
+	$(SRC_DIR)/executor/executor_heredoc_utils.c \
 	$(SRC_DIR)/executor/executor_redir.c \
 	$(SRC_DIR)/executor/executor_redir2.c \
 	$(SRC_DIR)/executor/executor_paren.c \
 	$(SRC_DIR)/executor/executor_pipe.c \
+	$(SRC_DIR)/executor/executor_pipe_utils.c \
 	$(SRC_DIR)/utils/save_env.c \
 	$(SRC_DIR)/wildcards/wildcards.c \
 	$(SRC_DIR)/wildcards/wildcards_utils.c \
+	$(SRC_DIR)/wildcards/wildcards_utils2.c \
 	$(SRC_DIR)/wildcards/wildcards_matching.c \
 	$(SRC_DIR)/wildcards/wildcards_helpers.c
 

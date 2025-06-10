@@ -3,29 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:30:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/09 22:18:37 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/10 15:39:30 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // Fonction pour obtenir un nom de fichier sans quotes pour les redirections
-
-t_token *find_command_token(t_token *tokens)
+t_token	*find_command_token(t_token *tokens)
 {
-	if(!tokens)
-		return(NULL);
-	
-	while(tokens)
+	if (!tokens)
+		return (NULL);
+	while (tokens)
 	{
-		if(is_redirection(tokens->type))
+		if (is_redirection(tokens->type))
 		{
 			tokens = tokens->next->next;
 		}
-		if(tokens->type == TOKEN_WORD)
+		if (tokens->type == TOKEN_WORD)
 			return (tokens);
 	}
 	return (NULL);
@@ -66,10 +64,8 @@ t_node	*create_cmd_node(t_token *tokens)
 	node->redirections = NULL;
 	temp = find_command_token(tokens);
 	node->cmd = fill_cmd_array(temp, count);
-	
 	return (node);
 }
-
 
 void	add_redirection(t_node *node, t_token_type type, char *filename)
 {
@@ -93,69 +89,4 @@ void	add_redirection(t_node *node, t_token_type type, char *filename)
 			current = current->next;
 		current->next = new_redir;
 	}
-}
-
-
-static t_node	*extract_redirections(t_token **tokens, t_node *cmd_node)
-{
-	t_token	*current;
-	t_token	*prev;
-	t_token	*next;
-
-	if (!tokens || !*tokens || !cmd_node)
-		return (cmd_node);
-	current = *tokens;
-	prev = NULL;
-	while (current)
-	{
-		next = current->next;
-		if (is_redirection(current->type) && current->next 
-			&& current->next->type == TOKEN_WORD)
-		{
-			if (current->type == TOKEN_HEREDOC)
-			{
-				add_heredoc(cmd_node, current->next->value);
-				add_redirection(cmd_node, current->type, 
-					current->next->value);
-			}
-			else
-				add_redirection(cmd_node, current->type, 
-					current->next->value);
-			// Supprimer le token de redirection et le filename
-			if (prev)
-			{
-				delete_token(current, current->next);
-			}
-			else
-				*tokens = current->next->next;
-			current = (prev) ? prev->next : *tokens;
-		}
-		else
-		{
-			prev = current;
-			current = next;
-		}
-	}
-	return (cmd_node);
-}
-
-t_node *parse_command_with_redirections(t_token **tokens)
-{
-    t_node *cmd_node;
-
-    if (!tokens || !*tokens)
-        return (NULL);
-    
-    // Créer le nœud de commande avec tous les tokens
-    cmd_node = create_cmd_node(*tokens);
-    if (!cmd_node)
-        return (NULL);
-    
-    // Extraire et attacher les redirections au nœud
-    extract_redirections(tokens, cmd_node);
-    
-    // Reconstruire le tableau cmd sans les redirections
-    
-    
-    return (cmd_node);
 }

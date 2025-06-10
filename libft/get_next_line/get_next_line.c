@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 03:46:34 by anpayot           #+#    #+#             */
-/*   Updated: 2025/06/06 20:15:59 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:51:17 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ static char	*get_line_from_buffer(char *buffer)
 	ptr = line;
 	while (buffer != buffer_ptr)
 		*ptr++ = *buffer++;
-	/* if (*buffer == '\n')
-		*ptr++ = '\n'; */
 	*ptr = '\0';
 	return (line);
 }

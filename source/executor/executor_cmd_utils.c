@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:25:33 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/02 23:16:34 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:21:01 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ char	*handle_direct_path(char *cmd)
 	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
 		return (ft_strdup(cmd));
 	return (NULL);
+}
+
+void	update_cmd_from_tokens(char **cmd, t_token *tokens)
+{
+	t_token	*current;
+	int		i;
+
+	current = tokens;
+	i = 0;
+	while (current && cmd[i])
+	{
+		free(cmd[i]);
+		cmd[i] = ft_strdup(current->value);
+		current = current->next;
+		i++;
+	}
 }
 
 int	handle_special_commands(char **cmd)

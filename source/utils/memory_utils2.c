@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 23:42:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/21 15:52:53 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:03:10 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,57 @@ void	free_array(char **array)
 void	ft_free_split(char **split_array)
 {
 	free_array(split_array);
+}
+
+char	*ft_strjoin_free(char *s1, const char *s2)
+{
+	char	*result;
+
+	result = ft_strjoin(s1, s2);
+	free(s1);
+	return (result);
+}
+
+void	free_t_word_parts(t_token *token)
+{
+	t_word_part	*head;
+	t_word_part	*current;
+
+	if (!token || !token->parts)
+		return ;
+	current = token->parts;
+	while (current)
+	{
+		head = current->next;
+		if (current->content)
+			free(current->content);
+		current->next = NULL;
+		free(current);
+		current = head;
+	}
+}
+
+// Libère la mémoire de la liste chaînée de tokens
+void	free_tokens(t_token *tokens)
+{
+	t_token	*current;
+	t_token	*next;
+
+	current = tokens;
+	while (current)
+	{
+		next = current->next;
+		if (current->value)
+		{
+			free(current->value);
+			current->value = NULL;
+		}
+		if (current->parts)
+		{
+			free_t_word_parts(current);
+			current->parts = NULL;
+		}
+		free(current);
+		current = next;
+	}
 }

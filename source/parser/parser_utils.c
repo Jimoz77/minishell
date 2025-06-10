@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:21:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/06 20:38:29 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:19:36 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	count_words(t_token *tokens)
 
 	count = 0;
 	temp = find_command_token(tokens);
-	while(temp && temp->type == TOKEN_WORD)
+	while (temp && temp->type == TOKEN_WORD)
 	{
 		count++;
 		temp = temp->next;

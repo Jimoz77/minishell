@@ -6,17 +6,31 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:40:45 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/03 16:04:01 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:29:18 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+static char	*append_line(char *content, char *line)
+{
+	char	*tmp;
+	char	*new_content;
+
+	tmp = ft_strjoin(content, line);
+	free(content);
+	free(line);
+	if (!tmp)
+		return (NULL);
+	new_content = ft_strjoin(tmp, "\n");
+	free(tmp);
+	return (new_content);
+}
+
 static char	*read_heredoc_input(const char *delimiter)
 {
 	char	*line;
 	char	*content;
-	char	*new_content;
 	size_t	delim_len;
 
 	content = ft_strdup("");
@@ -28,17 +42,13 @@ static char	*read_heredoc_input(const char *delimiter)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (ft_strlen(line) == delim_len && 
-			ft_strncmp(line, delimiter, delim_len) == 0)
+		if (ft_strlen(line) == delim_len
+			&& ft_strncmp(line, delimiter, delim_len) == 0)
 		{
 			free(line);
 			break ;
 		}
-		new_content = ft_strjoin(content, line);
-		free(content);
-		free(line);
-		content = ft_strjoin(new_content, "\n");
-		free(new_content);
+		content = append_line(content, line);
 		if (!content)
 			return (NULL);
 	}
@@ -76,56 +86,7 @@ void	process_all_heredocs(t_node *node)
 {
 	if (!node)
 		return ;
-	// Parcourir tout l'AST et traiter tous les heredocs
 	process_node_heredocs(node);
 	process_all_heredocs(node->left);
 	process_all_heredocs(node->right);
-}
-
-int	string_to_fd(const char *content)
-{
-	int	pipe_fd[2];
-
-	if (!content)
-		return (-1);
-	if (pipe(pipe_fd) == -1)
-	{
-		perror("minishell: pipe");
-		return (-1);
-	}
-	if (write(pipe_fd[1], content, ft_strlen(content)) == -1)
-	{
-		perror("minishell: write");
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		return (-1);
-	}
-	close(pipe_fd[1]);
-	return (pipe_fd[0]);
-}
-
-int	apply_heredoc_redir(t_node *node, char *delimiter, t_redirect *red)
-{
-	t_heredoc	*heredoc;
-
-	if (red->stdin_fd != -1)
-	{
-		close(red->stdin_fd);
-		red->stdin_fd = -1;
-	}
-	heredoc = node->heredocs;
-	while (heredoc)
-	{
-		if (heredoc->delimiter && 
-			ft_strncmp(heredoc->delimiter, delimiter, 
-				ft_strlen(delimiter) + 1) == 0 && 
-			heredoc->processed && heredoc->pipe_fd != -1)
-		{
-			red->stdin_fd = heredoc->pipe_fd;
-			return (1);
-		}
-		heredoc = heredoc->next;
-	}
-	ft_putstr_fd("minishell: warning: heredoc missing\n", 2);
-	return (0);
 }
