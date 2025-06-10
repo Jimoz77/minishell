@@ -6,12 +6,11 @@
 /*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 18:21:44 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:25:46 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 // Copie old_size ou new_size octets depuis ptr vers new_ptr
 static void	copy_and_free_old(void *new_ptr, void *ptr,
@@ -29,7 +28,6 @@ static void	copy_and_free_old(void *new_ptr, void *ptr,
 }
 
 // Réalloue une zone mémoire en copiant les données existantes
-
 // Fonction pour obtenir un PID alternatif sans utiliser getpid()
 // Fallback: utiliser une valeur basée sur l'adresse mémoire
 
