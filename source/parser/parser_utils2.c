@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:30:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/09 15:36:23 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/09 22:18:37 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,9 @@ static t_node	*extract_redirections(t_token **tokens, t_node *cmd_node)
 					current->next->value);
 			// Supprimer le token de redirection et le filename
 			if (prev)
-				prev->next = current->next->next;
+			{
+				delete_token(current, current->next);
+			}
 			else
 				*tokens = current->next->next;
 			current = (prev) ? prev->next : *tokens;

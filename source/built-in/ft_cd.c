@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:08:22 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/26 15:14:55 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/10 04:03:54 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,15 @@ int	ft_cd2(char **cmd, char ***envp, char *old_pwd, int result)
 		if (cmd[1] && (chdir(cmd[1])) == -1)
 		{
 			//printf("bash: cd: %s: Aucun fichier ou dossier de ce nom\n", cmd[1]); /// !!!! ATTENTION A REMPLACER PAR PERROR OU EQUIVALENT POUR PRINT EN STDERR
+			free(old_pwd);
 			old_pwd = NULL;
 			result = 1;
 		}
 	}
 	ft_setenv(envp, "OLDPWD", old_pwd);
 	ft_setenv(envp, "PWD", getcwd(cwd, sizeof(cwd)));
+	if (old_pwd)
+		free(old_pwd);
 	return (result);
 }
 

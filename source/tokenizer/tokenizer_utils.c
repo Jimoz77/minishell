@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:03:50 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/13 22:50:53 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:47:13 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	add_token(t_token **list, char *value, t_token_type type)
 		return ;
 	new = new_token(value, type);
 	if (!new)
+	{
+		free_tokens(*list);
 		return ;
+	}
 	if (!*list)
 		*list = new;
 	else

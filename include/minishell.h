@@ -153,6 +153,7 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char	*handle_unclosed_quotes(char *input);
 void	init_loop_vars(t_shell *shell);
 void	handle_ast_execution(t_shell *shell, char *input);
+void	free_token(t_token *token);
 
 // tokenizer/
 t_token			*tokenize(char *input);

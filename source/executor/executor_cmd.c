@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/09 20:03:45 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:36:30 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,17 +179,14 @@ int execute_cmd_node(t_node *node, char ***envp, t_shell *shell)
     update_cmd_from_tokens(node->cmd, temp_tokens);
     
     // Libérer les tokens temporaires
-	if(temp_tokens)
-	{
-		free_tokens(temp_tokens);
-		temp_tokens = NULL;
-	}
     
     // Exécuter la commande
     if (ft_is_builtin(node->cmd, envp))
-        result = exec_builtin_with_redirections(node, envp);
+		result = exec_builtin_with_redirections(node, envp);
     else
-        result = exec_cmd_with_redirections(node, *envp);
+		result = exec_cmd_with_redirections(node, *envp);
     
+	if(temp_tokens)
+		free_tokens(temp_tokens);
     return (result);
 }
