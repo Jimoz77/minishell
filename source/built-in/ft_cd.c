@@ -3,20 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:08:22 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/10 04:03:54 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/10 16:40:25 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 //sert a update toutes les env_var
-//verifier si OLDPWD est recrée apres une utilisation de CD + suppresion de OLDPWD au préalable
-// si oui ajouter fonctionnalité pour rajouter une env_var si elle manque
-//demander a gpt quel sont les buit-in qui modifient des env_var
-
 char	*ft_getenv(char **envp, const char *var)
 {
 	int	var_len;
@@ -31,6 +27,15 @@ char	*ft_getenv(char **envp, const char *var)
 		i++;
 	}
 	return (NULL);
+}
+
+void	free_old_pwd(char *old_pwd)
+{
+	if (old_pwd)
+	{
+		free(old_pwd);
+		old_pwd = NULL;
+	}
 }
 
 void	ft_setenv(char ***envp, char *var, char *new_val)
@@ -61,8 +66,8 @@ void	ft_setenv(char ***envp, char *var, char *new_val)
 
 int	ft_cd2(char **cmd, char ***envp, char *old_pwd, int result)
 {
-	char	*tmp_pwd;
 	char	cwd[BUFSIZ];
+	char	*tmp_pwd;
 
 	if (cmd[1] && cmd[1][0] == '-' && cmd[1][1] == '\0')
 	{
@@ -71,35 +76,28 @@ int	ft_cd2(char **cmd, char ***envp, char *old_pwd, int result)
 		old_pwd = ft_getenv(*envp, "OLDPWD");
 		chdir(old_pwd);
 		old_pwd = tmp_pwd;
-		result = 0; 
+		result = 0;
 	}
 	else
 	{
 		getcwd(cwd, sizeof(cwd));
 		old_pwd = ft_strdup(cwd);
 		if (cmd[1] && (chdir(cmd[1])) == -1)
-		{
-			//printf("bash: cd: %s: Aucun fichier ou dossier de ce nom\n", cmd[1]); /// !!!! ATTENTION A REMPLACER PAR PERROR OU EQUIVALENT POUR PRINT EN STDERR
-			free(old_pwd);
-			old_pwd = NULL;
-			result = 1;
-		}
+			return (perror("minishell: cd"), free_old_pwd(old_pwd), 1);
 	}
 	ft_setenv(envp, "OLDPWD", old_pwd);
 	ft_setenv(envp, "PWD", getcwd(cwd, sizeof(cwd)));
-	if (old_pwd)
-		free(old_pwd);
+	free_old_pwd(old_pwd);
 	return (result);
 }
 
 int	ft_cd(char **cmd, char ***envp)
 {
-	char		cwd[BUFSIZ];
+	char			cwd[BUFSIZ];
 	static char		*old_pwd;
-	int			result;
+	int				result;
 
 	result = 0;
-	//old_pwd = getenv("OLDPWD");
 	if (cmd[1] == NULL || (cmd[1][0] == '-' && cmd[1][1] == '-'))
 	{
 		getcwd(cwd, sizeof(cwd));

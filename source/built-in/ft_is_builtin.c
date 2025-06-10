@@ -6,7 +6,7 @@
 /*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:01:37 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/05/28 16:17:47 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:28:30 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,20 @@
 //la fonction retourne 1 et 0 si ca ne l'est pas
 // (manque encore "exit" a coder)
 
-void ce(t_shell *shell, int nb)
+/* void ce(t_shell *shell, int nb)
 {
 	save_env(shell->envp);
 	free_shell(shell);
 	exit(nb);
-}
+} */
 // implementer ce pour free a chaque fois
 void	clean_exit(char **cmd, char ***envp)
 {
-	int j;
-	int i;
+	int	j;
+	int	i;
 
 	j = 1;
 	i = 0;
-
 	if (!cmd[1])
 	{
 		save_env(envp);
@@ -41,14 +40,14 @@ void	clean_exit(char **cmd, char ***envp)
 		exit (0);
 	else if (cmd[1] && !cmd[2])
 	{
-		while(cmd[j])
+		while (cmd[j])
 		{
 			i = 0;
 			while (cmd[j][i])
 			{
-				if(cmd[j][i] == ' ')
-				i++;
-				if(cmd[j][i] == '+' || cmd[j][i] == '-' || ft_isalpha(cmd[j][i]))
+				if (cmd[j][i] == ' ')
+					i++;
+				if (cmd[j][i] == '+' || cmd[j][i] == '-' || ft_isalpha(cmd[j][i]))
 					exit (2);
 				i++;
 			}
@@ -59,7 +58,7 @@ void	clean_exit(char **cmd, char ***envp)
 	}
 	else if (cmd[1] && cmd[2])
 	{
-		if(ft_isalpha(cmd[1][0]))
+		if (ft_isalpha(cmd[1][0]))
 			exit (2);
 		exit (1);
 	}

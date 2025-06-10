@@ -19,6 +19,22 @@
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/get_next_line/get_next_line.h"
 
+typedef struct s_printsort
+{
+	int		i;
+	int		j;
+	int		totalen;
+	int		cmp_len;
+	int		cmp;
+	int		len1;
+	int		len2;
+	char	*eq;
+	char	*eq1;
+	char	*eq2;
+	char	**envp_cpy;
+	char	*temp;
+}	t_printsort;
+
 // Structure pour les types de quotes
 typedef enum s_quote_type
 {
@@ -154,6 +170,8 @@ char	*handle_unclosed_quotes(char *input);
 void	init_loop_vars(t_shell *shell);
 void	handle_ast_execution(t_shell *shell, char *input);
 void	free_token(t_token *token);
+int		get_shell_pid(void);
+
 
 // tokenizer/
 t_token			*tokenize(char *input);

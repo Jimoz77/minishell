@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:46:40 by jimpa             #+#    #+#             */
-/*   Updated: 2025/05/27 14:08:49 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/10 15:28:50 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Vérifie si une chaîne est un identifiant valide pour une variable d’environnement
+// Vérifie si une chaîne est
+//un identifiant valide pour une variable d’environnement
 static int	is_valid_id(char *str)
 {
 	int	i;

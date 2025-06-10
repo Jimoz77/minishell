@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 18:06:22 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:21:44 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-#include "../../include/minishell.h"
 
 // Copie old_size ou new_size octets depuis ptr vers new_ptr
 static void	copy_and_free_old(void *new_ptr, void *ptr,
@@ -30,6 +29,48 @@ static void	copy_and_free_old(void *new_ptr, void *ptr,
 }
 
 // Réalloue une zone mémoire en copiant les données existantes
+
+// Fonction pour obtenir un PID alternatif sans utiliser getpid()
+// Fallback: utiliser une valeur basée sur l'adresse mémoire
+
+int	get_shell_pid2(int shell_pid, int fd)
+{
+	char		buffer[32];
+	ssize_t		bytes_read;
+	int			i;
+
+	if (fd != -1)
+	{
+		bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+		close(fd);
+		if (bytes_read > 0)
+		{
+			buffer[bytes_read] = '\0';
+			i = 0;
+			while (buffer[i] && buffer[i] != ' ')
+				i++;
+			buffer[i] = '\0';
+			shell_pid = ft_atoi(buffer);
+			if (shell_pid > 0)
+				return (shell_pid);
+		}
+	}
+	shell_pid = (int)((unsigned long)&shell_pid % 32768) + 1000;
+	return (shell_pid);
+}
+
+int	get_shell_pid(void)
+{
+	int			fd;
+	static int	shell_pid = 0;
+
+	if (shell_pid != 0)
+		return (shell_pid);
+	fd = open("/proc/self/stat", O_RDONLY);
+	return (get_shell_pid2(shell_pid, fd));
+}
+
+// Initialise la structure principale du shell
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;
