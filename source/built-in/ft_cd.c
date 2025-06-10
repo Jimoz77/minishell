@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:08:22 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/10 16:40:25 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/10 19:03:24 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	ft_setenv(char ***envp, char *var, char *new_val)
 	i = 0;
 	while ((*envp)[i] != NULL)
 	{
-		if (ft_strncmp((*envp)[i], var, var_len) == 0 && \
-		(*envp)[i][var_len] == '=')
+		if (ft_strncmp((*envp)[i], var, var_len) == 0 &&
+			(*envp)[i][var_len] == '=')
 		{
 			free((*envp)[i]);
 			(*envp)[i] = new_entry;

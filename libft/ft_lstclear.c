@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 15:07:18 by lsadikaj          #+#    #+#             */
-/*   Updated: 2024/10/16 09:15:19 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:46:30 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,3 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 	}
 	*lst = NULL;
 }
-/*
-static void	del(void *content)
-{
-	free(content);
-}
-
-#include <stdio.h>
-
-int	main(void)
-{
-	t_list *head = ft_lstnew(malloc(10));
-	t_list *second = ft_lstnew(malloc(20));
-
-	ft_lstadd_back(&head, second); // Ajoute le deuxième élément à la liste
-
-	// Test avant suppression
-	printf("Before clear: head = %p, second = %p\n", (void *)head, (void *)second);
-
-	ft_lstclear(&head, del); // Appelle la fonction pour tout supprimer
-
-	// Test après suppression
-	printf("After clear: head = %p\n", (void *)head); // Devrait afficher NULL
-
-	return (0);
-}
-*/

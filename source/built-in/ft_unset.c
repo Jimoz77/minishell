@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:46:40 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/10 15:28:50 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/10 19:24:56 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Vérifie si une chaîne est
 //un identifiant valide pour une variable d’environnement
-static int	is_valid_id(char *str)
+static int	is_valid_idd(char *str)
 {
 	int	i;
 
@@ -30,47 +30,50 @@ static int	is_valid_id(char *str)
 	return (1);
 }
 
-// pas encore fonctionnel
-int	ft_unset(char **cmd, char ***envp)
+static void	remove_env_var(char *var, char ***envp)
 {
-	int	i;
 	int	j;
 	int	k;
 	int	len;
 	int	found;
 
+	j = 0;
+	found = 0;
+	len = ft_strlen(var);
+	while ((*envp)[j] && !found)
+	{
+		if (ft_strncmp((*envp)[j], var, len) == 0 && (*envp)[j][len] == '=')
+		{
+			free((*envp)[j]);
+			k = j;
+			while ((*envp)[k + 1])
+			{
+				(*envp)[k] = (*envp)[k + 1];
+				k++;
+			}
+			(*envp)[k] = NULL;
+			found = 1;
+		}
+		else
+			j++;
+	}
+}
+
+int	ft_unset(char **cmd, char ***envp)
+{
+	int	i;
+
 	i = 1;
 	while (cmd[i])
 	{
-		if (!is_valid_id(cmd[i]))
+		if (!is_valid_idd(cmd[i]))
 		{
 			write(STDERR_FILENO, "unset: '", 8);
 			write(STDERR_FILENO, cmd[i], ft_strlen(cmd[i]));
-			write(STDERR_FILENO, "': not a valid indentifier\n", 25);
+			write(STDERR_FILENO, "': not a valid indentifier\n", 27);
 		}
 		else
-		{
-			j = 0;
-			found = 0;
-			len = ft_strlen(cmd[i]);
-			while ((*envp)[j] && !found)
-			{
-				if (ft_strncmp((*envp)[j], cmd[i], len) == 0 && (*envp)[j][len] == '=')
-				{
-					free((*envp)[j]);
-					k = j;
-					while ((*envp)[k + 1] != NULL)
-					{
-						(*envp)[k] = (*envp)[k + 1];
-						k++;
-					}
-					(*envp)[k] = NULL;
-					found = 1;
-				}
-				else
-					j++;
-			}
-		}
+			remove_env_var(cmd[i], envp);
 		i++;
 	}
 	return (0);

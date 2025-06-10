@@ -3,64 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:01:37 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/06/10 15:28:30 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:53:49 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-// a utiliser dans une condition if 
-//en verifiant aussi que le type de la valeur utilisé soit "WORD"
-//si la commande entré est un built-in alors
-//la fonction retourne 1 et 0 si ca ne l'est pas
-// (manque encore "exit" a coder)
 
-/* void ce(t_shell *shell, int nb)
-{
-	save_env(shell->envp);
-	free_shell(shell);
-	exit(nb);
-} */
-// implementer ce pour free a chaque fois
-void	clean_exit(char **cmd, char ***envp)
+static int	is_invalid_exit_arg(char **cmd)
 {
 	int	j;
 	int	i;
 
 	j = 1;
-	i = 0;
+	while (cmd[j])
+	{
+		i = 0;
+		while (cmd[j][i])
+		{
+			if (cmd[j][i] == ' ')
+				i++;
+			if (cmd[j][i] == '+' || cmd[j][i] == '-'
+				|| ft_isalpha(cmd[j][i]))
+				return (1);
+			i++;
+		}
+		j++;
+	}
+	return (0);
+}
+
+void	clean_exit(char **cmd, char ***envp)
+{
 	if (!cmd[1])
 	{
 		save_env(envp);
 		exit(0);
 	}
-	else if ((cmd[1] && !cmd[2]) && (cmd[1][0] == '+' || cmd[1][0] == '-') && cmd[1][1] == '0')
-		exit (0);
-	else if (cmd[1] && !cmd[2])
+	if (cmd[1] && !cmd[2])
 	{
-		while (cmd[j])
+		if (cmd[1][0] == '+' || cmd[1][0] == '-')
 		{
-			i = 0;
-			while (cmd[j][i])
-			{
-				if (cmd[j][i] == ' ')
-					i++;
-				if (cmd[j][i] == '+' || cmd[j][i] == '-' || ft_isalpha(cmd[j][i]))
-					exit (2);
-				i++;
-			}
-			j++;
+			if (cmd[1][1] == '0' && cmd[1][2] == '\0')
+				exit(0);
 		}
+		if (is_invalid_exit_arg(cmd))
+			exit(2);
 		save_env(envp);
 		exit(ft_atoi(cmd[1]));
 	}
-	else if (cmd[1] && cmd[2])
+	if (cmd[1] && cmd[2])
 	{
 		if (ft_isalpha(cmd[1][0]))
-			exit (2);
-		exit (1);
+			exit(2);
+		exit(1);
 	}
 }
 

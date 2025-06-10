@@ -288,6 +288,10 @@ void	ft_getcwd(void);
 char	**ft_array_dup(char **array);
 char	***ft_array_dup2(char ***array);
 char	***ft_wrap_array(char **array);
+int		get_envp_len(char **envp);
+char	**ft_array_add(char **array, const char *str);
+int		print_sorted_env(char **envp);
+int		is_valid_id(char *str);
 
 // wildcards/
 void    expand_wildcards(t_token *tokens);
