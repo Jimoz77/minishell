@@ -176,6 +176,10 @@ t_token			*delete_token(t_token *head, t_token *target);
 void			envar_to_value(t_shell *shell, t_token *token);
 int				scan_envar_parsing_phase(t_shell *shell);
 int				scan_envar_execution_phase(t_shell *shell, t_token *tokens);
+t_token			*create_complex_token(char *input, int len, t_word_part *parts);
+t_token			*create_empty_token(t_word_part *parts);
+int				clean_complex_word(t_word_part *parts, char *value, int ret);
+void			add_new_token(t_token **tokens, t_token *new_token);
 
 // parser/
 t_node		*parse_ast(t_token *tokens);
@@ -193,6 +197,16 @@ int			is_inside_parentheses(t_token *tokens, t_token *target);
 t_token		*find_token_before(t_token *start, t_token *target);
 t_node		*handle_op_after_paren(t_node *inner_node, t_token *inner_start, t_token *op_token);
 t_token		*find_command_token(t_token *tokens);
+t_word_part	*duplicate_word_parts(t_word_part *parts);
+t_token		*duplicate_tokens(t_token *tokens);
+t_token		*duplicate_tokens_until_pos(t_token *tokens, int pos);
+t_token		*find_matching_paren_public(t_token *start);
+t_node		*handle_paren_and_op(t_token *tokens);
+t_node		*handle_op_after_paren(t_node *inner_node, t_token *inner_start, t_token *op_token);
+t_token		*create_token_until_pos(t_token *current, int pos, int i);
+int			check_paren_content(t_token *start, t_token *end);
+void		process_heredoc_redirection(t_token *current, t_node *cmd_node);
+void	process_other_redirection(t_token *current, t_node *cmd_node);
 
 // parser/syntax
 int		is_operator(t_token_type type);
@@ -223,6 +237,12 @@ int		is_directory(char *path);
 char	*handle_direct_path(char *cmd);
 int		handle_special_commands(char **cmd);
 int		execute_with_path(char *path, char **cmd, char **envp);
+int		process_cmd_tokens(t_node *node, char ***envp, t_shell *shell);
+int		exec_builtin_with_redirections(t_node *node, char ***envp);
+int		exec_external(char **cmd, char **envp);
+int		exec_cmd_with_redirections(t_node *node, char **envp);
+int		execute_cmd_builtin_or_exec(t_node *node, char ***envp, t_redirect *red);
+int		prepare_cmd_tokens(t_node *node, t_shell *shell);
 
 // executor/redir
 void	add_redirection(t_node *node, t_token_type type, char *filename);
@@ -270,5 +290,7 @@ void    free_matches(char **matches, int count);
 void    free_token_content(t_token *token);
 t_token *create_match_token(char *value);
 void    add_token_to_list(t_token **first, t_token *new);
+int		add_if_match(char **matches, int i, const char *pattern, struct dirent *entry);
+char	**free_matches_partial(char **matches, int i, DIR *dir);
 
 #endif

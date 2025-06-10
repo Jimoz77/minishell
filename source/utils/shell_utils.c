@@ -3,21 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/09 19:52:45 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:06:22 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Initialise la structure principale du shell
+#include "../../include/minishell.h"
+
+// Copie old_size ou new_size octets depuis ptr vers new_ptr
+static void	copy_and_free_old(void *new_ptr, void *ptr,
+			size_t copy_size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < copy_size)
+	{
+		((char *)new_ptr)[i] = ((char *)ptr)[i];
+		i++;
+	}
+	free(ptr);
+}
+
+// Réalloue une zone mémoire en copiant les données existantes
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;
 	size_t	copy_size;
-	size_t	i;
 
 	if (new_size == 0)
 	{
@@ -29,17 +45,10 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 		return (NULL);
 	if (ptr)
 	{
-		if (old_size < new_size)
-			copy_size = old_size;
-		else
+		copy_size = old_size;
+		if (new_size < old_size)
 			copy_size = new_size;
-		i = 0;
-		while (i < copy_size)
-		{
-			((char *)new_ptr)[i] = ((char *)ptr)[i];
-			i++;
-		}
-		free(ptr);
+		copy_and_free_old(new_ptr, ptr, copy_size);
 	}
 	return (new_ptr);
 }

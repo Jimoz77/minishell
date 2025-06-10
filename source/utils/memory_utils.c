@@ -3,65 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:11:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 01:11:06 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/10 18:05:03 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	free_t_word_parts(t_token *token)
-{
-	t_word_part *head;
-	t_word_part *current;
-
-	if (!token || !token->parts)  // Ajouter une vérification
-	return;
-
-	current = token->parts;
-	while (current)
-	{
-		head = current->next;
-		if (current->content)
-			free(current->content);
-		current->next = NULL;
-		free(current);
-		current = head;
-	}
-}
-
-// Libère la mémoire de la liste chaînée de tokens
-
-void	free_tokens(t_token *tokens)
-{
-	t_token	*current;
-	t_token	*next;
-
-	current = tokens;
-	while (current)
-	{
-		next = current->next;
-		if (current->value)
-		{
-			free(current->value);
-			current->value = NULL;
-		}
-		if (current->parts)
-		{
-			free_t_word_parts(current);
-			current->parts = NULL;
-		}
-		free(current);
-		current = next;
-	}
-}
-
 // Libère la mémoire de l'arbre (AST) de façon récursive
 void	free_ast(t_node *node)
 {
-
 	if (!node)
 		return ;
 	free_ast(node->left);
@@ -111,65 +64,52 @@ void	free_heredocs(t_heredoc *heredocs)
 	}
 }
 
-char	*ft_strjoin_free(char *s1, const char *s2)
-{
-	char *result;
-
-	result = ft_strjoin(s1, s2);
-	free(s1);
-	return (result);
-}
-
 void	free_token(t_token *token)
 {
-    t_word_part	*parts;
-    t_word_part	*tmp;
+	t_word_part	*parts;
+	t_word_part	*tmp;
 
-    if (!token)
-        return ;
-    // Libération de la liste parts
-    parts = token->parts;
-    while (parts)
-    {
-        tmp = parts->next;
-        if (parts->content)  // ✅ Vérification de sécurité
-            free(parts->content);
-        free(parts);
-        parts = tmp;
-    }
-    // Libération du reste
-    if (token->value)  // ✅ Vérification de sécurité
-        free(token->value);
-    free(token);
+	if (!token)
+		return ;
+	parts = token->parts;
+	while (parts)
+	{
+		tmp = parts->next;
+		if (parts->content)
+			free(parts->content);
+		free(parts);
+		parts = tmp;
+	}
+	if (token->value)
+		free(token->value);
+	free(token);
 }
 
 t_token	*delete_token(t_token *head, t_token *target)
 {
-    t_token	*current;
-    t_token	*prev;
+	t_token	*current;
+	t_token	*prev;
 
-    if (!head || !target)
-        return (head);
-    // Cas spécial : suppression de la tête
-    if (head == target)
-    {
-        current = head->next;
-        free_token(head);
-        return (current);
-    }
-    // Parcours de la liste
-    prev = head;
-    current = head->next;
-    while (current)
-    {
-        if (current == target)
-        {
-            prev->next = current->next;
-            free_token(current);
-            break ;
-        }
-        prev = current;
-        current = current->next;
-    }
-    return (head);
+	if (!head || !target)
+		return (head);
+	if (head == target)
+	{
+		current = head->next;
+		free_token(head);
+		return (current);
+	}
+	prev = head;
+	current = head->next;
+	while (current)
+	{
+		if (current == target)
+		{
+			prev->next = current->next;
+			free_token(current);
+			break ;
+		}
+		prev = current;
+		current = current->next;
+	}
+	return (head);
 }

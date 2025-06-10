@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 17:17:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/09 23:42:56 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/10 14:21:24 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static t_token	*create_match_tokens(char **matches, int count)
 		if (!current)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (!first)
 			first = current;

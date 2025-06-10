@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/09 23:21:42 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/06/10 16:34:40 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,25 @@ static int	get_priority(t_token_type type)
 	return (100);
 }
 
+// Traite les opérateurs à profondeur zéro
+static int	process_operator(t_token *tmp, int depth, int *pos, int *lowest)
+{
+	int	priority;
+	int	i;
+
+	i = *pos;
+	if (depth == 0 && is_operator(tmp->type) && !is_redirection(tmp->type))
+	{
+		priority = get_priority(tmp->type);
+		if (priority < *lowest)
+		{
+			*lowest = priority;
+			return (i);
+		}
+	}
+	return (-1);
+}
+
 int	find_lowest_priority(t_token *tokens)
 {
 	int		pos;
@@ -29,7 +48,6 @@ int	find_lowest_priority(t_token *tokens)
 	int		lowest;
 	t_token	*tmp;
 	int		depth;
-	int		priority;
 
 	pos = -1;
 	i = 0;
@@ -42,19 +60,23 @@ int	find_lowest_priority(t_token *tokens)
 			depth++;
 		else if (tmp->type == TOKEN_RPAREN)
 			depth--;
-		if (depth == 0 && is_operator(tmp->type) && !is_redirection(tmp->type))
-		{
-			priority = get_priority(tmp->type);
-			if (priority < lowest)
-			{
-				lowest = priority;
-				pos = i;
-			}
-		}
+		if (process_operator(tmp, depth, &i, &lowest) != -1)
+			pos = process_operator(tmp, depth, &i, &lowest);
 		tmp = tmp->next;
 		i++;
 	}
 	return (pos);
+}
+
+// Gère le cas où aucun opérateur n'est trouvé
+static t_node	*handle_no_operator(t_token *tokens)
+{
+	t_token	*tokens_copy;
+	t_node	*node;
+
+	tokens_copy = tokens;
+	node = parse_command_with_redirections(&tokens_copy);
+	return (node);
 }
 
 // Construit l'arbre de syntaxe (AST) à partir des tokens
@@ -62,9 +84,6 @@ t_node	*parse_ast(t_token *tokens)
 {
 	t_token	*op;
 	int		i;
-	t_node	*node;
-	
-	t_token	*tokens_copy;
 
 	if (!tokens)
 		return (NULL);
@@ -72,21 +91,9 @@ t_node	*parse_ast(t_token *tokens)
 		return (handle_paren_and_op(tokens));
 	i = find_lowest_priority(tokens);
 	if (i == -1)
-	{
-		// Faire une copie de la liste pour parse_command_with_redirections
-		tokens_copy = tokens;
-		node = parse_command_with_redirections(&tokens_copy);
-		if (node)
-			return (node);
-	}
+		return (handle_no_operator(tokens));
 	op = get_token_at(tokens, i);
 	if (!op)
-	{
-		// Faire une copie de la liste pour parse_command_with_redirections
-		tokens_copy = tokens;
-		node = parse_command_with_redirections(&tokens_copy);
-		if (node)
-			return (node);
-	}
+		return (handle_no_operator(tokens));
 	return (create_op_node(tokens, op));
 }

@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:19:57 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/09 17:59:54 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:22:04 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	match_pattern(const char *pattern, const char *string)
 
 // Traite les correspondances wildcards pour un token.
 // Récupère les fichiers correspondants, les trie, et remplace le token.
-void	process_wildcard_matches(t_token *current, t_token *prev, 
+void	process_wildcard_matches(t_token *current, t_token *prev,
 								char ***matches_ptr, int count)
 {
 	char	**matches;
@@ -70,7 +70,7 @@ void	free_matches(char **matches, int count)
 	free(matches);
 }
 
-// Libère le contenu d'un token (valeur et parties) sans libérer le token lui-même.
+// Libère le contenu d'un token sans libérer le token lui-même.
 // Gère les cas où la valeur ou les parties peuvent être NULL.
 void	free_token_content(t_token *token)
 {

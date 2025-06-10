@@ -6,14 +6,15 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 17:18:10 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/09 17:59:38 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:36:09 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // Compte le nombre de fichiers dans le répertoire courant qui correspondent
-// au motif de wildcard. Ignore les fichiers cachés sauf si le motif commence par '.'.
+// au motif de wildcard. Ignore les fichiers cachés
+// sauf si le motif commence par '.'
 int	count_matching_files(const char *pattern)
 {
 	DIR				*dir;
@@ -24,25 +25,53 @@ int	count_matching_files(const char *pattern)
 	if (!dir)
 		return (0);
 	count = 0;
-	while ((entry = readdir(dir)) != NULL)
+	entry = readdir(dir);
+	while (entry != NULL)
 	{
 		if (entry->d_name[0] == '.' && pattern[0] != '.')
-			continue;
+		{
+			entry = readdir(dir);
+			continue ;
+		}
 		if (match_pattern(pattern, entry->d_name))
 			count++;
+		entry = readdir(dir);
 	}
 	closedir(dir);
 	return (count);
 }
 
-// Récupère la liste des fichiers correspondant au motif dans un tableau.
-// Alloue un tableau de 'count' éléments + 1 (pour le NULL terminal).
+// Fonction auxiliaire pour remplir le tableau de correspondances.
+static int	fill_matches(char **matches, const char *pattern,
+					int count, DIR *dir)
+{
+	struct dirent	*entry;
+	int				i;
+	int				ret;
+
+	i = 0;
+	entry = readdir(dir);
+	while (entry && i < count)
+	{
+		ret = add_if_match(matches, i, pattern, entry);
+		if (ret == -1)
+		{
+			free_matches_partial(matches, i, dir);
+			return (0);
+		}
+		if (ret == 1)
+			i++;
+		entry = readdir(dir);
+	}
+	matches[i] = NULL;
+	return (1);
+}
+
+// Alloue et remplit un tableau de fichiers correspondant au motif donné.
 char	**get_matching_files(const char *pattern, int count)
 {
 	DIR				*dir;
-	struct dirent	*entry;
 	char			**matches;
-	int				i;
 
 	matches = malloc(sizeof(char *) * (count + 1));
 	if (!matches)
@@ -53,15 +82,8 @@ char	**get_matching_files(const char *pattern, int count)
 		free(matches);
 		return (NULL);
 	}
-	i = 0;
-	while ((entry = readdir(dir)) != NULL && i < count)
-	{
-		if (entry->d_name[0] == '.' && pattern[0] != '.')
-			continue;
-		if (match_pattern(pattern, entry->d_name))
-			matches[i++] = ft_strdup(entry->d_name);
-	}
-	matches[i] = NULL;
+	if (!fill_matches(matches, pattern, count, dir))
+		return (NULL);
 	closedir(dir);
 	return (matches);
 }
@@ -116,16 +138,4 @@ t_token	*create_match_token(char *value)
 	new->parts = NULL;
 	new->next = NULL;
 	return (new);
-}
-
-// Ajoute un token à la fin d'une liste chaînée de tokens.
-// Parcourt la liste jusqu'au dernier élément et y attache le nouveau token.
-void	add_token_to_list(t_token **first, t_token *new)
-{
-	t_token	*tmp;
-
-	tmp = *first;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
 }
