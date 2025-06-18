@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:17:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 17:17:22 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:49:27 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static int	process_cmd_expansion(t_token *temp_tokens, t_shell *shell)
 	return (1);
 }
 
-static int	handle_no_tokens_case(t_node *node, char ***envp)
+static int	handle_no_tokens_case(t_node *node, char ***envp, t_shell *shell)
 {
 	if (ft_is_builtin(node->cmd, envp))
 		return (exec_builtin_with_redirections(node, envp));
 	else
-		return (exec_cmd_with_redirections(node, *envp));
+		return (exec_cmd_with_redirections(node, *envp, shell));
 }
 
 int	exec_external(char **cmd, char **envp)
@@ -95,7 +95,7 @@ int	process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)
 	if (!temp_tokens)
 	{
 		shell->tokens = original_tokens;
-		return (handle_no_tokens_case(node, envp));
+		return (handle_no_tokens_case(node, envp, shell));
 	}
 	process_cmd_expansion(temp_tokens, shell);
 	shell->tokens = original_tokens;
@@ -103,7 +103,7 @@ int	process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)
 	if (ft_is_builtin(node->cmd, envp))
 		result = exec_builtin_with_redirections(node, envp);
 	else
-		result = exec_cmd_with_redirections(node, *envp);
+		result = exec_cmd_with_redirections(node, *envp, shell);
 	if (temp_tokens)
 		free_tokens(temp_tokens);
 	return (result);

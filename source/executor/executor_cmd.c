@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 17:19:22 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:44:03 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,37 @@ int	execute_redir_only(t_node *node, char ***envp, t_shell *shell)
 	return (0);
 }
 
-static void	child_exec_process(t_node *node, char **envp)
+static int	exec_external(char **cmd, char **envp, t_shell *shell)
+{
+	char	*path;
+	int		special;
+
+	if (!cmd || !cmd[0])
+		return (1);
+	special = handle_special_commands(cmd);
+	if (special)
+		return (special);
+	path = handle_direct_path(cmd[0]);
+	if (!path)
+		path = ft_path_finder(cmd[0], &envp);
+	if (!path) // need gestion solide
+	{
+		if (shell->tokens->type == TOKEN_REDIRECT_OUT)
+			return (127);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd[0], 2);
+		ft_putendl_fd(": command not found", 2);
+		return (127);
+	}
+	// Exécuter directement avec execve (on suppose qu'on est déjà dans un fork)
+	execve(path, cmd, envp);
+	perror("minishell: execve");
+	free(path);
+	return (126);
+}
+
+
+static void	child_exec_process(t_node *node, char **envp, t_shell *shell)
 {
 	t_redirect	red;
 
@@ -51,10 +81,10 @@ static void	child_exec_process(t_node *node, char **envp)
 		restore_std_fds(&red);
 		exit(1);
 	}
-	exit(exec_external(node->cmd, envp));
+	exit(exec_external(node->cmd, envp, shell));
 }
 
-int	exec_cmd_with_redirections(t_node *node, char **envp)
+int	exec_cmd_with_redirections(t_node *node, char **envp, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
@@ -66,7 +96,7 @@ int	exec_cmd_with_redirections(t_node *node, char **envp)
 		return (1);
 	}
 	else if (pid == 0)
-		child_exec_process(node, envp);
+		child_exec_process(node, envp, shell);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));

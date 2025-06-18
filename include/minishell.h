@@ -257,8 +257,8 @@ int		handle_special_commands(char **cmd);
 int		execute_with_path(char *path, char **cmd, char **envp);
 int		process_cmd_tokens(t_node *node, char ***envp, t_shell *shell);
 int		exec_builtin_with_redirections(t_node *node, char ***envp);
-int		exec_external(char **cmd, char **envp);
-int		exec_cmd_with_redirections(t_node *node, char **envp);
+//int		exec_external(char **cmd, char **envp, t_shell *shell);
+int		exec_cmd_with_redirections(t_node *node, char **envp, t_shell *shell);
 int		execute_cmd_builtin_or_exec(t_node *node, char ***envp, t_redirect *red);
 int		prepare_cmd_tokens(t_node *node, t_shell *shell);
 

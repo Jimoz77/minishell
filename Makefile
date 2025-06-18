@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
+#    By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/06/10 17:43:59 by lsadikaj         ###   ########.fr        #
+#    Updated: 2025/06/18 13:51:56 by jimpa            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ SRCS = \
 	$(SRC_DIR)/built-in/ft_echo.c \
 	$(SRC_DIR)/built-in/ft_env.c \
 	$(SRC_DIR)/built-in/ft_export.c \
+	$(SRC_DIR)/built-in/ft_export2.c \
+	$(SRC_DIR)/built-in/ft_export3.c \
 	$(SRC_DIR)/built-in/ft_is_builtin.c \
 	$(SRC_DIR)/built-in/ft_pwd.c \
 	$(SRC_DIR)/built-in/ft_unset.c \

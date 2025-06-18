@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:30:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 15:39:30 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:45:25 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ t_token	*find_command_token(t_token *tokens)
 		return (NULL);
 	while (tokens)
 	{
-		if (is_redirection(tokens->type))
+		if (is_redirection(tokens->type) && tokens->next)
 		{
-			tokens = tokens->next->next;
+			if (tokens->next->next)
+				tokens = tokens->next->next;
+			else
+				tokens = tokens->next;
 		}
 		if (tokens->type == TOKEN_WORD)
 			return (tokens);

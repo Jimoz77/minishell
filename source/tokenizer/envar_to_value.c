@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar_to_value.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/10 15:40:22 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:45:43 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,21 @@ static char	*get_env_value(const char *var_name, char ***envp)
 		return (NULL);
 	if (var_name[0] == '~')
 		var_name = "HOME";
-	name_len = ft_strlen(var_name);
 	i = 0;
 	while ((*envp)[i])
 	{
-		eq_pos = ft_strchr((*envp)[i], '=');
-		if (eq_pos)
+		name_len = ft_strlen(var_name);
+		while (name_len > 0)
 		{
-			env_len = eq_pos - (*envp)[i];
-			if (env_len == name_len
-				&& !ft_strncmp((*envp)[i], var_name, name_len))
-				return (eq_pos + 1);
+			eq_pos = ft_strchr((*envp)[i], '=');
+			if (eq_pos)
+			{
+				env_len = eq_pos - (*envp)[i];
+				if (env_len == name_len
+					&& !ft_strncmp((*envp)[i], var_name, name_len))
+					return (eq_pos + 1);
+			}
+			name_len--;
 		}
 		i++;
 	}
