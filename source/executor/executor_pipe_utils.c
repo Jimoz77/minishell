@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:39:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 17:39:56 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:35:59 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	prepare_cmd_tokens(t_node *node, t_shell *shell)
 	t_token	*original;
 	t_token	*tokens;
 	t_token	*cur;
+	char	*unquoted_value;
 
 	original = shell->tokens;
 	tokens = create_tokens_from_cmd(node->cmd, shell);
@@ -32,6 +33,23 @@ int	prepare_cmd_tokens(t_node *node, t_shell *shell)
 		}
 		cur = cur->next;
 	}
+	
+	// Suppression des quotes après expansion
+	cur = tokens;
+	while (cur)
+	{
+		if (cur->parts)
+		{
+			unquoted_value = build_unquoted_value(cur->parts);
+			if (unquoted_value)
+			{
+				free(cur->value);
+				cur->value = unquoted_value;
+			}
+		}
+		cur = cur->next;
+	}
+	
 	shell->tokens = original;
 	update_cmd_from_tokens(node->cmd, tokens);
 	free_tokens(tokens);
