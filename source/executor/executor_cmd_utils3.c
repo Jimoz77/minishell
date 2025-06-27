@@ -6,11 +6,12 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:17:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/19 19:08:25 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:20:23 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 static t_token	*find_node_tokens(t_node *node, t_shell *shell)
 {
 	t_token	*current;
@@ -29,7 +30,38 @@ static t_token	*find_node_tokens(t_node *node, t_shell *shell)
 	return (NULL);
 }
 
-int	expand_cmd_with_original_tokens(t_node *node, t_shell *shell)
+static int	process_cmd_expansion(t_token *temp_tokens, t_shell *shell)
+{
+	t_token	*current;
+	char	*unquoted_value;
+
+	current = temp_tokens;
+	while (current)
+	{
+		// Expansion des variables (sauf dans les single quotes)
+		if (!current->parts || (current->parts
+				&& current->parts->type != QUOTE_SINGLE))
+		{
+			shell->tokens = temp_tokens;
+			scan_envar_execution_phase(shell, current);
+		}
+		
+		// Suppression des quotes après expansion
+		if (current->parts)
+		{
+			unquoted_value = build_unquoted_value(current->parts);
+			if (unquoted_value)
+			{
+				free(current->value);
+				current->value = unquoted_value;
+			}
+		}
+		current = current->next;
+	}
+	return (1);
+}
+
+static int	expand_cmd_with_original_tokens(t_node *node, t_shell *shell)
 {
 	t_token	*cmd_tokens;
 	t_token	*current;
@@ -128,17 +160,46 @@ int	exec_builtin_with_redirections(t_node *node, char ***envp)
 	return (result);
 }
 
-// Fonction modifiée pour utiliser la fonction factorisée
 int	process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)
 {
-	int	result;
+	t_token		*original_tokens;
+	t_token		*temp_tokens;
+	int			result;
 
-	if (expand_cmd_with_original_tokens(node, shell) == -1)
+	// D'abord, essayer avec les tokens originaux (pour préserver les quotes)
+	if (expand_cmd_with_original_tokens(node, shell) == 0)
+	{
+		// Si ça a marché, exécuter avec la commande mise à jour
+		if (ft_is_builtin(node->cmd, envp))
+			return (exec_builtin_with_redirections(node, envp));
+		else
+			return (exec_cmd_with_redirections(node, *envp, shell));
+	}
+	
+	// Si on n'a pas trouvé les tokens originaux, utiliser l'ancienne méthode
+	// (création de nouveaux tokens - utile pour les cas comme l$VAR)
+	original_tokens = shell->tokens;
+	temp_tokens = create_tokens_from_cmd(node->cmd, shell);
+	if (!temp_tokens)
+	{
+		shell->tokens = original_tokens;
 		return (handle_no_tokens_case(node, envp, shell));
-
+	}
+	
+	// Appliquer l'expansion sur les tokens temporaires
+	process_cmd_expansion(temp_tokens, shell);
+	shell->tokens = original_tokens;
+	
+	// Mettre à jour la commande avec les nouveaux tokens
+	update_cmd_from_tokens(node->cmd, temp_tokens);
+	
+	// Exécuter la commande
 	if (ft_is_builtin(node->cmd, envp))
 		result = exec_builtin_with_redirections(node, envp);
 	else
 		result = exec_cmd_with_redirections(node, *envp, shell);
+		
+	if (temp_tokens)
+		free_tokens(temp_tokens);
 	return (result);
 }
