@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 16:34:40 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:32:52 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,53 @@
 static int	get_priority(t_token_type type)
 {
 	if (type == TOKEN_OR || type == TOKEN_AND)
-		return (1);
-	if (type == TOKEN_PIPE)
 		return (2);
+	if (type == TOKEN_PIPE)
+		return (1);
 	return (100);
 }
 
 // Traite les opérateurs à profondeur zéro
-static int	process_operator(t_token *tmp, int depth, int *pos, int *lowest)
-{
-	int	priority;
-	int	i;
-
-	i = *pos;
-	if (depth == 0 && is_operator(tmp->type) && !is_redirection(tmp->type))
-	{
-		priority = get_priority(tmp->type);
-		if (priority < *lowest)
-		{
-			*lowest = priority;
-			return (i);
-		}
-	}
-	return (-1);
-}
 
 int	find_lowest_priority(t_token *tokens)
+{
+	int		pos;
+	int		i;
+	int		lowest;
+	t_token	*tmp;
+	int		depth;
+
+	pos = -1;
+	i = 0;
+	lowest = 0;
+	depth = 0;
+	tmp = tokens;
+	
+	while (tmp)
+    {
+        if (tmp->type == TOKEN_LPAREN)
+            depth++;
+        else if (tmp->type == TOKEN_RPAREN)
+            depth--;
+        
+        if (depth == 0 && is_operator(tmp->type) && !is_redirection(tmp->type))
+        {
+            int priority = get_priority(tmp->type);
+            // Prendre l'opérateur de priorité la plus faible (valeur numérique la plus haute)
+            // En cas d'égalité, prendre le plus à droite
+            if (priority >= lowest)
+            {
+                lowest = priority;
+                pos = i;
+            }
+        }
+        tmp = tmp->next;
+        i++;
+    }
+	return (pos);
+}
+
+/* int	find_lowest_priority(t_token *tokens)
 {
 	int		pos;
 	int		i;
@@ -66,7 +87,7 @@ int	find_lowest_priority(t_token *tokens)
 		i++;
 	}
 	return (pos);
-}
+} */
 
 // Gère le cas où aucun opérateur n'est trouvé
 static t_node	*handle_no_operator(t_token *tokens)
