@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 23:17:02 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/19 19:28:13 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:04:49 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,7 @@ t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 	t_token	*original;
 	int		i;
 
-	printf("DEBUG: create_tokens_from_cmd called with:\n");
 	i = 0;
-	while (cmd[i])
-	{
-		printf("  cmd[%d] = '%s'\n", i, cmd[i]);
-		i++;
-	}
-
 	tokens = NULL;
 	current = NULL;
 	i = 0;
@@ -118,18 +111,12 @@ t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 		original = find_original_token_for_cmd(shell, cmd[i], i);
 		if (original)
 		{
-			printf("DEBUG: Found original token for '%s': value='%s', has_parts=%d\n", 
-				cmd[i], original->value, original->parts ? 1 : 0);
 			if (original->parts)
 			{
 				if (new_token->parts)
 					free_word_parts(new_token->parts);
 				new_token->parts = duplicate_word_parts(original->parts);
 			}
-		}
-		else
-		{
-			printf("DEBUG: No original token found for '%s'\n", cmd[i]);
 		}
 		
 		if (!tokens)
