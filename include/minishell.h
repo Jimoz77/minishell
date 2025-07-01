@@ -35,6 +35,7 @@ typedef struct s_printsort
 	char	*temp;
 }	t_printsort;
 
+
 // Structure pour les types de quotes
 typedef enum s_quote_type
 {
@@ -141,6 +142,15 @@ typedef struct s_shell
 	int			exit_status;
 	char		*current_dir;
 }	t_shell;
+
+typedef struct s_search_context
+{
+	t_token    *current;
+	char	*cmd_value;
+	int     position;
+	int     word_count;
+	int     after_logical;
+} t_search_context;
 
 // signals/
 extern int	g_signal;

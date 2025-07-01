@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/18 13:44:03 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/01 15:15:38 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	exec_external(char **cmd, char **envp, t_shell *shell)
 	path = handle_direct_path(cmd[0]);
 	if (!path)
 		path = ft_path_finder(cmd[0], &envp);
-	if (!path) // need gestion solide
+	if (!path)
 	{
 		if (shell->tokens->type == TOKEN_REDIRECT_OUT)
 			return (127);
@@ -62,13 +62,11 @@ static int	exec_external(char **cmd, char **envp, t_shell *shell)
 		ft_putendl_fd(": command not found", 2);
 		return (127);
 	}
-	// Exécuter directement avec execve (on suppose qu'on est déjà dans un fork)
 	execve(path, cmd, envp);
 	perror("minishell: execve");
 	free(path);
 	return (126);
 }
-
 
 static void	child_exec_process(t_node *node, char **envp, t_shell *shell)
 {

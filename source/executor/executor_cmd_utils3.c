@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:17:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/01 15:07:27 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/01 16:05:30 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 static t_token	*find_node_tokens(t_node *node, t_shell *shell)
 {
 	t_token	*current;
-	
+
 	if (!node->cmd || !node->cmd[0] || !shell->tokens)
 		return (NULL);
-		
 	current = shell->tokens;
 	while (current)
 	{
-		if (current->type == TOKEN_WORD && current->value && 
-			ft_strcmp(current->value, node->cmd[0]) == 0)
+		if (current->type == TOKEN_WORD && current->value
+			&& ft_strcmp(current->value, node->cmd[0]) == 0)
 			return (current);
 		current = current->next;
 	}
@@ -38,15 +37,12 @@ static int	process_cmd_expansion(t_token *temp_tokens, t_shell *shell)
 	current = temp_tokens;
 	while (current)
 	{
-		// Expansion des variables (sauf dans les single quotes)
 		if (!current->parts || (current->parts
 				&& current->parts->type != QUOTE_SINGLE))
 		{
 			shell->tokens = temp_tokens;
 			scan_envar_execution_phase(shell, current);
 		}
-		
-		// Suppression des quotes après expansion
 		if (current->parts)
 		{
 			unquoted_value = build_unquoted_value(current->parts);
@@ -71,19 +67,13 @@ static int	expand_cmd_with_original_tokens(t_node *node, t_shell *shell)
 	cmd_tokens = find_node_tokens(node, shell);
 	if (!cmd_tokens)
 		return (-1);
-	
-	// Sauvegarder les tokens originaux
 	original_tokens = shell->tokens;
-	
-	// Expansion des variables sur le token trouvé et suivants
 	current = cmd_tokens;
 	while (current)
 	{
 		scan_envar_execution_phase(shell, current);
 		current = current->next;
 	}
-	
-	// Suppression des quotes
 	current = cmd_tokens;
 	while (current && current->type == TOKEN_WORD)
 	{
@@ -98,8 +88,6 @@ static int	expand_cmd_with_original_tokens(t_node *node, t_shell *shell)
 		}
 		current = current->next;
 	}
-	
-	// Restaurer
 	shell->tokens = original_tokens;
 	update_cmd_from_tokens(node->cmd, cmd_tokens);
 	return (0);
@@ -165,18 +153,13 @@ int	process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)
 	t_token		*temp_tokens;
 	int			result;
 
-	// D'abord, essayer avec les tokens originaux (pour préserver les quotes)
 	if (expand_cmd_with_original_tokens(node, shell) == 0)
 	{
-		// Si ça a marché, exécuter avec la commande mise à jour
 		if (ft_is_builtin(node->cmd, envp))
 			return (exec_builtin_with_redirections(node, envp));
 		else
 			return (exec_cmd_with_redirections(node, *envp, shell));
 	}
-	
-	// Si on n'a pas trouvé les tokens originaux, utiliser l'ancienne méthode
-	// (création de nouveaux tokens - utile pour les cas comme l$VAR)
 	original_tokens = shell->tokens;
 	temp_tokens = create_tokens_from_cmd(node->cmd, shell);
 	if (!temp_tokens)
@@ -184,20 +167,13 @@ int	process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)
 		shell->tokens = original_tokens;
 		return (handle_no_tokens_case(node, envp, shell));
 	}
-	
-	// Appliquer l'expansion sur les tokens temporaires
 	process_cmd_expansion(temp_tokens, shell);
 	shell->tokens = original_tokens;
-	
-	// Mettre à jour la commande avec les nouveaux tokens
 	update_cmd_from_tokens(node->cmd, temp_tokens);
-	
-	// Exécuter la commande
 	if (ft_is_builtin(node->cmd, envp))
 		result = exec_builtin_with_redirections(node, envp);
 	else
 		result = exec_cmd_with_redirections(node, *envp, shell);
-		
 	if (temp_tokens)
 		free_tokens(temp_tokens);
 	return (result);

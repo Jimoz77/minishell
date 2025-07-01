@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 23:17:02 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/27 18:04:49 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:02:47 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	setup_token_parts(t_token *current, t_shell *shell, int i)
+static t_token	*find_temp_token(t_shell *shell, int i)
 {
 	t_token	*temp;
 	int		j;
 
 	if (!shell || !shell->tokens)
-		return (1);
+		return (NULL);
 	temp = shell->tokens;
 	j = 0;
 	while (temp && j < i)
@@ -26,16 +26,27 @@ static int	setup_token_parts(t_token *current, t_shell *shell, int i)
 		temp = temp->next;
 		j++;
 	}
-	if (temp && temp->parts && temp->parts->type == QUOTE_SINGLE)
+	return (temp);
+}
+
+static void	setup_single_quote_parts(t_token *current)
+{
+	current->parts = malloc(sizeof(t_word_part));
+	if (current->parts)
 	{
-		current->parts = malloc(sizeof(t_word_part));
-		if (current->parts)
-		{
-			current->parts->type = QUOTE_SINGLE;
-			current->parts->content = NULL;
-			current->parts->next = NULL;
-		}
+		current->parts->type = QUOTE_SINGLE;
+		current->parts->content = NULL;
+		current->parts->next = NULL;
 	}
+}
+
+static int	setup_token_parts(t_token *current, t_shell *shell, int i)
+{
+	t_token	*temp;
+
+	temp = find_temp_token(shell, i);
+	if (temp && temp->parts && temp->parts->type == QUOTE_SINGLE)
+		setup_single_quote_parts(current);
 	return (1);
 }
 
@@ -59,35 +70,72 @@ static t_token	*create_single_token(char *cmd_arg, t_shell *shell, int i)
 	return (token);
 }
 
-static t_token	*find_original_token_for_cmd(t_shell *shell, char *cmd_value, int position)
+static int	is_logical_operator(t_token *token)
 {
-	t_token	*current;
-	int		word_count;
-	int		after_logical;
-	
-	current = shell->tokens;
-	word_count = 0;
-	after_logical = 0;
-	
-	while (current)
+	return (token->type == TOKEN_AND || token->type == TOKEN_OR);
+}
+
+static int	should_return_current_token(t_search_context var)
+{
+	if (var.current->type != TOKEN_WORD)
+		return (0);
+	if (var.after_logical && var.word_count == var.position)
+		return (1);
+	if (!var.after_logical && var.current->value
+		&& ft_strcmp(var.current->value, var.cmd_value) == 0)
+		return (1);
+	return (0);
+}
+
+static void	update_counters(t_token *current,
+	int *word_count, int *after_logical)
+{
+	if (is_logical_operator(current))
 	{
-		if (current->type == TOKEN_AND || current->type == TOKEN_OR)
-		{
-			after_logical = 1;
-			word_count = 0;
-		}
-		else if (current->type == TOKEN_WORD)
-		{
-			if (after_logical && word_count == position)
-				return (current);
-			else if (!after_logical && current->value && 
-					ft_strcmp(current->value, cmd_value) == 0)
-				return (current);
-			word_count++;
-		}
-		current = current->next;
+		*after_logical = 1;
+		*word_count = 0;
+	}
+	else if (current->type == TOKEN_WORD)
+		(*word_count)++;
+}
+
+static t_token	*find_original_token_for_cmd(t_shell *shell, char *cmd_value,
+										int position)
+{
+	t_search_context	var;
+
+	var.current = shell->tokens;
+	var.cmd_value = cmd_value;
+	var.word_count = 0;
+	var.after_logical = 0;
+	var.position = position;
+	while (var.current)
+	{
+		if (should_return_current_token(var))
+			return (var.current);
+		update_counters(var.current, &var.word_count, &var.after_logical);
+		var.current = var.current->next;
 	}
 	return (NULL);
+}
+
+static void	copy_original_parts(t_token *new_token, t_token *original)
+{
+	if (original && original->parts)
+	{
+		if (new_token->parts)
+			free_word_parts(new_token->parts);
+		new_token->parts = duplicate_word_parts(original->parts);
+	}
+}
+
+static void	link_token(t_token **tokens, t_token **current, t_token *new_token)
+{
+	if (!*tokens)
+		*tokens = new_token;
+	else
+		(*current)->next = new_token;
+	*current = new_token;
 }
 
 t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
@@ -101,29 +149,14 @@ t_token	*create_tokens_from_cmd(char **cmd, t_shell *shell)
 	i = 0;
 	tokens = NULL;
 	current = NULL;
-	i = 0;
 	while (cmd[i])
 	{
 		new_token = create_single_token(cmd[i], shell, i);
 		if (!new_token)
 			return (free_tokens(tokens), NULL);
-			
 		original = find_original_token_for_cmd(shell, cmd[i], i);
-		if (original)
-		{
-			if (original->parts)
-			{
-				if (new_token->parts)
-					free_word_parts(new_token->parts);
-				new_token->parts = duplicate_word_parts(original->parts);
-			}
-		}
-		
-		if (!tokens)
-			tokens = new_token;
-		else
-			current->next = new_token;
-		current = new_token;
+		copy_original_parts(new_token, original);
+		link_token(&tokens, &current, new_token);
 		i++;
 	}
 	return (tokens);
