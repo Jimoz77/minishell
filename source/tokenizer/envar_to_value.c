@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/18 13:45:43 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/01 15:08:33 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,48 +240,43 @@ static void	process_variable(t_shell *shell, t_token *token)
 
 	current = token->value;
 	tmp = token;
-	if ((tmp->parts && tmp->parts->type == QUOTE_SINGLE))
-		return ;
-	else
+	new_val = ft_strdup("");
+	while (*current)
 	{
-		new_val = ft_strdup("");
-		while (*current)
+		if (*current == '$' || (*current == '~' && !tmp->parts))
 		{
-			if (*current == '$' || (*current == '~' && !tmp->parts))
+			var_start = current + (*current == '$' ? 1 : 0);
+			if (current[0] == '$' && (current[1] >= '0' && current[1] <= '9'))
 			{
-				var_start = current + (*current == '$' ? 1 : 0);
-				if (current[0] == '$' && (current[1] >= '0' && current[1] <= '9'))
-				{
-					current += 2;
-					continue ;
-				}
-				var_end = var_start;
-				while (*var_end && is_valid_var_char(*var_end))
-					var_end++;
-				var_name = ft_strndup(var_start, var_end - var_start);
-				var_value = get_env_value(var_name, shell->envp);
-				temp = ft_strjoin(new_val, var_value ? var_value : "");
-				free(new_val);
-				new_val = temp;
-				current = var_end;
-				free(var_name);
+				current += 2;
+				continue ;
 			}
-			else
-			{
-				char str[2] = { *current, '\0' };
-				temp = ft_strjoin(new_val, str);
-				free(new_val);
-				new_val = temp;
-				current++;
-			}
+			var_end = var_start;
+			while (*var_end && is_valid_var_char(*var_end))
+				var_end++;
+			var_name = ft_strndup(var_start, var_end - var_start);
+			var_value = get_env_value(var_name, shell->envp);
+			temp = ft_strjoin(new_val, var_value ? var_value : "");
+			free(new_val);
+			new_val = temp;
+			current = var_end;
+			free(var_name);
 		}
-		char *cleaned = clean_double_slashes(new_val);
-		free(new_val);
-		new_val = cleaned;
-		free(token->value);
-		token->value = new_val;
-		process_parts(shell, token);
+		else
+		{
+			char str[2] = { *current, '\0' };
+			temp = ft_strjoin(new_val, str);
+			free(new_val);
+			new_val = temp;
+			current++;
+		}
 	}
+	char *cleaned = clean_double_slashes(new_val);
+	free(new_val);
+	new_val = cleaned;
+	free(token->value);
+	token->value = new_val;
+	process_parts(shell, token);
 }
 
 void	envar_to_value(t_shell *shell, t_token *token)

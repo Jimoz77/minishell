@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:17:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/27 18:20:23 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:07:27 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,9 @@ static int	expand_cmd_with_original_tokens(t_node *node, t_shell *shell)
 	
 	// Expansion des variables sur le token trouvé et suivants
 	current = cmd_tokens;
-	while (current && current->type == TOKEN_WORD)
+	while (current)
 	{
-		if (!current->parts || current->parts->type != QUOTE_SINGLE)
-			scan_envar_execution_phase(shell, current);
+		scan_envar_execution_phase(shell, current);
 		current = current->next;
 	}
 	
