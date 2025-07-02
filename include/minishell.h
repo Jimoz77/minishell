@@ -141,6 +141,7 @@ typedef struct s_shell
 	t_node		*ast;
 	int			exit_status;
 	char		*current_dir;
+	t_token		*last_used_token;
 }	t_shell;
 
 typedef struct s_search_context

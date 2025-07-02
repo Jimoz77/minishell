@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 18:25:46 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:17:28 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ t_shell	*init_shell(char **envp)
 	shell->tokens = NULL;
 	shell->ast = NULL;
 	shell->exit_status = 0;
+	shell->last_used_token = NULL;
 	shell->current_dir = getcwd(NULL, 0);
 	if (!shell->current_dir)
 	{

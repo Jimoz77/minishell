@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:15:23 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 15:56:25 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:18:10 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	init_loop_vars(t_shell *shell)
 {
 	shell->tokens = NULL;
 	shell->ast = NULL;
+	shell->last_used_token = NULL;
 	if (g_signal == SIGINT)
 	{
 		g_signal = 0;
