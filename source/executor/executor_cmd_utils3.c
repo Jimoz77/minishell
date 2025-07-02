@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:17:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/01 16:05:30 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/02 15:20:30 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,21 @@ static t_token	*find_node_tokens(t_node *node, t_shell *shell)
 	if (!node->cmd || !node->cmd[0] || !shell->tokens)
 		return (NULL);
 	current = shell->tokens;
+	if (shell->last_used_token)
+	{
+		while (current && current != shell->last_used_token)
+			current = current->next;
+		if (current)
+			current = current->next;
+	}
 	while (current)
 	{
 		if (current->type == TOKEN_WORD && current->value
 			&& ft_strcmp(current->value, node->cmd[0]) == 0)
+		{
+			shell->last_used_token = current;
 			return (current);
+		}
 		current = current->next;
 	}
 	return (NULL);
