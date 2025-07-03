@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:39:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/20 11:35:59 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:53:54 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int	prepare_cmd_tokens(t_node *node, t_shell *shell)
 		}
 		cur = cur->next;
 	}
-	
-	// Suppression des quotes après expansion
 	cur = tokens;
 	while (cur)
 	{
@@ -49,7 +47,6 @@ int	prepare_cmd_tokens(t_node *node, t_shell *shell)
 		}
 		cur = cur->next;
 	}
-	
 	shell->tokens = original;
 	update_cmd_from_tokens(node->cmd, tokens);
 	free_tokens(tokens);

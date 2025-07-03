@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils3.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:17:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/02 15:20:30 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:50:02 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static t_token	*find_node_tokens(t_node *node, t_shell *shell)
+t_token	*find_node_tokens(t_node *node, t_shell *shell)
 {
 	t_token	*current;
 
@@ -39,7 +39,7 @@ static t_token	*find_node_tokens(t_node *node, t_shell *shell)
 	return (NULL);
 }
 
-static int	process_cmd_expansion(t_token *temp_tokens, t_shell *shell)
+int	process_cmd_expansion(t_token *temp_tokens, t_shell *shell)
 {
 	t_token	*current;
 	char	*unquoted_value;
@@ -67,43 +67,7 @@ static int	process_cmd_expansion(t_token *temp_tokens, t_shell *shell)
 	return (1);
 }
 
-static int	expand_cmd_with_original_tokens(t_node *node, t_shell *shell)
-{
-	t_token	*cmd_tokens;
-	t_token	*current;
-	char	*unquoted_value;
-	t_token	*original_tokens;
-
-	cmd_tokens = find_node_tokens(node, shell);
-	if (!cmd_tokens)
-		return (-1);
-	original_tokens = shell->tokens;
-	current = cmd_tokens;
-	while (current)
-	{
-		scan_envar_execution_phase(shell, current);
-		current = current->next;
-	}
-	current = cmd_tokens;
-	while (current && current->type == TOKEN_WORD)
-	{
-		if (current->parts)
-		{
-			unquoted_value = build_unquoted_value(current->parts);
-			if (unquoted_value)
-			{
-				free(current->value);
-				current->value = unquoted_value;
-			}
-		}
-		current = current->next;
-	}
-	shell->tokens = original_tokens;
-	update_cmd_from_tokens(node->cmd, cmd_tokens);
-	return (0);
-}
-
-static int	handle_no_tokens_case(t_node *node, char ***envp, t_shell *shell)
+int	handle_no_tokens_case(t_node *node, char ***envp, t_shell *shell)
 {
 	if (ft_is_builtin(node->cmd, envp))
 		return (exec_builtin_with_redirections(node, envp));
@@ -154,37 +118,5 @@ int	exec_builtin_with_redirections(t_node *node, char ***envp)
 	result = execute_builtin(node->cmd, envp);
 	close_redirect_fds(&red);
 	restore_std_fds(&red);
-	return (result);
-}
-
-int	process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)
-{
-	t_token		*original_tokens;
-	t_token		*temp_tokens;
-	int			result;
-
-	if (expand_cmd_with_original_tokens(node, shell) == 0)
-	{
-		if (ft_is_builtin(node->cmd, envp))
-			return (exec_builtin_with_redirections(node, envp));
-		else
-			return (exec_cmd_with_redirections(node, *envp, shell));
-	}
-	original_tokens = shell->tokens;
-	temp_tokens = create_tokens_from_cmd(node->cmd, shell);
-	if (!temp_tokens)
-	{
-		shell->tokens = original_tokens;
-		return (handle_no_tokens_case(node, envp, shell));
-	}
-	process_cmd_expansion(temp_tokens, shell);
-	shell->tokens = original_tokens;
-	update_cmd_from_tokens(node->cmd, temp_tokens);
-	if (ft_is_builtin(node->cmd, envp))
-		result = exec_builtin_with_redirections(node, envp);
-	else
-		result = exec_cmd_with_redirections(node, *envp, shell);
-	if (temp_tokens)
-		free_tokens(temp_tokens);
 	return (result);
 }

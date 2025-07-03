@@ -6,7 +6,7 @@
 #    By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/07/03 15:21:30 by jimpa            ###   ########.fr        #
+#    Updated: 2025/07/03 21:28:20 by jimpa            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,6 +83,9 @@ SRCS = \
 	$(SRC_DIR)/executor/executor_cmd_utils.c \
 	$(SRC_DIR)/executor/executor_cmd_utils2.c \
 	$(SRC_DIR)/executor/executor_cmd_utils3.c \
+	$(SRC_DIR)/executor/executor_cmd_utils4.c \
+	$(SRC_DIR)/executor/executor_cmd_utils5.c \
+	$(SRC_DIR)/executor/executor_cmd_utils6.c \
 	$(SRC_DIR)/executor/executor_heredoc.c \
 	$(SRC_DIR)/executor/executor_heredoc_utils.c \
 	$(SRC_DIR)/executor/executor_redir.c \
