@@ -153,6 +153,87 @@ typedef struct s_search_context
 	int     after_logical;
 } t_search_context;
 
+typedef struct s_load_env
+{
+	int			fd;
+	ssize_t		bytes;
+	int			count;
+	char		buffer[4096];
+	char		**env;
+	char		*line;
+	char		**new_env;
+	size_t		current_size;
+}	t_load_env;
+
+typedef struct s_process_variable
+{
+	char	*current;
+	char	*var_start;
+	char	*var_end;
+	char	*var_name;
+	char	*var_value;
+	char	*new_val;
+	char	*temp;
+	t_token	*tmp;
+	char	str[2];
+}	t_process_variable;
+
+typedef struct s_process_parts
+{
+	t_word_part	*current_part;
+	char		*current;
+	char		*new_content;
+}	t_process_parts;
+
+typedef struct s_get_env_value
+{
+	int		i;
+	size_t	name_len;
+	size_t	env_len;
+	char	*eq_pos;
+}	t_get_env_value;
+
+typedef struct s_process_dollar
+{
+	char	*var_start;
+	char	*var_end;
+	char	*var_name;
+	char	*var_value;
+	char	*temp;
+}	t_process_dollar;
+
+typedef struct s_ft_array_dup
+{
+	int		count;
+	char	**new;
+	int		i;
+}	t_ft_array_dup;
+
+typedef struct s_ft_array_dup2
+{
+	int		count;
+	char	***new;
+	int		i;
+}	t_ft_array_dup2;
+
+typedef struct s_ft_path_finder
+{
+	char	*path;
+	char	**path_list;
+	int		i;
+	char	**tmp;
+	char	*dir;
+}	t_ft_path_finder;
+
+typedef struct s_process_env_l
+{
+	char	**env;
+	char	*line;
+	int		count;
+	int		current_size;
+}	t_process_env_l;
+
+
 // signals/
 extern int	g_signal;
 void	setup_signals(void);
