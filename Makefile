@@ -6,7 +6,7 @@
 #    By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/06/18 13:51:56 by jimpa            ###   ########.fr        #
+#    Updated: 2025/07/03 15:21:30 by jimpa            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,13 @@ SRCS = \
 	$(SRC_DIR)/tokenizer/tokenizer_quotes_helper.c \
 	$(SRC_DIR)/tokenizer/tokenizer_quotes_utils.c \
 	$(SRC_DIR)/tokenizer/envar_to_value.c \
+	$(SRC_DIR)/tokenizer/envar_to_value2.c \
+	$(SRC_DIR)/tokenizer/envar_to_value3.c \
+	$(SRC_DIR)/tokenizer/envar_to_value4.c \
+	$(SRC_DIR)/tokenizer/envar_to_value5.c \
+	$(SRC_DIR)/tokenizer/envar_to_value6.c \
+	$(SRC_DIR)/tokenizer/envar_to_value7.c \
+	$(SRC_DIR)/tokenizer/envar_to_value8.c \
 	$(SRC_DIR)/parser/parser.c \
 	$(SRC_DIR)/parser/parser_utils.c \
 	$(SRC_DIR)/parser/parser_utils2.c \
@@ -61,11 +68,15 @@ SRCS = \
 	$(SRC_DIR)/parser/parser_syntax.c \
 	$(SRC_DIR)/parser/parser_syntax_separate.c \
 	$(SRC_DIR)/parser/parser_syntax2.c \
+	$(SRC_DIR)/utils/save_env.c \
+	$(SRC_DIR)/utils/save_env2.c \
+	$(SRC_DIR)/utils/save_env3.c \
 	$(SRC_DIR)/utils/memory_utils.c \
 	$(SRC_DIR)/utils/memory_utils2.c \
 	$(SRC_DIR)/utils/ft_array_dup.c \
 	$(SRC_DIR)/utils/ft_path_finder.c \
 	$(SRC_DIR)/utils/shell_utils.c \
+	$(SRC_DIR)/utils/shell_utils2.c \
 	$(SRC_DIR)/utils/handle_unclosed_quotes.c \
 	$(SRC_DIR)/executor/executor.c \
 	$(SRC_DIR)/executor/executor_cmd.c \
@@ -79,7 +90,6 @@ SRCS = \
 	$(SRC_DIR)/executor/executor_paren.c \
 	$(SRC_DIR)/executor/executor_pipe.c \
 	$(SRC_DIR)/executor/executor_pipe_utils.c \
-	$(SRC_DIR)/utils/save_env.c \
 	$(SRC_DIR)/wildcards/wildcards.c \
 	$(SRC_DIR)/wildcards/wildcards_utils.c \
 	$(SRC_DIR)/wildcards/wildcards_utils2.c \

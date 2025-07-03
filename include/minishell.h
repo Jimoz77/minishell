@@ -247,6 +247,9 @@ void	ft_read_line(char **envp);
 char	*ft_path_finder(char *cmd, char ***envp);
 void	free_array(char **array);
 char	**load_env(void);
+int		read_env_file(char *buffer);
+char	**process_env_lines(char *buffer);
+char	**update_pid(char **env);
 char	**ft_array_dup(char **array);
 void	free_tokens(t_token *tokens);
 void	free_redirections(t_redir *redirections);
@@ -263,6 +266,8 @@ void	init_loop_vars(t_shell *shell);
 void	handle_ast_execution(t_shell *shell, char *input);
 void	free_token(t_token *token);
 int		get_shell_pid(void);
+char	*trim_left(char *str);
+
 
 
 // tokenizer/
@@ -290,6 +295,32 @@ t_token			*create_complex_token(char *input, int len, t_word_part *parts);
 t_token			*create_empty_token(t_word_part *parts);
 int				clean_complex_word(t_word_part *parts, char *value, int ret);
 void			add_new_token(t_token **tokens, t_token *new_token);
+char			*clean_double_slashes(char *path);
+void			process_character_loop(t_shell *shell, t_token *token, char **new_val);
+void			process_parts(t_shell *shell, t_token *token);
+int				is_valid_var_start(int c);
+int				is_valid_var_char(int c);
+void			append_char(char **str, char c);
+char			*get_env_value(const char *var_name, char ***envp);
+char			*find_var_end(char *var_start);
+char			*ft_strndup(const char *s, size_t n);
+int				handle_exit_status(char **current, t_shell *shell);
+int				handle_shell_pid(char **current);
+int				handle_numeric_param(char **current);
+int				handle_invalid_var(char *var_start, char **new_content);
+void			finalize_content(t_word_part *part, char *new_content);
+char			*get_var_start_position(char *current);
+int				should_process_variable(char *current, t_token *token);
+int				handle_numeric_parameter(char **current);
+void			process_single_variable(char **current, char **new_val, t_shell *shell);
+void			append_single_char(char **new_val, char c);
+
+
+
+
+
+
+
 
 // parser/
 t_node		*parse_ast(t_token *tokens);

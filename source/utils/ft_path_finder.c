@@ -6,27 +6,11 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:13:51 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/07/03 01:19:16 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/03 15:04:31 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-char	*trim_left(char *str)
-{
-	if (!str)
-		return (NULL);
-	while (*str && (*str == ' ' || *str == '\t'
-			|| *str == '\n' || *str == '\r'))
-		str++;
-	while (*str && (unsigned char)*str == 194
-		&& str[1] && (unsigned char)str[1] == 160)
-		str += 2;
-	while (*str && (*str == ' ' || *str == '\t'
-			|| *str == '\n' || *str == '\r'))
-		str++;
-	return (str);
-}
 
 static int	find_path_env_index(char **envp)
 {

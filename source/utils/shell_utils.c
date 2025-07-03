@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:13:42 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/02 15:17:28 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:02:55 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,27 +117,4 @@ t_shell	*init_shell(char **envp)
 		return (NULL);
 	}
 	return (shell);
-}
-
-// Libère proprement la structure principale du shell
-void	free_shell(t_shell *shell)
-{
-	int	i;
-
-	if (!shell)
-		return ;
-	if (shell->envp)
-	{
-		i = 0;
-		while (shell->envp[i])
-			free_array(shell->envp[i++]);
-		free(shell->envp);
-	}
-	if (shell->tokens)
-		free_tokens(shell->tokens);
-	if (shell->ast)
-		free_ast(shell->ast);
-	if (shell->current_dir)
-		free(shell->current_dir);
-	free(shell);
 }
