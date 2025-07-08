@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:33:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/27 16:32:52 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/08 14:12:24 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Renvoie la priorité d'un type de token (plus petit = plus prioritaire)
 static int	get_priority(t_token_type type)
 {
 	if (type == TOKEN_OR || type == TOKEN_AND)
@@ -22,85 +21,59 @@ static int	get_priority(t_token_type type)
 	return (100);
 }
 
-// Traite les opérateurs à profondeur zéro
+static int	process_token(t_token *token, int *depth, int *pos, int *lowest)
+{
+	int	priority;
+	int	i;
+
+	i = *pos;
+	if (token->type == TOKEN_LPAREN)
+		(*depth)++;
+	else if (token->type == TOKEN_RPAREN)
+		(*depth)--;
+	if (*depth == 0 && is_operator(token->type) && !is_redirection(token->type))
+	{
+		priority = get_priority(token->type);
+		if (priority >= *lowest)
+		{
+			*lowest = priority;
+			return (i);
+		}
+	}
+	return (-1);
+}
 
 int	find_lowest_priority(t_token *tokens)
 {
-	int		pos;
-	int		i;
-	int		lowest;
 	t_token	*tmp;
 	int		depth;
+	int		lowest;
+	int		pos;
+	int		i;
 
-	pos = -1;
-	i = 0;
+	tmp = tokens;
+	depth = 0;
 	lowest = 0;
-	depth = 0;
-	tmp = tokens;
-	
-	while (tmp)
-    {
-        if (tmp->type == TOKEN_LPAREN)
-            depth++;
-        else if (tmp->type == TOKEN_RPAREN)
-            depth--;
-        
-        if (depth == 0 && is_operator(tmp->type) && !is_redirection(tmp->type))
-        {
-            int priority = get_priority(tmp->type);
-            // Prendre l'opérateur de priorité la plus faible (valeur numérique la plus haute)
-            // En cas d'égalité, prendre le plus à droite
-            if (priority >= lowest)
-            {
-                lowest = priority;
-                pos = i;
-            }
-        }
-        tmp = tmp->next;
-        i++;
-    }
-	return (pos);
-}
-
-/* int	find_lowest_priority(t_token *tokens)
-{
-	int		pos;
-	int		i;
-	int		lowest;
-	t_token	*tmp;
-	int		depth;
-
 	pos = -1;
 	i = 0;
-	lowest = 100;
-	depth = 0;
-	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->type == TOKEN_LPAREN)
-			depth++;
-		else if (tmp->type == TOKEN_RPAREN)
-			depth--;
-		if (process_operator(tmp, depth, &i, &lowest) != -1)
-			pos = process_operator(tmp, depth, &i, &lowest);
+		if (process_token(tmp, &depth, &i, &lowest) != -1)
+			pos = i;
 		tmp = tmp->next;
 		i++;
 	}
 	return (pos);
-} */
+}
 
-// Gère le cas où aucun opérateur n'est trouvé
 static t_node	*handle_no_operator(t_token *tokens)
 {
 	t_token	*tokens_copy;
-	t_node	*node;
 
 	tokens_copy = tokens;
-	node = parse_command_with_redirections(&tokens_copy);
-	return (node);
+	return (parse_command_with_redirections(&tokens_copy));
 }
 
-// Construit l'arbre de syntaxe (AST) à partir des tokens
 t_node	*parse_ast(t_token *tokens)
 {
 	t_token	*op;

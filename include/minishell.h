@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:59:03 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/03 21:36:20 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:06:24 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_printsort
 	char	**envp_cpy;
 	char	*temp;
 }	t_printsort;
-
 
 // Structure pour les types de quotes
 typedef enum s_quote_type
@@ -105,6 +104,7 @@ typedef enum e_node_type
 // Forward declarations
 typedef struct s_heredoc	t_heredoc;
 typedef struct s_redir		t_redir;
+extern int					g_signal;
 
 // Structure d'un nœud dans l'AST
 typedef struct s_node
@@ -259,14 +259,12 @@ typedef struct s_expand_cmd_w_og_tokens
 	t_token	*original_tokens;
 }	t_expand_cmd_w_og_tokens;
 
-// signals/
-extern int	g_signal;
-
+// signals
 void			setup_signals(void);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 
-// shell_utils.c
+// shell_utils
 t_shell			*init_shell(char **envp);
 void			free_shell(t_shell *shell);
 void			ft_read_line(char **envp);
@@ -374,6 +372,7 @@ t_token			*create_token_until_pos(t_token *current, int pos, int i);
 int				check_paren_content(t_token *start, t_token *end);
 void			process_heredoc_redirection(t_token *current, t_node *cmd_node);
 void			process_other_redirection(t_token *current, t_node *cmd_node);
+t_node			*create_paren_node(t_node *inner_node);
 
 // parser/syntax
 int				is_operator(t_token_type type);
@@ -422,7 +421,6 @@ int				handle_no_tokens_case(t_node *node,
 					char ***envp, t_shell *shell);
 int				process_cmd_expansion(t_token *temp_tokens, t_shell *shell);
 int				is_logical_operator(t_token *token);
-
 
 // executor/redir
 void			add_redirection(t_node *node,

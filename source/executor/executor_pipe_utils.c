@@ -3,34 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:39:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/03 20:53:54 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/08 15:37:28 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	prepare_cmd_tokens(t_node *node, t_shell *shell)
+static void	process_envar_and_unquote(t_token *tokens, t_shell *shell)
 {
-	t_token	*original;
-	t_token	*tokens;
 	t_token	*cur;
 	char	*unquoted_value;
 
-	original = shell->tokens;
-	tokens = create_tokens_from_cmd(node->cmd, shell);
-	if (!tokens)
-		return (-1);
 	cur = tokens;
 	while (cur)
 	{
 		if (!cur->parts || cur->parts->type != QUOTE_SINGLE)
-		{
-			shell->tokens = tokens;
 			scan_envar_execution_phase(shell, cur);
-		}
 		cur = cur->next;
 	}
 	cur = tokens;
@@ -47,6 +38,19 @@ int	prepare_cmd_tokens(t_node *node, t_shell *shell)
 		}
 		cur = cur->next;
 	}
+}
+
+int	prepare_cmd_tokens(t_node *node, t_shell *shell)
+{
+	t_token	*original;
+	t_token	*tokens;
+
+	original = shell->tokens;
+	tokens = create_tokens_from_cmd(node->cmd, shell);
+	if (!tokens)
+		return (-1);
+	shell->tokens = tokens;
+	process_envar_and_unquote(tokens, shell);
 	shell->tokens = original;
 	update_cmd_from_tokens(node->cmd, tokens);
 	free_tokens(tokens);

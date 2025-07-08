@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_env3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:07:22 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/03 15:53:00 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/08 14:22:00 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	read_env_file(char *buffer)
 	int	fd;
 	int	bytes;
 
-	fd = open("/home/jimpa/work/der_der_mini/etc/.mini_env", O_RDONLY);
+	fd = open("/home/lsadikaj/Documents/minishell/etc/.mini_env", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("open");

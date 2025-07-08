@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:12:07 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 17:34:24 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:31:23 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,32 @@ static int	fork_and_execute(t_node *node, char ***envp, t_shell *shell)
 	return (1);
 }
 
+static int	execute_with_isol_env(t_node *node, char ***envp, t_shell *shell)
+{
+	char	***sub_envp;
+	char	***original_envp;
+	int		result;
+
+	sub_envp = ft_array_dup2(envp);
+	if (!sub_envp)
+		return (1);
+	original_envp = shell->envp;
+	shell->envp = sub_envp;
+	result = execute_ast(node->left, sub_envp, shell);
+	shell->envp = original_envp;
+	if (sub_envp && *sub_envp)
+	{
+		free_array(*sub_envp);
+		free(sub_envp);
+	}
+	return (result);
+}
+
 int	execute_paren_node(t_node *node, char ***envp, t_shell *shell)
 {
 	if (!node || !node->left)
 		return (1);
 	if (!node->redirections)
-		return (execute_ast(node->left, envp, shell));
+		return (execute_with_isol_env(node, envp, shell));
 	return (fork_and_execute(node, envp, shell));
 }
