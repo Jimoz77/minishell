@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 15:37:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 16:56:00 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:06:04 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,62 +29,23 @@ static int	count_tokens_until(t_token *start, t_token *end)
 	return (count);
 }
 
-// Ajoute un token à la liste pour duplicate_tokens_until_pos
-void	add_token_until_pos(t_token **new_tokens, t_token **prev,
-							t_token *new_current)
+t_node	*create_paren_node(t_node *inner_node)
 {
-	if (!*new_tokens)
-		*new_tokens = new_current;
-	else
-		(*prev)->next = new_current;
-	*prev = new_current;
-}
+	t_node	*paren_node;
 
-// Traite un token dans la boucle de duplication
-static int	process_one_token(t_token **new_tokens, t_token **prev,
-							t_token *current)
-{
-	t_token	*new_current;
-
-	new_current = malloc(sizeof(t_token));
-	if (!new_current)
+	paren_node = ft_calloc(1, sizeof(t_node));
+	if (!paren_node)
 	{
-		if (*new_tokens)
-			free_tokens(*new_tokens);
-		return (0);
-	}
-	if (current->value)
-		new_current->value = ft_strdup(current->value);
-	else
-		new_current->value = NULL;
-	new_current->type = current->type;
-	new_current->parts = duplicate_word_parts(current->parts);
-	new_current->next = NULL;
-	add_token_until_pos(new_tokens, prev, new_current);
-	return (1);
-}
-
-t_token	*duplicate_tokens_until_pos(t_token *tokens, int pos)
-{
-	t_token	*new_tokens;
-	t_token	*current;
-	t_token	*prev;
-	int		i;
-
-	if (!tokens || pos <= 0)
+		free_ast(inner_node);
 		return (NULL);
-	new_tokens = NULL;
-	prev = NULL;
-	current = tokens;
-	i = 0;
-	while (current && i < pos)
-	{
-		if (!process_one_token(&new_tokens, &prev, current))
-			return (NULL);
-		current = current->next;
-		i++;
 	}
-	return (new_tokens);
+	paren_node->type = NODE_PAREN;
+	paren_node->left = inner_node;
+	paren_node->right = NULL;
+	paren_node->cmd = NULL;
+	paren_node->redirections = NULL;
+	paren_node->heredocs = NULL;
+	return (paren_node);
 }
 
 t_node	*handle_paren_and_op(t_token *tokens)
@@ -113,5 +74,5 @@ t_node	*handle_paren_and_op(t_token *tokens)
 		return (NULL);
 	if (end_paren->next && is_operator(end_paren->next->type))
 		return (handle_op_after_paren(inner_node, tokens, end_paren->next));
-	return (inner_node);
+	return (create_paren_node(inner_node));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_env2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:06:27 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/03 15:06:36 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/08 15:37:54 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	open_history_file(void)
 {
 	int	fd;
 
-	fd = open("/home/jimpa/work/der_der_mini/etc/.minishell_history",
+	fd = open("/home/lsadikaj/Documents/minishell/etc/.minishell_history",
 			O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 		perror("open");
@@ -69,7 +69,8 @@ void	load_history(void)
 	char	*line;
 
 	line = NULL;
-	fd = open("/home/jimpa/work/der_der_mini/etc/.minishell_history", O_RDONLY);
+	fd = open("/home/lsadikaj/Documents/minishell/etc/.minishell_history",
+			O_RDONLY);
 	if (fd == -1)
 		return ;
 	line = get_next_line(fd);

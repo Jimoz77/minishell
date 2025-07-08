@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils4.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:45:02 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/03 20:47:01 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/08 15:26:36 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	expand_tokens_variables(t_token *cmd_tokens, t_shell *shell)
 	t_token	*current;
 
 	current = cmd_tokens;
-	while (current)
+	while (current && !is_operator_str(current->value))
 	{
 		scan_envar_execution_phase(shell, current);
 		current = current->next;

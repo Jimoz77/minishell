@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 17:45:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/06/10 15:38:35 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:06:41 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static t_node	*create_operator_node(t_node *current_node, t_token *current)
 		return (NULL);
 	}
 	op_node->type = token_to_node_type(current->type);
-	op_node->left = current_node;
+	op_node->left = create_paren_node(current_node);
 	if (current->next)
 		op_node->right = parse_ast(current->next);
 	return (op_node);

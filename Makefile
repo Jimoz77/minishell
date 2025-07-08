@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+         #
+#    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/07/03 21:28:20 by jimpa            ###   ########.fr        #
+#    Updated: 2025/07/08 15:38:46 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ SRCS = \
 	$(SRC_DIR)/parser/parser_ops_helper1.c \
 	$(SRC_DIR)/parser/parser_ops_helper2.c \
 	$(SRC_DIR)/parser/parser_ops_helper3.c \
+	$(SRC_DIR)/parser/parser_ops_helper4.c \
 	$(SRC_DIR)/parser/parser_ops2.c \
 	$(SRC_DIR)/parser/parser_syntax.c \
 	$(SRC_DIR)/parser/parser_syntax_separate.c \
