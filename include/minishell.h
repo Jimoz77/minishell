@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:59:03 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/08 16:06:24 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:17:05 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,6 +263,8 @@ typedef struct s_expand_cmd_w_og_tokens
 void			setup_signals(void);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
+void			setup_exec_signals(void);
+void			restore_signals(void);
 
 // shell_utils
 t_shell			*init_shell(char **envp);
@@ -403,7 +405,9 @@ int				execute_or_node(t_node *node, char ***envp, t_shell *shell);
 void			copy_original_parts(t_token *new_token, t_token *original);
 void			link_token(t_token **tokens, t_token **current,
 					t_token *new_token);
-
+int				handle_pipe_status(int status);
+int				handle_exec_status(int status);
+void			child_exec_process(t_node *node, char **envp, t_shell *shell);
 int				is_directory(char *path);
 char			*handle_direct_path(char *cmd);
 int				handle_special_commands(char **cmd);

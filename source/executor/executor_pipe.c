@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:35:18 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/10 17:41:44 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:06:43 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ int	execute_in_pipe_context(t_node *node, char ***envp, t_shell *shell)
 	return (execute_cmd_builtin_or_exec(node, envp, &red));
 }
 
-void	execute_pipe_child_left(t_node *node, char ***envp,
+static void	execute_pipe_child_left(t_node *node, char ***envp,
 			t_shell *shell, int pipefd[2])
 {
+	setup_exec_signals();
 	close(pipefd[0]);
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 	{
@@ -50,9 +51,10 @@ void	execute_pipe_child_left(t_node *node, char ***envp,
 	exit(execute_in_pipe_context(node->left, envp, shell));
 }
 
-void	execute_pipe_child_right(t_node *node, char ***envp,
+static void	execute_pipe_child_right(t_node *node, char ***envp,
 			t_shell *shell, int pipefd[2])
 {
+	setup_exec_signals();
 	close(pipefd[1]);
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
 	{
@@ -74,6 +76,7 @@ int	execute_pipe_node(t_node *node, char ***envp, t_shell *shell)
 		return (1);
 	if (pipe(pipefd) == -1)
 		return (perror("minishell: pipe"), 1);
+	setup_exec_signals();
 	pid_left = fork();
 	if (pid_left == 0)
 		execute_pipe_child_left(node, envp, shell, pipefd);
@@ -84,9 +87,6 @@ int	execute_pipe_node(t_node *node, char ***envp, t_shell *shell)
 	close(pipefd[1]);
 	waitpid(pid_left, NULL, 0);
 	waitpid(pid_right, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (1);
+	restore_signals();
+	return (handle_pipe_status(status));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils6.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:56:12 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/03 20:58:08 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/09 15:15:21 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,24 @@ void	process_token_expansion(t_shell *shell, t_token *temp_tokens)
 			scan_envar_execution_phase(shell, temp_tokens);
 		temp_tokens = temp_tokens->next;
 	}
+}
+
+int	exec_cmd_with_redirections(t_node *node, char **envp, t_shell *shell)
+{
+	pid_t	pid;
+	int		status;
+
+	setup_exec_signals();
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("minishell: fork");
+		restore_signals();
+		return (1);
+	}
+	else if (pid == 0)
+		child_exec_process(node, envp, shell);
+	waitpid(pid, &status, 0);
+	restore_signals();
+	return (handle_exec_status(status));
 }

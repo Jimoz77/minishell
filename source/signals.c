@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:09:09 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/28 18:32:33 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:01:56 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_signal = 0;
 
-// Gestionnaire pour SIGINT (CTRL+C), affiche un new prompt sur une new ligne
+// Gestionnaire pour SIGINT (CTRL+C) en mode interactif
 void	handle_sigint(int sig)
 {
 	g_signal = sig;
@@ -24,33 +24,37 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
-// Gestionnaire pour SIGQUIT (CTRL+\), ne fais rien en mode interactif
+// Gestionnaire pour SIGQUIT (CTRL+\) en mode interactif - ne fait rien
+void	handle_sigquit(int sig)
+{
+	(void)sig;
+}
 
-// Configure le gestionnaire pour SIGINT
-static void	setup_sigint(void)
+// Configure les signaux pour le mode interactif (shell en attente)
+void	setup_signals(void)
 {
 	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = handle_sigint;
 	sa_int.sa_flags = 0;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
-}
-
-// Configure le gestionnaire pour SIGQUIT
-static void	setup_sigquit(void)
-{
-	struct sigaction	sa_quit;
-
 	sa_quit.sa_handler = SIG_IGN;
 	sa_quit.sa_flags = 0;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
-// Configure tous les gestionnaires de signaux pour le shell
-void	setup_signals(void)
+// Configure les signaux pour l'exécution des commandes
+void	setup_exec_signals(void)
 {
-	setup_sigint();
-	setup_sigquit();
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+// Restaure les signaux après l'exécution d'une commande
+void	restore_signals(void)
+{
+	setup_signals();
 }
