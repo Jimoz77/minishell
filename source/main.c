@@ -3,21 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:59:25 by jimpa             #+#    #+#             */
-/*   Updated: 2025/06/10 19:27:13 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/09 17:11:17 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
 	char	**my_envp;
 
+	(void) ac;
+	(void) av;
 	setup_signals();
-	my_envp = load_env();
+	if (envp && envp[0])
+	{
+		save_env(envp);
+		my_envp = load_env();
+	}
+	else
+		my_envp = create_simple_env();
 	ft_read_line(my_envp);
 	return (0);
 }

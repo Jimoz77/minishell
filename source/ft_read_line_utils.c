@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:15:23 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/02 15:18:10 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:40:21 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,16 @@ void	init_loop_vars(t_shell *shell)
 // Gère l'AST et l'exécution de la commande
 void	handle_ast_execution(t_shell *shell, char *input)
 {
+	(void)	input;
 	shell->ast = parse_ast(shell->tokens);
 	if (!shell->ast)
 	{
 		free_tokens(shell->tokens);
-		free(input);
+		//free(input);
 		return ;
 	}
 	shell->exit_status = execute_ast(shell->ast, shell->envp, shell);
 	free_tokens(shell->tokens);
 	free_ast(shell->ast);
-	free(input);
+	//free(input);
 }

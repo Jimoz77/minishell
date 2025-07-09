@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:59:03 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/09 15:17:05 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:26:21 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,10 @@ char			**ft_array_dup(char **array);
 void			free_tokens(t_token *tokens);
 void			free_redirections(t_redir *redirections);
 void			free_heredocs(t_heredoc *heredocs);
-void			save_env(char ***env);
+void			save_env(char **env);
+char			**create_simple_env(void);
+char			***increment_shlvl(char ***envp);
+char			***decrement_shlvl(char ***envp);
 void			ft_free_split(char **split_array);
 char			*ft_strjoin_free(char *s1, const char *s2);
 void			free_ast(t_node *node);

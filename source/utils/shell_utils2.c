@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:02:24 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/03 15:04:27 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/09 18:23:29 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,58 @@ char	*trim_left(char *str)
 			|| *str == '\n' || *str == '\r'))
 		str++;
 	return (str);
+}
+
+char	**create_simple_env(void)
+{
+	char	**envp;
+
+	envp = malloc(sizeof(char *) * 4);
+
+	envp[0] = malloc(sizeof("PWD=/home/lsadikaj/Documents/minishell"));
+	envp[0] = ft_strdup("PWD=/home/lsadikaj/Documents/minishell");
+	envp[1] = malloc(sizeof("SHLVL=1"));
+	envp[1] = ft_strdup("SHLVL=1");
+	envp[2] = malloc(sizeof("_=/usr/bin/env"));
+	envp[2] = ft_strdup("_=/usr/bin/env");
+	envp[3] = '\0';
+	return (envp);
+}
+
+char	***decrement_shlvl(char ***envp)
+{
+	int i;
+	int	j;
+	int lvl;
+
+	i = 0;
+	j = 0;
+	while(envp[0][i] && ft_strncmp(envp[0][i], "SHLVL", 5))
+		i++;
+	while (envp[0][i][j] && envp[0][i][j] != '=')
+		j++;
+	j++;
+	lvl = envp[0][i][j] - '0';
+	lvl--;
+	envp[0][i][j] = lvl + '0';
+	return (envp);
+}
+
+char	***increment_shlvl(char ***envp)
+{
+	int i;
+	int	j;
+	int lvl;
+
+	i = 0;
+	j = 0;
+	while(envp[0][i] && ft_strncmp(envp[0][i], "SHLVL", 5))
+		i++;
+	while (envp[0][i][j] && envp[0][i][j] != '=')
+		j++;
+	j++;
+	lvl = envp[0][i][j] - '0';
+	lvl++;
+	envp[0][i][j] = lvl + '0';
+	return (envp);
 }

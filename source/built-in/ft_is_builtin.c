@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:01:37 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/06/10 18:53:49 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/09 18:51:57 by jiparcer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	clean_exit(char **cmd, char ***envp)
 {
 	if (!cmd[1])
 	{
-		save_env(envp);
+		save_env(*envp);
 		exit(0);
 	}
 	if (cmd[1] && !cmd[2])
@@ -51,7 +51,7 @@ void	clean_exit(char **cmd, char ***envp)
 		}
 		if (is_invalid_exit_arg(cmd))
 			exit(2);
-		save_env(envp);
+		save_env(*envp);
 		exit(ft_atoi(cmd[1]));
 	}
 	if (cmd[1] && cmd[2])
