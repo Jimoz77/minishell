@@ -6,7 +6,7 @@
 #    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/07/08 15:38:46 by lsadikaj         ###   ########.fr        #
+#    Updated: 2025/07/09 17:35:45 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,7 @@ SRCS = \
 	$(SRC_DIR)/executor/executor_cmd_utils6.c \
 	$(SRC_DIR)/executor/executor_heredoc.c \
 	$(SRC_DIR)/executor/executor_heredoc_utils.c \
+	$(SRC_DIR)/executor/executor_heredoc_expansion.c \
 	$(SRC_DIR)/executor/executor_redir.c \
 	$(SRC_DIR)/executor/executor_redir2.c \
 	$(SRC_DIR)/executor/executor_paren.c \

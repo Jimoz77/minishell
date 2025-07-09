@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:54:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/08 18:40:32 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:49:43 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ int	execute_ast(t_node *node, char ***envp, t_shell *shell)
 {
 	if (!node)
 		return (0);
-	process_all_heredocs(node);
+	process_all_heredocs_expanded(node, shell);
 	return (execute_node_by_type(node, envp, shell));
 }

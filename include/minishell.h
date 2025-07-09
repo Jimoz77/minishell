@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:59:03 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/09 15:17:05 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:35:28 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -414,6 +414,7 @@ int				handle_special_commands(char **cmd);
 int				execute_with_path(char *path, char **cmd, char **envp);
 int				process_cmd_tokens(t_node *node, char ***envp, t_shell *shell);
 int				exec_builtin_with_redirections(t_node *node, char ***envp);
+char			*expand_heredoc_line(char *line, t_shell *shell);
 //int			exec_external(char **cmd, char **envp, t_shell *shell);
 int				exec_cmd_with_redirections(t_node *node,
 					char **envp, t_shell *shell);
@@ -431,7 +432,7 @@ void			add_redirection(t_node *node,
 					t_token_type type, char *filename);
 void			add_heredoc(t_node *node, char *delimiter);
 int				apply_node_redirections(t_node *node, t_redirect *red);
-void			process_all_heredocs(t_node *node);
+void			process_all_heredocs_expanded(t_node *node, t_shell *shell);
 int				apply_heredoc_redir(t_node *node,
 					char *delimiter, t_redirect *red);
 
