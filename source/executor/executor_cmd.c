@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/01 15:15:38 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/09 15:16:44 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	execute_redir_only(t_node *node, char ***envp, t_shell *shell)
+static int	execute_redir_only(t_node *node, char ***envp, t_shell *shell)
 {
 	t_redirect	red;
 
@@ -68,10 +68,11 @@ static int	exec_external(char **cmd, char **envp, t_shell *shell)
 	return (126);
 }
 
-static void	child_exec_process(t_node *node, char **envp, t_shell *shell)
+void	child_exec_process(t_node *node, char **envp, t_shell *shell)
 {
 	t_redirect	red;
 
+	setup_exec_signals();
 	init_redirect(&red);
 	if (node->redirections && !apply_node_redirections(node, &red))
 	{
@@ -82,24 +83,19 @@ static void	child_exec_process(t_node *node, char **envp, t_shell *shell)
 	exit(exec_external(node->cmd, envp, shell));
 }
 
-int	exec_cmd_with_redirections(t_node *node, char **envp, t_shell *shell)
+int	handle_exec_status(int status)
 {
-	pid_t	pid;
-	int		status;
+	int	sig;
 
-	pid = fork();
-	if (pid == -1)
+	if (WIFSIGNALED(status))
 	{
-		perror("minishell: fork");
-		return (1);
+		sig = WTERMSIG(status);
+		if (sig == SIGQUIT)
+			write(1, "Quit (core dumped)\n", 19);
+		return (128 + sig);
 	}
-	else if (pid == 0)
-		child_exec_process(node, envp, shell);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
+	else if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
 	return (1);
 }
 

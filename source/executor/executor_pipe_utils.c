@@ -6,11 +6,27 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:39:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/08 15:37:28 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:06:53 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	handle_pipe_status(int status)
+{
+	int	sig;
+
+	if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGQUIT)
+			write(1, "Quit (core dumped)\n", 19);
+		return (128 + sig);
+	}
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (1);
+}
 
 static void	process_envar_and_unquote(t_token *tokens, t_shell *shell)
 {
