@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/09 15:16:44 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:53:49 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	execute_redir_only(t_node *node, char ***envp, t_shell *shell)
 	init_redirect(&red);
 	if (!node || !node->redirections)
 		return (0);
-	process_all_heredocs(node);
+	process_all_heredocs_expanded(node, shell);
 	if (!apply_node_redirections(node, &red))
 	{
 		close_redirect_fds(&red);
