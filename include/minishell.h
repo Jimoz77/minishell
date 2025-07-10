@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:59:03 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/09 19:06:40 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:50:51 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,6 +333,7 @@ int				is_valid_var_start(int c);
 int				is_valid_var_char(int c);
 void			append_char(char **str, char c);
 char			*get_env_value(const char *var_name, char ***envp);
+char			*get_env_value_str(const char *var_name, char ***envp);
 char			*find_var_end(char *var_start);
 t_token			*find_original_token_for_cmd(t_shell *shell, char *cmd_value,
 					int position);

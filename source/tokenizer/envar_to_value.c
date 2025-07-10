@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/03 15:22:59 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/10 13:50:08 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,31 @@ char	*get_env_value(const char *var_name, char ***envp)
 					return (v.eq_pos + 1);
 			}
 			v.name_len--;
+		}
+		v.i++;
+	}
+	return (NULL);
+}
+
+char *get_env_value_str(const char *var_name, char ***envp)
+{
+	t_get_env_value	v;
+
+	if (!envp || !*envp)
+		return (NULL);
+	if (var_name[0] == '~')
+		var_name = "HOME";
+	v.i = 0;
+	while ((*envp)[v.i])
+	{
+		v.name_len = ft_strlen(var_name);
+		v.eq_pos = ft_strchr((*envp)[v.i], '=');
+		if (v.eq_pos)
+		{
+			v.env_len = v.eq_pos - (*envp)[v.i];
+			if (v.env_len == v.name_len
+				&& !ft_strncmp((*envp)[v.i], var_name, v.name_len))
+				return (v.eq_pos + 1);
 		}
 		v.i++;
 	}
