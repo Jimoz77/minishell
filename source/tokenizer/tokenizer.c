@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 13:37:41 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/09 14:25:09 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/10 15:14:14 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ t_token	*tokenize(char *input)
 	i = 0;
 	while (input[i])
 	{
-		while((input[i + 2]) && ((input[i] == '"' && input[i + 1] == '"') || (input[i] == '\'' && input[i + 1] == '\'')))
+		while (input[i] && input[i + 1] && 
+			   ((input[i] == '"' && input[i + 1] == '"') || 
+			    (input[i] == '\'' && input[i + 1] == '\'')))
 			i += 2;
 		if (handle_token(&tokens, input, &i) == -1)
 		{

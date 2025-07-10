@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:54:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/09 15:49:43 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:51:13 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,21 @@ static int	execute_by_node_type(t_node *node, char ***envp, t_shell *shell)
 
 int	execute_and_node(t_node *node, char ***envp, t_shell *shell)
 {
-	int	left_status;
+	int		left_status;
+	t_token	*cur;
 
 	if (!node || !node->left)
 		return (1);
 	left_status = execute_ast(node->left, envp, shell);
 	if (left_status == 0 && node->right)
 		left_status = execute_ast(node->right, envp, shell);
+	else if (shell->ast->type == NODE_OR)
+	{
+		cur = shell->tokens;
+		while (cur->type != TOKEN_AND)
+			cur = cur->next;
+		shell->last_used_token = cur->next;
+	}
 	return (left_status);
 }
 

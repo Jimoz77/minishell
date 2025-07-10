@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:06:27 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/08 15:37:54 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/10 19:07:27 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ static int	open_history_file(void)
 	return (fd);
 }
 
-void	save_history(char *cmd)
+void	save_history(char *cmd, t_shell *shell)
 {
 	int			fd;
-	static char	*old_cmd = NULL;
 
-	if (should_skip_duplicate(old_cmd, cmd))
+	if (should_skip_duplicate(shell->old_cmd, cmd))
 		return ;
 	fd = open_history_file();
 	if (fd == -1)
@@ -59,8 +58,9 @@ void	save_history(char *cmd)
 	write(fd, cmd, ft_strlen(cmd));
 	write(fd, "\n", 1);
 	close(fd);
-	free(old_cmd);
-	old_cmd = ft_strdup(cmd);
+	if (shell->old_cmd)
+		free(shell->old_cmd);
+	shell->old_cmd = ft_strdup(cmd);
 }
 
 void	load_history(void)

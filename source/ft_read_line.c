@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/07/09 18:41:48 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:32:18 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static void	process_input(t_shell *shell, char *input)
 {
 	if (!*input)
 	{
-		free(input);
+		//free(input);
 		return ;
 	}
 	add_history(input);
-	save_history(input);
+	save_history(input, shell);
 	input = handle_unclosed_quotes(input);
 	if(ft_strncmp(input, "./minishell", 11) == 0)
 		increment_shlvl(shell->envp);
@@ -53,8 +53,6 @@ static void	process_input(t_shell *shell, char *input)
 		if (ft_strncmp(input, "./minishell", 10) == 0)
 			decrement_shlvl(shell->envp);
 	}
-	else
-		free(input);
 }
 
 // Lit et traite les entrées utilisateur dans une boucle
@@ -70,7 +68,8 @@ static void	ft_read_line_loop(t_shell *shell)
 		if (!input)
 			break ;
 		process_input(shell, input);
-		free(input);
+		if (input)
+			free(input);
 	}
 	ft_printf("\n");
 }
