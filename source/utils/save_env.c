@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/08 14:21:32 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:48:10 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ static void	write_env_to_file(int fd, char **env)
 	}
 }
 
-void	save_env(char ***env)
+void	save_env(char **env)
 {
 	int	fd;
 
 	fd = open_env_file_write();
 	if (fd == -1)
 		return ;
-	write_env_to_file(fd, *env);
+	write_env_to_file(fd, env);
 	close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:32:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/05/21 14:11:26 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:57:48 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,46 +33,53 @@ static int	has_unclosed_quotes(const char *input)
 	return (in_single_quote || in_double_quote);
 }
 
-// Libere la memoire en cas d'erreur
-static char	*cleanup_and_return_null(char *input, char *additional_input)
-{
-	if (input)
-		free(input);
-	if (additional_input)
-		free(additional_input);
-	return (NULL);
-}
-
 // Gere la concatenation de l'entree supplementaire
 static char	*concat_additional_input(char *input, char *additional_input)
 {
 	char	*temp;
+	char	*result;
 
 	temp = ft_strjoin(input, "\n");
-	free(input);
 	if (!temp)
-		return (cleanup_and_return_null(NULL, additional_input));
-	input = ft_strjoin(temp, additional_input);
+	{
+		free(additional_input);
+		free(input);
+		return (NULL);
+	}
+	result = ft_strjoin(temp, additional_input);
 	free(temp);
 	free(additional_input);
-	if (!input)
+	if (!result)
+	{
+		free(input);
 		return (NULL);
-	return (input);
+	}
+	free(input);
+	return (result);
 }
 
 // Lit l'entree supplementaire pour completer les quotes
 static char	*read_additional_input(char *input)
 {
 	char	*additional_input;
+	char	*new_input;
 
 	while (has_unclosed_quotes(input))
 	{
 		additional_input = readline("> ");
 		if (!additional_input)
-			return (cleanup_and_return_null(input, NULL));
-		input = concat_additional_input(input, additional_input);
-		if (!input)
+		{
+			free(input);
 			return (NULL);
+		}
+		
+		new_input = concat_additional_input(input, additional_input);
+		if (!new_input)
+		{
+			free(input);
+			return (NULL);
+		}
+		input = new_input;
 	}
 	return (input);
 }

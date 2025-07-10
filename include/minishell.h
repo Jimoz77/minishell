@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:59:03 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/10 13:50:51 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/10 18:48:22 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ typedef struct s_shell
 	t_node		*ast;
 	int			exit_status;
 	char		*current_dir;
+	char		*old_cmd;
 	t_token		*last_used_token;
 }	t_shell;
 
@@ -288,7 +289,7 @@ void			ft_free_split(char **split_array);
 char			*ft_strjoin_free(char *s1, const char *s2);
 void			free_ast(t_node *node);
 void			load_history(void);
-void			save_history(char *cmd);
+void			save_history(char *cmd, t_shell *shell);
 void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char			*handle_unclosed_quotes(char *input);
 void			init_loop_vars(t_shell *shell);
@@ -337,7 +338,7 @@ char			*get_env_value_str(const char *var_name, char ***envp);
 char			*find_var_end(char *var_start);
 t_token			*find_original_token_for_cmd(t_shell *shell, char *cmd_value,
 					int position);
-char			*ft_strndup(const char *s, size_t n);
+char			*ft_strndup(char *s, size_t n);
 int				handle_exit_status(char **current, t_shell *shell);
 int				handle_shell_pid(char **current);
 int				handle_numeric_param(char **current);

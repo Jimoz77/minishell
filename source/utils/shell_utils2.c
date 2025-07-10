@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:02:24 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/09 18:23:29 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/07/10 19:20:38 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ void	free_shell(t_shell *shell)
 		free_ast(shell->ast);
 	if (shell->current_dir)
 		free(shell->current_dir);
+	if (shell->old_cmd)
+		free(shell->old_cmd);
+	shell->old_cmd = NULL;
 	free(shell);
 }
 

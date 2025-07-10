@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_heredoc_expansion.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 15:37:37 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/10 13:51:26 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/10 19:03:52 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,19 @@ static char	*expand_env_var(char *line, char *current, char *var_end,
 	char	*temp;
 
 	var_name = ft_strndup(current + 1, var_end - current - 1);
-	// get_env_value a modifier pour checker toute la chaine de caractere
 	var_value = get_env_value_str(var_name, shell->envp);
 	if (!var_value)
 		var_value = "";
 	before = ft_strndup(line, current - line);
 	after = ft_strdup(var_end);
 	temp = ft_strjoin(before, var_value);
+	free(before);
 	before = ft_strjoin(temp, after);
 	free(temp);
+	free(after);
 	free(var_name);
 	free(line);
+	
 	return (before);
 }
 
