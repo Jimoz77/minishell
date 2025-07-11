@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:59:03 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/10 18:48:22 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/11 21:17:26 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 # include "../libft/libft.h"
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/get_next_line/get_next_line.h"
+
+# define SIGNAL_NORMAL 0
+# define SIGNAL_HEREDOC_MODE 42  // Valeur spéciale pour indiquer le mode heredoc
+# define SIGNAL_HEREDOC_INTERRUPTED 43
 
 typedef struct s_printsort
 {
@@ -266,6 +270,7 @@ void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 void			setup_exec_signals(void);
 void			restore_signals(void);
+void			set_heredoc_mode(int mode);
 
 // shell_utils
 t_shell			*init_shell(char **envp);

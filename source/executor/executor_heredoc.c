@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:40:45 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/09 17:16:48 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:08:38 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,27 @@ static char	*append_line_to_content(char *content, char *line)
 	return (new_content);
 }
 
+int interupt(char *line)
+
+{
+	g_signal = SIGNAL_NORMAL;  // Reset le signal
+	set_heredoc_mode(0);       // Désactiver le mode heredoc
+	if (line)
+		free(line);
+	return (0);  // Fermer le heredoc
+}
+
 static int	process_heredoc_line(const char *delimiter, t_shell *shell,
 							char **content, size_t delim_len)
 {
 	char	*line;
 	char	*expanded_line;
 
+	set_heredoc_mode(1);
 	line = readline("> ");
+	if (g_signal == SIGNAL_HEREDOC_INTERRUPTED)
+		return (interupt(line));
+	set_heredoc_mode(0);  // Désactiver le mode heredoc
 	if (!line)
 		return (0);
 	if (ft_strlen(line) == delim_len
@@ -42,6 +56,7 @@ static int	process_heredoc_line(const char *delimiter, t_shell *shell,
 		return (0);
 	}
 	expanded_line = expand_heredoc_line(line, shell);
+	//free(line);
 	*content = append_line_to_content(*content, expanded_line);
 	free(expanded_line);
 	if (!*content)
@@ -64,9 +79,12 @@ static char	*read_heredoc_input_expanded(const char *delimiter,
 	{
 		result = process_heredoc_line(delimiter, shell, &content, delim_len);
 		if (result == 0)
-			break ;
+			break;
 		if (result == -1)
+		{
+			free(content);
 			return (NULL);
+		}
 	}
 	return (content);
 }
