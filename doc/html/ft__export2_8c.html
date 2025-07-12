@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/built-in/ft_export2.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('ft__export2_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier ft_export2.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="ft__export2_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:ae62059c73af703c4e2a4dec6e7c8823f" id="r_ae62059c73af703c4e2a4dec6e7c8823f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae62059c73af703c4e2a4dec6e7c8823f">print_envp_lines</a> (<a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> *v)</td></tr>
+<tr class="memdesc:ae62059c73af703c4e2a4dec6e7c8823f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche les variables d'environnement au format declare -x.  <br /></td></tr>
+<tr class="separator:ae62059c73af703c4e2a4dec6e7c8823f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44a30f3913b95e34309449af197d6af9" id="r_a44a30f3913b95e34309449af197d6af9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44a30f3913b95e34309449af197d6af9">swap_if_needed</a> (<a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> *v)</td></tr>
+<tr class="memdesc:a44a30f3913b95e34309449af197d6af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Échange deux éléments du tableau si nécessaire selon l'ordre alphabétique.  <br /></td></tr>
+<tr class="separator:a44a30f3913b95e34309449af197d6af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95187a607b62a80f2d1b5b272b5c9250" id="r_a95187a607b62a80f2d1b5b272b5c9250"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95187a607b62a80f2d1b5b272b5c9250">sort_envp_cpy</a> (<a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> *v)</td></tr>
+<tr class="memdesc:a95187a607b62a80f2d1b5b272b5c9250"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trie le tableau envp_cpy par ordre alphabétique des noms de variables.  <br /></td></tr>
+<tr class="separator:a95187a607b62a80f2d1b5b272b5c9250"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62d17a493f4d66cffc60b900b959d353" id="r_a62d17a493f4d66cffc60b900b959d353"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62d17a493f4d66cffc60b900b959d353">copy_envp_to_struct</a> (<a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> *v, char **envp)</td></tr>
+<tr class="memdesc:a62d17a493f4d66cffc60b900b959d353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copie les pointeurs envp dans la structure <a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a>.  <br /></td></tr>
+<tr class="separator:a62d17a493f4d66cffc60b900b959d353"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2d8c1295d8c1f6dd4a726d5de4eb4cd" id="r_ae2d8c1295d8c1f6dd4a726d5de4eb4cd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2d8c1295d8c1f6dd4a726d5de4eb4cd">print_sorted_env</a> (char **envp)</td></tr>
+<tr class="memdesc:ae2d8c1295d8c1f6dd4a726d5de4eb4cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche l'environnement trié au format declare -x.  <br /></td></tr>
+<tr class="separator:ae2d8c1295d8c1f6dd4a726d5de4eb4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a62d17a493f4d66cffc60b900b959d353" name="a62d17a493f4d66cffc60b900b959d353"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62d17a493f4d66cffc60b900b959d353">&#9670;&#160;</a></span>copy_envp_to_struct()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int copy_envp_to_struct </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> *</td>          <td class="paramname"><span class="paramname"><em>v</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **</td>          <td class="paramname"><span class="paramname"><em>envp</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copie les pointeurs envp dans la structure <a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a>. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>Pointeur vers la structure <a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> à remplir </td></tr>
+    <tr><td class="paramname">envp</td><td>Tableau des variables d'environnement source </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 en cas de succès, 0 si échec d'allocation mémoire</dd></dl>
+<p>Alloue un tableau de pointeurs et copie les références vers les chaînes d'environnement. Ne duplique pas les chaînes elles-mêmes, seulement les pointeurs pour économiser la mémoire. Le tableau résultant est terminé par NULL pour compatibilité avec les fonctions standard.</p>
+<p>En cas d'échec d'allocation, retourne 0 et laisse v-&gt;envp_cpy non initialisé. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="ft__export2_8c_source.html#l00127">127</a> du fichier <a class="el" href="ft__export2_8c_source.html">ft_export2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00049">s_printsort::envp_cpy</a>, <a class="el" href="ft__export3_8c_source.html#l00094">get_envp_len()</a>, et <a class="el" href="minishell_8h_source.html#l00041">s_printsort::totalen</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="ft__export2_8c_source.html#l00160">print_sorted_env()</a>.</p>
+
+</div>
+</div>
+<a id="ae62059c73af703c4e2a4dec6e7c8823f" name="ae62059c73af703c4e2a4dec6e7c8823f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae62059c73af703c4e2a4dec6e7c8823f">&#9670;&#160;</a></span>print_envp_lines()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void print_envp_lines </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> *</td>          <td class="paramname"><span class="paramname"><em>v</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Affiche les variables d'environnement au format declare -x. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>Pointeur vers la structure <a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> contenant les données triées</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Cette fonction parcourt le tableau envp_cpy trié et affiche chaque variable au format bash "declare -x". Les variables avec valeurs sont affichées comme 'declare -x VAR="valeur"', celles sans valeur comme 'declare -x VAR'. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="ft__export2_8c_source.html#l00025">25</a> du fichier <a class="el" href="ft__export2_8c_source.html">ft_export2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00049">s_printsort::envp_cpy</a>, <a class="el" href="minishell_8h_source.html#l00046">s_printsort::eq</a>, <a class="el" href="minishell_8h_source.html#l00039">s_printsort::i</a>, et <a class="el" href="minishell_8h_source.html#l00041">s_printsort::totalen</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="ft__export2_8c_source.html#l00160">print_sorted_env()</a>.</p>
+
+</div>
+</div>
+<a id="ae2d8c1295d8c1f6dd4a726d5de4eb4cd" name="ae2d8c1295d8c1f6dd4a726d5de4eb4cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2d8c1295d8c1f6dd4a726d5de4eb4cd">&#9670;&#160;</a></span>print_sorted_env()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int print_sorted_env </td>
+          <td>(</td>
+          <td class="paramtype">char **</td>          <td class="paramname"><span class="paramname"><em>envp</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Affiche l'environnement trié au format declare -x. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">envp</td><td>Tableau des variables d'environnement à afficher </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 en cas de succès, 0 si échec d'allocation mémoire</dd></dl>
+<p>Fonction principale qui orchestre l'affichage trié de l'environnement :</p><ol type="1">
+<li>Copie les pointeurs envp dans une structure temporaire</li>
+<li>Trie alphabétiquement les pointeurs</li>
+<li>Affiche au format bash declare -x</li>
+<li>Libère la mémoire temporaire</li>
+</ol>
+<p>Utilisée par export sans arguments pour afficher l'état actuel de l'environnement. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="ft__export2_8c_source.html#l00160">160</a> du fichier <a class="el" href="ft__export2_8c_source.html">ft_export2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="ft__export2_8c_source.html#l00127">copy_envp_to_struct()</a>, <a class="el" href="minishell_8h_source.html#l00049">s_printsort::envp_cpy</a>, <a class="el" href="ft__export2_8c_source.html#l00025">print_envp_lines()</a>, et <a class="el" href="ft__export2_8c_source.html#l00098">sort_envp_cpy()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="ft__export_8c_source.html#l00116">ft_export()</a>.</p>
+
+</div>
+</div>
+<a id="a95187a607b62a80f2d1b5b272b5c9250" name="a95187a607b62a80f2d1b5b272b5c9250"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95187a607b62a80f2d1b5b272b5c9250">&#9670;&#160;</a></span>sort_envp_cpy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void sort_envp_cpy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> *</td>          <td class="paramname"><span class="paramname"><em>v</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Trie le tableau envp_cpy par ordre alphabétique des noms de variables. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>Pointeur vers la structure <a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> contenant le tableau à trier</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Utilise l'algorithme de tri par sélection pour ordonner alphabétiquement les pointeurs vers les chaînes d'environnement. Pour chaque position i, trouve l'élément minimal dans la partie non triée [i+1..n] et l'échange avec l'élément en position i. Le tri se base uniquement sur les noms des variables (partie avant '=').</p>
+<p>Complexité : O(n²) où n est le nombre de variables d'environnement. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="ft__export2_8c_source.html#l00098">98</a> du fichier <a class="el" href="ft__export2_8c_source.html">ft_export2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00039">s_printsort::i</a>, <a class="el" href="minishell_8h_source.html#l00040">s_printsort::j</a>, <a class="el" href="ft__export2_8c_source.html#l00060">swap_if_needed()</a>, et <a class="el" href="minishell_8h_source.html#l00041">s_printsort::totalen</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="ft__export2_8c_source.html#l00160">print_sorted_env()</a>.</p>
+
+</div>
+</div>
+<a id="a44a30f3913b95e34309449af197d6af9" name="a44a30f3913b95e34309449af197d6af9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44a30f3913b95e34309449af197d6af9">&#9670;&#160;</a></span>swap_if_needed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void swap_if_needed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> *</td>          <td class="paramname"><span class="paramname"><em>v</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Échange deux éléments du tableau si nécessaire selon l'ordre alphabétique. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>Pointeur vers la structure <a class="el" href="minishell_8h.html#a36ece8f932b264c626dcdd61c0ab9503">t_printsort</a> contenant les données de tri</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Cette fonction compare deux variables d'environnement pour déterminer leur ordre alphabétique. La comparaison se fait uniquement sur le nom de la variable (partie avant le '='). Algorithme de comparaison :</p><ol type="1">
+<li>Extrait les noms des variables (avant '=')</li>
+<li>Compare sur la longueur du plus court nom</li>
+<li>Si égaux, privilégie le nom le plus court</li>
+<li>Échange les pointeurs si l'ordre est incorrect</li>
+</ol>
+<p>Utilisée par l'algorithme de tri par sélection dans <a class="el" href="#a95187a607b62a80f2d1b5b272b5c9250" title="Trie le tableau envp_cpy par ordre alphabétique des noms de variables.">sort_envp_cpy()</a>. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="ft__export2_8c_source.html#l00060">60</a> du fichier <a class="el" href="ft__export2_8c_source.html">ft_export2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00043">s_printsort::cmp</a>, <a class="el" href="minishell_8h_source.html#l00042">s_printsort::cmp_len</a>, <a class="el" href="minishell_8h_source.html#l00049">s_printsort::envp_cpy</a>, <a class="el" href="minishell_8h_source.html#l00047">s_printsort::eq1</a>, <a class="el" href="minishell_8h_source.html#l00048">s_printsort::eq2</a>, <a class="el" href="minishell_8h_source.html#l00039">s_printsort::i</a>, <a class="el" href="minishell_8h_source.html#l00040">s_printsort::j</a>, <a class="el" href="minishell_8h_source.html#l00044">s_printsort::len1</a>, <a class="el" href="minishell_8h_source.html#l00045">s_printsort::len2</a>, et <a class="el" href="minishell_8h_source.html#l00050">s_printsort::temp</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="ft__export2_8c_source.html#l00098">sort_envp_cpy()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_9d6c6c49a8ca29c582c1b50564ffe343.html">built-in</a></li><li class="navelem"><a class="el" href="ft__export2_8c.html">ft_export2.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

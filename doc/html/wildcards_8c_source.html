@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell:  Fichier source de source/wildcards/wildcards.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('wildcards_8c_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">wildcards.c</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="wildcards_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*                                                        :::      ::::::::   */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*   wildcards.c                                        :+:      :+:    :+:   */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*                                                    +:+ +:+         +:+     */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*   By: jimpa &lt;jimpa@student.42.fr&gt;                +#+  +:+       +#+        */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*                                                +#+#+#+#+#+   +#+           */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/*   Created: 2025/05/10 17:17:42 by lsadikaj          #+#    #+#             */</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">/*   Updated: 2025/07/12 20:43:18 by jimpa            ###   ########.fr       */</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="minishell_8h.html">../include/minishell.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="wildcards_8c.html#a6e861c02aa914e731146c52361e869c0">   24</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="wildcards_8c.html#a6e861c02aa914e731146c52361e869c0">contains_wildcard</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *str)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>{</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">int</span>     i;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">int</span>     in_quotes;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">char</span>    quote_type;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">if</span> (!str)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    i = 0;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    in_quotes = 0;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    quote_type = 0;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">while</span> (str[i])</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">if</span> (!in_quotes &amp;&amp; (str[i] == <span class="charliteral">&#39;\&#39;&#39;</span> || str[i] == <span class="charliteral">&#39;&quot;&#39;</span>))</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            in_quotes = 1;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            quote_type = str[i];</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (in_quotes &amp;&amp; str[i] == quote_type)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            in_quotes = 0;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!in_quotes &amp;&amp; str[i] == <span class="charliteral">&#39;*&#39;</span>)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        i++;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>}</div>
+</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span></div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="wildcards_8c.html#a8018251e91212e0a5207072cd6140097">   61</a></span><span class="keyword">static</span> <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>   *<a class="code hl_function" href="wildcards_8c.html#a8018251e91212e0a5207072cd6140097">create_match_tokens</a>(<span class="keywordtype">char</span> **matches, <span class="keywordtype">int</span> count)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>{</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *first;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *current;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">int</span>     i;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    first = NULL;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    current = NULL;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    i = 0;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">while</span> (i &lt; count)</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        current = <a class="code hl_function" href="wildcards__utils_8c.html#a8ba94f788903e04611e3aeb9e3acb21c">create_match_token</a>(matches[i]);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">if</span> (!current)</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            i++;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            continue ;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">if</span> (!first)</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            first = current;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <a class="code hl_function" href="wildcards__utils2_8c.html#a7ea695e3e52f441aba57a8308c829bae">add_token_to_list</a>(&amp;first, current);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        i++;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordflow">return</span> (first);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>}</div>
+</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span></div>
+<div class="foldopen" id="foldopen00098" data-start="{" data-end="}">
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="wildcards_8c.html#a309618f9c087db4b4a0e44193f949674">   98</a></span><a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *<a class="code hl_function" href="wildcards_8c.html#a309618f9c087db4b4a0e44193f949674">replace_with_matches</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *token, <span class="keywordtype">char</span> **matches, <span class="keywordtype">int</span> count)</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>{</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *first;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *current;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *next;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">if</span> (count == 0)</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">return</span> (token);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    next = token-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    first = <a class="code hl_function" href="wildcards_8c.html#a8018251e91212e0a5207072cd6140097">create_match_tokens</a>(matches, count);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">if</span> (first)</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    {</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        current = first;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">while</span> (current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>)</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            current = current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a> = next;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    }</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <a class="code hl_function" href="wildcards__matching_8c.html#afd151086a244df865cd35f62aa2ea123">free_token_content</a>(token);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    free(token);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keywordflow">if</span> (first)</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordflow">return</span> (first);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordflow">return</span> (next);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>}</div>
+</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span></div>
+<div class="foldopen" id="foldopen00130" data-start="{" data-end="}">
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="wildcards_8c.html#a40c888e6627ef2a315531633ae3563aa">  130</a></span><span class="keywordtype">void</span>    <a class="code hl_function" href="wildcards_8c.html#a40c888e6627ef2a315531633ae3563aa">expand_wildcards</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *tokens)</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>{</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *current;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *prev;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordtype">char</span>    **matches;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordtype">int</span>     count;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    current = tokens;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    prev = NULL;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">while</span> (current)</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    {</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        <span class="keywordflow">if</span> (current-&gt;<a class="code hl_variable" href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">type</a> == <a class="code hl_enumvalue" href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea28b529bc6cf86659d134593d58a27be5">TOKEN_WORD</a> &amp;&amp; <a class="code hl_function" href="wildcards_8c.html#a6e861c02aa914e731146c52361e869c0">contains_wildcard</a>(current-&gt;<a class="code hl_variable" href="structs__token.html#a21b454c179e1e31383371d09385b9c59">value</a>))</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        {</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            count = <a class="code hl_function" href="wildcards__utils_8c.html#a1dfc963ad7e43343473b6fec99d9fd01">count_matching_files</a>(current-&gt;<a class="code hl_variable" href="structs__token.html#a21b454c179e1e31383371d09385b9c59">value</a>);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>            <span class="keywordflow">if</span> (count &gt; 0)</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                <a class="code hl_function" href="wildcards__matching_8c.html#aa517a3f4008a8401a78a8ba371d8f668">process_wildcard_matches</a>(current, prev, &amp;matches, count);</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        }</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        prev = current;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        <span class="keywordflow">if</span> (current)</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            current = current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>}</div>
+</div>
+<div class="ttc" id="aminishell_8h_html"><div class="ttname"><a href="minishell_8h.html">minishell.h</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a76a354e93d720f05344590ec8aa222dea28b529bc6cf86659d134593d58a27be5"><div class="ttname"><a href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea28b529bc6cf86659d134593d58a27be5">TOKEN_WORD</a></div><div class="ttdeci">@ TOKEN_WORD</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00072">minishell.h:72</a></div></div>
+<div class="ttc" id="aminishell_8h_html_aead06bc7a81ebdd60cbdcf6b3b8e51d4"><div class="ttname"><a href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a></div><div class="ttdeci">struct s_token t_token</div></div>
+<div class="ttc" id="astructs__token_html_a21b454c179e1e31383371d09385b9c59"><div class="ttname"><a href="structs__token.html#a21b454c179e1e31383371d09385b9c59">s_token::value</a></div><div class="ttdeci">char * value</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00088">minishell.h:88</a></div></div>
+<div class="ttc" id="astructs__token_html_a350680c70abb7e7173240477e92dc0a3"><div class="ttname"><a href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">s_token::type</a></div><div class="ttdeci">t_token_type type</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00089">minishell.h:89</a></div></div>
+<div class="ttc" id="astructs__token_html_a5dae434205818bfc83a61809d4a34a29"><div class="ttname"><a href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">s_token::next</a></div><div class="ttdeci">struct s_token * next</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00091">minishell.h:91</a></div></div>
+<div class="ttc" id="awildcards_8c_html_a309618f9c087db4b4a0e44193f949674"><div class="ttname"><a href="wildcards_8c.html#a309618f9c087db4b4a0e44193f949674">replace_with_matches</a></div><div class="ttdeci">t_token * replace_with_matches(t_token *token, char **matches, int count)</div><div class="ttdoc">Remplace un token wildcard par les fichiers correspondants.</div><div class="ttdef"><b>Definition</b> <a href="#l00098">wildcards.c:98</a></div></div>
+<div class="ttc" id="awildcards_8c_html_a40c888e6627ef2a315531633ae3563aa"><div class="ttname"><a href="wildcards_8c.html#a40c888e6627ef2a315531633ae3563aa">expand_wildcards</a></div><div class="ttdeci">void expand_wildcards(t_token *tokens)</div><div class="ttdoc">Parcourt et expanse tous les wildcards dans les tokens.</div><div class="ttdef"><b>Definition</b> <a href="#l00130">wildcards.c:130</a></div></div>
+<div class="ttc" id="awildcards_8c_html_a6e861c02aa914e731146c52361e869c0"><div class="ttname"><a href="wildcards_8c.html#a6e861c02aa914e731146c52361e869c0">contains_wildcard</a></div><div class="ttdeci">int contains_wildcard(const char *str)</div><div class="ttdoc">Vérifie si une chaîne contient un wildcard non protégé</div><div class="ttdef"><b>Definition</b> <a href="#l00024">wildcards.c:24</a></div></div>
+<div class="ttc" id="awildcards_8c_html_a8018251e91212e0a5207072cd6140097"><div class="ttname"><a href="wildcards_8c.html#a8018251e91212e0a5207072cd6140097">create_match_tokens</a></div><div class="ttdeci">static t_token * create_match_tokens(char **matches, int count)</div><div class="ttdoc">Crée les tokens correspondants aux fichiers trouvés.</div><div class="ttdef"><b>Definition</b> <a href="#l00061">wildcards.c:61</a></div></div>
+<div class="ttc" id="awildcards__matching_8c_html_aa517a3f4008a8401a78a8ba371d8f668"><div class="ttname"><a href="wildcards__matching_8c.html#aa517a3f4008a8401a78a8ba371d8f668">process_wildcard_matches</a></div><div class="ttdeci">void process_wildcard_matches(t_token *current, t_token *prev, char ***matches_ptr, int count)</div><div class="ttdoc">Traite les correspondances wildcards pour un token.</div><div class="ttdef"><b>Definition</b> <a href="wildcards__matching_8c_source.html#l00060">wildcards_matching.c:60</a></div></div>
+<div class="ttc" id="awildcards__matching_8c_html_afd151086a244df865cd35f62aa2ea123"><div class="ttname"><a href="wildcards__matching_8c.html#afd151086a244df865cd35f62aa2ea123">free_token_content</a></div><div class="ttdeci">void free_token_content(t_token *token)</div><div class="ttdoc">Libère le contenu d&#39;un token sans libérer le token.</div><div class="ttdef"><b>Definition</b> <a href="wildcards__matching_8c_source.html#l00113">wildcards_matching.c:113</a></div></div>
+<div class="ttc" id="awildcards__utils2_8c_html_a7ea695e3e52f441aba57a8308c829bae"><div class="ttname"><a href="wildcards__utils2_8c.html#a7ea695e3e52f441aba57a8308c829bae">add_token_to_list</a></div><div class="ttdeci">void add_token_to_list(t_token **first, t_token *new)</div><div class="ttdoc">Ajoute un token à la fin d&#39;une liste chaînée.</div><div class="ttdef"><b>Definition</b> <a href="wildcards__utils2_8c_source.html#l00078">wildcards_utils2.c:78</a></div></div>
+<div class="ttc" id="awildcards__utils_8c_html_a1dfc963ad7e43343473b6fec99d9fd01"><div class="ttname"><a href="wildcards__utils_8c.html#a1dfc963ad7e43343473b6fec99d9fd01">count_matching_files</a></div><div class="ttdeci">int count_matching_files(const char *pattern)</div><div class="ttdoc">Compte les fichiers correspondant à un motif.</div><div class="ttdef"><b>Definition</b> <a href="wildcards__utils_8c_source.html#l00025">wildcards_utils.c:25</a></div></div>
+<div class="ttc" id="awildcards__utils_8c_html_a8ba94f788903e04611e3aeb9e3acb21c"><div class="ttname"><a href="wildcards__utils_8c.html#a8ba94f788903e04611e3aeb9e3acb21c">create_match_token</a></div><div class="ttdeci">t_token * create_match_token(char *value)</div><div class="ttdoc">Crée un nouveau token de type WORD.</div><div class="ttdef"><b>Definition</b> <a href="wildcards__utils_8c_source.html#l00165">wildcards_utils.c:165</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_f56fbb29df4c6865e043ebdb841174af.html">wildcards</a></li><li class="navelem"><a class="el" href="wildcards_8c.html">wildcards.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

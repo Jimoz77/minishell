@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/executor/executor_heredoc.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__heredoc_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier executor_heredoc.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="executor__heredoc_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a299b8b851305445619aa64679397df79" id="r_a299b8b851305445619aa64679397df79"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a299b8b851305445619aa64679397df79">append_line_to_content</a> (char *content, char *line)</td></tr>
+<tr class="memdesc:a299b8b851305445619aa64679397df79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute une ligne de contenu à la chaîne de heredoc existante.  <br /></td></tr>
+<tr class="separator:a299b8b851305445619aa64679397df79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa46ef712cc4979df3268bf7c38d5c31e" id="r_aa46ef712cc4979df3268bf7c38d5c31e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa46ef712cc4979df3268bf7c38d5c31e">interupt</a> (char *line)</td></tr>
+<tr class="memdesc:aa46ef712cc4979df3268bf7c38d5c31e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gère l'interruption d'un heredoc (Ctrl+C)  <br /></td></tr>
+<tr class="separator:aa46ef712cc4979df3268bf7c38d5c31e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ec3ae9517b89d2e634829411b0c921d" id="r_a8ec3ae9517b89d2e634829411b0c921d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ec3ae9517b89d2e634829411b0c921d">process_heredoc_line</a> (const char *delimiter, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell, char **content, size_t delim_len)</td></tr>
+<tr class="memdesc:a8ec3ae9517b89d2e634829411b0c921d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traite une ligne de heredoc avec expansion.  <br /></td></tr>
+<tr class="separator:a8ec3ae9517b89d2e634829411b0c921d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a917108418272bf28f307fe8d1f22f487" id="r_a917108418272bf28f307fe8d1f22f487"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a917108418272bf28f307fe8d1f22f487">read_heredoc_input_expanded</a> (const char *delimiter, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a917108418272bf28f307fe8d1f22f487"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit tout le contenu d'un heredoc avec expansion.  <br /></td></tr>
+<tr class="separator:a917108418272bf28f307fe8d1f22f487"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ff093e9be3d148c8d1b576eca49cc52" id="r_a4ff093e9be3d148c8d1b576eca49cc52"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ff093e9be3d148c8d1b576eca49cc52">process_node_heredocs_expanded</a> (<a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a4ff093e9be3d148c8d1b576eca49cc52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traite tous les heredocs d'un nœud avec expansion.  <br /></td></tr>
+<tr class="separator:a4ff093e9be3d148c8d1b576eca49cc52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c71bc281c7c9a2c7590407df084c262" id="r_a1c71bc281c7c9a2c7590407df084c262"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c71bc281c7c9a2c7590407df084c262">process_all_heredocs_expanded</a> (<a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a1c71bc281c7c9a2c7590407df084c262"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traite tous les heredocs dans l'arbre syntaxique avec expansion.  <br /></td></tr>
+<tr class="separator:a1c71bc281c7c9a2c7590407df084c262"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a299b8b851305445619aa64679397df79" name="a299b8b851305445619aa64679397df79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a299b8b851305445619aa64679397df79">&#9670;&#160;</a></span>append_line_to_content()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static char * append_line_to_content </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>content</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>line</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ajoute une ligne de contenu à la chaîne de heredoc existante. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">content</td><td>Contenu existant du heredoc </td></tr>
+    <tr><td class="paramname">line</td><td>Ligne à ajouter </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Nouveau contenu avec la ligne ajoutée, NULL si erreur</dd></dl>
+<p>Concatène la ligne au contenu existant et ajoute un '<br  />
+' :</p><ol type="1">
+<li>Joint content et line</li>
+<li>Ajoute un retour à la ligne</li>
+<li>Libère le contenu original et retourne le nouveau En cas d'erreur d'allocation, retourne NULL. </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc_8c_source.html#l00028">28</a> du fichier <a class="el" href="executor__heredoc_8c_source.html">executor_heredoc.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc_8c_source.html#l00081">process_heredoc_line()</a>.</p>
+
+</div>
+</div>
+<a id="aa46ef712cc4979df3268bf7c38d5c31e" name="aa46ef712cc4979df3268bf7c38d5c31e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa46ef712cc4979df3268bf7c38d5c31e">&#9670;&#160;</a></span>interupt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int interupt </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>line</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gère l'interruption d'un heredoc (Ctrl+C) </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>Ligne en cours de lecture (à libérer) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 0 pour indiquer la fermeture du heredoc</dd></dl>
+<p>Fonction appelée quand g_signal indique une interruption :</p><ol type="1">
+<li>Remet le signal à l'état normal</li>
+<li>Désactive le mode heredoc</li>
+<li>Libère la ligne si elle existe</li>
+<li>Retourne 0 pour fermer le heredoc </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc_8c_source.html#l00054">54</a> du fichier <a class="el" href="executor__heredoc_8c_source.html">executor_heredoc.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="signals_8c_source.html#l00015">g_signal</a>, <a class="el" href="signals_8c_source.html#l00118">set_heredoc_mode()</a>, et <a class="el" href="minishell_8h_source.html#l00033">SIGNAL_NORMAL</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc_8c_source.html#l00081">process_heredoc_line()</a>.</p>
+
+</div>
+</div>
+<a id="a1c71bc281c7c9a2c7590407df084c262" name="a1c71bc281c7c9a2c7590407df084c262"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c71bc281c7c9a2c7590407df084c262">&#9670;&#160;</a></span>process_all_heredocs_expanded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void process_all_heredocs_expanded </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Traite tous les heredocs dans l'arbre syntaxique avec expansion. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>Racine de l'arbre à traiter </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell pour le contexte</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Parcourt récursivement tout l'arbre syntaxique et traite tous les heredocs avant l'exécution. Cette approche permet de traiter tous les heredocs en amont et évite les problèmes de synchronisation lors de l'exécution avec pipes et forks. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc_8c_source.html#l00198">198</a> du fichier <a class="el" href="executor__heredoc_8c_source.html">executor_heredoc.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00120">s_node::left</a>, <a class="el" href="executor__heredoc_8c_source.html#l00198">process_all_heredocs_expanded()</a>, <a class="el" href="executor__heredoc_8c_source.html#l00159">process_node_heredocs_expanded()</a>, et <a class="el" href="minishell_8h_source.html#l00121">s_node::right</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor_8c_source.html#l00163">execute_ast()</a>, <a class="el" href="executor__cmd_8c_source.html#l00029">execute_redir_only()</a>, et <a class="el" href="executor__heredoc_8c_source.html#l00198">process_all_heredocs_expanded()</a>.</p>
+
+</div>
+</div>
+<a id="a8ec3ae9517b89d2e634829411b0c921d" name="a8ec3ae9517b89d2e634829411b0c921d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ec3ae9517b89d2e634829411b0c921d">&#9670;&#160;</a></span>process_heredoc_line()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int process_heredoc_line </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>delimiter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **</td>          <td class="paramname"><span class="paramname"><em>content</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>delim_len</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Traite une ligne de heredoc avec expansion. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">delimiter</td><td>Délimiteur de fin du heredoc </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell pour l'expansion </td></tr>
+    <tr><td class="paramname">content</td><td>Pointeur vers le contenu accumulé </td></tr>
+    <tr><td class="paramname">delim_len</td><td>Longueur du délimiteur </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 pour continuer, 0 pour terminer, -1 si interruption</dd></dl>
+<p>Processus de traitement d'une ligne :</p><ol type="1">
+<li>Active le mode heredoc pour readline</li>
+<li>Lit une ligne avec le prompt "&gt; "</li>
+<li>Vérifie les interruptions (Ctrl+C)</li>
+<li>Compare avec le délimiteur pour voir si on doit terminer</li>
+<li>Applique l'expansion des variables si nécessaire</li>
+<li>Ajoute la ligne au contenu </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc_8c_source.html#l00081">81</a> du fichier <a class="el" href="executor__heredoc_8c_source.html">executor_heredoc.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="executor__heredoc_8c_source.html#l00028">append_line_to_content()</a>, <a class="el" href="executor__heredoc__expansion_8c_source.html#l00125">expand_heredoc_line()</a>, <a class="el" href="signals_8c_source.html#l00015">g_signal</a>, <a class="el" href="executor__heredoc_8c_source.html#l00054">interupt()</a>, <a class="el" href="signals_8c_source.html#l00118">set_heredoc_mode()</a>, et <a class="el" href="minishell_8h_source.html#l00035">SIGNAL_HEREDOC_INTERRUPTED</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc_8c_source.html#l00122">read_heredoc_input_expanded()</a>.</p>
+
+</div>
+</div>
+<a id="a4ff093e9be3d148c8d1b576eca49cc52" name="a4ff093e9be3d148c8d1b576eca49cc52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ff093e9be3d148c8d1b576eca49cc52">&#9670;&#160;</a></span>process_node_heredocs_expanded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void process_node_heredocs_expanded </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Traite tous les heredocs d'un nœud avec expansion. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>Nœud contenant des heredocs à traiter </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell pour l'expansion</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Pour chaque heredoc du nœud :</p><ol type="1">
+<li>Vérifie qu'il n'est pas déjà traité</li>
+<li>Lit le contenu avec expansion</li>
+<li>Convertit le contenu en descripteur de fichier</li>
+<li>Marque le heredoc comme traité Gère les erreurs d'allocation et de conversion. </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc_8c_source.html#l00159">159</a> du fichier <a class="el" href="executor__heredoc_8c_source.html">executor_heredoc.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00128">s_heredoc::content</a>, <a class="el" href="minishell_8h_source.html#l00127">s_heredoc::delimiter</a>, <a class="el" href="minishell_8h_source.html#l00118">s_node::heredocs</a>, <a class="el" href="minishell_8h_source.html#l00131">s_heredoc::next</a>, <a class="el" href="minishell_8h_source.html#l00130">s_heredoc::pipe_fd</a>, <a class="el" href="minishell_8h_source.html#l00129">s_heredoc::processed</a>, <a class="el" href="executor__heredoc_8c_source.html#l00122">read_heredoc_input_expanded()</a>, et <a class="el" href="executor__heredoc__utils_8c_source.html#l00026">string_to_fd()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc_8c_source.html#l00198">process_all_heredocs_expanded()</a>.</p>
+
+</div>
+</div>
+<a id="a917108418272bf28f307fe8d1f22f487" name="a917108418272bf28f307fe8d1f22f487"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a917108418272bf28f307fe8d1f22f487">&#9670;&#160;</a></span>read_heredoc_input_expanded()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static char * read_heredoc_input_expanded </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>delimiter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit tout le contenu d'un heredoc avec expansion. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">delimiter</td><td>Délimiteur de fin du heredoc </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell pour l'expansion </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Contenu complet du heredoc, NULL si erreur</dd></dl>
+<p>Lit ligne par ligne jusqu'au délimiteur :</p><ol type="1">
+<li>Initialise le contenu vide</li>
+<li>Calcule la longueur du délimiteur</li>
+<li>Traite chaque ligne avec <a class="el" href="#a8ec3ae9517b89d2e634829411b0c921d" title="Traite une ligne de heredoc avec expansion.">process_heredoc_line()</a></li>
+<li>S'arrête quand le délimiteur est rencontré ou en cas d'interruption Retourne tout le contenu accumulé ou NULL si interruption. </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc_8c_source.html#l00122">122</a> du fichier <a class="el" href="executor__heredoc_8c_source.html">executor_heredoc.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="executor__heredoc_8c_source.html#l00081">process_heredoc_line()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc_8c_source.html#l00159">process_node_heredocs_expanded()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__heredoc_8c.html">executor_heredoc.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

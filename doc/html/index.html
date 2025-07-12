@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Minishell - Un interpréteur de commandes Unix simplifié</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('index.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Minishell - Un interpréteur de commandes Unix simplifié </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
+Introduction</h1>
+<p>Minishell est un projet d'implémentation d'un shell Unix simplifié développé dans le cadre du cursus 42. Ce programme reproduit les fonctionnalités de base d'un shell comme bash, permettant l'exécution de commandes, la gestion des variables d'environnement, des redirections, des pipes, et des signaux.</p>
+<h1><a class="anchor" id="features_sec"></a>
+Fonctionnalités principales</h1>
+<h2><a class="anchor" id="parsing_subsec"></a>
+1. Analyse lexicale et syntaxique</h2>
+<ul>
+<li><b>Tokenisation</b> : Découpage de l'entrée utilisateur en tokens (mots, opérateurs, redirections)</li>
+<li><b>Gestion des guillemets</b> : Support des guillemets simples et doubles avec règles d'échappement</li>
+<li><b>Parsing</b> : Construction d'un arbre syntaxique abstrait (AST) pour représenter les commandes</li>
+<li><b>Validation syntaxique</b> : Vérification de la validité des commandes avant exécution</li>
+</ul>
+<h2><a class="anchor" id="expansion_subsec"></a>
+2. Expansion des variables et wildcards</h2>
+<ul>
+<li><b>Variables d'environnement</b> : Expansion des variables avec <code>$VAR</code>, <code>$?</code> (code de sortie), <code>$$</code> (PID)</li>
+<li><b>Expansion du tilde</b> : Remplacement de <code>~</code> par le répertoire home</li>
+<li><b>Wildcards</b> : Expansion des motifs <code>*</code> pour correspondre aux fichiers du répertoire courant</li>
+<li><b>Heredocs avec expansion</b> : Support des documents here avec expansion des variables</li>
+</ul>
+<h2><a class="anchor" id="execution_subsec"></a>
+3. Exécution des commandes</h2>
+<ul>
+<li><b>Commandes intégrées (builtins)</b> :<ul>
+<li><code>echo</code> : Affichage de texte avec options (-n)</li>
+<li><code>cd</code> : Changement de répertoire avec gestion de OLDPWD</li>
+<li><code>pwd</code> : Affichage du répertoire courant</li>
+<li><code>export</code> : Définition de variables d'environnement</li>
+<li><code>unset</code> : Suppression de variables d'environnement</li>
+<li><code>env</code> : Affichage de l'environnement</li>
+<li><code>exit</code> : Sortie du shell avec code de retour</li>
+</ul>
+</li>
+<li><b>Commandes externes</b> : Recherche et exécution via PATH</li>
+<li><b>Gestion des processus</b> : Fork/exec pour l'exécution des commandes externes</li>
+</ul>
+<h2><a class="anchor" id="redirection_subsec"></a>
+4. Redirections et pipes</h2>
+<ul>
+<li><b>Redirections d'entrée</b> : <code>&lt;</code> pour rediriger stdin</li>
+<li><b>Redirections de sortie</b> : <code>&gt;</code> (écrasement) et <code>&gt;&gt;</code> (ajout)</li>
+<li><b>Heredocs</b> : <code>&lt;&lt;</code> avec délimiteur pour saisie multi-ligne</li>
+<li><b>Pipes</b> : <code>|</code> pour chaîner les commandes</li>
+<li><b>Parenthèses</b> : Groupement de commandes avec sous-shell</li>
+<li><b>Opérateurs logiques</b> : <code>&amp;&amp;</code> (ET) et <code>||</code> (OU) pour l'exécution conditionnelle</li>
+</ul>
+<h2><a class="anchor" id="signals_subsec"></a>
+5. Gestion des signaux</h2>
+<ul>
+<li><b>SIGINT (Ctrl+C)</b> : Interruption avec comportement adaptatif selon le contexte</li>
+<li><b>SIGQUIT (Ctrl+\)</b> : Ignoré en mode interactif, restauré pour les commandes externes</li>
+<li><b>Mode heredoc</b> : Gestion spéciale des signaux pendant la saisie de documents here</li>
+<li><b>Processus enfants</b> : Restauration des signaux par défaut pour les commandes externes</li>
+</ul>
+<h2><a class="anchor" id="environment_subsec"></a>
+6. Gestion de l'environnement</h2>
+<ul>
+<li><b>Persistance</b> : Sauvegarde/chargement de l'environnement dans un fichier</li>
+<li><b>Variables spéciales</b> : Gestion de SHLVL, PWD, OLDPWD, PATH</li>
+<li><b>Historique</b> : Sauvegarde et chargement de l'historique des commandes</li>
+<li><b>Environnement par défaut</b> : Création d'un environnement minimal si nécessaire</li>
+</ul>
+<h1><a class="anchor" id="architecture_sec"></a>
+Architecture du programme</h1>
+<h2><a class="anchor" id="modules_subsec"></a>
+Organisation modulaire</h2>
+<p>Le programme est organisé en plusieurs modules spécialisés :</p>
+<ul>
+<li><b><a class="el" href="main_8c.html">main.c</a></b> : Point d'entrée, initialisation de l'environnement et lancement de la boucle principale</li>
+<li><b><a class="el" href="ft__read__line_8c.html">ft_read_line.c</a></b> : Boucle principale de lecture et traitement des entrées utilisateur</li>
+<li><b>tokenizer/</b> : Analyse lexicale et expansion des variables</li>
+<li><b>parse/</b> : Analyse syntaxique et construction de l'AST</li>
+<li><b>executor/</b> : Exécution des commandes et gestion des processus</li>
+<li><b>builtins/</b> : Implémentation des commandes intégrées</li>
+<li><b>wildcards/</b> : Expansion des motifs de fichiers</li>
+<li><b>utils/</b> : Fonctions utilitaires et gestion mémoire</li>
+<li><b><a class="el" href="signals_8c.html">signals.c</a></b> : Gestion des signaux système</li>
+</ul>
+<h2><a class="anchor" id="dataflow_subsec"></a>
+Flux de données</h2>
+<ol type="1">
+<li><b>Saisie utilisateur</b> → Lecture avec readline()</li>
+<li><b>Tokenisation</b> → Découpage en tokens typés</li>
+<li><b>Validation syntaxique</b> → Vérification des règles grammaticales</li>
+<li><b>Expansion</b> → Variables, wildcards, et échappement des guillemets</li>
+<li><b>Parsing</b> → Construction de l'arbre syntaxique abstrait</li>
+<li><b>Préparation</b> → Traitement des heredocs et préparation de l'exécution</li>
+<li><b>Exécution</b> → Lancement des commandes selon le type de nœud AST</li>
+<li><b>Nettoyage</b> → Libération des ressources et mise à jour de l'état</li>
+</ol>
+<h2><a class="anchor" id="memory_subsec"></a>
+Gestion mémoire</h2>
+<ul>
+<li><b>Allocation dynamique</b> : Utilisation systématique de malloc/free</li>
+<li><b>Structures chaînées</b> : Listes de tokens, parties de mots, redirections</li>
+<li><b>Arbre syntaxique</b> : AST avec libération récursive</li>
+<li><b>Prévention des fuites</b> : Nettoyage systématique en cas d'erreur</li>
+<li><b>Fonctions utilitaires</b> : Outils de duplication et libération de tableaux</li>
+</ul>
+<h1><a class="anchor" id="implementation_sec"></a>
+Détails d'implémentation</h1>
+<h2><a class="anchor" id="tokenizer_detail"></a>
+Tokeniseur</h2>
+<p>Le tokeniseur traite l'entrée caractère par caractère en tenant compte :</p><ul>
+<li>Des états de guillemets (simples/doubles)</li>
+<li>Des caractères d'échappement</li>
+<li>Des opérateurs spéciaux (|, &amp;, &lt;, &gt;, (, ))</li>
+<li>Des espaces et délimiteurs</li>
+</ul>
+<h2><a class="anchor" id="parser_detail"></a>
+Analyseur syntaxique</h2>
+<p>L'analyseur utilise une approche de descente récursive pour construire l'AST :</p><ul>
+<li>Grammaire LL(1) adaptée aux règles shell</li>
+<li>Gestion de la précédence des opérateurs</li>
+<li>Validation des séquences de tokens</li>
+<li>Construction incrémentale de l'arbre</li>
+</ul>
+<h2><a class="anchor" id="executor_detail"></a>
+Exécuteur</h2>
+<p>L'exécuteur parcourt l'AST et traite chaque type de nœud :</p><ul>
+<li><b>Nœuds commande</b> : Fork/exec ou builtin</li>
+<li><b>Nœuds pipe</b> : Création de tubes et liaison des processus</li>
+<li><b>Nœuds logiques</b> : Exécution conditionnelle selon le code de sortie</li>
+<li><b>Nœuds parenthèses</b> : Création de sous-shell</li>
+</ul>
+<h1><a class="anchor" id="usage_sec"></a>
+Utilisation</h1>
+<div class="fragment"><div class="line">./minishell</div>
+<div class="line">minishell&gt; echo &quot;Hello World&quot;</div>
+<div class="line">Hello World</div>
+<div class="line">minishell&gt; ls -la | grep minishell</div>
+<div class="line">minishell&gt; export VAR=value</div>
+<div class="line">minishell&gt; echo $VAR</div>
+<div class="line">value</div>
+<div class="line">minishell&gt; cd .. &amp;&amp; pwd</div>
+<div class="line">minishell&gt; cat &lt;&lt; EOF</div>
+<div class="line">&gt; line 1</div>
+<div class="line">&gt; line 2</div>
+<div class="line">&gt; EOF</div>
+<div class="line">line 1</div>
+<div class="line">line 2</div>
+<div class="line">minishell&gt; exit</div>
+</div><!-- fragment --><h1><a class="anchor" id="limitations_sec"></a>
+Limitations et différences avec bash</h1>
+<ul>
+<li>Pas de support des fonctions shell</li>
+<li>Pas d'expansion d'accolades { }</li>
+<li>Pas de substitution de commandes ou $( )</li>
+<li>Pas d'expansion arithmétique $(( ))</li>
+<li>Limitations sur certaines options des builtins</li>
+<li>Pas de support des alias</li>
+</ul>
+<h1><a class="anchor" id="compilation_sec"></a>
+Compilation</h1>
+<div class="fragment"><div class="line">make</div>
+</div><!-- fragment --><p>Dépendances :</p><ul>
+<li>libreadline-dev (pour readline)</li>
+<li>libft (bibliothèque personnelle incluse)</li>
+</ul>
+<dl class="section author"><dt>Auteur</dt><dd>jimpa, lsadikaj </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2025 </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0</dd></dl>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ac</td><td>Nombre d'arguments (non utilisé) </td></tr>
+    <tr><td class="paramname">av</td><td>Tableau d'arguments (non utilisé) </td></tr>
+    <tr><td class="paramname">envp</td><td>Tableau d'environnement initial du système </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int Code de sortie du programme (toujours 0) </dd></dl>
+</div></div><!-- PageDoc -->
+<a href="doxygen_crawl.html"></a>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

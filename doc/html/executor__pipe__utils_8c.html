@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/executor/executor_pipe_utils.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__pipe__utils_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier executor_pipe_utils.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="executor__pipe__utils_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:aaceb959e779d678b911cf1fd558ec277" id="r_aaceb959e779d678b911cf1fd558ec277"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaceb959e779d678b911cf1fd558ec277">handle_pipe_status</a> (int status)</td></tr>
+<tr class="memdesc:aaceb959e779d678b911cf1fd558ec277"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traite le code de retour d'un processus dans un contexte de pipe.  <br /></td></tr>
+<tr class="separator:aaceb959e779d678b911cf1fd558ec277"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bd8f69066c204482770f21c76c7cfeb" id="r_a8bd8f69066c204482770f21c76c7cfeb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bd8f69066c204482770f21c76c7cfeb">process_envar_and_unquote</a> (<a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *tokens, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a8bd8f69066c204482770f21c76c7cfeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traite l'expansion des variables et la suppression des guillemets.  <br /></td></tr>
+<tr class="separator:a8bd8f69066c204482770f21c76c7cfeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a370578141f8d0819f9ed163ed25b2df7" id="r_a370578141f8d0819f9ed163ed25b2df7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a370578141f8d0819f9ed163ed25b2df7">prepare_cmd_tokens</a> (<a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a370578141f8d0819f9ed163ed25b2df7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prépare les tokens de commande pour l'exécution dans un pipe.  <br /></td></tr>
+<tr class="separator:a370578141f8d0819f9ed163ed25b2df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b3c74079f52c3f9615f3175e74dd22e" id="r_a0b3c74079f52c3f9615f3175e74dd22e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b3c74079f52c3f9615f3175e74dd22e">execute_cmd_builtin_or_exec</a> (<a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, char ***envp, <a class="el" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a> *red)</td></tr>
+<tr class="memdesc:a0b3c74079f52c3f9615f3175e74dd22e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exécute une commande (builtin ou externe) dans le contexte d'un pipe.  <br /></td></tr>
+<tr class="separator:a0b3c74079f52c3f9615f3175e74dd22e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a0b3c74079f52c3f9615f3175e74dd22e" name="a0b3c74079f52c3f9615f3175e74dd22e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b3c74079f52c3f9615f3175e74dd22e">&#9670;&#160;</a></span>execute_cmd_builtin_or_exec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int execute_cmd_builtin_or_exec </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char ***</td>          <td class="paramname"><span class="paramname"><em>envp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a> *</td>          <td class="paramname"><span class="paramname"><em>red</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Exécute une commande (builtin ou externe) dans le contexte d'un pipe. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>Nœud de commande à exécuter </td></tr>
+    <tr><td class="paramname">envp</td><td>Pointeur vers l'environnement </td></tr>
+    <tr><td class="paramname">red</td><td>Structure de redirection configurée </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int Code de retour de l'exécution</dd></dl>
+<p>Dispatche l'exécution selon le type de commande :</p><ul>
+<li>Builtin : exécute directement et nettoie les redirections</li>
+<li>Externe : résout le chemin et exécute avec execve()</li>
+</ul>
+<p>Pour les externes : cette fonction ne retourne qu'en cas d'erreur (execve ne retourne jamais si succès). </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__pipe__utils_8c_source.html#l00128">128</a> du fichier <a class="el" href="executor__pipe__utils_8c_source.html">executor_pipe_utils.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="executor__redir_8c_source.html#l00032">close_redirect_fds()</a>, <a class="el" href="minishell_8h_source.html#l00117">s_node::cmd</a>, <a class="el" href="ft__is__builtin_8c_source.html#l00109">execute_builtin()</a>, <a class="el" href="ft__is__builtin_8c_source.html#l00149">ft_is_builtin()</a>, <a class="el" href="ft__path__finder_8c_source.html#l00130">ft_path_finder()</a>, <a class="el" href="executor__cmd__utils_8c_source.html#l00046">handle_direct_path()</a>, et <a class="el" href="executor__redir_8c_source.html#l00056">restore_std_fds()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__pipe_8c_source.html#l00042">execute_in_pipe_context()</a>.</p>
+
+</div>
+</div>
+<a id="aaceb959e779d678b911cf1fd558ec277" name="aaceb959e779d678b911cf1fd558ec277"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaceb959e779d678b911cf1fd558ec277">&#9670;&#160;</a></span>handle_pipe_status()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int handle_pipe_status </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>status</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Traite le code de retour d'un processus dans un contexte de pipe. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>Code de statut retourné par waitpid() </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int Code de retour normalisé</dd></dl>
+<p>Analyse le statut de sortie dans le contexte des pipes :</p><ul>
+<li>Si terminé par signal : retourne 128 + numéro du signal</li>
+<li>Si SIGQUIT : affiche "Quit (core dumped)"</li>
+<li>Si sortie normale : retourne le code de sortie</li>
+<li>Par défaut : retourne 1 </li>
+</ul>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__pipe__utils_8c_source.html#l00027">27</a> du fichier <a class="el" href="executor__pipe__utils_8c_source.html">executor_pipe_utils.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__pipe_8c_source.html#l00137">execute_pipe_node()</a>.</p>
+
+</div>
+</div>
+<a id="a370578141f8d0819f9ed163ed25b2df7" name="a370578141f8d0819f9ed163ed25b2df7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a370578141f8d0819f9ed163ed25b2df7">&#9670;&#160;</a></span>prepare_cmd_tokens()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int prepare_cmd_tokens </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prépare les tokens de commande pour l'exécution dans un pipe. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>Nœud de commande à préparer </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 0 si succès, -1 si erreur</dd></dl>
+<p>Processus de préparation optimisé pour les pipes :</p><ol type="1">
+<li>Sauvegarde les tokens originaux</li>
+<li>Crée de nouveaux tokens à partir de la commande</li>
+<li>Applique l'expansion et la suppression des guillemets</li>
+<li>Met à jour la commande avec les valeurs finales</li>
+<li>Restaure les tokens originaux et libère les temporaires </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__pipe__utils_8c_source.html#l00096">96</a> du fichier <a class="el" href="executor__pipe__utils_8c_source.html">executor_pipe_utils.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00117">s_node::cmd</a>, <a class="el" href="executor__cmd__utils6_8c_source.html#l00028">create_tokens_from_cmd()</a>, <a class="el" href="memory__utils2_8c_source.html#l00105">free_tokens()</a>, <a class="el" href="executor__pipe__utils_8c_source.html#l00054">process_envar_and_unquote()</a>, <a class="el" href="minishell_8h_source.html#l00155">s_shell::tokens</a>, et <a class="el" href="executor__cmd__utils_8c_source.html#l00064">update_cmd_from_tokens()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__pipe_8c_source.html#l00042">execute_in_pipe_context()</a>.</p>
+
+</div>
+</div>
+<a id="a8bd8f69066c204482770f21c76c7cfeb" name="a8bd8f69066c204482770f21c76c7cfeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bd8f69066c204482770f21c76c7cfeb">&#9670;&#160;</a></span>process_envar_and_unquote()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void process_envar_and_unquote </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *</td>          <td class="paramname"><span class="paramname"><em>tokens</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Traite l'expansion des variables et la suppression des guillemets. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tokens</td><td>Liste de tokens à traiter </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell avec l'environnement</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Processus en deux étapes :</p><ol type="1">
+<li>Expansion des variables : applique l'expansion sur les tokens non quotés</li>
+<li>Suppression des guillemets : construit les valeurs finales sans guillemets Préserve les tokens entre guillemets simples (pas d'expansion). </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__pipe__utils_8c_source.html#l00054">54</a> du fichier <a class="el" href="executor__pipe__utils_8c_source.html">executor_pipe_utils.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="tokenizer__quotes__utils_8c_source.html#l00124">build_unquoted_value()</a>, <a class="el" href="minishell_8h_source.html#l00091">s_token::next</a>, <a class="el" href="minishell_8h_source.html#l00090">s_token::parts</a>, <a class="el" href="minishell_8h_source.html#l00057">QUOTE_SINGLE</a>, <a class="el" href="envar__to__value2_8c_source.html#l00118">scan_envar_execution_phase()</a>, <a class="el" href="minishell_8h_source.html#l00065">s_word_part::type</a>, et <a class="el" href="minishell_8h_source.html#l00088">s_token::value</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__pipe__utils_8c_source.html#l00096">prepare_cmd_tokens()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__pipe__utils_8c.html">executor_pipe_utils.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

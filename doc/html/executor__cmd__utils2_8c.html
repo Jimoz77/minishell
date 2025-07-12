@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/executor/executor_cmd_utils2.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__cmd__utils2_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier executor_cmd_utils2.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="executor__cmd__utils2_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a22f026a8bd0a24f5c740b831ec961e52" id="r_a22f026a8bd0a24f5c740b831ec961e52"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22f026a8bd0a24f5c740b831ec961e52">find_temp_token</a> (<a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell, int i)</td></tr>
+<tr class="memdesc:a22f026a8bd0a24f5c740b831ec961e52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trouve un token temporaire à la position spécifiée.  <br /></td></tr>
+<tr class="separator:a22f026a8bd0a24f5c740b831ec961e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b62f5307ffebd38742a79afe5fa6d18" id="r_a8b62f5307ffebd38742a79afe5fa6d18"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b62f5307ffebd38742a79afe5fa6d18">setup_single_quote_parts</a> (<a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *current)</td></tr>
+<tr class="memdesc:a8b62f5307ffebd38742a79afe5fa6d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure les parties d'un token pour les guillemets simples.  <br /></td></tr>
+<tr class="separator:a8b62f5307ffebd38742a79afe5fa6d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a655e725b6684ac402c11c794b90a2828" id="r_a655e725b6684ac402c11c794b90a2828"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a655e725b6684ac402c11c794b90a2828">setup_token_parts</a> (<a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *current, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell, int i)</td></tr>
+<tr class="memdesc:a655e725b6684ac402c11c794b90a2828"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure les parties d'un token basé sur un token temporaire.  <br /></td></tr>
+<tr class="separator:a655e725b6684ac402c11c794b90a2828"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf5c7fdc9f9e2cd81187284b925f0ed9" id="r_aaf5c7fdc9f9e2cd81187284b925f0ed9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf5c7fdc9f9e2cd81187284b925f0ed9">create_single_token</a> (char *cmd_arg, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell, int i)</td></tr>
+<tr class="memdesc:aaf5c7fdc9f9e2cd81187284b925f0ed9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée un token unique à partir d'un argument de commande.  <br /></td></tr>
+<tr class="separator:aaf5c7fdc9f9e2cd81187284b925f0ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21e01868e6171c551a94046445713c91" id="r_a21e01868e6171c551a94046445713c91"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21e01868e6171c551a94046445713c91">is_logical_operator</a> (<a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *token)</td></tr>
+<tr class="memdesc:a21e01868e6171c551a94046445713c91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifie si un token est un opérateur logique.  <br /></td></tr>
+<tr class="separator:a21e01868e6171c551a94046445713c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="aaf5c7fdc9f9e2cd81187284b925f0ed9" name="aaf5c7fdc9f9e2cd81187284b925f0ed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf5c7fdc9f9e2cd81187284b925f0ed9">&#9670;&#160;</a></span>create_single_token()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> * create_single_token </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>cmd_arg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Crée un token unique à partir d'un argument de commande. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd_arg</td><td>Argument de commande à transformer en token </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell pour les informations contextuelles </td></tr>
+    <tr><td class="paramname">i</td><td>Position du token dans la séquence </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>t_token* Nouveau token alloué, NULL si erreur</dd></dl>
+<p>Crée un nouveau token de type TOKEN_WORD avec :</p><ul>
+<li>Copie de l'argument comme valeur</li>
+<li>Configuration des parties selon le contexte</li>
+<li>Initialisation de tous les champs En cas d'échec d'allocation, libère la mémoire et retourne NULL. </li>
+</ul>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__cmd__utils2_8c_source.html#l00099">99</a> du fichier <a class="el" href="executor__cmd__utils2_8c_source.html">executor_cmd_utils2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00091">s_token::next</a>, <a class="el" href="minishell_8h_source.html#l00090">s_token::parts</a>, <a class="el" href="executor__cmd__utils2_8c_source.html#l00075">setup_token_parts()</a>, <a class="el" href="minishell_8h_source.html#l00072">TOKEN_WORD</a>, <a class="el" href="minishell_8h_source.html#l00089">s_token::type</a>, et <a class="el" href="minishell_8h_source.html#l00088">s_token::value</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__cmd__utils6_8c_source.html#l00028">create_tokens_from_cmd()</a>.</p>
+
+</div>
+</div>
+<a id="a22f026a8bd0a24f5c740b831ec961e52" name="a22f026a8bd0a24f5c740b831ec961e52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22f026a8bd0a24f5c740b831ec961e52">&#9670;&#160;</a></span>find_temp_token()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> * find_temp_token </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Trouve un token temporaire à la position spécifiée. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shell</td><td>Pointeur vers la structure shell contenant les tokens </td></tr>
+    <tr><td class="paramname">i</td><td>Position du token recherché </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>t_token* Pointeur vers le token à la position i, NULL si non trouvé</dd></dl>
+<p>Parcourt la liste chaînée de tokens jusqu'à atteindre la position demandée. Retourne NULL si shell est NULL, si tokens est NULL, ou si la position dépasse le nombre de tokens disponibles. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__cmd__utils2_8c_source.html#l00026">26</a> du fichier <a class="el" href="executor__cmd__utils2_8c_source.html">executor_cmd_utils2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00091">s_token::next</a>, et <a class="el" href="minishell_8h_source.html#l00155">s_shell::tokens</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__cmd__utils2_8c_source.html#l00075">setup_token_parts()</a>.</p>
+
+</div>
+</div>
+<a id="a21e01868e6171c551a94046445713c91" name="a21e01868e6171c551a94046445713c91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21e01868e6171c551a94046445713c91">&#9670;&#160;</a></span>is_logical_operator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int is_logical_operator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *</td>          <td class="paramname"><span class="paramname"><em>token</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vérifie si un token est un opérateur logique. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">token</td><td>Token à vérifier </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 si c'est un opérateur logique (AND ou OR), 0 sinon</dd></dl>
+<p>Fonction utilitaire qui identifie les opérateurs logiques &amp;&amp; (TOKEN_AND) et || (TOKEN_OR) dans la liste de tokens. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__cmd__utils2_8c_source.html#l00128">128</a> du fichier <a class="el" href="executor__cmd__utils2_8c_source.html">executor_cmd_utils2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00078">TOKEN_AND</a>, <a class="el" href="minishell_8h_source.html#l00079">TOKEN_OR</a>, et <a class="el" href="minishell_8h_source.html#l00089">s_token::type</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__cmd__utils5_8c_source.html#l00049">update_counters()</a>.</p>
+
+</div>
+</div>
+<a id="a8b62f5307ffebd38742a79afe5fa6d18" name="a8b62f5307ffebd38742a79afe5fa6d18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b62f5307ffebd38742a79afe5fa6d18">&#9670;&#160;</a></span>setup_single_quote_parts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void setup_single_quote_parts </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *</td>          <td class="paramname"><span class="paramname"><em>current</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Configure les parties d'un token pour les guillemets simples. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>Token à configurer</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Alloue et initialise une structure <a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> pour représenter un contenu entre guillemets simples. Configure le type à QUOTE_SINGLE et initialise les autres champs à NULL. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__cmd__utils2_8c_source.html#l00052">52</a> du fichier <a class="el" href="executor__cmd__utils2_8c_source.html">executor_cmd_utils2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00064">s_word_part::content</a>, <a class="el" href="minishell_8h_source.html#l00066">s_word_part::next</a>, <a class="el" href="minishell_8h_source.html#l00090">s_token::parts</a>, <a class="el" href="minishell_8h_source.html#l00057">QUOTE_SINGLE</a>, et <a class="el" href="minishell_8h_source.html#l00065">s_word_part::type</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__cmd__utils2_8c_source.html#l00075">setup_token_parts()</a>.</p>
+
+</div>
+</div>
+<a id="a655e725b6684ac402c11c794b90a2828" name="a655e725b6684ac402c11c794b90a2828"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a655e725b6684ac402c11c794b90a2828">&#9670;&#160;</a></span>setup_token_parts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int setup_token_parts </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Configure les parties d'un token basé sur un token temporaire. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>Token à configurer </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell contenant les tokens temporaires </td></tr>
+    <tr><td class="paramname">i</td><td>Position du token de référence </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int Toujours 1 (succès)</dd></dl>
+<p>Trouve le token temporaire correspondant et copie ses caractéristiques de guillemets simples si applicable. Utilisé pour préserver les informations de citation lors de la création de nouveaux tokens. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__cmd__utils2_8c_source.html#l00075">75</a> du fichier <a class="el" href="executor__cmd__utils2_8c_source.html">executor_cmd_utils2.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="executor__cmd__utils2_8c_source.html#l00026">find_temp_token()</a>, <a class="el" href="minishell_8h_source.html#l00090">s_token::parts</a>, <a class="el" href="minishell_8h_source.html#l00057">QUOTE_SINGLE</a>, <a class="el" href="executor__cmd__utils2_8c_source.html#l00052">setup_single_quote_parts()</a>, et <a class="el" href="minishell_8h_source.html#l00065">s_word_part::type</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__cmd__utils2_8c_source.html#l00099">create_single_token()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__cmd__utils2_8c.html">executor_cmd_utils2.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

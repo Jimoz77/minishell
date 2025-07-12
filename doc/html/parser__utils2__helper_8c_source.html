@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell:  Fichier source de source/parser/parser_utils2_helper.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('parser__utils2__helper_8c_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">parser_utils2_helper.c</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="parser__utils2__helper_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*                                                        :::      ::::::::   */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*   parser_utils2_helper.c                             :+:      :+:    :+:   */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*                                                    +:+ +:+         +:+     */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*   By: jimpa &lt;jimpa@student.42.fr&gt;                +#+  +:+       +#+        */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*                                                +#+#+#+#+#+   +#+           */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/*   Created: 2025/06/10 15:40:06 by lsadikaj          #+#    #+#             */</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">/*   Updated: 2025/07/12 19:33:18 by jimpa            ###   ########.fr       */</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="minishell_8h.html">../../include/minishell.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="parser__utils2__helper_8c.html#aad7ea753b530d50106396ae690ef735e">   25</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="parser__utils2__helper_8c.html#aad7ea753b530d50106396ae690ef735e">update_after_redirect</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> **current, <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> **prev,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                                <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> **tokens)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>{</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordflow">if</span> (*prev)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        *current = (*prev)-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        *current = *tokens;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
+</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span></div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="parser__utils2__helper_8c.html#a0d0ee3c3fe86fab6cc75adad16ab33ef">   44</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="parser__utils2__helper_8c.html#a0d0ee3c3fe86fab6cc75adad16ab33ef">update_normal_token</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> **current, <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> **prev,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                                <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *next)</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>{</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    *prev = *current;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    *current = next;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>}</div>
+</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span></div>
+<div class="foldopen" id="foldopen00062" data-start="{" data-end="}">
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="parser__utils2__helper_8c.html#aa646156f8506053df9c298262e06b70e">   62</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="parser__utils2__helper_8c.html#aa646156f8506053df9c298262e06b70e">process_redirection</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *current, <a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *cmd_node,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                                <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> **prev, <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> **tokens)</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>{</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">if</span> (current-&gt;<a class="code hl_variable" href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">type</a> == <a class="code hl_enumvalue" href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea6b61b3b682d388b0bf6b0a09ee7429d4">TOKEN_HEREDOC</a>)</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <a class="code hl_function" href="parser__utils3_8c.html#ab4b077b75d5bd6c97e089d5204167948">add_heredoc</a>(cmd_node, current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>-&gt;<a class="code hl_variable" href="structs__token.html#a21b454c179e1e31383371d09385b9c59">value</a>);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <a class="code hl_function" href="parser__utils2_8c.html#aa5af717e40498788b1496456ba3b4909">add_redirection</a>(cmd_node, current-&gt;<a class="code hl_variable" href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">type</a>, current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>-&gt;<a class="code hl_variable" href="structs__token.html#a21b454c179e1e31383371d09385b9c59">value</a>);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <a class="code hl_function" href="parser__utils2_8c.html#aa5af717e40498788b1496456ba3b4909">add_redirection</a>(cmd_node, current-&gt;<a class="code hl_variable" href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">type</a>, current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>-&gt;<a class="code hl_variable" href="structs__token.html#a21b454c179e1e31383371d09385b9c59">value</a>);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">if</span> (*prev)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <a class="code hl_function" href="memory__utils_8c.html#abff9856ed7aa4110503938ce8a74b5ed">delete_token</a>(current, current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        *tokens = current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>}</div>
+</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span></div>
+<div class="foldopen" id="foldopen00088" data-start="{" data-end="}">
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="parser__utils2__helper_8c.html#a0c4ee6592e05deccd895b7d6f1f91db6">   88</a></span><span class="keyword">static</span> <a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *<a class="code hl_function" href="parser__utils2__helper_8c.html#a0c4ee6592e05deccd895b7d6f1f91db6">extract_redirections</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> **tokens, <a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *cmd_node)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>{</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *current;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *prev;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *next;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">if</span> (!tokens || !*tokens || !cmd_node)</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">return</span> (cmd_node);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    current = *tokens;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    prev = NULL;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">while</span> (current)</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        next = current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="parser__syntax_8c.html#ab5dda2930e0c42fee40f949a1e58b89d">is_redirection</a>(current-&gt;<a class="code hl_variable" href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">type</a>) &amp;&amp; current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            &amp;&amp; current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>-&gt;<a class="code hl_variable" href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">type</a> == <a class="code hl_enumvalue" href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea28b529bc6cf86659d134593d58a27be5">TOKEN_WORD</a>)</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <a class="code hl_function" href="parser__utils2__helper_8c.html#aa646156f8506053df9c298262e06b70e">process_redirection</a>(current, cmd_node, &amp;prev, tokens);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <a class="code hl_function" href="parser__utils2__helper_8c.html#aad7ea753b530d50106396ae690ef735e">update_after_redirect</a>(&amp;current, &amp;prev, tokens);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <a class="code hl_function" href="parser__utils2__helper_8c.html#a0d0ee3c3fe86fab6cc75adad16ab33ef">update_normal_token</a>(&amp;current, &amp;prev, next);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">return</span> (cmd_node);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>}</div>
+</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
+<div class="foldopen" id="foldopen00122" data-start="{" data-end="}">
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="parser__utils2__helper_8c.html#a12015f873f939ea19721a83a144754a4">  122</a></span><a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a>    *<a class="code hl_function" href="parser__utils2__helper_8c.html#a12015f873f939ea19721a83a144754a4">parse_command_with_redirections</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> **tokens)</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>{</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a>    *cmd_node;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordflow">if</span> (!tokens || !*tokens)</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordflow">return</span> (NULL);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    cmd_node = <a class="code hl_function" href="parser__utils2_8c.html#a30ceb109764be176224d3fbd662e2a9f">create_cmd_node</a>(*tokens);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordflow">if</span> (!cmd_node)</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordflow">return</span> (NULL);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <a class="code hl_function" href="parser__utils2__helper_8c.html#a0c4ee6592e05deccd895b7d6f1f91db6">extract_redirections</a>(tokens, cmd_node);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">return</span> (cmd_node);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}</div>
+</div>
+<div class="ttc" id="amemory__utils_8c_html_abff9856ed7aa4110503938ce8a74b5ed"><div class="ttname"><a href="memory__utils_8c.html#abff9856ed7aa4110503938ce8a74b5ed">delete_token</a></div><div class="ttdeci">t_token * delete_token(t_token *head, t_token *target)</div><div class="ttdoc">Supprime un token spécifique d&#39;une liste chaînée.</div><div class="ttdef"><b>Definition</b> <a href="memory__utils_8c_source.html#l00127">memory_utils.c:127</a></div></div>
+<div class="ttc" id="aminishell_8h_html"><div class="ttname"><a href="minishell_8h.html">minishell.h</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a3f46128da7b9ed932ecb00df9677e301"><div class="ttname"><a href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a></div><div class="ttdeci">struct s_node t_node</div></div>
+<div class="ttc" id="aminishell_8h_html_a76a354e93d720f05344590ec8aa222dea28b529bc6cf86659d134593d58a27be5"><div class="ttname"><a href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea28b529bc6cf86659d134593d58a27be5">TOKEN_WORD</a></div><div class="ttdeci">@ TOKEN_WORD</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00072">minishell.h:72</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a76a354e93d720f05344590ec8aa222dea6b61b3b682d388b0bf6b0a09ee7429d4"><div class="ttname"><a href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea6b61b3b682d388b0bf6b0a09ee7429d4">TOKEN_HEREDOC</a></div><div class="ttdeci">@ TOKEN_HEREDOC</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00077">minishell.h:77</a></div></div>
+<div class="ttc" id="aminishell_8h_html_aead06bc7a81ebdd60cbdcf6b3b8e51d4"><div class="ttname"><a href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a></div><div class="ttdeci">struct s_token t_token</div></div>
+<div class="ttc" id="aparser__syntax_8c_html_ab5dda2930e0c42fee40f949a1e58b89d"><div class="ttname"><a href="parser__syntax_8c.html#ab5dda2930e0c42fee40f949a1e58b89d">is_redirection</a></div><div class="ttdeci">int is_redirection(t_token_type type)</div><div class="ttdoc">Vérifie si un type de token est une redirection.</div><div class="ttdef"><b>Definition</b> <a href="parser__syntax_8c_source.html#l00040">parser_syntax.c:40</a></div></div>
+<div class="ttc" id="aparser__utils2_8c_html_a30ceb109764be176224d3fbd662e2a9f"><div class="ttname"><a href="parser__utils2_8c.html#a30ceb109764be176224d3fbd662e2a9f">create_cmd_node</a></div><div class="ttdeci">t_node * create_cmd_node(t_token *tokens)</div><div class="ttdoc">Crée un nœud de commande à partir de tokens.</div><div class="ttdef"><b>Definition</b> <a href="parser__utils2_8c_source.html#l00076">parser_utils2.c:76</a></div></div>
+<div class="ttc" id="aparser__utils2_8c_html_aa5af717e40498788b1496456ba3b4909"><div class="ttname"><a href="parser__utils2_8c.html#aa5af717e40498788b1496456ba3b4909">add_redirection</a></div><div class="ttdeci">void add_redirection(t_node *node, t_token_type type, char *filename)</div><div class="ttdoc">Ajoute une redirection à un nœud de commande.</div><div class="ttdef"><b>Definition</b> <a href="parser__utils2_8c_source.html#l00110">parser_utils2.c:110</a></div></div>
+<div class="ttc" id="aparser__utils2__helper_8c_html_a0c4ee6592e05deccd895b7d6f1f91db6"><div class="ttname"><a href="parser__utils2__helper_8c.html#a0c4ee6592e05deccd895b7d6f1f91db6">extract_redirections</a></div><div class="ttdeci">static t_node * extract_redirections(t_token **tokens, t_node *cmd_node)</div><div class="ttdoc">Extrait toutes les redirections d&#39;une liste de tokens.</div><div class="ttdef"><b>Definition</b> <a href="#l00088">parser_utils2_helper.c:88</a></div></div>
+<div class="ttc" id="aparser__utils2__helper_8c_html_a0d0ee3c3fe86fab6cc75adad16ab33ef"><div class="ttname"><a href="parser__utils2__helper_8c.html#a0d0ee3c3fe86fab6cc75adad16ab33ef">update_normal_token</a></div><div class="ttdeci">static void update_normal_token(t_token **current, t_token **prev, t_token *next)</div><div class="ttdoc">Met à jour les pointeurs pour un token normal.</div><div class="ttdef"><b>Definition</b> <a href="#l00044">parser_utils2_helper.c:44</a></div></div>
+<div class="ttc" id="aparser__utils2__helper_8c_html_a12015f873f939ea19721a83a144754a4"><div class="ttname"><a href="parser__utils2__helper_8c.html#a12015f873f939ea19721a83a144754a4">parse_command_with_redirections</a></div><div class="ttdeci">t_node * parse_command_with_redirections(t_token **tokens)</div><div class="ttdoc">Parse une commande avec ses redirections.</div><div class="ttdef"><b>Definition</b> <a href="#l00122">parser_utils2_helper.c:122</a></div></div>
+<div class="ttc" id="aparser__utils2__helper_8c_html_aa646156f8506053df9c298262e06b70e"><div class="ttname"><a href="parser__utils2__helper_8c.html#aa646156f8506053df9c298262e06b70e">process_redirection</a></div><div class="ttdeci">static void process_redirection(t_token *current, t_node *cmd_node, t_token **prev, t_token **tokens)</div><div class="ttdoc">Traite une redirection et met à jour les pointeurs.</div><div class="ttdef"><b>Definition</b> <a href="#l00062">parser_utils2_helper.c:62</a></div></div>
+<div class="ttc" id="aparser__utils2__helper_8c_html_aad7ea753b530d50106396ae690ef735e"><div class="ttname"><a href="parser__utils2__helper_8c.html#aad7ea753b530d50106396ae690ef735e">update_after_redirect</a></div><div class="ttdeci">static void update_after_redirect(t_token **current, t_token **prev, t_token **tokens)</div><div class="ttdoc">Met à jour les pointeurs après traitement d&#39;une redirection.</div><div class="ttdef"><b>Definition</b> <a href="#l00025">parser_utils2_helper.c:25</a></div></div>
+<div class="ttc" id="aparser__utils3_8c_html_ab4b077b75d5bd6c97e089d5204167948"><div class="ttname"><a href="parser__utils3_8c.html#ab4b077b75d5bd6c97e089d5204167948">add_heredoc</a></div><div class="ttdeci">void add_heredoc(t_node *node, char *delimiter)</div><div class="ttdoc">Ajoute un heredoc à la liste d&#39;un nœud.</div><div class="ttdef"><b>Definition</b> <a href="parser__utils3_8c_source.html#l00083">parser_utils3.c:83</a></div></div>
+<div class="ttc" id="astructs__token_html_a21b454c179e1e31383371d09385b9c59"><div class="ttname"><a href="structs__token.html#a21b454c179e1e31383371d09385b9c59">s_token::value</a></div><div class="ttdeci">char * value</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00088">minishell.h:88</a></div></div>
+<div class="ttc" id="astructs__token_html_a350680c70abb7e7173240477e92dc0a3"><div class="ttname"><a href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">s_token::type</a></div><div class="ttdeci">t_token_type type</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00089">minishell.h:89</a></div></div>
+<div class="ttc" id="astructs__token_html_a5dae434205818bfc83a61809d4a34a29"><div class="ttname"><a href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">s_token::next</a></div><div class="ttdeci">struct s_token * next</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00091">minishell.h:91</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_0713e853f9be800659de034b50d5eb34.html">parser</a></li><li class="navelem"><a class="el" href="parser__utils2__helper_8c.html">parser_utils2_helper.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

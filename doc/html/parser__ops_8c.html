@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/parser/parser_ops.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('parser__ops_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier parser_ops.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="parser__ops_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a6a9b1d6a048b98c883383059d7e7403d" id="r_a6a9b1d6a048b98c883383059d7e7403d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a9b1d6a048b98c883383059d7e7403d">get_token_at</a> (<a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *tokens, int pos)</td></tr>
+<tr class="memdesc:a6a9b1d6a048b98c883383059d7e7403d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Récupère un token à une position donnée dans la liste chaînée.  <br /></td></tr>
+<tr class="separator:a6a9b1d6a048b98c883383059d7e7403d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eb3ea75ea7b975cb0ded48e33b927f2" id="r_a0eb3ea75ea7b975cb0ded48e33b927f2"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0eb3ea75ea7b975cb0ded48e33b927f2">copy_word_content</a> (<a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *new_current, <a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *current)</td></tr>
+<tr class="memdesc:a0eb3ea75ea7b975cb0ded48e33b927f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copie le contenu d'une partie de mot.  <br /></td></tr>
+<tr class="separator:a0eb3ea75ea7b975cb0ded48e33b927f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a861e749474a19f5a2d966583507f37" id="r_a1a861e749474a19f5a2d966583507f37"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a861e749474a19f5a2d966583507f37">create_new_word_part</a> (<a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *current)</td></tr>
+<tr class="memdesc:a1a861e749474a19f5a2d966583507f37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée une nouvelle partie de mot en dupliquant une partie existante.  <br /></td></tr>
+<tr class="separator:a1a861e749474a19f5a2d966583507f37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff42e284d639219c9c234539122025af" id="r_aff42e284d639219c9c234539122025af"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff42e284d639219c9c234539122025af">add_word_part_to_list</a> (<a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> **new_parts, <a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> **prev, <a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *new_current)</td></tr>
+<tr class="memdesc:aff42e284d639219c9c234539122025af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute une partie de mot à la liste chaînée.  <br /></td></tr>
+<tr class="separator:aff42e284d639219c9c234539122025af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6338e0d1188c9a30c3e5d1a814cafc2" id="r_ab6338e0d1188c9a30c3e5d1a814cafc2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6338e0d1188c9a30c3e5d1a814cafc2">duplicate_word_parts</a> (<a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *parts)</td></tr>
+<tr class="memdesc:ab6338e0d1188c9a30c3e5d1a814cafc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Duplique une liste chaînée de parties de mots.  <br /></td></tr>
+<tr class="separator:ab6338e0d1188c9a30c3e5d1a814cafc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="aff42e284d639219c9c234539122025af" name="aff42e284d639219c9c234539122025af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff42e284d639219c9c234539122025af">&#9670;&#160;</a></span>add_word_part_to_list()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void add_word_part_to_list </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> **</td>          <td class="paramname"><span class="paramname"><em>new_parts</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> **</td>          <td class="paramname"><span class="paramname"><em>prev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *</td>          <td class="paramname"><span class="paramname"><em>new_current</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ajoute une partie de mot à la liste chaînée. </p>
+<p>Intègre une nouvelle partie de mot dans la liste, mettant à jour les pointeurs appropriés pour maintenir la chaîne.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">new_parts</td><td>Pointeur vers le pointeur de la liste des nouvelles parties </td></tr>
+    <tr><td class="paramname">prev</td><td>Pointeur vers le pointeur de la partie précédente </td></tr>
+    <tr><td class="paramname">new_current</td><td>Pointeur vers la nouvelle partie à ajouter </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="parser__ops_8c_source.html#l00096">96</a> du fichier <a class="el" href="parser__ops_8c_source.html">parser_ops.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00066">s_word_part::next</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="parser__ops_8c_source.html#l00115">duplicate_word_parts()</a>.</p>
+
+</div>
+</div>
+<a id="a0eb3ea75ea7b975cb0ded48e33b927f2" name="a0eb3ea75ea7b975cb0ded48e33b927f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eb3ea75ea7b975cb0ded48e33b927f2">&#9670;&#160;</a></span>copy_word_content()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int copy_word_content </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *</td>          <td class="paramname"><span class="paramname"><em>new_current</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *</td>          <td class="paramname"><span class="paramname"><em>current</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copie le contenu d'une partie de mot. </p>
+<p>Duplique le contenu textuel d'une partie de mot, gérant le cas où le contenu peut être NULL.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">new_current</td><td>Pointeur vers la nouvelle partie de mot à remplir </td></tr>
+    <tr><td class="paramname">current</td><td>Pointeur vers la partie de mot source </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 si la copie a réussi, 0 en cas d'erreur d'allocation </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="parser__ops_8c_source.html#l00047">47</a> du fichier <a class="el" href="parser__ops_8c_source.html">parser_ops.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00064">s_word_part::content</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="parser__ops_8c_source.html#l00069">create_new_word_part()</a>.</p>
+
+</div>
+</div>
+<a id="a1a861e749474a19f5a2d966583507f37" name="a1a861e749474a19f5a2d966583507f37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a861e749474a19f5a2d966583507f37">&#9670;&#160;</a></span>create_new_word_part()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> * create_new_word_part </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *</td>          <td class="paramname"><span class="paramname"><em>current</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Crée une nouvelle partie de mot en dupliquant une partie existante. </p>
+<p>Alloue et initialise une nouvelle structure <a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> en copiant les données d'une partie existante.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>Pointeur vers la partie de mot à dupliquer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>t_word_part* Pointeur vers la nouvelle partie créée, NULL en cas d'erreur </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="parser__ops_8c_source.html#l00069">69</a> du fichier <a class="el" href="parser__ops_8c_source.html">parser_ops.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="parser__ops_8c_source.html#l00047">copy_word_content()</a>, <a class="el" href="minishell_8h_source.html#l00066">s_word_part::next</a>, et <a class="el" href="minishell_8h_source.html#l00065">s_word_part::type</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="parser__ops_8c_source.html#l00115">duplicate_word_parts()</a>.</p>
+
+</div>
+</div>
+<a id="ab6338e0d1188c9a30c3e5d1a814cafc2" name="ab6338e0d1188c9a30c3e5d1a814cafc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6338e0d1188c9a30c3e5d1a814cafc2">&#9670;&#160;</a></span>duplicate_word_parts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> * duplicate_word_parts </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a5f9e8ed9a2965af3cd409520beb5362e">t_word_part</a> *</td>          <td class="paramname"><span class="paramname"><em>parts</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Duplique une liste chaînée de parties de mots. </p>
+<p>Crée une copie complète d'une liste de parties de mots, préservant l'ordre et le contenu de chaque partie.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parts</td><td>Pointeur vers la première partie de la liste à dupliquer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>t_word_part* Pointeur vers la nouvelle liste dupliquée, NULL en cas d'erreur </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="parser__ops_8c_source.html#l00115">115</a> du fichier <a class="el" href="parser__ops_8c_source.html">parser_ops.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="parser__ops_8c_source.html#l00096">add_word_part_to_list()</a>, <a class="el" href="parser__ops_8c_source.html#l00069">create_new_word_part()</a>, <a class="el" href="tokenizer__quotes__utils_8c_source.html#l00062">free_word_parts()</a>, et <a class="el" href="minishell_8h_source.html#l00066">s_word_part::next</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__cmd__utils5_8c_source.html#l00102">copy_original_parts()</a>, <a class="el" href="parser__ops__helper1_8c_source.html#l00047">create_new_token()</a>, <a class="el" href="parser__ops__helper1_8c_source.html#l00132">create_token_until_pos()</a>, et <a class="el" href="parser__ops__helper4_8c_source.html#l00046">process_one_token()</a>.</p>
+
+</div>
+</div>
+<a id="a6a9b1d6a048b98c883383059d7e7403d" name="a6a9b1d6a048b98c883383059d7e7403d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a9b1d6a048b98c883383059d7e7403d">&#9670;&#160;</a></span>get_token_at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> * get_token_at </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *</td>          <td class="paramname"><span class="paramname"><em>tokens</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>pos</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Récupère un token à une position donnée dans la liste chaînée. </p>
+<p>Parcourt la liste de tokens jusqu'à atteindre la position spécifiée.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tokens</td><td>Pointeur vers le premier token de la liste </td></tr>
+    <tr><td class="paramname">pos</td><td>Position du token à récupérer (0-indexé) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>t_token* Pointeur vers le token à la position donnée, NULL si non trouvé </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="parser__ops_8c_source.html#l00024">24</a> du fichier <a class="el" href="parser__ops_8c_source.html">parser_ops.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00091">s_token::next</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="parser__ops__helper2_8c_source.html#l00134">create_op_node()</a>, et <a class="el" href="parser_8c_source.html#l00125">parse_ast()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_0713e853f9be800659de034b50d5eb34.html">parser</a></li><li class="navelem"><a class="el" href="parser__ops_8c.html">parser_ops.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

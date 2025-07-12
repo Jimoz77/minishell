@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell:  Fichier source de source/executor/executor_cmd.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__cmd_8c_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">executor_cmd.c</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="executor__cmd_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*                                                        :::      ::::::::   */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*   executor_cmd.c                                     :+:      :+:    :+:   */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*                                                    +:+ +:+         +:+     */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*   By: jimpa &lt;jimpa@student.42.fr&gt;                +#+  +:+       +#+        */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*                                                +#+#+#+#+#+   +#+           */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">/*   Updated: 2025/07/12 15:19:56 by jimpa            ###   ########.fr       */</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="minishell_8h.html">../../include/minishell.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="executor__cmd_8c.html#a36cbe6f7cc61e675a093c64eba9d2b44">   29</a></span><span class="keyword">static</span> <span class="keywordtype">int</span>  <a class="code hl_function" href="executor__cmd_8c.html#a36cbe6f7cc61e675a093c64eba9d2b44">execute_redir_only</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <span class="keywordtype">char</span> ***envp, <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>{</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <a class="code hl_typedef" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a>    red;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    (void)envp;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    (void)shell;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_function" href="executor__redir_8c.html#a2d982b34e533902fc8f050d6e8693a0d">init_redirect</a>(&amp;red);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">if</span> (!node || !node-&gt;<a class="code hl_variable" href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">redirections</a>)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_function" href="executor__heredoc_8c.html#a1c71bc281c7c9a2c7590407df084c262">process_all_heredocs_expanded</a>(node, shell);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="executor__redir2_8c.html#adc0707ffc22ef2cdc55e31f855c414b3">apply_node_redirections</a>(node, &amp;red))</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_function" href="executor__redir_8c.html#a0dcff1590e8b256f10df31caf9b0a8b4">close_redirect_fds</a>(&amp;red);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <a class="code hl_function" href="executor__redir_8c.html#af8d30cb29ea4cb9d5841e5cd8d7331a9">restore_std_fds</a>(&amp;red);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">if</span> (node-&gt;<a class="code hl_variable" href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">left</a>)</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        node-&gt;<a class="code hl_variable" href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">left</a>-&gt;<a class="code hl_variable" href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">redirections</a> = node-&gt;<a class="code hl_variable" href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">redirections</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">if</span> (node-&gt;<a class="code hl_variable" href="structs__node.html#a5f0496b75fecc127bf81d4af9e9b9feb">right</a>)</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        node-&gt;<a class="code hl_variable" href="structs__node.html#a5f0496b75fecc127bf81d4af9e9b9feb">right</a>-&gt;<a class="code hl_variable" href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">redirections</a> = node-&gt;<a class="code hl_variable" href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">redirections</a>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_function" href="executor__redir_8c.html#a0dcff1590e8b256f10df31caf9b0a8b4">close_redirect_fds</a>(&amp;red);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <a class="code hl_function" href="executor__redir_8c.html#af8d30cb29ea4cb9d5841e5cd8d7331a9">restore_std_fds</a>(&amp;red);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">if</span> (node-&gt;<a class="code hl_variable" href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">left</a> &amp;&amp; (node-&gt;<a class="code hl_variable" href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">left</a>-&gt;<a class="code hl_variable" href="structs__node.html#a68b42c704a722e8fb5e721c64b043d46">type</a> == <a class="code hl_enumvalue" href="minishell_8h.html#a92800318de4a8230904f886ef304e9e1a30b149965195b9b32fb610f422cb40db">NODE_AND</a></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            || node-&gt;<a class="code hl_variable" href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">left</a>-&gt;<a class="code hl_variable" href="structs__node.html#a68b42c704a722e8fb5e721c64b043d46">type</a> == <a class="code hl_enumvalue" href="minishell_8h.html#a92800318de4a8230904f886ef304e9e1a0059a650dfaae31973ad76d879c527ae">NODE_OR</a>))</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <a class="code hl_function" href="executor_8c.html#a2475e670962b89c857bdf7b205715cf1">execute_ast</a>(node-&gt;<a class="code hl_variable" href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">left</a>, envp, shell);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span></div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="executor__cmd_8c.html#a9a48d9173b93532ddd5231cedc9d52c1">   72</a></span><span class="keyword">static</span> <span class="keywordtype">int</span>  <a class="code hl_function" href="executor__cmd_8c.html#a9a48d9173b93532ddd5231cedc9d52c1">exec_external</a>(<span class="keywordtype">char</span> **cmd, <span class="keywordtype">char</span> **envp, <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>{</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">char</span>    *path;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">int</span>     special;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">if</span> (!cmd || !cmd[0])</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    special = <a class="code hl_function" href="executor__cmd__utils_8c.html#a60e08a3faa8e86d1ba654fdf47673a51">handle_special_commands</a>(cmd);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">if</span> (special)</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordflow">return</span> (special);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    path = <a class="code hl_function" href="executor__cmd__utils_8c.html#abe0c8b4cb2ef1ee0cb91540c0db15363">handle_direct_path</a>(cmd[0]);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordflow">if</span> (!path)</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        path = <a class="code hl_function" href="ft__path__finder_8c.html#ac1a35cc7c94d6629f18351abac2d32b0">ft_path_finder</a>(cmd[0], &amp;envp);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">if</span> (!path)</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">if</span> (shell-&gt;<a class="code hl_variable" href="structs__shell.html#af6dd99ee71373bffa990a4032ad62a1d">tokens</a>-&gt;<a class="code hl_variable" href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">type</a> == <a class="code hl_enumvalue" href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea724db76dad795426e17d842801f9225c">TOKEN_REDIRECT_OUT</a>)</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <span class="keywordflow">return</span> (127);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        ft_putstr_fd(<span class="stringliteral">&quot;minishell: &quot;</span>, 2);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        ft_putstr_fd(cmd[0], 2);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        ft_putendl_fd(<span class="stringliteral">&quot;: command not found&quot;</span>, 2);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">return</span> (127);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    execve(path, cmd, envp);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    perror(<span class="stringliteral">&quot;minishell: execve&quot;</span>);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    free(path);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">return</span> (126);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>}</div>
+</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span></div>
+<div class="foldopen" id="foldopen00113" data-start="{" data-end="}">
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="executor__cmd_8c.html#a278d9260b14f11782472aac3e0879478">  113</a></span><span class="keywordtype">void</span>    <a class="code hl_function" href="executor__cmd_8c.html#a278d9260b14f11782472aac3e0879478">child_exec_process</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <span class="keywordtype">char</span> **envp, <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>{</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <a class="code hl_typedef" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a>    red;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <a class="code hl_function" href="signals_8c.html#ac2bc753c4a20408bc35468a80e9ea23e">setup_exec_signals</a>();</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <a class="code hl_function" href="executor__redir_8c.html#a2d982b34e533902fc8f050d6e8693a0d">init_redirect</a>(&amp;red);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordflow">if</span> (node-&gt;<a class="code hl_variable" href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">redirections</a> &amp;&amp; !<a class="code hl_function" href="executor__redir2_8c.html#adc0707ffc22ef2cdc55e31f855c414b3">apply_node_redirections</a>(node, &amp;red))</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <a class="code hl_function" href="executor__redir_8c.html#a0dcff1590e8b256f10df31caf9b0a8b4">close_redirect_fds</a>(&amp;red);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <a class="code hl_function" href="executor__redir_8c.html#af8d30cb29ea4cb9d5841e5cd8d7331a9">restore_std_fds</a>(&amp;red);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        exit(1);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    }</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    exit(<a class="code hl_function" href="executor__cmd_8c.html#a9a48d9173b93532ddd5231cedc9d52c1">exec_external</a>(node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a>, envp, shell));</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>}</div>
+</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span></div>
+<div class="foldopen" id="foldopen00140" data-start="{" data-end="}">
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="executor__cmd_8c.html#a2c3353ddfc0982778db01688caef46be">  140</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="executor__cmd_8c.html#a2c3353ddfc0982778db01688caef46be">handle_exec_status</a>(<span class="keywordtype">int</span> status)</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>{</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordtype">int</span> sig;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keywordflow">if</span> (WIFSIGNALED(status))</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        sig = WTERMSIG(status);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keywordflow">if</span> (sig == SIGQUIT)</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            write(1, <span class="stringliteral">&quot;Quit (core dumped)\n&quot;</span>, 19);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keywordflow">return</span> (128 + sig);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (WIFEXITED(status))</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keywordflow">return</span> (WEXITSTATUS(status));</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>}</div>
+</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span></div>
+<div class="foldopen" id="foldopen00169" data-start="{" data-end="}">
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="executor__cmd_8c.html#a8c605c8e4d803c21852be68c6b63f96e">  169</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="executor__cmd_8c.html#a8c605c8e4d803c21852be68c6b63f96e">execute_cmd_node</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <span class="keywordtype">char</span> ***envp, <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>{</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordflow">if</span> (!node)</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keywordflow">if</span> ((!node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a> || !node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a>[0]) &amp;&amp; node-&gt;<a class="code hl_variable" href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">redirections</a>)</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="keywordflow">return</span> (<a class="code hl_function" href="executor__cmd_8c.html#a36cbe6f7cc61e675a093c64eba9d2b44">execute_redir_only</a>(node, envp, shell));</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">if</span> (!node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a> || !node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a>[0])</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <span class="keywordflow">return</span> (<a class="code hl_function" href="executor__cmd__utils4_8c.html#a4f5cb874348fd74801f22c7eaefc45c7">process_cmd_tokens</a>(node, envp, shell));</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>}</div>
+</div>
+<div class="ttc" id="aexecutor_8c_html_a2475e670962b89c857bdf7b205715cf1"><div class="ttname"><a href="executor_8c.html#a2475e670962b89c857bdf7b205715cf1">execute_ast</a></div><div class="ttdeci">int execute_ast(t_node *node, char ***envp, t_shell *shell)</div><div class="ttdoc">Point d&#39;entrée principal pour l&#39;exécution de l&#39;AST.</div><div class="ttdef"><b>Definition</b> <a href="executor_8c_source.html#l00163">executor.c:163</a></div></div>
+<div class="ttc" id="aexecutor__cmd_8c_html_a278d9260b14f11782472aac3e0879478"><div class="ttname"><a href="executor__cmd_8c.html#a278d9260b14f11782472aac3e0879478">child_exec_process</a></div><div class="ttdeci">void child_exec_process(t_node *node, char **envp, t_shell *shell)</div><div class="ttdoc">Processus enfant pour l&#39;exécution de commandes externes.</div><div class="ttdef"><b>Definition</b> <a href="#l00113">executor_cmd.c:113</a></div></div>
+<div class="ttc" id="aexecutor__cmd_8c_html_a2c3353ddfc0982778db01688caef46be"><div class="ttname"><a href="executor__cmd_8c.html#a2c3353ddfc0982778db01688caef46be">handle_exec_status</a></div><div class="ttdeci">int handle_exec_status(int status)</div><div class="ttdoc">Traite le code de retour d&#39;un processus exécuté</div><div class="ttdef"><b>Definition</b> <a href="#l00140">executor_cmd.c:140</a></div></div>
+<div class="ttc" id="aexecutor__cmd_8c_html_a36cbe6f7cc61e675a093c64eba9d2b44"><div class="ttname"><a href="executor__cmd_8c.html#a36cbe6f7cc61e675a093c64eba9d2b44">execute_redir_only</a></div><div class="ttdeci">static int execute_redir_only(t_node *node, char ***envp, t_shell *shell)</div><div class="ttdoc">Exécute uniquement les redirections sans commande.</div><div class="ttdef"><b>Definition</b> <a href="#l00029">executor_cmd.c:29</a></div></div>
+<div class="ttc" id="aexecutor__cmd_8c_html_a8c605c8e4d803c21852be68c6b63f96e"><div class="ttname"><a href="executor__cmd_8c.html#a8c605c8e4d803c21852be68c6b63f96e">execute_cmd_node</a></div><div class="ttdeci">int execute_cmd_node(t_node *node, char ***envp, t_shell *shell)</div><div class="ttdoc">Point d&#39;entrée principal pour l&#39;exécution des nœuds de commande.</div><div class="ttdef"><b>Definition</b> <a href="#l00169">executor_cmd.c:169</a></div></div>
+<div class="ttc" id="aexecutor__cmd_8c_html_a9a48d9173b93532ddd5231cedc9d52c1"><div class="ttname"><a href="executor__cmd_8c.html#a9a48d9173b93532ddd5231cedc9d52c1">exec_external</a></div><div class="ttdeci">static int exec_external(char **cmd, char **envp, t_shell *shell)</div><div class="ttdoc">Exécute une commande externe avec gestion complète.</div><div class="ttdef"><b>Definition</b> <a href="#l00072">executor_cmd.c:72</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils4_8c_html_a4f5cb874348fd74801f22c7eaefc45c7"><div class="ttname"><a href="executor__cmd__utils4_8c.html#a4f5cb874348fd74801f22c7eaefc45c7">process_cmd_tokens</a></div><div class="ttdeci">int process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)</div><div class="ttdoc">Traite l&#39;expansion complète des tokens d&#39;une commande.</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils4_8c_source.html#l00126">executor_cmd_utils4.c:126</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils_8c_html_a60e08a3faa8e86d1ba654fdf47673a51"><div class="ttname"><a href="executor__cmd__utils_8c.html#a60e08a3faa8e86d1ba654fdf47673a51">handle_special_commands</a></div><div class="ttdeci">int handle_special_commands(char **cmd)</div><div class="ttdoc">Gère les commandes spéciales &quot;.&quot; et &quot;..&quot;.</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils_8c_source.html#l00092">executor_cmd_utils.c:92</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils_8c_html_abe0c8b4cb2ef1ee0cb91540c0db15363"><div class="ttname"><a href="executor__cmd__utils_8c.html#abe0c8b4cb2ef1ee0cb91540c0db15363">handle_direct_path</a></div><div class="ttdeci">char * handle_direct_path(char *cmd)</div><div class="ttdoc">Gère les chemins directs (absolus ou relatifs avec .</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils_8c_source.html#l00046">executor_cmd_utils.c:46</a></div></div>
+<div class="ttc" id="aexecutor__heredoc_8c_html_a1c71bc281c7c9a2c7590407df084c262"><div class="ttname"><a href="executor__heredoc_8c.html#a1c71bc281c7c9a2c7590407df084c262">process_all_heredocs_expanded</a></div><div class="ttdeci">void process_all_heredocs_expanded(t_node *node, t_shell *shell)</div><div class="ttdoc">Traite tous les heredocs dans l&#39;arbre syntaxique avec expansion.</div><div class="ttdef"><b>Definition</b> <a href="executor__heredoc_8c_source.html#l00198">executor_heredoc.c:198</a></div></div>
+<div class="ttc" id="aexecutor__redir2_8c_html_adc0707ffc22ef2cdc55e31f855c414b3"><div class="ttname"><a href="executor__redir2_8c.html#adc0707ffc22ef2cdc55e31f855c414b3">apply_node_redirections</a></div><div class="ttdeci">int apply_node_redirections(t_node *node, t_redirect *red)</div><div class="ttdoc">Applique toutes les redirections d&#39;un nœud et configure les descripteurs.</div><div class="ttdef"><b>Definition</b> <a href="executor__redir2_8c_source.html#l00149">executor_redir2.c:149</a></div></div>
+<div class="ttc" id="aexecutor__redir_8c_html_a0dcff1590e8b256f10df31caf9b0a8b4"><div class="ttname"><a href="executor__redir_8c.html#a0dcff1590e8b256f10df31caf9b0a8b4">close_redirect_fds</a></div><div class="ttdeci">void close_redirect_fds(t_redirect *red)</div><div class="ttdef"><b>Definition</b> <a href="executor__redir_8c_source.html#l00032">executor_redir.c:32</a></div></div>
+<div class="ttc" id="aexecutor__redir_8c_html_a2d982b34e533902fc8f050d6e8693a0d"><div class="ttname"><a href="executor__redir_8c.html#a2d982b34e533902fc8f050d6e8693a0d">init_redirect</a></div><div class="ttdeci">void init_redirect(t_redirect *red)</div><div class="ttdoc">Initialise une structure de redirection.</div><div class="ttdef"><b>Definition</b> <a href="executor__redir_8c_source.html#l00024">executor_redir.c:24</a></div></div>
+<div class="ttc" id="aexecutor__redir_8c_html_af8d30cb29ea4cb9d5841e5cd8d7331a9"><div class="ttname"><a href="executor__redir_8c.html#af8d30cb29ea4cb9d5841e5cd8d7331a9">restore_std_fds</a></div><div class="ttdeci">void restore_std_fds(t_redirect *red)</div><div class="ttdoc">Restaure les descripteurs standards sauvegardés.</div><div class="ttdef"><b>Definition</b> <a href="executor__redir_8c_source.html#l00056">executor_redir.c:56</a></div></div>
+<div class="ttc" id="aft__path__finder_8c_html_ac1a35cc7c94d6629f18351abac2d32b0"><div class="ttname"><a href="ft__path__finder_8c.html#ac1a35cc7c94d6629f18351abac2d32b0">ft_path_finder</a></div><div class="ttdeci">char * ft_path_finder(char *cmd, char ***envp)</div><div class="ttdoc">Recherche une commande dans les répertoires PATH.</div><div class="ttdef"><b>Definition</b> <a href="ft__path__finder_8c_source.html#l00130">ft_path_finder.c:130</a></div></div>
+<div class="ttc" id="aminishell_8h_html"><div class="ttname"><a href="minishell_8h.html">minishell.h</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a3f46128da7b9ed932ecb00df9677e301"><div class="ttname"><a href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a></div><div class="ttdeci">struct s_node t_node</div></div>
+<div class="ttc" id="aminishell_8h_html_a76a354e93d720f05344590ec8aa222dea724db76dad795426e17d842801f9225c"><div class="ttname"><a href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea724db76dad795426e17d842801f9225c">TOKEN_REDIRECT_OUT</a></div><div class="ttdeci">@ TOKEN_REDIRECT_OUT</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00075">minishell.h:75</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a92800318de4a8230904f886ef304e9e1a0059a650dfaae31973ad76d879c527ae"><div class="ttname"><a href="minishell_8h.html#a92800318de4a8230904f886ef304e9e1a0059a650dfaae31973ad76d879c527ae">NODE_OR</a></div><div class="ttdeci">@ NODE_OR</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00104">minishell.h:104</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a92800318de4a8230904f886ef304e9e1a30b149965195b9b32fb610f422cb40db"><div class="ttname"><a href="minishell_8h.html#a92800318de4a8230904f886ef304e9e1a30b149965195b9b32fb610f422cb40db">NODE_AND</a></div><div class="ttdeci">@ NODE_AND</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00103">minishell.h:103</a></div></div>
+<div class="ttc" id="aminishell_8h_html_aa0a54f0f7fe7d432d2a6f820246de5c6"><div class="ttname"><a href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a></div><div class="ttdeci">struct s_redirect t_redirect</div></div>
+<div class="ttc" id="aminishell_8h_html_ae4cfb7c093350dca726786f683b6aca3"><div class="ttname"><a href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a></div><div class="ttdeci">struct s_shell t_shell</div></div>
+<div class="ttc" id="asignals_8c_html_ac2bc753c4a20408bc35468a80e9ea23e"><div class="ttname"><a href="signals_8c.html#ac2bc753c4a20408bc35468a80e9ea23e">setup_exec_signals</a></div><div class="ttdeci">void setup_exec_signals(void)</div><div class="ttdoc">Configure les signaux pour l&#39;exécution des commandes.</div><div class="ttdef"><b>Definition</b> <a href="signals_8c_source.html#l00093">signals.c:93</a></div></div>
+<div class="ttc" id="astructs__node_html_a020c34ffe3daca555c7c259d39c5363c"><div class="ttname"><a href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">s_node::left</a></div><div class="ttdeci">struct s_node * left</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00120">minishell.h:120</a></div></div>
+<div class="ttc" id="astructs__node_html_a5f0496b75fecc127bf81d4af9e9b9feb"><div class="ttname"><a href="structs__node.html#a5f0496b75fecc127bf81d4af9e9b9feb">s_node::right</a></div><div class="ttdeci">struct s_node * right</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00121">minishell.h:121</a></div></div>
+<div class="ttc" id="astructs__node_html_a68b42c704a722e8fb5e721c64b043d46"><div class="ttname"><a href="structs__node.html#a68b42c704a722e8fb5e721c64b043d46">s_node::type</a></div><div class="ttdeci">t_node_type type</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00116">minishell.h:116</a></div></div>
+<div class="ttc" id="astructs__node_html_a94b73434db07a3cd597d88e6e64d241e"><div class="ttname"><a href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">s_node::redirections</a></div><div class="ttdeci">t_redir * redirections</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00119">minishell.h:119</a></div></div>
+<div class="ttc" id="astructs__node_html_a9a008f63a51e8c96a585fde0fb55ea31"><div class="ttname"><a href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">s_node::cmd</a></div><div class="ttdeci">char ** cmd</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00117">minishell.h:117</a></div></div>
+<div class="ttc" id="astructs__shell_html_af6dd99ee71373bffa990a4032ad62a1d"><div class="ttname"><a href="structs__shell.html#af6dd99ee71373bffa990a4032ad62a1d">s_shell::tokens</a></div><div class="ttdeci">t_token * tokens</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00155">minishell.h:155</a></div></div>
+<div class="ttc" id="astructs__token_html_a350680c70abb7e7173240477e92dc0a3"><div class="ttname"><a href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">s_token::type</a></div><div class="ttdeci">t_token_type type</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00089">minishell.h:89</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__cmd_8c.html">executor_cmd.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

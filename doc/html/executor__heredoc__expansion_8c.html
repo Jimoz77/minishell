@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/executor/executor_heredoc_expansion.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__heredoc__expansion_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier executor_heredoc_expansion.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="executor__heredoc__expansion_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:aecd13918a701f38858fa78e3029b7711" id="r_aecd13918a701f38858fa78e3029b7711"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aecd13918a701f38858fa78e3029b7711">can_expand_heredoc</a> (char *var_end)</td></tr>
+<tr class="memdesc:aecd13918a701f38858fa78e3029b7711"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifie si l'expansion d'une variable est possible dans un heredoc.  <br /></td></tr>
+<tr class="separator:aecd13918a701f38858fa78e3029b7711"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11c9c7894d7941747d9dfcf8178d6ffc" id="r_a11c9c7894d7941747d9dfcf8178d6ffc"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11c9c7894d7941747d9dfcf8178d6ffc">expand_exit_status</a> (char *line, char *current, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a11c9c7894d7941747d9dfcf8178d6ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Étend la variable spéciale $?  <br /></td></tr>
+<tr class="separator:a11c9c7894d7941747d9dfcf8178d6ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93511b3aca68b1ad129d2a0feadc7b38" id="r_a93511b3aca68b1ad129d2a0feadc7b38"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93511b3aca68b1ad129d2a0feadc7b38">expand_env_var</a> (char *line, char *current, char *var_end, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a93511b3aca68b1ad129d2a0feadc7b38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Étend une variable d'environnement dans un heredoc.  <br /></td></tr>
+<tr class="separator:a93511b3aca68b1ad129d2a0feadc7b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a889ac771ef00e8b02120b70a749b6a39" id="r_a889ac771ef00e8b02120b70a749b6a39"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a889ac771ef00e8b02120b70a749b6a39">expand_heredoc_line</a> (char *line, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a889ac771ef00e8b02120b70a749b6a39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Étend les variables d'environnement dans une ligne de heredoc.  <br /></td></tr>
+<tr class="separator:a889ac771ef00e8b02120b70a749b6a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="aecd13918a701f38858fa78e3029b7711" name="aecd13918a701f38858fa78e3029b7711"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecd13918a701f38858fa78e3029b7711">&#9670;&#160;</a></span>can_expand_heredoc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int can_expand_heredoc </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>var_end</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vérifie si l'expansion d'une variable est possible dans un heredoc. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var_end</td><td>Pointeur vers le caractère suivant le nom de variable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 si l'expansion est possible, 0 sinon</dd></dl>
+<p>Une variable peut être étendue si le caractère suivant n'est pas :</p><ul>
+<li>Une lettre (a-z, A-Z)</li>
+<li>Un chiffre (0-9)</li>
+<li>Un underscore (_) Cela délimite correctement la fin du nom de variable. </li>
+</ul>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc__expansion_8c_source.html#l00027">27</a> du fichier <a class="el" href="executor__heredoc__expansion_8c_source.html">executor_heredoc_expansion.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc__expansion_8c_source.html#l00125">expand_heredoc_line()</a>.</p>
+
+</div>
+</div>
+<a id="a93511b3aca68b1ad129d2a0feadc7b38" name="a93511b3aca68b1ad129d2a0feadc7b38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93511b3aca68b1ad129d2a0feadc7b38">&#9670;&#160;</a></span>expand_env_var()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static char * expand_env_var </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>line</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>var_end</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Étend une variable d'environnement dans un heredoc. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>Ligne originale contenant la variable </td></tr>
+    <tr><td class="paramname">current</td><td>Pointeur vers le '$' dans la ligne </td></tr>
+    <tr><td class="paramname">var_end</td><td>Pointeur vers la fin du nom de variable </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell contenant l'environnement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Nouvelle ligne avec la variable remplacée par sa valeur</dd></dl>
+<p>Processus d'expansion :</p><ol type="1">
+<li>Extrait le nom de la variable</li>
+<li>Recherche sa valeur dans l'environnement</li>
+<li>Reconstruit la ligne avec la valeur (ou chaîne vide si non trouvée)</li>
+<li>Libère la ligne originale et retourne la nouvelle </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc__expansion_8c_source.html#l00086">86</a> du fichier <a class="el" href="executor__heredoc__expansion_8c_source.html">executor_heredoc_expansion.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00154">s_shell::envp</a>, <a class="el" href="envar__to__value_8c_source.html#l00105">ft_strndup()</a>, et <a class="el" href="envar__to__value_8c_source.html#l00168">get_env_value_str()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc__expansion_8c_source.html#l00125">expand_heredoc_line()</a>.</p>
+
+</div>
+</div>
+<a id="a11c9c7894d7941747d9dfcf8178d6ffc" name="a11c9c7894d7941747d9dfcf8178d6ffc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11c9c7894d7941747d9dfcf8178d6ffc">&#9670;&#160;</a></span>expand_exit_status()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static char * expand_exit_status </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>line</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Étend la variable spéciale $? </p>
+<p>(code de sortie) dans un heredoc</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>Ligne originale contenant $? </td></tr>
+    <tr><td class="paramname">current</td><td>Pointeur vers le '$' dans la ligne </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell contenant le code de sortie </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Nouvelle ligne avec $? remplacé par sa valeur</dd></dl>
+<p>Remplace $? par le code de sortie de la dernière commande :</p><ol type="1">
+<li>Convertit shell-&gt;exit_status en chaîne</li>
+<li>Reconstruit la ligne en remplaçant $? par sa valeur</li>
+<li>Libère la ligne originale et retourne la nouvelle </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc__expansion_8c_source.html#l00050">50</a> du fichier <a class="el" href="executor__heredoc__expansion_8c_source.html">executor_heredoc_expansion.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00157">s_shell::exit_status</a>, et <a class="el" href="envar__to__value_8c_source.html#l00105">ft_strndup()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc__expansion_8c_source.html#l00125">expand_heredoc_line()</a>.</p>
+
+</div>
+</div>
+<a id="a889ac771ef00e8b02120b70a749b6a39" name="a889ac771ef00e8b02120b70a749b6a39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a889ac771ef00e8b02120b70a749b6a39">&#9670;&#160;</a></span>expand_heredoc_line()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * expand_heredoc_line </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>line</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Étend les variables d'environnement dans une ligne de heredoc. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>Ligne à traiter </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell contenant l'environnement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Ligne avec variables étendues, ou ligne originale si pas de variables</dd></dl>
+<p>Parcourt la ligne à la recherche de variables ($VAR) et les étend :</p><ul>
+<li>$? : remplacé par le code de sortie</li>
+<li>$VAR : remplacé par la valeur de la variable d'environnement L'expansion se fait récursivement (une variable par appel). Retourne la ligne originale si aucune variable n'est trouvée. </li>
+</ul>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__heredoc__expansion_8c_source.html#l00125">125</a> du fichier <a class="el" href="executor__heredoc__expansion_8c_source.html">executor_heredoc_expansion.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="executor__heredoc__expansion_8c_source.html#l00027">can_expand_heredoc()</a>, <a class="el" href="executor__heredoc__expansion_8c_source.html#l00086">expand_env_var()</a>, <a class="el" href="executor__heredoc__expansion_8c_source.html#l00050">expand_exit_status()</a>, et <a class="el" href="envar__to__value4_8c_source.html#l00104">find_var_end()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc_8c_source.html#l00081">process_heredoc_line()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__heredoc__expansion_8c.html">executor_heredoc_expansion.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/utils/handle_unclosed_quotes.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('handle__unclosed__quotes_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier handle_unclosed_quotes.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="handle__unclosed__quotes_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:aaef219087f5a8a86ed124c92cc7b3529" id="r_aaef219087f5a8a86ed124c92cc7b3529"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaef219087f5a8a86ed124c92cc7b3529">has_unclosed_quotes</a> (const char *input)</td></tr>
+<tr class="memdesc:aaef219087f5a8a86ed124c92cc7b3529"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifie si l'entrée contient des quotes non fermées.  <br /></td></tr>
+<tr class="separator:aaef219087f5a8a86ed124c92cc7b3529"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f29078e69f35a685ca6df166f08c078" id="r_a3f29078e69f35a685ca6df166f08c078"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f29078e69f35a685ca6df166f08c078">concat_additional_input</a> (char *input, char *additional_input)</td></tr>
+<tr class="memdesc:a3f29078e69f35a685ca6df166f08c078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gère la concaténation de l'entrée supplémentaire.  <br /></td></tr>
+<tr class="separator:a3f29078e69f35a685ca6df166f08c078"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a691a5e88e6a92b918fb151ad60593040" id="r_a691a5e88e6a92b918fb151ad60593040"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a691a5e88e6a92b918fb151ad60593040">read_additional_input</a> (char *input)</td></tr>
+<tr class="memdesc:a691a5e88e6a92b918fb151ad60593040"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit l'entrée supplémentaire pour compléter les quotes.  <br /></td></tr>
+<tr class="separator:a691a5e88e6a92b918fb151ad60593040"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a6116c01346aaba6126ab4f2ac88a7" id="r_a68a6116c01346aaba6126ab4f2ac88a7"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68a6116c01346aaba6126ab4f2ac88a7">handle_unclosed_quotes</a> (char *input)</td></tr>
+<tr class="memdesc:a68a6116c01346aaba6126ab4f2ac88a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction principale pour gérer les quotes non fermées.  <br /></td></tr>
+<tr class="separator:a68a6116c01346aaba6126ab4f2ac88a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a3f29078e69f35a685ca6df166f08c078" name="a3f29078e69f35a685ca6df166f08c078"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f29078e69f35a685ca6df166f08c078">&#9670;&#160;</a></span>concat_additional_input()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static char * concat_additional_input </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>input</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>additional_input</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gère la concaténation de l'entrée supplémentaire. </p>
+<p>Combine l'entrée existante avec l'entrée supplémentaire en ajoutant un retour à la ligne entre les deux.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>Entrée existante </td></tr>
+    <tr><td class="paramname">additional_input</td><td>Entrée supplémentaire à ajouter </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Nouvelle chaîne concaténée, NULL en cas d'erreur </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="handle__unclosed__quotes_8c_source.html#l00054">54</a> du fichier <a class="el" href="handle__unclosed__quotes_8c_source.html">handle_unclosed_quotes.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="handle__unclosed__quotes_8c_source.html#l00087">read_additional_input()</a>.</p>
+
+</div>
+</div>
+<a id="a68a6116c01346aaba6126ab4f2ac88a7" name="a68a6116c01346aaba6126ab4f2ac88a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68a6116c01346aaba6126ab4f2ac88a7">&#9670;&#160;</a></span>handle_unclosed_quotes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * handle_unclosed_quotes </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>input</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fonction principale pour gérer les quotes non fermées. </p>
+<p>Point d'entrée qui vérifie s'il y a des guillemets non fermés et lance le processus de saisie multi-ligne si nécessaire.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>Entrée à vérifier et potentiellement compléter </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Entrée avec quotes fermées, NULL en cas d'erreur </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="handle__unclosed__quotes_8c_source.html#l00120">120</a> du fichier <a class="el" href="handle__unclosed__quotes_8c_source.html">handle_unclosed_quotes.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="handle__unclosed__quotes_8c_source.html#l00024">has_unclosed_quotes()</a>, et <a class="el" href="handle__unclosed__quotes_8c_source.html#l00087">read_additional_input()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="ft__read__line_8c_source.html#l00053">process_input()</a>.</p>
+
+</div>
+</div>
+<a id="aaef219087f5a8a86ed124c92cc7b3529" name="aaef219087f5a8a86ed124c92cc7b3529"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaef219087f5a8a86ed124c92cc7b3529">&#9670;&#160;</a></span>has_unclosed_quotes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int has_unclosed_quotes </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>input</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vérifie si l'entrée contient des quotes non fermées. </p>
+<p>Parcourt une chaîne pour détecter si des guillemets simples ou doubles ne sont pas correctement fermés.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>Chaîne à analyser </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 si des guillemets sont non fermés, 0 sinon </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="handle__unclosed__quotes_8c_source.html#l00024">24</a> du fichier <a class="el" href="handle__unclosed__quotes_8c_source.html">handle_unclosed_quotes.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="handle__unclosed__quotes_8c_source.html#l00120">handle_unclosed_quotes()</a>, et <a class="el" href="handle__unclosed__quotes_8c_source.html#l00087">read_additional_input()</a>.</p>
+
+</div>
+</div>
+<a id="a691a5e88e6a92b918fb151ad60593040" name="a691a5e88e6a92b918fb151ad60593040"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a691a5e88e6a92b918fb151ad60593040">&#9670;&#160;</a></span>read_additional_input()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static char * read_additional_input </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>input</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit l'entrée supplémentaire pour compléter les quotes. </p>
+<p>Continue à demander des lignes supplémentaires à l'utilisateur jusqu'à ce que tous les guillemets soient fermés.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input</td><td>Entrée initiale avec des quotes non fermées </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Entrée complète avec quotes fermées, NULL en cas d'erreur </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="handle__unclosed__quotes_8c_source.html#l00087">87</a> du fichier <a class="el" href="handle__unclosed__quotes_8c_source.html">handle_unclosed_quotes.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="handle__unclosed__quotes_8c_source.html#l00054">concat_additional_input()</a>, et <a class="el" href="handle__unclosed__quotes_8c_source.html#l00024">has_unclosed_quotes()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="handle__unclosed__quotes_8c_source.html#l00120">handle_unclosed_quotes()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_6a63ce49392b0e408893f7b3c5f1cad9.html">utils</a></li><li class="navelem"><a class="el" href="handle__unclosed__quotes_8c.html">handle_unclosed_quotes.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

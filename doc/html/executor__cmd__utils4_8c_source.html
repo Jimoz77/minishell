@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell:  Fichier source de source/executor/executor_cmd_utils4.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__cmd__utils4_8c_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">executor_cmd_utils4.c</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="executor__cmd__utils4_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*                                                        :::      ::::::::   */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*   executor_cmd_utils4.c                              :+:      :+:    :+:   */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*                                                    +:+ +:+         +:+     */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*   By: jimpa &lt;jimpa@student.42.fr&gt;                +#+  +:+       +#+        */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*                                                +#+#+#+#+#+   +#+           */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/*   Created: 2025/07/03 20:45:02 by jimpa             #+#    #+#             */</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">/*   Updated: 2025/07/12 15:17:03 by jimpa            ###   ########.fr       */</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="minishell_8h.html">../../include/minishell.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="}">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="executor__cmd__utils4_8c.html#a09776ec11ae9b84a88269e6db857c40f">   26</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="executor__cmd__utils4_8c.html#a09776ec11ae9b84a88269e6db857c40f">expand_tokens_variables</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *cmd_tokens, <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>{</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *current;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    current = cmd_tokens;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">while</span> (current &amp;&amp; !<a class="code hl_function" href="tokenizer__utils_8c.html#ac46474bf42a4a1557b6bfddae5033dd4">is_operator_str</a>(current-&gt;<a class="code hl_variable" href="structs__token.html#a21b454c179e1e31383371d09385b9c59">value</a>))</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_function" href="envar__to__value2_8c.html#a56f0d16e95b8a5d349916ef4733bb28d">scan_envar_execution_phase</a>(shell, current);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        current = current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
+</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span></div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="executor__cmd__utils4_8c.html#ae49da4553f2ce534c66282dcf7f354dc">   47</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="executor__cmd__utils4_8c.html#ae49da4553f2ce534c66282dcf7f354dc">process_token_quotes_expansion</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *current)</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>{</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">char</span>    *unquoted_value;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">if</span> (current-&gt;<a class="code hl_variable" href="structs__token.html#a87d5d99a0e035d66cb5735654c9b3715">parts</a>)</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        unquoted_value = <a class="code hl_function" href="tokenizer__quotes__utils_8c.html#a896d2cc0598326ebd5be193767fbb966">build_unquoted_value</a>(current-&gt;<a class="code hl_variable" href="structs__token.html#a87d5d99a0e035d66cb5735654c9b3715">parts</a>);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keywordflow">if</span> (unquoted_value)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            free(current-&gt;<a class="code hl_variable" href="structs__token.html#a21b454c179e1e31383371d09385b9c59">value</a>);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            current-&gt;<a class="code hl_variable" href="structs__token.html#a21b454c179e1e31383371d09385b9c59">value</a> = unquoted_value;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>}</div>
+</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span></div>
+<div class="foldopen" id="foldopen00071" data-start="{" data-end="}">
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="executor__cmd__utils4_8c.html#ace4b7f1f9f51fccde639b248d055f78b">   71</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="executor__cmd__utils4_8c.html#ace4b7f1f9f51fccde639b248d055f78b">process_tokens_quotes</a>(<a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *cmd_tokens)</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>{</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *current;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    current = cmd_tokens;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">while</span> (current &amp;&amp; current-&gt;<a class="code hl_variable" href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">type</a> == <a class="code hl_enumvalue" href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea28b529bc6cf86659d134593d58a27be5">TOKEN_WORD</a>)</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <a class="code hl_function" href="executor__cmd__utils4_8c.html#ae49da4553f2ce534c66282dcf7f354dc">process_token_quotes_expansion</a>(current);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        current = current-&gt;<a class="code hl_variable" href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">next</a>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>}</div>
+</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span></div>
+<div class="foldopen" id="foldopen00097" data-start="{" data-end="}">
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="executor__cmd__utils4_8c.html#ab7becfadef0a34b092abdc073ad58a2d">   97</a></span><span class="keyword">static</span> <span class="keywordtype">int</span>  <a class="code hl_function" href="executor__cmd__utils4_8c.html#ab7becfadef0a34b092abdc073ad58a2d">expand_cmd_with_original_tokens</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>{</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *cmd_tokens;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a>  *original_tokens;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    cmd_tokens = <a class="code hl_function" href="executor__cmd__utils3_8c.html#a7c41a11093256a47a47a30315ae486f8">find_node_tokens</a>(node, shell);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">if</span> (!cmd_tokens)</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">return</span> (-1);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    original_tokens = shell-&gt;<a class="code hl_variable" href="structs__shell.html#af6dd99ee71373bffa990a4032ad62a1d">tokens</a>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <a class="code hl_function" href="executor__cmd__utils4_8c.html#a09776ec11ae9b84a88269e6db857c40f">expand_tokens_variables</a>(cmd_tokens, shell);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <a class="code hl_function" href="executor__cmd__utils4_8c.html#ace4b7f1f9f51fccde639b248d055f78b">process_tokens_quotes</a>(cmd_tokens);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    shell-&gt;<a class="code hl_variable" href="structs__shell.html#af6dd99ee71373bffa990a4032ad62a1d">tokens</a> = original_tokens;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <a class="code hl_function" href="executor__cmd__utils_8c.html#ab034e34d45cf715a4b973dd5dfb59605">update_cmd_from_tokens</a>(node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a>, cmd_tokens);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>}</div>
+</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
+<div class="foldopen" id="foldopen00126" data-start="{" data-end="}">
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="executor__cmd__utils4_8c.html#a4f5cb874348fd74801f22c7eaefc45c7">  126</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="executor__cmd__utils4_8c.html#a4f5cb874348fd74801f22c7eaefc45c7">process_cmd_tokens</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <span class="keywordtype">char</span> ***envp, <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>{</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <a class="code hl_typedef" href="minishell_8h.html#a76e591cb169420f15df06b3dd7ec50ed">t_process_cmd_tokens</a>    v;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="executor__cmd__utils4_8c.html#ab7becfadef0a34b092abdc073ad58a2d">expand_cmd_with_original_tokens</a>(node, shell) == 0)</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="ft__is__builtin_8c.html#ae808705933a6ac9c68449f87d2ef9ddb">ft_is_builtin</a>(node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a>, envp))</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            <span class="keywordflow">return</span> (<a class="code hl_function" href="executor__cmd__utils3_8c.html#aca471d352a2c072d7b7905068f3246c9">exec_builtin_with_redirections</a>(node, envp));</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            <span class="keywordflow">return</span> (<a class="code hl_function" href="executor__cmd__utils6_8c.html#a258ccc581f14923aabe7e2d9f37a0ca4">exec_cmd_with_redirections</a>(node, *envp, shell));</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    }</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#aab1e5170fa6d6b141feb2f07543c18e9">original_tokens</a> = shell-&gt;<a class="code hl_variable" href="structs__shell.html#af6dd99ee71373bffa990a4032ad62a1d">tokens</a>;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#a3218b4f81813cbedd6f80ec190f47d0e">temp_tokens</a> = <a class="code hl_function" href="executor__cmd__utils6_8c.html#afdd55e923c2ade1683ff199e405f170f">create_tokens_from_cmd</a>(node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a>, shell);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">if</span> (!v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#a3218b4f81813cbedd6f80ec190f47d0e">temp_tokens</a>)</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    {</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        shell-&gt;<a class="code hl_variable" href="structs__shell.html#af6dd99ee71373bffa990a4032ad62a1d">tokens</a> = v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#aab1e5170fa6d6b141feb2f07543c18e9">original_tokens</a>;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="keywordflow">return</span> (<a class="code hl_function" href="executor__cmd__utils3_8c.html#acf6893601a13b4f629f61579be65dbdd">handle_no_tokens_case</a>(node, envp, shell));</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    }</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <a class="code hl_function" href="executor__cmd__utils3_8c.html#a7c450e6ffc0e3522e8e3733f9c9c46a0">process_cmd_expansion</a>(v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#a3218b4f81813cbedd6f80ec190f47d0e">temp_tokens</a>, shell);</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    shell-&gt;<a class="code hl_variable" href="structs__shell.html#af6dd99ee71373bffa990a4032ad62a1d">tokens</a> = v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#aab1e5170fa6d6b141feb2f07543c18e9">original_tokens</a>;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <a class="code hl_function" href="executor__cmd__utils_8c.html#ab034e34d45cf715a4b973dd5dfb59605">update_cmd_from_tokens</a>(node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a>, v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#a3218b4f81813cbedd6f80ec190f47d0e">temp_tokens</a>);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="ft__is__builtin_8c.html#ae808705933a6ac9c68449f87d2ef9ddb">ft_is_builtin</a>(node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a>, envp))</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#a7bce365c1675ff78095a6a909df7d87b">result</a> = <a class="code hl_function" href="executor__cmd__utils3_8c.html#aca471d352a2c072d7b7905068f3246c9">exec_builtin_with_redirections</a>(node, envp);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#a7bce365c1675ff78095a6a909df7d87b">result</a> = <a class="code hl_function" href="executor__cmd__utils6_8c.html#a258ccc581f14923aabe7e2d9f37a0ca4">exec_cmd_with_redirections</a>(node, *envp, shell);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <a class="code hl_function" href="memory__utils2_8c.html#a9644a412020a3ce97aeda62e2714e490">free_tokens</a>(v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#a3218b4f81813cbedd6f80ec190f47d0e">temp_tokens</a>);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="keywordflow">return</span> (v.<a class="code hl_variable" href="structs__process__cmd__tokens.html#a7bce365c1675ff78095a6a909df7d87b">result</a>);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>}</div>
+</div>
+<div class="ttc" id="aenvar__to__value2_8c_html_a56f0d16e95b8a5d349916ef4733bb28d"><div class="ttname"><a href="envar__to__value2_8c.html#a56f0d16e95b8a5d349916ef4733bb28d">scan_envar_execution_phase</a></div><div class="ttdeci">int scan_envar_execution_phase(t_shell *shell, t_token *tokens)</div><div class="ttdoc">Scanne et traite les variables pendant la phase d&#39;exécution.</div><div class="ttdef"><b>Definition</b> <a href="envar__to__value2_8c_source.html#l00118">envar_to_value2.c:118</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils3_8c_html_a7c41a11093256a47a47a30315ae486f8"><div class="ttname"><a href="executor__cmd__utils3_8c.html#a7c41a11093256a47a47a30315ae486f8">find_node_tokens</a></div><div class="ttdeci">t_token * find_node_tokens(t_node *node, t_shell *shell)</div><div class="ttdoc">Trouve les tokens correspondant à un nœud de commande.</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils3_8c_source.html#l00026">executor_cmd_utils3.c:26</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils3_8c_html_a7c450e6ffc0e3522e8e3733f9c9c46a0"><div class="ttname"><a href="executor__cmd__utils3_8c.html#a7c450e6ffc0e3522e8e3733f9c9c46a0">process_cmd_expansion</a></div><div class="ttdeci">int process_cmd_expansion(t_token *temp_tokens, t_shell *shell)</div><div class="ttdoc">Traite l&#39;expansion des variables dans les tokens de commande.</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils3_8c_source.html#l00065">executor_cmd_utils3.c:65</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils3_8c_html_aca471d352a2c072d7b7905068f3246c9"><div class="ttname"><a href="executor__cmd__utils3_8c.html#aca471d352a2c072d7b7905068f3246c9">exec_builtin_with_redirections</a></div><div class="ttdeci">int exec_builtin_with_redirections(t_node *node, char ***envp)</div><div class="ttdoc">Exécute un builtin avec gestion des redirections.</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils3_8c_source.html#l00165">executor_cmd_utils3.c:165</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils3_8c_html_acf6893601a13b4f629f61579be65dbdd"><div class="ttname"><a href="executor__cmd__utils3_8c.html#acf6893601a13b4f629f61579be65dbdd">handle_no_tokens_case</a></div><div class="ttdeci">int handle_no_tokens_case(t_node *node, char ***envp, t_shell *shell)</div><div class="ttdoc">Gère le cas où aucun token n&#39;est disponible pour l&#39;expansion.</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils3_8c_source.html#l00105">executor_cmd_utils3.c:105</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils4_8c_html_a09776ec11ae9b84a88269e6db857c40f"><div class="ttname"><a href="executor__cmd__utils4_8c.html#a09776ec11ae9b84a88269e6db857c40f">expand_tokens_variables</a></div><div class="ttdeci">static void expand_tokens_variables(t_token *cmd_tokens, t_shell *shell)</div><div class="ttdoc">Étend les variables d&#39;environnement dans une liste de tokens.</div><div class="ttdef"><b>Definition</b> <a href="#l00026">executor_cmd_utils4.c:26</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils4_8c_html_a4f5cb874348fd74801f22c7eaefc45c7"><div class="ttname"><a href="executor__cmd__utils4_8c.html#a4f5cb874348fd74801f22c7eaefc45c7">process_cmd_tokens</a></div><div class="ttdeci">int process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)</div><div class="ttdoc">Traite l&#39;expansion complète des tokens d&#39;une commande.</div><div class="ttdef"><b>Definition</b> <a href="#l00126">executor_cmd_utils4.c:126</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils4_8c_html_ab7becfadef0a34b092abdc073ad58a2d"><div class="ttname"><a href="executor__cmd__utils4_8c.html#ab7becfadef0a34b092abdc073ad58a2d">expand_cmd_with_original_tokens</a></div><div class="ttdeci">static int expand_cmd_with_original_tokens(t_node *node, t_shell *shell)</div><div class="ttdoc">Étend les tokens d&#39;une commande en utilisant les tokens originaux.</div><div class="ttdef"><b>Definition</b> <a href="#l00097">executor_cmd_utils4.c:97</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils4_8c_html_ace4b7f1f9f51fccde639b248d055f78b"><div class="ttname"><a href="executor__cmd__utils4_8c.html#ace4b7f1f9f51fccde639b248d055f78b">process_tokens_quotes</a></div><div class="ttdeci">static void process_tokens_quotes(t_token *cmd_tokens)</div><div class="ttdoc">Traite les guillemets dans une liste de tokens.</div><div class="ttdef"><b>Definition</b> <a href="#l00071">executor_cmd_utils4.c:71</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils4_8c_html_ae49da4553f2ce534c66282dcf7f354dc"><div class="ttname"><a href="executor__cmd__utils4_8c.html#ae49da4553f2ce534c66282dcf7f354dc">process_token_quotes_expansion</a></div><div class="ttdeci">static void process_token_quotes_expansion(t_token *current)</div><div class="ttdoc">Traite l&#39;expansion des guillemets pour un token.</div><div class="ttdef"><b>Definition</b> <a href="#l00047">executor_cmd_utils4.c:47</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils6_8c_html_a258ccc581f14923aabe7e2d9f37a0ca4"><div class="ttname"><a href="executor__cmd__utils6_8c.html#a258ccc581f14923aabe7e2d9f37a0ca4">exec_cmd_with_redirections</a></div><div class="ttdeci">int exec_cmd_with_redirections(t_node *node, char **envp, t_shell *shell)</div><div class="ttdoc">Exécute une commande avec gestion des redirections via fork.</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils6_8c_source.html#l00116">executor_cmd_utils6.c:116</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils6_8c_html_afdd55e923c2ade1683ff199e405f170f"><div class="ttname"><a href="executor__cmd__utils6_8c.html#afdd55e923c2ade1683ff199e405f170f">create_tokens_from_cmd</a></div><div class="ttdeci">t_token * create_tokens_from_cmd(char **cmd, t_shell *shell)</div><div class="ttdoc">Crée une liste de tokens à partir d&#39;un tableau de commandes.</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils6_8c_source.html#l00028">executor_cmd_utils6.c:28</a></div></div>
+<div class="ttc" id="aexecutor__cmd__utils_8c_html_ab034e34d45cf715a4b973dd5dfb59605"><div class="ttname"><a href="executor__cmd__utils_8c.html#ab034e34d45cf715a4b973dd5dfb59605">update_cmd_from_tokens</a></div><div class="ttdeci">void update_cmd_from_tokens(char **cmd, t_token *tokens)</div><div class="ttdoc">Met à jour un tableau de commandes avec les valeurs des tokens.</div><div class="ttdef"><b>Definition</b> <a href="executor__cmd__utils_8c_source.html#l00064">executor_cmd_utils.c:64</a></div></div>
+<div class="ttc" id="aft__is__builtin_8c_html_ae808705933a6ac9c68449f87d2ef9ddb"><div class="ttname"><a href="ft__is__builtin_8c.html#ae808705933a6ac9c68449f87d2ef9ddb">ft_is_builtin</a></div><div class="ttdeci">int ft_is_builtin(char **cmd, char ***envp)</div><div class="ttdoc">Vérifie si une commande est un builtin du shell.</div><div class="ttdef"><b>Definition</b> <a href="ft__is__builtin_8c_source.html#l00149">ft_is_builtin.c:149</a></div></div>
+<div class="ttc" id="amemory__utils2_8c_html_a9644a412020a3ce97aeda62e2714e490"><div class="ttname"><a href="memory__utils2_8c.html#a9644a412020a3ce97aeda62e2714e490">free_tokens</a></div><div class="ttdeci">void free_tokens(t_token *tokens)</div><div class="ttdoc">Libère la mémoire de la liste chaînée de tokens.</div><div class="ttdef"><b>Definition</b> <a href="memory__utils2_8c_source.html#l00105">memory_utils2.c:105</a></div></div>
+<div class="ttc" id="aminishell_8h_html"><div class="ttname"><a href="minishell_8h.html">minishell.h</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a3f46128da7b9ed932ecb00df9677e301"><div class="ttname"><a href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a></div><div class="ttdeci">struct s_node t_node</div></div>
+<div class="ttc" id="aminishell_8h_html_a76a354e93d720f05344590ec8aa222dea28b529bc6cf86659d134593d58a27be5"><div class="ttname"><a href="minishell_8h.html#a76a354e93d720f05344590ec8aa222dea28b529bc6cf86659d134593d58a27be5">TOKEN_WORD</a></div><div class="ttdeci">@ TOKEN_WORD</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00072">minishell.h:72</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a76e591cb169420f15df06b3dd7ec50ed"><div class="ttname"><a href="minishell_8h.html#a76e591cb169420f15df06b3dd7ec50ed">t_process_cmd_tokens</a></div><div class="ttdeci">struct s_process_cmd_tokens t_process_cmd_tokens</div></div>
+<div class="ttc" id="aminishell_8h_html_ae4cfb7c093350dca726786f683b6aca3"><div class="ttname"><a href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a></div><div class="ttdeci">struct s_shell t_shell</div></div>
+<div class="ttc" id="aminishell_8h_html_aead06bc7a81ebdd60cbdcf6b3b8e51d4"><div class="ttname"><a href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a></div><div class="ttdeci">struct s_token t_token</div></div>
+<div class="ttc" id="astructs__node_html_a9a008f63a51e8c96a585fde0fb55ea31"><div class="ttname"><a href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">s_node::cmd</a></div><div class="ttdeci">char ** cmd</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00117">minishell.h:117</a></div></div>
+<div class="ttc" id="astructs__process__cmd__tokens_html_a3218b4f81813cbedd6f80ec190f47d0e"><div class="ttname"><a href="structs__process__cmd__tokens.html#a3218b4f81813cbedd6f80ec190f47d0e">s_process_cmd_tokens::temp_tokens</a></div><div class="ttdeci">t_token * temp_tokens</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00255">minishell.h:255</a></div></div>
+<div class="ttc" id="astructs__process__cmd__tokens_html_a7bce365c1675ff78095a6a909df7d87b"><div class="ttname"><a href="structs__process__cmd__tokens.html#a7bce365c1675ff78095a6a909df7d87b">s_process_cmd_tokens::result</a></div><div class="ttdeci">int result</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00256">minishell.h:256</a></div></div>
+<div class="ttc" id="astructs__process__cmd__tokens_html_aab1e5170fa6d6b141feb2f07543c18e9"><div class="ttname"><a href="structs__process__cmd__tokens.html#aab1e5170fa6d6b141feb2f07543c18e9">s_process_cmd_tokens::original_tokens</a></div><div class="ttdeci">t_token * original_tokens</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00254">minishell.h:254</a></div></div>
+<div class="ttc" id="astructs__shell_html_af6dd99ee71373bffa990a4032ad62a1d"><div class="ttname"><a href="structs__shell.html#af6dd99ee71373bffa990a4032ad62a1d">s_shell::tokens</a></div><div class="ttdeci">t_token * tokens</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00155">minishell.h:155</a></div></div>
+<div class="ttc" id="astructs__token_html_a21b454c179e1e31383371d09385b9c59"><div class="ttname"><a href="structs__token.html#a21b454c179e1e31383371d09385b9c59">s_token::value</a></div><div class="ttdeci">char * value</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00088">minishell.h:88</a></div></div>
+<div class="ttc" id="astructs__token_html_a350680c70abb7e7173240477e92dc0a3"><div class="ttname"><a href="structs__token.html#a350680c70abb7e7173240477e92dc0a3">s_token::type</a></div><div class="ttdeci">t_token_type type</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00089">minishell.h:89</a></div></div>
+<div class="ttc" id="astructs__token_html_a5dae434205818bfc83a61809d4a34a29"><div class="ttname"><a href="structs__token.html#a5dae434205818bfc83a61809d4a34a29">s_token::next</a></div><div class="ttdeci">struct s_token * next</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00091">minishell.h:91</a></div></div>
+<div class="ttc" id="astructs__token_html_a87d5d99a0e035d66cb5735654c9b3715"><div class="ttname"><a href="structs__token.html#a87d5d99a0e035d66cb5735654c9b3715">s_token::parts</a></div><div class="ttdeci">t_word_part * parts</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00090">minishell.h:90</a></div></div>
+<div class="ttc" id="atokenizer__quotes__utils_8c_html_a896d2cc0598326ebd5be193767fbb966"><div class="ttname"><a href="tokenizer__quotes__utils_8c.html#a896d2cc0598326ebd5be193767fbb966">build_unquoted_value</a></div><div class="ttdeci">char * build_unquoted_value(t_word_part *parts)</div><div class="ttdoc">Construit une valeur sans guillemets à partir d&#39;une liste de parties.</div><div class="ttdef"><b>Definition</b> <a href="tokenizer__quotes__utils_8c_source.html#l00124">tokenizer_quotes_utils.c:124</a></div></div>
+<div class="ttc" id="atokenizer__utils_8c_html_ac46474bf42a4a1557b6bfddae5033dd4"><div class="ttname"><a href="tokenizer__utils_8c.html#ac46474bf42a4a1557b6bfddae5033dd4">is_operator_str</a></div><div class="ttdeci">int is_operator_str(char *str)</div><div class="ttdoc">Ajoute un token à la fin de la liste.</div><div class="ttdef"><b>Definition</b> <a href="tokenizer__utils_8c_source.html#l00087">tokenizer_utils.c:87</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__cmd__utils4_8c.html">executor_cmd_utils4.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

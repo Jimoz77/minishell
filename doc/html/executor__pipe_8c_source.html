@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell:  Fichier source de source/executor/executor_pipe.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__pipe_8c_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">executor_pipe.c</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="executor__pipe_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*                                                        :::      ::::::::   */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*   executor_pipe.c                                    :+:      :+:    :+:   */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*                                                    +:+ +:+         +:+     */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*   By: jimpa &lt;jimpa@student.42.fr&gt;                +#+  +:+       +#+        */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*                                                +#+#+#+#+#+   +#+           */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/*   Created: 2025/04/28 16:35:18 by jimpa             #+#    #+#             */</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">/*   Updated: 2025/07/12 15:33:16 by jimpa            ###   ########.fr       */</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="minishell_8h.html">../../include/minishell.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="executor__pipe_8c.html#a09b06a19ddf318696b4ad8326182e528">   24</a></span><span class="keyword">static</span> <span class="keywordtype">int</span>  <a class="code hl_function" href="executor__pipe_8c.html#a09b06a19ddf318696b4ad8326182e528">is_simple_command</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>{</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">return</span> (node &amp;&amp; node-&gt;<a class="code hl_variable" href="structs__node.html#a68b42c704a722e8fb5e721c64b043d46">type</a> == <a class="code hl_enumvalue" href="minishell_8h.html#a92800318de4a8230904f886ef304e9e1a3a8b3871ce734ba62ff61c8b5bf3d9c7">NODE_CMD</a> &amp;&amp; node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a> &amp;&amp; node-&gt;<a class="code hl_variable" href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">cmd</a>[0]);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span></div>
+<div class="foldopen" id="foldopen00042" data-start="{" data-end="}">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="executor__pipe_8c.html#aa8577cfe4c99e1ec8c49b5c3b39fa5ac">   42</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="executor__pipe_8c.html#aa8577cfe4c99e1ec8c49b5c3b39fa5ac">execute_in_pipe_context</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <span class="keywordtype">char</span> ***envp, <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>{</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <a class="code hl_typedef" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a>    red;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">if</span> (!node)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="executor__pipe_8c.html#a09b06a19ddf318696b4ad8326182e528">is_simple_command</a>(node))</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span> (<a class="code hl_function" href="executor_8c.html#a2b8f8dadc5a368415a03482741b1deef">execute_node_by_type</a>(node, envp, shell));</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="executor__pipe__utils_8c.html#a370578141f8d0819f9ed163ed25b2df7">prepare_cmd_tokens</a>(node, shell) == -1)</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_function" href="executor__redir_8c.html#a2d982b34e533902fc8f050d6e8693a0d">init_redirect</a>(&amp;red);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">if</span> (node-&gt;<a class="code hl_variable" href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">redirections</a> &amp;&amp; !<a class="code hl_function" href="executor__redir2_8c.html#adc0707ffc22ef2cdc55e31f855c414b3">apply_node_redirections</a>(node, &amp;red))</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <a class="code hl_function" href="executor__redir_8c.html#a0dcff1590e8b256f10df31caf9b0a8b4">close_redirect_fds</a>(&amp;red);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <a class="code hl_function" href="executor__redir_8c.html#af8d30cb29ea4cb9d5841e5cd8d7331a9">restore_std_fds</a>(&amp;red);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">return</span> (<a class="code hl_function" href="executor__pipe__utils_8c.html#a0b3c74079f52c3f9615f3175e74dd22e">execute_cmd_builtin_or_exec</a>(node, envp, &amp;red));</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>}</div>
+</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span></div>
+<div class="foldopen" id="foldopen00077" data-start="{" data-end="}">
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="executor__pipe_8c.html#af829db486eb981c2c9ab72589a0d2526">   77</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="executor__pipe_8c.html#af829db486eb981c2c9ab72589a0d2526">execute_pipe_child_left</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <span class="keywordtype">char</span> ***envp,</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell, <span class="keywordtype">int</span> pipefd[2])</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>{</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <a class="code hl_function" href="signals_8c.html#ac2bc753c4a20408bc35468a80e9ea23e">setup_exec_signals</a>();</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    close(pipefd[0]);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordflow">if</span> (dup2(pipefd[1], STDOUT_FILENO) == -1)</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        perror(<span class="stringliteral">&quot;minishell: dup2&quot;</span>);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        exit(EXIT_FAILURE);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    close(pipefd[1]);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    exit(<a class="code hl_function" href="executor__pipe_8c.html#aa8577cfe4c99e1ec8c49b5c3b39fa5ac">execute_in_pipe_context</a>(node-&gt;<a class="code hl_variable" href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">left</a>, envp, shell));</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>}</div>
+</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span></div>
+<div class="foldopen" id="foldopen00106" data-start="{" data-end="}">
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="executor__pipe_8c.html#a6e79f11b1170d35aa94ad3c4302c666c">  106</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="executor__pipe_8c.html#a6e79f11b1170d35aa94ad3c4302c666c">execute_pipe_child_right</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <span class="keywordtype">char</span> ***envp,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell, <span class="keywordtype">int</span> pipefd[2])</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>{</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <a class="code hl_function" href="signals_8c.html#ac2bc753c4a20408bc35468a80e9ea23e">setup_exec_signals</a>();</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    close(pipefd[1]);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">if</span> (dup2(pipefd[0], STDIN_FILENO) == -1)</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        perror(<span class="stringliteral">&quot;minishell: dup2&quot;</span>);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        exit(EXIT_FAILURE);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    }</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    close(pipefd[0]);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    exit(<a class="code hl_function" href="executor__pipe_8c.html#aa8577cfe4c99e1ec8c49b5c3b39fa5ac">execute_in_pipe_context</a>(node-&gt;<a class="code hl_variable" href="structs__node.html#a5f0496b75fecc127bf81d4af9e9b9feb">right</a>, envp, shell));</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>}</div>
+</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span></div>
+<div class="foldopen" id="foldopen00137" data-start="{" data-end="}">
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="executor__pipe_8c.html#ae067ea6a9cd8b20966c550d914db5f76">  137</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="executor__pipe_8c.html#ae067ea6a9cd8b20966c550d914db5f76">execute_pipe_node</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <span class="keywordtype">char</span> ***envp, <a class="code hl_typedef" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>{</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordtype">int</span>     pipefd[2];</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    pid_t   pid_left;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    pid_t   pid_right;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordtype">int</span>     status;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keywordflow">if</span> (!node || !node-&gt;<a class="code hl_variable" href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">left</a> || !node-&gt;<a class="code hl_variable" href="structs__node.html#a5f0496b75fecc127bf81d4af9e9b9feb">right</a>)</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordflow">if</span> (pipe(pipefd) == -1)</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keywordflow">return</span> (perror(<span class="stringliteral">&quot;minishell: pipe&quot;</span>), 1);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <a class="code hl_function" href="signals_8c.html#ac2bc753c4a20408bc35468a80e9ea23e">setup_exec_signals</a>();</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    pid_left = fork();</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">if</span> (pid_left == 0)</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <a class="code hl_function" href="executor__pipe_8c.html#af829db486eb981c2c9ab72589a0d2526">execute_pipe_child_left</a>(node, envp, shell, pipefd);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    pid_right = fork();</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordflow">if</span> (pid_right == 0)</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <a class="code hl_function" href="executor__pipe_8c.html#a6e79f11b1170d35aa94ad3c4302c666c">execute_pipe_child_right</a>(node, envp, shell, pipefd);</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    close(pipefd[0]);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    close(pipefd[1]);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    waitpid(pid_left, NULL, 0);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    waitpid(pid_right, &amp;status, 0);</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <a class="code hl_function" href="signals_8c.html#ae784797a4bd2db14fabd222965782091">restore_signals</a>();</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keywordflow">return</span> (<a class="code hl_function" href="executor__pipe__utils_8c.html#aaceb959e779d678b911cf1fd558ec277">handle_pipe_status</a>(status));</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>}</div>
+</div>
+<div class="ttc" id="aexecutor_8c_html_a2b8f8dadc5a368415a03482741b1deef"><div class="ttname"><a href="executor_8c.html#a2b8f8dadc5a368415a03482741b1deef">execute_node_by_type</a></div><div class="ttdeci">int execute_node_by_type(t_node *node, char ***envp, t_shell *shell)</div><div class="ttdoc">Exécute un nœud avec gestion des redirections globales.</div><div class="ttdef"><b>Definition</b> <a href="executor_8c_source.html#l00120">executor.c:120</a></div></div>
+<div class="ttc" id="aexecutor__pipe_8c_html_a09b06a19ddf318696b4ad8326182e528"><div class="ttname"><a href="executor__pipe_8c.html#a09b06a19ddf318696b4ad8326182e528">is_simple_command</a></div><div class="ttdeci">static int is_simple_command(t_node *node)</div><div class="ttdoc">Vérifie si un nœud est une commande simple.</div><div class="ttdef"><b>Definition</b> <a href="#l00024">executor_pipe.c:24</a></div></div>
+<div class="ttc" id="aexecutor__pipe_8c_html_a6e79f11b1170d35aa94ad3c4302c666c"><div class="ttname"><a href="executor__pipe_8c.html#a6e79f11b1170d35aa94ad3c4302c666c">execute_pipe_child_right</a></div><div class="ttdeci">static void execute_pipe_child_right(t_node *node, char ***envp, t_shell *shell, int pipefd[2])</div><div class="ttdoc">Processus enfant droit d&#39;un pipe.</div><div class="ttdef"><b>Definition</b> <a href="#l00106">executor_pipe.c:106</a></div></div>
+<div class="ttc" id="aexecutor__pipe_8c_html_aa8577cfe4c99e1ec8c49b5c3b39fa5ac"><div class="ttname"><a href="executor__pipe_8c.html#aa8577cfe4c99e1ec8c49b5c3b39fa5ac">execute_in_pipe_context</a></div><div class="ttdeci">int execute_in_pipe_context(t_node *node, char ***envp, t_shell *shell)</div><div class="ttdoc">Exécute un nœud dans le contexte d&#39;un pipe.</div><div class="ttdef"><b>Definition</b> <a href="#l00042">executor_pipe.c:42</a></div></div>
+<div class="ttc" id="aexecutor__pipe_8c_html_ae067ea6a9cd8b20966c550d914db5f76"><div class="ttname"><a href="executor__pipe_8c.html#ae067ea6a9cd8b20966c550d914db5f76">execute_pipe_node</a></div><div class="ttdeci">int execute_pipe_node(t_node *node, char ***envp, t_shell *shell)</div><div class="ttdoc">Exécute un nœud de type pipe.</div><div class="ttdef"><b>Definition</b> <a href="#l00137">executor_pipe.c:137</a></div></div>
+<div class="ttc" id="aexecutor__pipe_8c_html_af829db486eb981c2c9ab72589a0d2526"><div class="ttname"><a href="executor__pipe_8c.html#af829db486eb981c2c9ab72589a0d2526">execute_pipe_child_left</a></div><div class="ttdeci">static void execute_pipe_child_left(t_node *node, char ***envp, t_shell *shell, int pipefd[2])</div><div class="ttdoc">Processus enfant gauche d&#39;un pipe.</div><div class="ttdef"><b>Definition</b> <a href="#l00077">executor_pipe.c:77</a></div></div>
+<div class="ttc" id="aexecutor__pipe__utils_8c_html_a0b3c74079f52c3f9615f3175e74dd22e"><div class="ttname"><a href="executor__pipe__utils_8c.html#a0b3c74079f52c3f9615f3175e74dd22e">execute_cmd_builtin_or_exec</a></div><div class="ttdeci">int execute_cmd_builtin_or_exec(t_node *node, char ***envp, t_redirect *red)</div><div class="ttdoc">Exécute une commande (builtin ou externe) dans le contexte d&#39;un pipe.</div><div class="ttdef"><b>Definition</b> <a href="executor__pipe__utils_8c_source.html#l00128">executor_pipe_utils.c:128</a></div></div>
+<div class="ttc" id="aexecutor__pipe__utils_8c_html_a370578141f8d0819f9ed163ed25b2df7"><div class="ttname"><a href="executor__pipe__utils_8c.html#a370578141f8d0819f9ed163ed25b2df7">prepare_cmd_tokens</a></div><div class="ttdeci">int prepare_cmd_tokens(t_node *node, t_shell *shell)</div><div class="ttdoc">Prépare les tokens de commande pour l&#39;exécution dans un pipe.</div><div class="ttdef"><b>Definition</b> <a href="executor__pipe__utils_8c_source.html#l00096">executor_pipe_utils.c:96</a></div></div>
+<div class="ttc" id="aexecutor__pipe__utils_8c_html_aaceb959e779d678b911cf1fd558ec277"><div class="ttname"><a href="executor__pipe__utils_8c.html#aaceb959e779d678b911cf1fd558ec277">handle_pipe_status</a></div><div class="ttdeci">int handle_pipe_status(int status)</div><div class="ttdoc">Traite le code de retour d&#39;un processus dans un contexte de pipe.</div><div class="ttdef"><b>Definition</b> <a href="executor__pipe__utils_8c_source.html#l00027">executor_pipe_utils.c:27</a></div></div>
+<div class="ttc" id="aexecutor__redir2_8c_html_adc0707ffc22ef2cdc55e31f855c414b3"><div class="ttname"><a href="executor__redir2_8c.html#adc0707ffc22ef2cdc55e31f855c414b3">apply_node_redirections</a></div><div class="ttdeci">int apply_node_redirections(t_node *node, t_redirect *red)</div><div class="ttdoc">Applique toutes les redirections d&#39;un nœud et configure les descripteurs.</div><div class="ttdef"><b>Definition</b> <a href="executor__redir2_8c_source.html#l00149">executor_redir2.c:149</a></div></div>
+<div class="ttc" id="aexecutor__redir_8c_html_a0dcff1590e8b256f10df31caf9b0a8b4"><div class="ttname"><a href="executor__redir_8c.html#a0dcff1590e8b256f10df31caf9b0a8b4">close_redirect_fds</a></div><div class="ttdeci">void close_redirect_fds(t_redirect *red)</div><div class="ttdef"><b>Definition</b> <a href="executor__redir_8c_source.html#l00032">executor_redir.c:32</a></div></div>
+<div class="ttc" id="aexecutor__redir_8c_html_a2d982b34e533902fc8f050d6e8693a0d"><div class="ttname"><a href="executor__redir_8c.html#a2d982b34e533902fc8f050d6e8693a0d">init_redirect</a></div><div class="ttdeci">void init_redirect(t_redirect *red)</div><div class="ttdoc">Initialise une structure de redirection.</div><div class="ttdef"><b>Definition</b> <a href="executor__redir_8c_source.html#l00024">executor_redir.c:24</a></div></div>
+<div class="ttc" id="aexecutor__redir_8c_html_af8d30cb29ea4cb9d5841e5cd8d7331a9"><div class="ttname"><a href="executor__redir_8c.html#af8d30cb29ea4cb9d5841e5cd8d7331a9">restore_std_fds</a></div><div class="ttdeci">void restore_std_fds(t_redirect *red)</div><div class="ttdoc">Restaure les descripteurs standards sauvegardés.</div><div class="ttdef"><b>Definition</b> <a href="executor__redir_8c_source.html#l00056">executor_redir.c:56</a></div></div>
+<div class="ttc" id="aminishell_8h_html"><div class="ttname"><a href="minishell_8h.html">minishell.h</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a3f46128da7b9ed932ecb00df9677e301"><div class="ttname"><a href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a></div><div class="ttdeci">struct s_node t_node</div></div>
+<div class="ttc" id="aminishell_8h_html_a92800318de4a8230904f886ef304e9e1a3a8b3871ce734ba62ff61c8b5bf3d9c7"><div class="ttname"><a href="minishell_8h.html#a92800318de4a8230904f886ef304e9e1a3a8b3871ce734ba62ff61c8b5bf3d9c7">NODE_CMD</a></div><div class="ttdeci">@ NODE_CMD</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00097">minishell.h:97</a></div></div>
+<div class="ttc" id="aminishell_8h_html_aa0a54f0f7fe7d432d2a6f820246de5c6"><div class="ttname"><a href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a></div><div class="ttdeci">struct s_redirect t_redirect</div></div>
+<div class="ttc" id="aminishell_8h_html_ae4cfb7c093350dca726786f683b6aca3"><div class="ttname"><a href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a></div><div class="ttdeci">struct s_shell t_shell</div></div>
+<div class="ttc" id="asignals_8c_html_ac2bc753c4a20408bc35468a80e9ea23e"><div class="ttname"><a href="signals_8c.html#ac2bc753c4a20408bc35468a80e9ea23e">setup_exec_signals</a></div><div class="ttdeci">void setup_exec_signals(void)</div><div class="ttdoc">Configure les signaux pour l&#39;exécution des commandes.</div><div class="ttdef"><b>Definition</b> <a href="signals_8c_source.html#l00093">signals.c:93</a></div></div>
+<div class="ttc" id="asignals_8c_html_ae784797a4bd2db14fabd222965782091"><div class="ttname"><a href="signals_8c.html#ae784797a4bd2db14fabd222965782091">restore_signals</a></div><div class="ttdeci">void restore_signals(void)</div><div class="ttdoc">Restaure les signaux après l&#39;exécution d&#39;une commande.</div><div class="ttdef"><b>Definition</b> <a href="signals_8c_source.html#l00105">signals.c:105</a></div></div>
+<div class="ttc" id="astructs__node_html_a020c34ffe3daca555c7c259d39c5363c"><div class="ttname"><a href="structs__node.html#a020c34ffe3daca555c7c259d39c5363c">s_node::left</a></div><div class="ttdeci">struct s_node * left</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00120">minishell.h:120</a></div></div>
+<div class="ttc" id="astructs__node_html_a5f0496b75fecc127bf81d4af9e9b9feb"><div class="ttname"><a href="structs__node.html#a5f0496b75fecc127bf81d4af9e9b9feb">s_node::right</a></div><div class="ttdeci">struct s_node * right</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00121">minishell.h:121</a></div></div>
+<div class="ttc" id="astructs__node_html_a68b42c704a722e8fb5e721c64b043d46"><div class="ttname"><a href="structs__node.html#a68b42c704a722e8fb5e721c64b043d46">s_node::type</a></div><div class="ttdeci">t_node_type type</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00116">minishell.h:116</a></div></div>
+<div class="ttc" id="astructs__node_html_a94b73434db07a3cd597d88e6e64d241e"><div class="ttname"><a href="structs__node.html#a94b73434db07a3cd597d88e6e64d241e">s_node::redirections</a></div><div class="ttdeci">t_redir * redirections</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00119">minishell.h:119</a></div></div>
+<div class="ttc" id="astructs__node_html_a9a008f63a51e8c96a585fde0fb55ea31"><div class="ttname"><a href="structs__node.html#a9a008f63a51e8c96a585fde0fb55ea31">s_node::cmd</a></div><div class="ttdeci">char ** cmd</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00117">minishell.h:117</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__pipe_8c.html">executor_pipe.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

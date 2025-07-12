@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/tokenizer/envar_to_value.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('envar__to__value_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier envar_to_value.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="envar__to__value_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a4006ea0880a13d69090c4e608cae5697" id="r_a4006ea0880a13d69090c4e608cae5697"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4006ea0880a13d69090c4e608cae5697">clean_dspace</a> (char *str)</td></tr>
+<tr class="memdesc:a4006ea0880a13d69090c4e608cae5697"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nettoie les espaces doubles consécutifs dans une chaîne.  <br /></td></tr>
+<tr class="separator:a4006ea0880a13d69090c4e608cae5697"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a813a0ebb7b19bc21c9308650ca1dd49b" id="r_a813a0ebb7b19bc21c9308650ca1dd49b"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a813a0ebb7b19bc21c9308650ca1dd49b">clean_double_slashes</a> (char *path)</td></tr>
+<tr class="memdesc:a813a0ebb7b19bc21c9308650ca1dd49b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nettoie les slashes doubles consécutifs dans un chemin.  <br /></td></tr>
+<tr class="separator:a813a0ebb7b19bc21c9308650ca1dd49b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68fa004a09aab4f48a75742bb2eae4f5" id="r_a68fa004a09aab4f48a75742bb2eae4f5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68fa004a09aab4f48a75742bb2eae4f5">ft_strnlen</a> (const char *s, size_t maxlen)</td></tr>
+<tr class="memdesc:a68fa004a09aab4f48a75742bb2eae4f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcule la longueur d'une chaîne avec une limite maximale.  <br /></td></tr>
+<tr class="separator:a68fa004a09aab4f48a75742bb2eae4f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3aca11c449f74551fb1b5af3af1c956" id="r_ab3aca11c449f74551fb1b5af3af1c956"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3aca11c449f74551fb1b5af3af1c956">ft_strndup</a> (char *s, size_t n)</td></tr>
+<tr class="memdesc:ab3aca11c449f74551fb1b5af3af1c956"><td class="mdescLeft">&#160;</td><td class="mdescRight">Duplique une chaîne avec une longueur maximale.  <br /></td></tr>
+<tr class="separator:ab3aca11c449f74551fb1b5af3af1c956"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a352478b602cf8f371f833c3f2bf8341d" id="r_a352478b602cf8f371f833c3f2bf8341d"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a352478b602cf8f371f833c3f2bf8341d">get_env_value</a> (const char *var_name, char ***envp)</td></tr>
+<tr class="memdesc:a352478b602cf8f371f833c3f2bf8341d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Récupère la valeur d'une variable d'environnement.  <br /></td></tr>
+<tr class="separator:a352478b602cf8f371f833c3f2bf8341d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6264ea4aca70c6eecb2dabfebbb6a79f" id="r_a6264ea4aca70c6eecb2dabfebbb6a79f"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6264ea4aca70c6eecb2dabfebbb6a79f">get_env_value_str</a> (const char *var_name, char ***envp)</td></tr>
+<tr class="memdesc:a6264ea4aca70c6eecb2dabfebbb6a79f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Récupère la valeur d'une variable d'environnement sous forme de chaîne.  <br /></td></tr>
+<tr class="separator:a6264ea4aca70c6eecb2dabfebbb6a79f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a813a0ebb7b19bc21c9308650ca1dd49b" name="a813a0ebb7b19bc21c9308650ca1dd49b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a813a0ebb7b19bc21c9308650ca1dd49b">&#9670;&#160;</a></span>clean_double_slashes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * clean_double_slashes </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Nettoie les slashes doubles consécutifs dans un chemin. </p>
+<p>Supprime les slashes redondants dans un chemin pour le normaliser (par exemple "/home//user" devient "/home/user").</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Chemin à nettoyer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Nouveau chemin nettoyé, NULL en cas d'erreur </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value_8c_source.html#l00055">55</a> du fichier <a class="el" href="envar__to__value_8c_source.html">envar_to_value.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="envar__to__value3_8c_source.html#l00045">finalize_content()</a>, et <a class="el" href="envar__to__value2_8c_source.html#l00024">finalize_token_value()</a>.</p>
+
+</div>
+</div>
+<a id="a4006ea0880a13d69090c4e608cae5697" name="a4006ea0880a13d69090c4e608cae5697"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4006ea0880a13d69090c4e608cae5697">&#9670;&#160;</a></span>clean_dspace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * clean_dspace </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>str</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Nettoie les espaces doubles consécutifs dans une chaîne. </p>
+<p>Supprime les espaces consécutifs redondants en ne gardant qu'un seul espace entre les mots.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>Chaîne à nettoyer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Nouvelle chaîne sans espaces doubles, NULL en cas d'erreur </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value_8c_source.html#l00024">24</a> du fichier <a class="el" href="envar__to__value_8c_source.html">envar_to_value.c</a>.</p>
+
+</div>
+</div>
+<a id="ab3aca11c449f74551fb1b5af3af1c956" name="ab3aca11c449f74551fb1b5af3af1c956"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3aca11c449f74551fb1b5af3af1c956">&#9670;&#160;</a></span>ft_strndup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * ft_strndup </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Duplique une chaîne avec une longueur maximale. </p>
+<p>Crée une copie d'une chaîne en limitant la longueur copiée au minimum entre n et la longueur réelle.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Chaîne source à dupliquer </td></tr>
+    <tr><td class="paramname">n</td><td>Nombre maximum de caractères à copier </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Nouvelle chaîne dupliquée, NULL en cas d'erreur </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value_8c_source.html#l00105">105</a> du fichier <a class="el" href="envar__to__value_8c_source.html">envar_to_value.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="envar__to__value_8c_source.html#l00085">ft_strnlen()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc__expansion_8c_source.html#l00086">expand_env_var()</a>, <a class="el" href="executor__heredoc__expansion_8c_source.html#l00050">expand_exit_status()</a>, <a class="el" href="envar__to__value7_8c_source.html#l00085">process_single_variable()</a>, et <a class="el" href="envar__to__value5_8c_source.html#l00068">process_variable_expansion()</a>.</p>
+
+</div>
+</div>
+<a id="a68fa004a09aab4f48a75742bb2eae4f5" name="a68fa004a09aab4f48a75742bb2eae4f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68fa004a09aab4f48a75742bb2eae4f5">&#9670;&#160;</a></span>ft_strnlen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t ft_strnlen </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>maxlen</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calcule la longueur d'une chaîne avec une limite maximale. </p>
+<p>Version sécurisée de strlen qui s'arrête à la longueur maximale spécifiée ou au caractère nul.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Chaîne à mesurer </td></tr>
+    <tr><td class="paramname">maxlen</td><td>Longueur maximale à considérer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>size_t Longueur effective de la chaîne </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value_8c_source.html#l00085">85</a> du fichier <a class="el" href="envar__to__value_8c_source.html">envar_to_value.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="envar__to__value_8c_source.html#l00105">ft_strndup()</a>.</p>
+
+</div>
+</div>
+<a id="a352478b602cf8f371f833c3f2bf8341d" name="a352478b602cf8f371f833c3f2bf8341d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a352478b602cf8f371f833c3f2bf8341d">&#9670;&#160;</a></span>get_env_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * get_env_value </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>var_name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char ***</td>          <td class="paramname"><span class="paramname"><em>envp</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Récupère la valeur d'une variable d'environnement. </p>
+<p>Recherche une variable dans l'environnement et retourne sa valeur. Gère le cas spécial du tilde (~) qui est mappé vers HOME.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var_name</td><td>Nom de la variable à rechercher </td></tr>
+    <tr><td class="paramname">envp</td><td>Pointeur vers le tableau d'environnement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Valeur de la variable, NULL si non trouvée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value_8c_source.html#l00129">129</a> du fichier <a class="el" href="envar__to__value_8c_source.html">envar_to_value.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00208">s_get_env_value::env_len</a>, <a class="el" href="minishell_8h_source.html#l00209">s_get_env_value::eq_pos</a>, <a class="el" href="minishell_8h_source.html#l00206">s_get_env_value::i</a>, et <a class="el" href="minishell_8h_source.html#l00207">s_get_env_value::name_len</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="envar__to__value5_8c_source.html#l00025">get_var_value_safe()</a>, et <a class="el" href="envar__to__value7_8c_source.html#l00044">get_variable_value_safe()</a>.</p>
+
+</div>
+</div>
+<a id="a6264ea4aca70c6eecb2dabfebbb6a79f" name="a6264ea4aca70c6eecb2dabfebbb6a79f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6264ea4aca70c6eecb2dabfebbb6a79f">&#9670;&#160;</a></span>get_env_value_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * get_env_value_str </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>var_name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char ***</td>          <td class="paramname"><span class="paramname"><em>envp</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Récupère la valeur d'une variable d'environnement sous forme de chaîne. </p>
+<p>Version alternative de get_env_value avec une logique légèrement différente pour la recherche dans l'environnement.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var_name</td><td>Nom de la variable à rechercher </td></tr>
+    <tr><td class="paramname">envp</td><td>Pointeur vers le tableau d'environnement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Valeur de la variable, NULL si non trouvée </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value_8c_source.html#l00168">168</a> du fichier <a class="el" href="envar__to__value_8c_source.html">envar_to_value.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00208">s_get_env_value::env_len</a>, <a class="el" href="minishell_8h_source.html#l00209">s_get_env_value::eq_pos</a>, <a class="el" href="minishell_8h_source.html#l00206">s_get_env_value::i</a>, et <a class="el" href="minishell_8h_source.html#l00207">s_get_env_value::name_len</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__heredoc__expansion_8c_source.html#l00086">expand_env_var()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_39308fc08fa4bc3f06a8c5851b1a59f5.html">tokenizer</a></li><li class="navelem"><a class="el" href="envar__to__value_8c.html">envar_to_value.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

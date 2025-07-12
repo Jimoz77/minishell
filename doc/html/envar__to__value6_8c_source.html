@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell:  Fichier source de source/tokenizer/envar_to_value6.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('envar__to__value6_8c_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">envar_to_value6.c</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="envar__to__value6_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*                                                        :::      ::::::::   */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*   envar_to_value6.c                                  :+:      :+:    :+:   */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*                                                    +:+ +:+         +:+     */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*   By: jimpa &lt;jimpa@student.42.fr&gt;                +#+  +:+       +#+        */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*                                                +#+#+#+#+#+   +#+           */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/*   Created: 2025/07/03 15:13:25 by jimpa             #+#    #+#             */</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">/*   Updated: 2025/07/12 20:00:06 by jimpa            ###   ########.fr       */</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="minishell_8h.html">../../include/minishell.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="envar__to__value6_8c.html#a1e8a41ad1cedda5ce7ce1fa98942f6be">   24</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="envar__to__value6_8c.html#a1e8a41ad1cedda5ce7ce1fa98942f6be">is_dollar_variable</a>(<span class="keywordtype">char</span> *current)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>{</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">return</span> (*current == <span class="charliteral">&#39;$&#39;</span>);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span></div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="envar__to__value6_8c.html#a70697a2ae31e600e07eb6ac07c865315">   39</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="envar__to__value6_8c.html#a70697a2ae31e600e07eb6ac07c865315">is_tilde_variable</a>(<span class="keywordtype">char</span> *current, <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *token)</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>{</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">return</span> (*current == <span class="charliteral">&#39;~&#39;</span> &amp;&amp; !token-&gt;<a class="code hl_variable" href="structs__token.html#a87d5d99a0e035d66cb5735654c9b3715">parts</a>);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
+</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span></div>
+<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="envar__to__value6_8c.html#aeb2ff887f186c681b1269555d8647085">   54</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="envar__to__value6_8c.html#aeb2ff887f186c681b1269555d8647085">should_process_variable</a>(<span class="keywordtype">char</span> *current, <a class="code hl_typedef" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *token)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>{</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="envar__to__value6_8c.html#a1e8a41ad1cedda5ce7ce1fa98942f6be">is_dollar_variable</a>(current))</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="envar__to__value6_8c.html#a70697a2ae31e600e07eb6ac07c865315">is_tilde_variable</a>(current, token))</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>}</div>
+</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span></div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="envar__to__value6_8c.html#acf29a039bec2be2c658731dbf85a8497">   72</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="envar__to__value6_8c.html#acf29a039bec2be2c658731dbf85a8497">handle_numeric_parameter</a>(<span class="keywordtype">char</span> **current)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>{</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">if</span> ((*current)[0] == <span class="charliteral">&#39;$&#39;</span> &amp;&amp; ((*current)[1] &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; (*current)[1] &lt;= <span class="charliteral">&#39;9&#39;</span>))</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        *current += 2;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span></div>
+<div class="foldopen" id="foldopen00091" data-start="{" data-end="}">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="envar__to__value6_8c.html#a63a77f66126041c4e0719a1297c52e0b">   91</a></span><span class="keywordtype">char</span>    *<a class="code hl_function" href="envar__to__value6_8c.html#a63a77f66126041c4e0719a1297c52e0b">get_var_start_position</a>(<span class="keywordtype">char</span> *current)</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>{</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">if</span> (*current == <span class="charliteral">&#39;$&#39;</span>)</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">return</span> (current + 1);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">return</span> (current);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>}</div>
+</div>
+<div class="ttc" id="aenvar__to__value6_8c_html_a1e8a41ad1cedda5ce7ce1fa98942f6be"><div class="ttname"><a href="envar__to__value6_8c.html#a1e8a41ad1cedda5ce7ce1fa98942f6be">is_dollar_variable</a></div><div class="ttdeci">int is_dollar_variable(char *current)</div><div class="ttdoc">Vérifie si le caractère courant est une variable dollar.</div><div class="ttdef"><b>Definition</b> <a href="#l00024">envar_to_value6.c:24</a></div></div>
+<div class="ttc" id="aenvar__to__value6_8c_html_a63a77f66126041c4e0719a1297c52e0b"><div class="ttname"><a href="envar__to__value6_8c.html#a63a77f66126041c4e0719a1297c52e0b">get_var_start_position</a></div><div class="ttdeci">char * get_var_start_position(char *current)</div><div class="ttdoc">Obtient la position de début d&#39;une variable.</div><div class="ttdef"><b>Definition</b> <a href="#l00091">envar_to_value6.c:91</a></div></div>
+<div class="ttc" id="aenvar__to__value6_8c_html_a70697a2ae31e600e07eb6ac07c865315"><div class="ttname"><a href="envar__to__value6_8c.html#a70697a2ae31e600e07eb6ac07c865315">is_tilde_variable</a></div><div class="ttdeci">int is_tilde_variable(char *current, t_token *token)</div><div class="ttdoc">Vérifie si le caractère courant est une variable tilde.</div><div class="ttdef"><b>Definition</b> <a href="#l00039">envar_to_value6.c:39</a></div></div>
+<div class="ttc" id="aenvar__to__value6_8c_html_acf29a039bec2be2c658731dbf85a8497"><div class="ttname"><a href="envar__to__value6_8c.html#acf29a039bec2be2c658731dbf85a8497">handle_numeric_parameter</a></div><div class="ttdeci">int handle_numeric_parameter(char **current)</div><div class="ttdoc">Gère les paramètres numériques lors du traitement.</div><div class="ttdef"><b>Definition</b> <a href="#l00072">envar_to_value6.c:72</a></div></div>
+<div class="ttc" id="aenvar__to__value6_8c_html_aeb2ff887f186c681b1269555d8647085"><div class="ttname"><a href="envar__to__value6_8c.html#aeb2ff887f186c681b1269555d8647085">should_process_variable</a></div><div class="ttdeci">int should_process_variable(char *current, t_token *token)</div><div class="ttdoc">Détermine si une variable doit être traitée.</div><div class="ttdef"><b>Definition</b> <a href="#l00054">envar_to_value6.c:54</a></div></div>
+<div class="ttc" id="aminishell_8h_html"><div class="ttname"><a href="minishell_8h.html">minishell.h</a></div></div>
+<div class="ttc" id="aminishell_8h_html_aead06bc7a81ebdd60cbdcf6b3b8e51d4"><div class="ttname"><a href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a></div><div class="ttdeci">struct s_token t_token</div></div>
+<div class="ttc" id="astructs__token_html_a87d5d99a0e035d66cb5735654c9b3715"><div class="ttname"><a href="structs__token.html#a87d5d99a0e035d66cb5735654c9b3715">s_token::parts</a></div><div class="ttdeci">t_word_part * parts</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00090">minishell.h:90</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_39308fc08fa4bc3f06a8c5851b1a59f5.html">tokenizer</a></li><li class="navelem"><a class="el" href="envar__to__value6_8c.html">envar_to_value6.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/tokenizer/envar_to_value6.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('envar__to__value6_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier envar_to_value6.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="envar__to__value6_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a1e8a41ad1cedda5ce7ce1fa98942f6be" id="r_a1e8a41ad1cedda5ce7ce1fa98942f6be"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e8a41ad1cedda5ce7ce1fa98942f6be">is_dollar_variable</a> (char *current)</td></tr>
+<tr class="memdesc:a1e8a41ad1cedda5ce7ce1fa98942f6be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifie si le caractère courant est une variable dollar.  <br /></td></tr>
+<tr class="separator:a1e8a41ad1cedda5ce7ce1fa98942f6be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70697a2ae31e600e07eb6ac07c865315" id="r_a70697a2ae31e600e07eb6ac07c865315"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70697a2ae31e600e07eb6ac07c865315">is_tilde_variable</a> (char *current, <a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *token)</td></tr>
+<tr class="memdesc:a70697a2ae31e600e07eb6ac07c865315"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifie si le caractère courant est une variable tilde.  <br /></td></tr>
+<tr class="separator:a70697a2ae31e600e07eb6ac07c865315"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb2ff887f186c681b1269555d8647085" id="r_aeb2ff887f186c681b1269555d8647085"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb2ff887f186c681b1269555d8647085">should_process_variable</a> (char *current, <a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *token)</td></tr>
+<tr class="memdesc:aeb2ff887f186c681b1269555d8647085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Détermine si une variable doit être traitée.  <br /></td></tr>
+<tr class="separator:aeb2ff887f186c681b1269555d8647085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf29a039bec2be2c658731dbf85a8497" id="r_acf29a039bec2be2c658731dbf85a8497"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf29a039bec2be2c658731dbf85a8497">handle_numeric_parameter</a> (char **current)</td></tr>
+<tr class="memdesc:acf29a039bec2be2c658731dbf85a8497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gère les paramètres numériques lors du traitement.  <br /></td></tr>
+<tr class="separator:acf29a039bec2be2c658731dbf85a8497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63a77f66126041c4e0719a1297c52e0b" id="r_a63a77f66126041c4e0719a1297c52e0b"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63a77f66126041c4e0719a1297c52e0b">get_var_start_position</a> (char *current)</td></tr>
+<tr class="memdesc:a63a77f66126041c4e0719a1297c52e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtient la position de début d'une variable.  <br /></td></tr>
+<tr class="separator:a63a77f66126041c4e0719a1297c52e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a63a77f66126041c4e0719a1297c52e0b" name="a63a77f66126041c4e0719a1297c52e0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63a77f66126041c4e0719a1297c52e0b">&#9670;&#160;</a></span>get_var_start_position()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * get_var_start_position </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>current</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obtient la position de début d'une variable. </p>
+<p>Retourne la position du début du nom de variable, en sautant le $ si présent.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>Pointeur vers la position courante </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>char* Pointeur vers le début du nom de variable </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value6_8c_source.html#l00091">91</a> du fichier <a class="el" href="envar__to__value6_8c_source.html">envar_to_value6.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="envar__to__value7_8c_source.html#l00085">process_single_variable()</a>.</p>
+
+</div>
+</div>
+<a id="acf29a039bec2be2c658731dbf85a8497" name="acf29a039bec2be2c658731dbf85a8497"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf29a039bec2be2c658731dbf85a8497">&#9670;&#160;</a></span>handle_numeric_parameter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int handle_numeric_parameter </td>
+          <td>(</td>
+          <td class="paramtype">char **</td>          <td class="paramname"><span class="paramname"><em>current</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gère les paramètres numériques lors du traitement. </p>
+<p>Traite les paramètres numériques en avançant le pointeur de 2 positions pour ignorer $[0-9].</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>Pointeur vers le pointeur de position courante </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 si traité, 0 sinon </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value6_8c_source.html#l00072">72</a> du fichier <a class="el" href="envar__to__value6_8c_source.html">envar_to_value6.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="envar__to__value8_8c_source.html#l00025">process_character_loop()</a>.</p>
+
+</div>
+</div>
+<a id="a1e8a41ad1cedda5ce7ce1fa98942f6be" name="a1e8a41ad1cedda5ce7ce1fa98942f6be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e8a41ad1cedda5ce7ce1fa98942f6be">&#9670;&#160;</a></span>is_dollar_variable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int is_dollar_variable </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>current</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vérifie si le caractère courant est une variable dollar. </p>
+<p>Détermine si le caractère courant est un $ indiquant le début d'une variable d'environnement.</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>Pointeur vers le caractère à vérifier </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 si c'est $, 0 sinon </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value6_8c_source.html#l00024">24</a> du fichier <a class="el" href="envar__to__value6_8c_source.html">envar_to_value6.c</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="envar__to__value6_8c_source.html#l00054">should_process_variable()</a>.</p>
+
+</div>
+</div>
+<a id="a70697a2ae31e600e07eb6ac07c865315" name="a70697a2ae31e600e07eb6ac07c865315"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70697a2ae31e600e07eb6ac07c865315">&#9670;&#160;</a></span>is_tilde_variable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int is_tilde_variable </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *</td>          <td class="paramname"><span class="paramname"><em>token</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vérifie si le caractère courant est une variable tilde. </p>
+<p>Détermine si le caractère courant est un ~ (uniquement pour les tokens sans parties quotées).</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>Pointeur vers le caractère à vérifier </td></tr>
+    <tr><td class="paramname">token</td><td>Pointeur vers le token pour vérifier les parties </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 si c'est ~ et token sans parties, 0 sinon </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value6_8c_source.html#l00039">39</a> du fichier <a class="el" href="envar__to__value6_8c_source.html">envar_to_value6.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00090">s_token::parts</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="envar__to__value6_8c_source.html#l00054">should_process_variable()</a>.</p>
+
+</div>
+</div>
+<a id="aeb2ff887f186c681b1269555d8647085" name="aeb2ff887f186c681b1269555d8647085"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb2ff887f186c681b1269555d8647085">&#9670;&#160;</a></span>should_process_variable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int should_process_variable </td>
+          <td>(</td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aead06bc7a81ebdd60cbdcf6b3b8e51d4">t_token</a> *</td>          <td class="paramname"><span class="paramname"><em>token</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Détermine si une variable doit être traitée. </p>
+<p>Vérifie si le caractère courant correspond à une variable qui nécessite un traitement ($ ou ~ dans certains cas).</p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>Pointeur vers le caractère à vérifier </td></tr>
+    <tr><td class="paramname">token</td><td>Pointeur vers le token contexte </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 si doit être traité, 0 sinon </dd></dl>
+
+<p class="definition">Définition à la ligne <a class="el" href="envar__to__value6_8c_source.html#l00054">54</a> du fichier <a class="el" href="envar__to__value6_8c_source.html">envar_to_value6.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="envar__to__value6_8c_source.html#l00024">is_dollar_variable()</a>, et <a class="el" href="envar__to__value6_8c_source.html#l00039">is_tilde_variable()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="envar__to__value8_8c_source.html#l00025">process_character_loop()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_39308fc08fa4bc3f06a8c5851b1a59f5.html">tokenizer</a></li><li class="navelem"><a class="el" href="envar__to__value6_8c.html">envar_to_value6.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell:  Fichier source de source/executor/executor_heredoc_utils.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__heredoc__utils_8c_source.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">executor_heredoc_utils.c</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="executor__heredoc__utils_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*                                                        :::      ::::::::   */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*   executor_heredoc_utils.c                           :+:      :+:    :+:   */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*                                                    +:+ +:+         +:+     */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*   By: jimpa &lt;jimpa@student.42.fr&gt;                +#+  +:+       +#+        */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*                                                +#+#+#+#+#+   +#+           */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/*   Created: 2025/06/10 17:29:33 by lsadikaj          #+#    #+#             */</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">/*   Updated: 2025/07/12 15:36:14 by jimpa            ###   ########.fr       */</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/* ************************************************************************** */</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="minishell_8h.html">../../include/minishell.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="}">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="executor__heredoc__utils_8c.html#a2b2b99f8935f22cd8e17a6b4ad7d1b48">   26</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="executor__heredoc__utils_8c.html#a2b2b99f8935f22cd8e17a6b4ad7d1b48">string_to_fd</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *content)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>{</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">int</span> pipe_fd[2];</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">if</span> (!content)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">return</span> (-1);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">if</span> (pipe(pipe_fd) == -1)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        perror(<span class="stringliteral">&quot;minishell: pipe&quot;</span>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">return</span> (-1);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">if</span> (write(pipe_fd[1], content, ft_strlen(content)) == -1)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        perror(<span class="stringliteral">&quot;minishell: write&quot;</span>);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        close(pipe_fd[0]);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        close(pipe_fd[1]);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">return</span> (-1);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    close(pipe_fd[1]);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">return</span> (pipe_fd[0]);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
+</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span></div>
+<div class="foldopen" id="foldopen00066" data-start="{" data-end="}">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="executor__heredoc__utils_8c.html#a496052cf1445519c11966b58d91fb7fb">   66</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="executor__heredoc__utils_8c.html#a496052cf1445519c11966b58d91fb7fb">apply_heredoc_redir</a>(<a class="code hl_typedef" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, <span class="keywordtype">char</span> *delimiter, <a class="code hl_typedef" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a> *red)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>{</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <a class="code hl_typedef" href="minishell_8h.html#ab2f13295d52c7b25c27b7711f908519e">t_heredoc</a>  *heredoc;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">if</span> (red-&gt;<a class="code hl_variable" href="structs__redirect.html#a60d3ccd063f0a330e0572ebb83a4b18d">stdin_fd</a> != -1)</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        close(red-&gt;<a class="code hl_variable" href="structs__redirect.html#a60d3ccd063f0a330e0572ebb83a4b18d">stdin_fd</a>);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        red-&gt;<a class="code hl_variable" href="structs__redirect.html#a60d3ccd063f0a330e0572ebb83a4b18d">stdin_fd</a> = -1;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    heredoc = node-&gt;<a class="code hl_variable" href="structs__node.html#a977a1d599df8bbe5520c8eea018c2206">heredocs</a>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">while</span> (heredoc)</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">if</span> (heredoc-&gt;<a class="code hl_variable" href="structs__heredoc.html#a4d88bc9bb86710d088a07b4c069fac0c">delimiter</a></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            &amp;&amp; ft_strncmp(heredoc-&gt;<a class="code hl_variable" href="structs__heredoc.html#a4d88bc9bb86710d088a07b4c069fac0c">delimiter</a>, delimiter,</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>                ft_strlen(delimiter) + 1) == 0</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            &amp;&amp; heredoc-&gt;<a class="code hl_variable" href="structs__heredoc.html#a585d4331114f2ad15938980a5f848376">processed</a> &amp;&amp; heredoc-&gt;<a class="code hl_variable" href="structs__heredoc.html#a60b51c0bc2065fe2897fcfb959aa3ff0">pipe_fd</a> != -1)</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            red-&gt;<a class="code hl_variable" href="structs__redirect.html#a60d3ccd063f0a330e0572ebb83a4b18d">stdin_fd</a> = heredoc-&gt;<a class="code hl_variable" href="structs__heredoc.html#a60b51c0bc2065fe2897fcfb959aa3ff0">pipe_fd</a>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            <span class="keywordflow">return</span> (1);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        heredoc = heredoc-&gt;<a class="code hl_variable" href="structs__heredoc.html#aeda223c03331ebb30aec3989331d4f56">next</a>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    ft_putstr_fd(<span class="stringliteral">&quot;minishell: warning: heredoc missing\n&quot;</span>, 2);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">return</span> (0);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>}</div>
+</div>
+<div class="ttc" id="aexecutor__heredoc__utils_8c_html_a2b2b99f8935f22cd8e17a6b4ad7d1b48"><div class="ttname"><a href="executor__heredoc__utils_8c.html#a2b2b99f8935f22cd8e17a6b4ad7d1b48">string_to_fd</a></div><div class="ttdeci">int string_to_fd(const char *content)</div><div class="ttdoc">Convertit une chaîne en descripteur de fichier via un pipe.</div><div class="ttdef"><b>Definition</b> <a href="#l00026">executor_heredoc_utils.c:26</a></div></div>
+<div class="ttc" id="aexecutor__heredoc__utils_8c_html_a496052cf1445519c11966b58d91fb7fb"><div class="ttname"><a href="executor__heredoc__utils_8c.html#a496052cf1445519c11966b58d91fb7fb">apply_heredoc_redir</a></div><div class="ttdeci">int apply_heredoc_redir(t_node *node, char *delimiter, t_redirect *red)</div><div class="ttdoc">Applique une redirection heredoc en trouvant le descripteur correspondant.</div><div class="ttdef"><b>Definition</b> <a href="#l00066">executor_heredoc_utils.c:66</a></div></div>
+<div class="ttc" id="aminishell_8h_html"><div class="ttname"><a href="minishell_8h.html">minishell.h</a></div></div>
+<div class="ttc" id="aminishell_8h_html_a3f46128da7b9ed932ecb00df9677e301"><div class="ttname"><a href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a></div><div class="ttdeci">struct s_node t_node</div></div>
+<div class="ttc" id="aminishell_8h_html_aa0a54f0f7fe7d432d2a6f820246de5c6"><div class="ttname"><a href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a></div><div class="ttdeci">struct s_redirect t_redirect</div></div>
+<div class="ttc" id="aminishell_8h_html_ab2f13295d52c7b25c27b7711f908519e"><div class="ttname"><a href="minishell_8h.html#ab2f13295d52c7b25c27b7711f908519e">t_heredoc</a></div><div class="ttdeci">struct s_heredoc t_heredoc</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00109">minishell.h:109</a></div></div>
+<div class="ttc" id="astructs__heredoc_html_a4d88bc9bb86710d088a07b4c069fac0c"><div class="ttname"><a href="structs__heredoc.html#a4d88bc9bb86710d088a07b4c069fac0c">s_heredoc::delimiter</a></div><div class="ttdeci">char * delimiter</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00127">minishell.h:127</a></div></div>
+<div class="ttc" id="astructs__heredoc_html_a585d4331114f2ad15938980a5f848376"><div class="ttname"><a href="structs__heredoc.html#a585d4331114f2ad15938980a5f848376">s_heredoc::processed</a></div><div class="ttdeci">int processed</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00129">minishell.h:129</a></div></div>
+<div class="ttc" id="astructs__heredoc_html_a60b51c0bc2065fe2897fcfb959aa3ff0"><div class="ttname"><a href="structs__heredoc.html#a60b51c0bc2065fe2897fcfb959aa3ff0">s_heredoc::pipe_fd</a></div><div class="ttdeci">int pipe_fd</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00130">minishell.h:130</a></div></div>
+<div class="ttc" id="astructs__heredoc_html_aeda223c03331ebb30aec3989331d4f56"><div class="ttname"><a href="structs__heredoc.html#aeda223c03331ebb30aec3989331d4f56">s_heredoc::next</a></div><div class="ttdeci">struct s_heredoc * next</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00131">minishell.h:131</a></div></div>
+<div class="ttc" id="astructs__node_html_a977a1d599df8bbe5520c8eea018c2206"><div class="ttname"><a href="structs__node.html#a977a1d599df8bbe5520c8eea018c2206">s_node::heredocs</a></div><div class="ttdeci">t_heredoc * heredocs</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00118">minishell.h:118</a></div></div>
+<div class="ttc" id="astructs__redirect_html_a60d3ccd063f0a330e0572ebb83a4b18d"><div class="ttname"><a href="structs__redirect.html#a60d3ccd063f0a330e0572ebb83a4b18d">s_redirect::stdin_fd</a></div><div class="ttdeci">int stdin_fd</div><div class="ttdef"><b>Definition</b> <a href="minishell_8h_source.html#l00145">minishell.h:145</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__heredoc__utils_8c.html">executor_heredoc_utils.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

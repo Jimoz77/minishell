@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/executor/executor_paren.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__paren_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier executor_paren.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="executor__paren_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a444385e6e478a05ccbdc1fe1bff2616b" id="r_a444385e6e478a05ccbdc1fe1bff2616b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a444385e6e478a05ccbdc1fe1bff2616b">child_paren_exec</a> (<a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, char ***envp, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a444385e6e478a05ccbdc1fe1bff2616b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processus enfant pour l'exécution de nœuds entre parenthèses.  <br /></td></tr>
+<tr class="separator:a444385e6e478a05ccbdc1fe1bff2616b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b99253159cc4f5310cbb4452fa7e251" id="r_a4b99253159cc4f5310cbb4452fa7e251"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b99253159cc4f5310cbb4452fa7e251">fork_and_execute</a> (<a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, char ***envp, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a4b99253159cc4f5310cbb4452fa7e251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fork et exécute un nœud parent avec gestion des signaux.  <br /></td></tr>
+<tr class="separator:a4b99253159cc4f5310cbb4452fa7e251"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0892876d3498272e3013a7424b5255e" id="r_ad0892876d3498272e3013a7424b5255e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0892876d3498272e3013a7424b5255e">execute_with_isol_env</a> (<a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, char ***envp, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:ad0892876d3498272e3013a7424b5255e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exécute un nœud avec un environnement isolé  <br /></td></tr>
+<tr class="separator:ad0892876d3498272e3013a7424b5255e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04c04a786432ea5fd864300e258782c6" id="r_a04c04a786432ea5fd864300e258782c6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a04c04a786432ea5fd864300e258782c6">execute_paren_node</a> (<a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node, char ***envp, <a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *shell)</td></tr>
+<tr class="memdesc:a04c04a786432ea5fd864300e258782c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exécute un nœud de type parenthèses (sous-shell)  <br /></td></tr>
+<tr class="separator:a04c04a786432ea5fd864300e258782c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a444385e6e478a05ccbdc1fe1bff2616b" name="a444385e6e478a05ccbdc1fe1bff2616b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a444385e6e478a05ccbdc1fe1bff2616b">&#9670;&#160;</a></span>child_paren_exec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void child_paren_exec </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char ***</td>          <td class="paramname"><span class="paramname"><em>envp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Processus enfant pour l'exécution de nœuds entre parenthèses. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>Nœud parent contenant le sous-arbre à exécuter </td></tr>
+    <tr><td class="paramname">envp</td><td>Pointeur vers l'environnement </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Fonction exécutée dans un processus enfant :</p><ol type="1">
+<li>Configure les signaux pour l'exécution</li>
+<li>Applique les redirections du nœud parent si présentes</li>
+<li>Exécute récursivement l'AST du nœud enfant Sort avec le code de retour de l'exécution. </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__paren_8c_source.html#l00028">28</a> du fichier <a class="el" href="executor__paren_8c_source.html">executor_paren.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="executor__redir2_8c_source.html#l00149">apply_node_redirections()</a>, <a class="el" href="executor__redir_8c_source.html#l00032">close_redirect_fds()</a>, <a class="el" href="executor_8c_source.html#l00163">execute_ast()</a>, <a class="el" href="executor__redir_8c_source.html#l00024">init_redirect()</a>, <a class="el" href="minishell_8h_source.html#l00120">s_node::left</a>, <a class="el" href="minishell_8h_source.html#l00119">s_node::redirections</a>, <a class="el" href="executor__redir_8c_source.html#l00056">restore_std_fds()</a>, et <a class="el" href="signals_8c_source.html#l00093">setup_exec_signals()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__paren_8c_source.html#l00059">fork_and_execute()</a>.</p>
+
+</div>
+</div>
+<a id="a04c04a786432ea5fd864300e258782c6" name="a04c04a786432ea5fd864300e258782c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04c04a786432ea5fd864300e258782c6">&#9670;&#160;</a></span>execute_paren_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int execute_paren_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char ***</td>          <td class="paramname"><span class="paramname"><em>envp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Exécute un nœud de type parenthèses (sous-shell) </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>Nœud parent à exécuter </td></tr>
+    <tr><td class="paramname">envp</td><td>Pointeur vers l'environnement </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int Code de retour de l'exécution</dd></dl>
+<p>Stratégie d'exécution selon la présence de redirections :</p><ul>
+<li>Sans redirections : exécution avec environnement isolé</li>
+<li>Avec redirections : fork et exécution avec redirections appliquées Les parenthèses créent un sous-contexte d'exécution qui préserve l'état du shell parent. </li>
+</ul>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__paren_8c_source.html#l00139">139</a> du fichier <a class="el" href="executor__paren_8c_source.html">executor_paren.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="executor__paren_8c_source.html#l00104">execute_with_isol_env()</a>, <a class="el" href="executor__paren_8c_source.html#l00059">fork_and_execute()</a>, <a class="el" href="minishell_8h_source.html#l00120">s_node::left</a>, et <a class="el" href="minishell_8h_source.html#l00119">s_node::redirections</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor_8c_source.html#l00031">execute_by_node_type()</a>.</p>
+
+</div>
+</div>
+<a id="ad0892876d3498272e3013a7424b5255e" name="ad0892876d3498272e3013a7424b5255e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0892876d3498272e3013a7424b5255e">&#9670;&#160;</a></span>execute_with_isol_env()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int execute_with_isol_env </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char ***</td>          <td class="paramname"><span class="paramname"><em>envp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Exécute un nœud avec un environnement isolé </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>Nœud à exécuter </td></tr>
+    <tr><td class="paramname">envp</td><td>Pointeur vers l'environnement </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int Code de retour de l'exécution</dd></dl>
+<p>Crée un environnement isolé pour l'exécution :</p><ol type="1">
+<li>Duplique l'environnement actuel</li>
+<li>Configure shell-&gt;envp temporairement</li>
+<li>Exécute l'AST du nœud enfant</li>
+<li>Restaure l'environnement original</li>
+<li>Libère l'environnement temporaire Utilisé quand les parenthèses n'ont pas de redirections. </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__paren_8c_source.html#l00104">104</a> du fichier <a class="el" href="executor__paren_8c_source.html">executor_paren.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00154">s_shell::envp</a>, <a class="el" href="executor_8c_source.html#l00163">execute_ast()</a>, <a class="el" href="memory__utils2_8c_source.html#l00023">free_array()</a>, <a class="el" href="ft__array__dup_8c_source.html#l00024">ft_array_dup2()</a>, et <a class="el" href="minishell_8h_source.html#l00120">s_node::left</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__paren_8c_source.html#l00139">execute_paren_node()</a>.</p>
+
+</div>
+</div>
+<a id="a4b99253159cc4f5310cbb4452fa7e251" name="a4b99253159cc4f5310cbb4452fa7e251"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b99253159cc4f5310cbb4452fa7e251">&#9670;&#160;</a></span>fork_and_execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int fork_and_execute </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char ***</td>          <td class="paramname"><span class="paramname"><em>envp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#ae4cfb7c093350dca726786f683b6aca3">t_shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Fork et exécute un nœud parent avec gestion des signaux. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>Nœud parent à exécuter </td></tr>
+    <tr><td class="paramname">envp</td><td>Pointeur vers l'environnement </td></tr>
+    <tr><td class="paramname">shell</td><td>Structure shell </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int Code de retour normalisé</dd></dl>
+<p>Gère l'exécution dans un processus séparé :</p><ol type="1">
+<li>Configure les signaux d'exécution</li>
+<li>Fork un processus enfant</li>
+<li>L'enfant exécute le contenu des parenthèses</li>
+<li>Le parent attend et traite le code de retour</li>
+<li>Restaure les signaux originaux Traite les signaux (SIGQUIT affiche "Quit (core dumped)"). </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__paren_8c_source.html#l00059">59</a> du fichier <a class="el" href="executor__paren_8c_source.html">executor_paren.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="executor__paren_8c_source.html#l00028">child_paren_exec()</a>, <a class="el" href="signals_8c_source.html#l00105">restore_signals()</a>, et <a class="el" href="signals_8c_source.html#l00093">setup_exec_signals()</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__paren_8c_source.html#l00139">execute_paren_node()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__paren_8c.html">executor_paren.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>

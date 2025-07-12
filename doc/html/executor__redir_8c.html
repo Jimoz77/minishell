@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.13.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Minishell: Référence du fichier source/executor/executor_redir.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Minishell<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Un interpréteur de commandes minimaliste implémenté en C</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.13.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('executor__redir_8c.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier executor_redir.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="minishell_8h_source.html">../../include/minishell.h</a>&quot;</code><br />
+</div>
+<p><a href="executor__redir_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a2d982b34e533902fc8f050d6e8693a0d" id="r_a2d982b34e533902fc8f050d6e8693a0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d982b34e533902fc8f050d6e8693a0d">init_redirect</a> (<a class="el" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a> *red)</td></tr>
+<tr class="memdesc:a2d982b34e533902fc8f050d6e8693a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise une structure de redirection.  <br /></td></tr>
+<tr class="separator:a2d982b34e533902fc8f050d6e8693a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dcff1590e8b256f10df31caf9b0a8b4" id="r_a0dcff1590e8b256f10df31caf9b0a8b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dcff1590e8b256f10df31caf9b0a8b4">close_redirect_fds</a> (<a class="el" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a> *red)</td></tr>
+<tr class="separator:a0dcff1590e8b256f10df31caf9b0a8b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8d30cb29ea4cb9d5841e5cd8d7331a9" id="r_af8d30cb29ea4cb9d5841e5cd8d7331a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8d30cb29ea4cb9d5841e5cd8d7331a9">restore_std_fds</a> (<a class="el" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a> *red)</td></tr>
+<tr class="memdesc:af8d30cb29ea4cb9d5841e5cd8d7331a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restaure les descripteurs standards sauvegardés.  <br /></td></tr>
+<tr class="separator:af8d30cb29ea4cb9d5841e5cd8d7331a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a072b430016847741c4e7839c4cd816ea" id="r_a072b430016847741c4e7839c4cd816ea"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a072b430016847741c4e7839c4cd816ea">is_redirect_node</a> (<a class="el" href="minishell_8h.html#a34d2e60721a7e17b83ca9800e463c088">t_node_type</a> type)</td></tr>
+<tr class="memdesc:a072b430016847741c4e7839c4cd816ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifie si un type de nœud est une redirection.  <br /></td></tr>
+<tr class="separator:a072b430016847741c4e7839c4cd816ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66f0074b42e6699eeab6a2f1a508148c" id="r_a66f0074b42e6699eeab6a2f1a508148c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66f0074b42e6699eeab6a2f1a508148c">find_command_node</a> (<a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *node)</td></tr>
+<tr class="memdesc:a66f0074b42e6699eeab6a2f1a508148c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trouve le nœud de commande dans un arbre de redirections.  <br /></td></tr>
+<tr class="separator:a66f0074b42e6699eeab6a2f1a508148c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a0dcff1590e8b256f10df31caf9b0a8b4" name="a0dcff1590e8b256f10df31caf9b0a8b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dcff1590e8b256f10df31caf9b0a8b4">&#9670;&#160;</a></span>close_redirect_fds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void close_redirect_fds </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a> *</td>          <td class="paramname"><span class="paramname"><em>red</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__redir_8c_source.html#l00032">32</a> du fichier <a class="el" href="executor__redir_8c_source.html">executor_redir.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00145">s_redirect::stdin_fd</a>, et <a class="el" href="minishell_8h_source.html#l00146">s_redirect::stdout_fd</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__cmd_8c_source.html#l00113">child_exec_process()</a>, <a class="el" href="executor__paren_8c_source.html#l00028">child_paren_exec()</a>, <a class="el" href="executor__cmd__utils3_8c_source.html#l00165">exec_builtin_with_redirections()</a>, <a class="el" href="executor__pipe__utils_8c_source.html#l00128">execute_cmd_builtin_or_exec()</a>, <a class="el" href="executor__pipe_8c_source.html#l00042">execute_in_pipe_context()</a>, <a class="el" href="executor_8c_source.html#l00120">execute_node_by_type()</a>, et <a class="el" href="executor__cmd_8c_source.html#l00029">execute_redir_only()</a>.</p>
+
+</div>
+</div>
+<a id="a66f0074b42e6699eeab6a2f1a508148c" name="a66f0074b42e6699eeab6a2f1a508148c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66f0074b42e6699eeab6a2f1a508148c">&#9670;&#160;</a></span>find_command_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> * find_command_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a3f46128da7b9ed932ecb00df9677e301">t_node</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Trouve le nœud de commande dans un arbre de redirections. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>Nœud racine à explorer </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>t_node* Nœud de commande trouvé, NULL sinon</dd></dl>
+<p>Parcourt récursivement l'arbre pour trouver le premier nœud de type NODE_CMD. Explore d'abord la branche gauche, puis la branche droite si nécessaire. </p>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__redir_8c_source.html#l00100">100</a> du fichier <a class="el" href="executor__redir_8c_source.html">executor_redir.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="executor__redir_8c_source.html#l00100">find_command_node()</a>, <a class="el" href="minishell_8h_source.html#l00120">s_node::left</a>, <a class="el" href="minishell_8h_source.html#l00097">NODE_CMD</a>, <a class="el" href="minishell_8h_source.html#l00121">s_node::right</a>, et <a class="el" href="minishell_8h_source.html#l00116">s_node::type</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__redir_8c_source.html#l00100">find_command_node()</a>.</p>
+
+</div>
+</div>
+<a id="a2d982b34e533902fc8f050d6e8693a0d" name="a2d982b34e533902fc8f050d6e8693a0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d982b34e533902fc8f050d6e8693a0d">&#9670;&#160;</a></span>init_redirect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void init_redirect </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a> *</td>          <td class="paramname"><span class="paramname"><em>red</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialise une structure de redirection. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">red</td><td>Structure de redirection à initialiser</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Initialise tous les descripteurs de fichier à -1 :</p><ul>
+<li>saved_stdin/stdout : descripteurs sauvegardés</li>
+<li>stdin_fd/stdout_fd : nouveaux descripteurs de redirection </li>
+</ul>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__redir_8c_source.html#l00024">24</a> du fichier <a class="el" href="executor__redir_8c_source.html">executor_redir.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00147">s_redirect::saved_stdin</a>, <a class="el" href="minishell_8h_source.html#l00148">s_redirect::saved_stdout</a>, <a class="el" href="minishell_8h_source.html#l00145">s_redirect::stdin_fd</a>, et <a class="el" href="minishell_8h_source.html#l00146">s_redirect::stdout_fd</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__cmd_8c_source.html#l00113">child_exec_process()</a>, <a class="el" href="executor__paren_8c_source.html#l00028">child_paren_exec()</a>, <a class="el" href="executor__cmd__utils3_8c_source.html#l00165">exec_builtin_with_redirections()</a>, <a class="el" href="executor__pipe_8c_source.html#l00042">execute_in_pipe_context()</a>, <a class="el" href="executor_8c_source.html#l00120">execute_node_by_type()</a>, et <a class="el" href="executor__cmd_8c_source.html#l00029">execute_redir_only()</a>.</p>
+
+</div>
+</div>
+<a id="a072b430016847741c4e7839c4cd816ea" name="a072b430016847741c4e7839c4cd816ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a072b430016847741c4e7839c4cd816ea">&#9670;&#160;</a></span>is_redirect_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int is_redirect_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#a34d2e60721a7e17b83ca9800e463c088">t_node_type</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vérifie si un type de nœud est une redirection. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>Type de nœud à vérifier </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int 1 si c'est une redirection, 0 sinon</dd></dl>
+<p>Identifie les types de nœuds correspondant aux redirections :</p><ul>
+<li>NODE_REDIRECT_IN : redirection d'entrée (&lt;)</li>
+<li>NODE_REDIRECT_OUT : redirection de sortie (&gt;)</li>
+<li>NODE_APPEND : redirection d'ajout (&gt;&gt;)</li>
+<li>NODE_HEREDOC : here document (&lt;&lt;) </li>
+</ul>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__redir_8c_source.html#l00084">84</a> du fichier <a class="el" href="executor__redir_8c_source.html">executor_redir.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00101">NODE_APPEND</a>, <a class="el" href="minishell_8h_source.html#l00102">NODE_HEREDOC</a>, <a class="el" href="minishell_8h_source.html#l00099">NODE_REDIRECT_IN</a>, et <a class="el" href="minishell_8h_source.html#l00100">NODE_REDIRECT_OUT</a>.</p>
+
+</div>
+</div>
+<a id="af8d30cb29ea4cb9d5841e5cd8d7331a9" name="af8d30cb29ea4cb9d5841e5cd8d7331a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8d30cb29ea4cb9d5841e5cd8d7331a9">&#9670;&#160;</a></span>restore_std_fds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void restore_std_fds </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="minishell_8h.html#aa0a54f0f7fe7d432d2a6f820246de5c6">t_redirect</a> *</td>          <td class="paramname"><span class="paramname"><em>red</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Restaure les descripteurs standards sauvegardés. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">red</td><td>Structure de redirection</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Restaure les descripteurs stdin/stdout originaux :</p><ol type="1">
+<li>Utilise dup2() pour restaurer les descripteurs</li>
+<li>Ferme les descripteurs sauvegardés</li>
+<li>Remet les champs à -1 </li>
+</ol>
+
+<p class="definition">Définition à la ligne <a class="el" href="executor__redir_8c_source.html#l00056">56</a> du fichier <a class="el" href="executor__redir_8c_source.html">executor_redir.c</a>.</p>
+
+<p class="reference">Références <a class="el" href="minishell_8h_source.html#l00147">s_redirect::saved_stdin</a>, et <a class="el" href="minishell_8h_source.html#l00148">s_redirect::saved_stdout</a>.</p>
+
+<p class="reference">Référencé par <a class="el" href="executor__cmd_8c_source.html#l00113">child_exec_process()</a>, <a class="el" href="executor__paren_8c_source.html#l00028">child_paren_exec()</a>, <a class="el" href="executor__cmd__utils3_8c_source.html#l00165">exec_builtin_with_redirections()</a>, <a class="el" href="executor__pipe__utils_8c_source.html#l00128">execute_cmd_builtin_or_exec()</a>, <a class="el" href="executor__pipe_8c_source.html#l00042">execute_in_pipe_context()</a>, <a class="el" href="executor_8c_source.html#l00120">execute_node_by_type()</a>, et <a class="el" href="executor__cmd_8c_source.html#l00029">execute_redir_only()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_52f707c78a10cfe2c50fe96dcb867306.html">executor</a></li><li class="navelem"><a class="el" href="executor__redir_8c.html">executor_redir.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
+  </ul>
+</div>
+</body>
+</html>
