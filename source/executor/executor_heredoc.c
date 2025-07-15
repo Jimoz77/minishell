@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 22:40:45 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/11 22:08:38 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/15 20:41:39 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static char	*append_line_to_content(char *content, char *line)
 int interupt(char *line)
 
 {
-	g_signal = SIGNAL_NORMAL;  // Reset le signal
-	set_heredoc_mode(0);       // Désactiver le mode heredoc
+	g_signal = SIGNAL_NORMAL;
+	set_heredoc_mode(0);
 	if (line)
 		free(line);
-	return (0);  // Fermer le heredoc
+	return (0);
 }
 
 static int	process_heredoc_line(const char *delimiter, t_shell *shell,
@@ -46,7 +46,7 @@ static int	process_heredoc_line(const char *delimiter, t_shell *shell,
 	line = readline("> ");
 	if (g_signal == SIGNAL_HEREDOC_INTERRUPTED)
 		return (interupt(line));
-	set_heredoc_mode(0);  // Désactiver le mode heredoc
+	set_heredoc_mode(0);
 	if (!line)
 		return (0);
 	if (ft_strlen(line) == delim_len

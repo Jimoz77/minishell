@@ -6,13 +6,19 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:09:09 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/11 21:48:35 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/15 20:40:46 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int	g_signal = 0;
+
+int donothing(void)
+{
+    // Fonction vide pour les hooks readline
+    return (0);
+}
 
 // Gestionnaire pour SIGINT (CTRL+C) en mode interactif
 void handle_sigint(int sig)
@@ -81,7 +87,10 @@ void restore_signals(void)
 void set_heredoc_mode(int mode)
 {
     if (mode)
+    {
         g_signal = SIGNAL_HEREDOC_MODE;
+        rl_event_hook = donothing;  // Désactiver les hooks readline
+    }
     else if (g_signal == SIGNAL_HEREDOC_MODE)
         g_signal = SIGNAL_NORMAL;
 }

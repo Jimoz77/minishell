@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils6.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:56:12 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/09 15:15:21 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:44:30 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,30 @@ void	process_token_expansion(t_shell *shell, t_token *temp_tokens)
 	}
 }
 
-int	exec_cmd_with_redirections(t_node *node, char **envp, t_shell *shell)
+int    exec_cmd_with_redirections(t_node *node, char **envp, t_shell *shell)
 {
-	pid_t	pid;
-	int		status;
+    pid_t    pid;
+    int        status;
 
-	setup_exec_signals();
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("minishell: fork");
-		restore_signals();
-		return (1);
-	}
-	else if (pid == 0)
-		child_exec_process(node, envp, shell);
-	waitpid(pid, &status, 0);
-	restore_signals();
-	return (handle_exec_status(status));
+    signal(SIGINT, SIG_IGN); // Le parent ignore temporairement SIGINT
+    pid = fork();
+    if (pid == -1)
+    {
+        perror("minishell: fork");
+        restore_signals();
+        return (1);
+    }
+    else if (pid == 0)
+    {
+        // Le fils réagit normalement aux signaux
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
+        child_exec_process(node, envp, shell);
+    }
+    waitpid(pid, &status, 0);
+    if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+        write(STDOUT_FILENO, "\n", 1);
+    signal(SIGINT, handle_sigint); // Restaure le handler du shell
+    restore_signals();
+    return (handle_exec_status(status));
 }
