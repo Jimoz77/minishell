@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:02:24 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/10 19:20:38 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 16:35:17 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,32 @@ char	**create_simple_env(void)
 	char	**envp;
 
 	envp = malloc(sizeof(char *) * 4);
-
-	envp[0] = malloc(sizeof("PWD=/home/lsadikaj/Documents/minishell"));
+	if (!envp)
+		return (NULL);
 	envp[0] = ft_strdup("PWD=/home/lsadikaj/Documents/minishell");
-	envp[1] = malloc(sizeof("SHLVL=1"));
 	envp[1] = ft_strdup("SHLVL=1");
-	envp[2] = malloc(sizeof("_=/usr/bin/env"));
 	envp[2] = ft_strdup("_=/usr/bin/env");
-	envp[3] = '\0';
+	envp[3] = NULL;
+	if (!envp[0] || !envp[1] || !envp[2])
+	{
+		if (envp[0]) free(envp[0]);
+		if (envp[1]) free(envp[1]);
+		if (envp[2]) free(envp[2]);
+		free(envp);
+		return (NULL);
+	}
 	return (envp);
 }
 
 char	***decrement_shlvl(char ***envp)
 {
-	int i;
+	int	i;
 	int	j;
-	int lvl;
+	int	lvl;
 
 	i = 0;
 	j = 0;
-	while(envp[0][i] && ft_strncmp(envp[0][i], "SHLVL", 5))
+	while (envp[0][i] && ft_strncmp(envp[0][i], "SHLVL", 5))
 		i++;
 	while (envp[0][i][j] && envp[0][i][j] != '=')
 		j++;
@@ -91,13 +97,13 @@ char	***decrement_shlvl(char ***envp)
 
 char	***increment_shlvl(char ***envp)
 {
-	int i;
+	int	i;
 	int	j;
-	int lvl;
+	int	lvl;
 
 	i = 0;
 	j = 0;
-	while(envp[0][i] && ft_strncmp(envp[0][i], "SHLVL", 5))
+	while (envp[0][i] && ft_strncmp(envp[0][i], "SHLVL", 5))
 		i++;
 	while (envp[0][i][j] && envp[0][i][j] != '=')
 		j++;

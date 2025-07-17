@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar_to_value8.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:15:02 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/03 15:46:24 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/17 15:45:01 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,24 @@ void	process_character_loop(t_shell *shell, t_token *token,
 			current++;
 		}
 	}
+}
+
+char	*clean_double_slashes(char *path)
+{
+	char	*cleaned;
+	char	*dest;
+	char	*src;
+
+	cleaned = ft_strdup(path);
+	dest = cleaned;
+	src = cleaned;
+	while (*src)
+	{
+		*dest = *src++;
+		if (*dest == '/' && *(src) == '/')
+			continue ;
+		dest++;
+	}
+	*dest = '\0';
+	return (cleaned);
 }

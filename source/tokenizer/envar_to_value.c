@@ -6,53 +6,11 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:01 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/10 18:56:10 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:52:34 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-char	*clean_dspace(char *str)
-{
-	int		i;
-	int		j;
-	char	tmp[BUFSIZ];
-	char	*result;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		while (str[i] == ' ' && str[i + 1] == ' ')
-			i++;
-		tmp[j] = str[i];
-		i++;
-		j++;
-	}
-	tmp[j] = '\0';
-	result = ft_strdup(tmp);
-	return (result);
-}
-
-char	*clean_double_slashes(char *path)
-{
-	char	*cleaned;
-	char	*dest;
-	char	*src;
-
-	cleaned = ft_strdup(path);
-	dest = cleaned;
-	src = cleaned;
-	while (*src)
-	{
-		*dest = *src++;
-		if (*dest == '/' && *(src) == '/')
-			continue ;
-		dest++;
-	}
-	*dest = '\0';
-	return (cleaned);
-}
 
 size_t	ft_strnlen(const char *s, size_t maxlen)
 {
@@ -107,7 +65,7 @@ char	*get_env_value(const char *var_name, char ***envp)
 	return (NULL);
 }
 
-char *get_env_value_str(const char *var_name, char ***envp)
+char	*get_env_value_str(const char *var_name, char ***envp)
 {
 	t_get_env_value	v;
 

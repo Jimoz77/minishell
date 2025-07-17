@@ -6,7 +6,7 @@
 #    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 14:00:24 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/07/09 17:35:45 by lsadikaj         ###   ########.fr        #
+#    Updated: 2025/07/17 15:40:23 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS = \
 	$(SRC_DIR)/ft_read_line.c \
 	$(SRC_DIR)/ft_read_line_utils.c \
 	$(SRC_DIR)/signals.c \
+	$(SRC_DIR)/signals2.c \
 	$(SRC_DIR)/built-in/ft_cd.c \
 	$(SRC_DIR)/built-in/ft_echo.c \
 	$(SRC_DIR)/built-in/ft_env.c \
