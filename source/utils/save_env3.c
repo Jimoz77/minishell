@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:07:22 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/08 14:22:00 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:12:28 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	**allocate_initial_env(void)
 {
 	char	**env;
 
-	env = malloc(sizeof(char *) * 1);
+	env = ft_calloc(1, sizeof(char *));
 	if (!env)
 		return (NULL);
 	return (env);
