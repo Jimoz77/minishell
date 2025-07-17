@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:02:24 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/17 16:35:17 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 16:40:04 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,12 @@ char	**create_simple_env(void)
 	envp[3] = NULL;
 	if (!envp[0] || !envp[1] || !envp[2])
 	{
-		if (envp[0]) free(envp[0]);
-		if (envp[1]) free(envp[1]);
-		if (envp[2]) free(envp[2]);
+		if (envp[0])
+			free(envp[0]);
+		if (envp[1])
+			free(envp[1]);
+		if (envp[2])
+			free(envp[2]);
 		free(envp);
 		return (NULL);
 	}
