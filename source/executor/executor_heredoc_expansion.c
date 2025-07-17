@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 15:37:37 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/10 19:03:52 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:48:04 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static int	can_expand_heredoc(char *var_end)
 {
 	if (!*var_end)
 		return (1);
-	if ((*var_end >= 'a' && *var_end <= 'z') || (*var_end >= 'A' && *var_end <= 'Z')
+	if ((*var_end >= 'a' && *var_end <= 'z')
+		|| (*var_end >= 'A' && *var_end <= 'Z')
 		|| (*var_end >= '0' && *var_end <= '9') || *var_end == '_')
 		return (0);
 	return (1);
@@ -65,7 +66,6 @@ static char	*expand_env_var(char *line, char *current, char *var_end,
 	free(after);
 	free(var_name);
 	free(line);
-	
 	return (before);
 }
 

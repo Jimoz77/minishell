@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 12:32:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/10 15:57:48 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:50:31 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static char	*read_additional_input(char *input)
 			free(input);
 			return (NULL);
 		}
-		
 		new_input = concat_additional_input(input, additional_input);
 		if (!new_input)
 		{

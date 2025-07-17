@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:59:03 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/11 21:17:26 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/17 15:50:15 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include "../libft/get_next_line/get_next_line.h"
 
 # define SIGNAL_NORMAL 0
-# define SIGNAL_HEREDOC_MODE 42  // Valeur spéciale pour indiquer le mode heredoc
+# define SIGNAL_HEREDOC_MODE 42
 # define SIGNAL_HEREDOC_INTERRUPTED 43
 
 typedef struct s_printsort
@@ -425,7 +425,8 @@ int				execute_with_path(char *path, char **cmd, char **envp);
 int				process_cmd_tokens(t_node *node, char ***envp, t_shell *shell);
 int				exec_builtin_with_redirections(t_node *node, char ***envp);
 char			*expand_heredoc_line(char *line, t_shell *shell);
-//int			exec_external(char **cmd, char **envp, t_shell *shell);
+int				process_heredoc_line(const char *delimiter, t_shell *shell,
+					char **content, size_t delim_len);
 int				exec_cmd_with_redirections(t_node *node,
 					char **envp, t_shell *shell);
 int				execute_cmd_builtin_or_exec(t_node *node,

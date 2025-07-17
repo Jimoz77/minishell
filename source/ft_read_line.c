@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/07/10 18:32:18 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 16:35:00 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,11 @@ static int	handle_token_syntax(t_shell *shell, char *input)
 static void	process_input(t_shell *shell, char *input)
 {
 	if (!*input)
-	{
-		//free(input);
 		return ;
-	}
 	add_history(input);
 	save_history(input, shell);
 	input = handle_unclosed_quotes(input);
-	if(ft_strncmp(input, "./minishell", 11) == 0)
+	if (ft_strncmp(input, "./minishell", 11) == 0)
 		increment_shlvl(shell->envp);
 	if (!input)
 		return ;
@@ -59,6 +56,7 @@ static void	process_input(t_shell *shell, char *input)
 static void	ft_read_line_loop(t_shell *shell)
 {
 	char	*input;
+	char	*processed_input;
 
 	input = NULL;
 	while (1)
@@ -67,9 +65,16 @@ static void	ft_read_line_loop(t_shell *shell)
 		input = readline("minishell> ");
 		if (!input)
 			break ;
-		process_input(shell, input);
-		if (input)
+		processed_input = handle_unclosed_quotes(input);
+		if (processed_input)
+		{
+			process_input(shell, processed_input);
+			free(processed_input);
+		}
+		else if (input)
+		{
 			free(input);
+		}
 	}
 	ft_printf("\n");
 }
