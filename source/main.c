@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:59:25 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/17 16:34:45 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:18:01 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ int	main(int ac, char **av, char **envp)
 	else
 		my_envp = create_simple_env();
 	ft_read_line(my_envp);
+	if (my_envp)
+		free_array(my_envp);
 	return (0);
 }
