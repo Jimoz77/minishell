@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/07/17 16:55:58 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:24:33 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ void	ft_read_line(char **envp)
 	load_history();
 	ft_read_line_loop(shell);
 	free_shell(shell);
-	if (envp)
-		free_array(envp);
+	/* if (envp)
+		free_array(envp); */
 }

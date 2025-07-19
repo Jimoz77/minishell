@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:17:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/03 20:50:02 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/18 16:36:41 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	process_cmd_expansion(t_token *temp_tokens, t_shell *shell)
 int	handle_no_tokens_case(t_node *node, char ***envp, t_shell *shell)
 {
 	if (ft_is_builtin(node->cmd, envp))
-		return (exec_builtin_with_redirections(node, envp));
+		return (exec_builtin_with_redirections(node, envp, shell));
 	else
 		return (exec_cmd_with_redirections(node, *envp, shell));
 }
@@ -101,13 +101,13 @@ int	exec_external(char **cmd, char **envp)
 	return (126);
 }
 
-int	exec_builtin_with_redirections(t_node *node, char ***envp)
+int	exec_builtin_with_redirections(t_node *node, char ***envp, t_shell *shell)
 {
 	t_redirect	red;
 	int			result;
 
 	if (!node->redirections)
-		return (execute_builtin(node->cmd, envp));
+		return (execute_builtin(node->cmd, envp, shell));
 	init_redirect(&red);
 	if (!apply_node_redirections(node, &red))
 	{
@@ -115,7 +115,7 @@ int	exec_builtin_with_redirections(t_node *node, char ***envp)
 		restore_std_fds(&red);
 		return (1);
 	}
-	result = execute_builtin(node->cmd, envp);
+	result = execute_builtin(node->cmd, envp, shell);
 	close_redirect_fds(&red);
 	restore_std_fds(&red);
 	return (result);

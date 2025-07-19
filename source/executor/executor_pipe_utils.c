@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:39:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/09 15:06:53 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:10:14 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ int	prepare_cmd_tokens(t_node *node, t_shell *shell)
 	return (0);
 }
 
-int	execute_cmd_builtin_or_exec(t_node *node, char ***envp, t_redirect *red)
+int	execute_cmd_builtin_or_exec(t_node *node, char ***envp, t_redirect *red, t_shell *shell)
 {
 	char	*path;
 	int		result;
 
 	if (ft_is_builtin(node->cmd, envp))
 	{
-		result = execute_builtin(node->cmd, envp);
+		result = execute_builtin(node->cmd, envp, shell);
 		close_redirect_fds(red);
 		restore_std_fds(red);
 		return (result);

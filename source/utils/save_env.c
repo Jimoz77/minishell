@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:07:20 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/10 14:48:10 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:57:36 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	open_env_file_write(void)
 {
 	int	fd;
 
-	fd = open("/home/lsadikaj/Documents/minishell/etc/.mini_env",
+	fd = open("/home/jimpa/work/minishell/etc/.mini_env",
 			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		perror("open");

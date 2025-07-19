@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_env2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:06:27 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/10 19:07:27 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:09:05 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	open_history_file(void)
 {
 	int	fd;
 
-	fd = open("/home/lsadikaj/Documents/minishell/etc/.minishell_history",
+	fd = open("/home/jimpa/work/minishell/etc/.minishell_history",
 			O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 		perror("open");
@@ -69,7 +69,7 @@ void	load_history(void)
 	char	*line;
 
 	line = NULL;
-	fd = open("/home/lsadikaj/Documents/minishell/etc/.minishell_history",
+	fd = open("/home/jimpa/work/minishell/etc/.minishell_history",
 			O_RDONLY);
 	if (fd == -1)
 		return ;

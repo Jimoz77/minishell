@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiparcer <jiparcer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:01:37 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/07/09 18:51:57 by jiparcer         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:12:29 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void free_exit(int cmd, t_shell *shell)
+{
+	if (shell)
+		free_shell(shell);
+	exit(cmd);
+}
 
 static int	is_invalid_exit_arg(char **cmd)
 {
@@ -35,34 +42,34 @@ static int	is_invalid_exit_arg(char **cmd)
 	return (0);
 }
 
-void	clean_exit(char **cmd, char ***envp)
+void	clean_exit(char **cmd, char ***envp, t_shell *shell)
 {
 	if (!cmd[1])
 	{
 		save_env(*envp);
-		exit(0);
+		free_exit(0, shell);
 	}
 	if (cmd[1] && !cmd[2])
 	{
 		if (cmd[1][0] == '+' || cmd[1][0] == '-')
 		{
 			if (cmd[1][1] == '0' && cmd[1][2] == '\0')
-				exit(0);
+				free_exit(0, shell);
 		}
 		if (is_invalid_exit_arg(cmd))
-			exit(2);
+			free_exit(2, shell);
 		save_env(*envp);
-		exit(ft_atoi(cmd[1]));
+		free_exit(ft_atoi(cmd[1]), shell);
 	}
 	if (cmd[1] && cmd[2])
 	{
 		if (ft_isalpha(cmd[1][0]))
-			exit(2);
-		exit(1);
+			free_exit(2, shell);
+		free_exit(1, shell);
 	}
 }
 
-int	execute_builtin(char **cmd, char ***envp)
+int	execute_builtin(char **cmd, char ***envp, t_shell *shell)
 {
 	if (ft_strcmp(cmd[0], "export") == 0)
 		return (ft_export(cmd, envp));
@@ -78,7 +85,7 @@ int	execute_builtin(char **cmd, char ***envp)
 		return (ft_echo(cmd));
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 	{
-		clean_exit(cmd, envp);
+		clean_exit(cmd, envp, shell);
 	}
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:35:18 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/09 15:06:43 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/18 16:34:38 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute_in_pipe_context(t_node *node, char ***envp, t_shell *shell)
 		restore_std_fds(&red);
 		return (1);
 	}
-	return (execute_cmd_builtin_or_exec(node, envp, &red));
+	return (execute_cmd_builtin_or_exec(node, envp, &red, shell));
 }
 
 static void	execute_pipe_child_left(t_node *node, char ***envp,

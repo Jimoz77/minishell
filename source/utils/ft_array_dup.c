@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_array_dup.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:52:11 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/10 18:09:29 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/19 15:41:12 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	***ft_wrap_array(char **array)
 	new = malloc(2 * sizeof(char **));
 	if (!new)
 		return (NULL);
-	new[0] = ft_array_dup(array);
+	new[0] = array;
 	new[1] = NULL;
 	return (new);
 }

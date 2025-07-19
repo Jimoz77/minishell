@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:22:13 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/17 17:01:00 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:04:37 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static int	exec_external(char **cmd, char **envp, t_shell *shell)
 		ft_putstr_fd(cmd[0], 2);
 		ft_putendl_fd(": command not found", 2);
 		free_shell(shell);
+		free(path);
 		return (127);
 	}
 	execve(path, cmd, envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_cmd_utils4.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:45:02 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/08 15:26:36 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/19 16:19:56 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)
 	if (expand_cmd_with_original_tokens(node, shell) == 0)
 	{
 		if (ft_is_builtin(node->cmd, envp))
-			return (exec_builtin_with_redirections(node, envp));
+			return (exec_builtin_with_redirections(node, envp, shell));
 		else
 			return (exec_cmd_with_redirections(node, *envp, shell));
 	}
@@ -89,7 +89,7 @@ int	process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)
 	shell->tokens = v.original_tokens;
 	update_cmd_from_tokens(node->cmd, v.temp_tokens);
 	if (ft_is_builtin(node->cmd, envp))
-		v.result = exec_builtin_with_redirections(node, envp);
+		v.result = exec_builtin_with_redirections(node, envp, shell);
 	else
 		v.result = exec_cmd_with_redirections(node, *envp, shell);
 	free_tokens(v.temp_tokens);
