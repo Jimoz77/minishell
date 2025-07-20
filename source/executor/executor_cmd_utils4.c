@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:45:02 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/19 16:19:56 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/20 15:59:09 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ int	process_cmd_tokens(t_node *node, char ***envp, t_shell *shell)
 	process_cmd_expansion(v.temp_tokens, shell);
 	shell->tokens = v.original_tokens;
 	update_cmd_from_tokens(node->cmd, v.temp_tokens);
+	free_tokens(v.temp_tokens);
 	if (ft_is_builtin(node->cmd, envp))
 		v.result = exec_builtin_with_redirections(node, envp, shell);
 	else
 		v.result = exec_cmd_with_redirections(node, *envp, shell);
-	free_tokens(v.temp_tokens);
 	return (v.result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar_to_value2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 15:08:57 by jimpa             #+#    #+#             */
-/*   Updated: 2025/07/08 14:50:03 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/07/20 03:39:28 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static void	finalize_token_value(t_token *token, char *new_val)
 	cleaned = clean_double_slashes(new_val);
 	free(new_val);
 	free(token->value);
-	token->value = cleaned;
+	token->value = ft_strdup(cleaned);
+	free(cleaned);
 }
 
 static void	process_variable(t_shell *shell, t_token *token)

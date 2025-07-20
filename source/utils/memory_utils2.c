@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 23:42:00 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/17 21:40:36 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/20 15:42:44 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	free_tokens(t_token *tokens)
 	t_token	*current;
 	t_token	*next;
 
+	if (!tokens)
+		return ;
 	current = tokens;
 	while (current)
 	{
