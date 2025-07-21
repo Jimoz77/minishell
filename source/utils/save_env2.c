@@ -39,7 +39,7 @@ static int	open_history_file(void)
 {
 	int	fd;
 
-	fd = open("/home/jimpa/work/minishell/etc/.minishell_history",
+	fd = open("/home/leotrimsadikaj/Documents/Cursus42/minishell/etc/.minishell_history",
 			O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 		perror("open");
@@ -69,7 +69,7 @@ void	load_history(void)
 	char	*line;
 
 	line = NULL;
-	fd = open("/home/jimpa/work/minishell/etc/.minishell_history",
+	fd = open("/home/leotrimsadikaj/Documents/Cursus42/minishell/etc/.minishell_history",
 			O_RDONLY);
 	if (fd == -1)
 		return ;

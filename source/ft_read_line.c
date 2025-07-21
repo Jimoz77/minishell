@@ -65,6 +65,11 @@ static void	ft_read_line_loop(t_shell *shell)
 		input = readline("minishell> ");
 		if (!input)
 			break ;
+		if (g_signal == SIGINT)
+		{
+			shell->exit_status = 130;
+			g_signal = 0;
+		}
 		processed_input = handle_unclosed_quotes(input);
 		if (processed_input)
 		{

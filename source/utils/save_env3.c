@@ -17,7 +17,7 @@ int	read_env_file(char *buffer)
 	int	fd;
 	int	bytes;
 
-	fd = open("/home/jimpa/work/minishell/etc/.mini_env", O_RDONLY);
+	fd = open("/home/leotrimsadikaj/Documents/Cursus42/minishell/etc/.mini_env", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("open");

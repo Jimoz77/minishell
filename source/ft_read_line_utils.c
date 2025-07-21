@@ -17,11 +17,7 @@ void	init_loop_vars(t_shell *shell)
 	shell->tokens = NULL;
 	shell->ast = NULL;
 	shell->last_used_token = NULL;
-	if (g_signal == SIGINT)
-	{
-		g_signal = 0;
-		rl_on_new_line();
-	}
+	shell->heredoc_interrupted = 0;
 	ft_getcwd();
 }
 
