@@ -94,5 +94,10 @@ int	execute_ast(t_node *node, char ***envp, t_shell *shell)
 	if (!node)
 		return (0);
 	process_all_heredocs_expanded(node, shell);
+	if (shell->heredoc_interrupted)
+	{
+		shell->heredoc_interrupted = 0;
+        return (130);
+	}
 	return (execute_node_by_type(node, envp, shell));
 }

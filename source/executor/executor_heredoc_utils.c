@@ -12,10 +12,15 @@
 
 #include "../../include/minishell.h"
 
-int	interupt(char *line)
+int	interupt(char *line, t_shell *shell)
 {
 	g_signal = SIGNAL_NORMAL;
 	set_heredoc_mode(0);
+	if (shell)
+	{
+		shell->exit_status = 130;
+		shell->heredoc_interrupted = 1;
+	}
 	if (line)
 		free(line);
 	return (0);
@@ -92,7 +97,7 @@ int	process_heredoc_line(const char *delimiter, t_shell *shell,
 	set_heredoc_mode(1);
 	line = readline("> ");
 	if (g_signal == SIGNAL_HEREDOC_INTERRUPTED)
-		return (interupt(line));
+		return (interupt(line, shell));
 	set_heredoc_mode(0);
 	if (!line)
 		return (0);
