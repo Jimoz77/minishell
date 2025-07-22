@@ -49,7 +49,7 @@ static int	open_env_file_write(void)
 {
 	int	fd;
 
-	fd = open("/home/jimpa/work/minishell/etc/.mini_env",
+	fd = open("/home/leotrimsadikaj/Documents/Cursus42/minishell/etc/.mini_env",
 			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		perror("open");

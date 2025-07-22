@@ -111,6 +111,7 @@ t_shell	*init_shell(char **envp)
 	shell->last_used_token = NULL;
 	shell->current_dir = getcwd(NULL, 0);
 	shell->old_cmd = NULL;
+	shell->heredoc_interrupted = 0;
 	if (!shell->current_dir)
 	{
 		free(shell->envp);

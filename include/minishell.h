@@ -158,6 +158,7 @@ typedef struct s_shell
 	char		*current_dir;
 	char		*old_cmd;
 	t_token		*last_used_token;
+	int			heredoc_interrupted;
 }	t_shell;
 
 typedef struct s_search_context
