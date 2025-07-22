@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:39:46 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/07/19 16:10:14 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/21 23:16:29 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	execute_cmd_builtin_or_exec(t_node *node, char ***envp, t_redirect *red, t_s
 		result = execute_builtin(node->cmd, envp, shell);
 		close_redirect_fds(red);
 		restore_std_fds(red);
+		free_shell(shell);
 		return (result);
 	}
 	path = handle_direct_path(node->cmd[0]);
@@ -93,10 +94,12 @@ int	execute_cmd_builtin_or_exec(t_node *node, char ***envp, t_redirect *red, t_s
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(node->cmd[0], 2);
 		ft_putendl_fd(": command not found", 2);
+		free_shell(shell);
 		return (127);
 	}
 	execve(path, node->cmd, *envp);
 	perror("minishell: execve");
 	free(path);
+	free_shell(shell);
 	return (126);
 }

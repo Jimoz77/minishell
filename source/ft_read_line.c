@@ -6,7 +6,7 @@
 /*   By: jimpa <jimpa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:42:25 by jiparcer          #+#    #+#             */
-/*   Updated: 2025/07/19 15:24:33 by jimpa            ###   ########.fr       */
+/*   Updated: 2025/07/22 13:04:40 by jimpa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static void	process_input(t_shell *shell, char *input)
 		return ;
 	add_history(input);
 	save_history(input, shell);
-	input = handle_unclosed_quotes(input);
+	//input = handle_unclosed_quotes(input);
 	if (ft_strncmp(input, "./minishell", 11) == 0)
 		increment_shlvl(shell->envp);
-	if (!input)
-		return ;
+	/* if (!input)
+		return ; */
 	if (handle_token_syntax(shell, input))
 	{
 		handle_ast_execution(shell, input);
